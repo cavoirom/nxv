@@ -1,0 +1,31 @@
+{
+  "name": "nxv",
+  "version": "0.0.1",
+  "description": "vinh's personal page",
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "rome": "file:../rome/build/0.0.2",
+    "sass": "^1.26.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cavoirom/nxv.git"
+  },
+  "directories": {
+    "assets:": "./public"
+  },
+  "keywords": [
+    "vinh",
+    "personal",
+    "page"
+  ],
+  "author": "vinh",
+  "bugs": {
+    "url": "https://github.com/cavoirom/nxv/issues"
+  },
+  "homepage": "https://github.com/cavoirom/nxv#readme"
+}

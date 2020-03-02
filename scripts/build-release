@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Clean up build directory"
+rm -r build && mkdir build
+
+echo "Copying assets"
+cp -r public build/
+
+echo "Compiling JS file from src/public/index.js to build/public/asset/site/index.js"
+node_modules/.bin/rome bundle src/public/index.js build/public/asset/site
+
+echo "Compiling SCSS file from src/public/index.scss to build/public/asset/site/index.css"
+node_modules/.bin/sass --load-path src/public src/public/index.scss build/public/asset/site/index.css

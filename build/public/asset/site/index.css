@@ -1,0 +1,23 @@
+html, button, input, select, textarea, .pure-g [class*=pure-u] {
+  font-family: IBMPlexSans, Arial, Helvetica, sans-serif;
+}
+
+.pure-g {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 768px) {
+  .pure-g {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .pure-g {
+    width: 970px;
+  }
+}
+
+/*# sourceMappingURL=index.css.map */
