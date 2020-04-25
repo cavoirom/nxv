@@ -3,12 +3,23 @@
   "version": "0.0.1",
   "description": "vinh's personal page",
   "main": "src/index.js",
-  "dependencies": {},
+  "type": "module",
+  "dependencies": {
+    "purecss": "^1.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5"
+  },
   "devDependencies": {
-    "rome": "file:../rome/build/0.0.2",
-    "sass": "^1.26.2"
+    "google-closure-compiler": "^20200224.0.0",
+    "rome": "file:../rome/dist",
+    "sass": "^1.26.5"
   },
   "scripts": {
+    "dev": "scripts/build-dev",
+    "build": "scripts/build-release",
+    "lint": "scripts/lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

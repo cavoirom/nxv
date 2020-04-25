@@ -1,0 +1,16 @@
+{
+  "site": {
+    "title": "vinh"
+  },
+  "me": {
+    "title": "Who am I",
+    "name": "vinh",
+    "email": "xuanvinh@gmx.com"
+  },
+  "journey": {
+    "title": "Technical journey"
+  },
+  "work": {
+    "title": "Experienced works"
+  }
+}
