@@ -5,6 +5,8 @@
   "main": "src/index.js",
   "type": "module",
   "dependencies": {
+    "asset": "^0.4.13",
+    "font": "0.0.4",
     "purecss": "^1.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -12,8 +14,8 @@
     "redux": "^4.0.5"
   },
   "devDependencies": {
-    "google-closure-compiler": "^20200224.0.0",
-    "rome": "file:../rome/dist",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-static-files-copy": "^2.3.1",
     "sass": "^1.26.5"
   },
   "scripts": {
@@ -27,7 +29,10 @@
     "url": "git+https://github.com/cavoirom/nxv.git"
   },
   "directories": {
-    "assets:": "./public"
+    "assets:": "src/app/asset"
+  },
+  "staticFiles": {
+    "staticPath": ["src/static"]
   },
   "keywords": [
     "vinh",
