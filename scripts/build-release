@@ -1,23 +1,2 @@
-#!/bin/bash
-
-echo "Clean up build directory"
-rm -r build && mkdir build
-
-echo "Copying assets"
-cp -r public build/
-
-echo "Compiling JS file from src/public/index.js to build/public/asset/site/index.js"
-NODE_ENV=production node_modules/.bin/rome bundle src/index.js build/public/asset/site
-
-#echo "Minifying JS file"
-NODE_ENV=production node_modules/.bin/google-closure-compiler \
-    --platform=javascript \
-    --js=build/public/asset/site/index.js \
-    --js_output_file=build/public/asset/site/index.js
-
-echo "Compiling SCSS file from src/public/index.scss to build/public/asset/site/index.css"
-NODE_ENV=production node_modules/.bin/sass \
-    --load-path src/public \
-    --load-path node_modules \
-    src/index.scss \
-    build/public/asset/site/index.css
+#!/bin/sh
+npx parcel build src/app/index.html

@@ -1,11 +1,2 @@
-#!/bin/bash
-
-echo "Compiling JS file from src/public/index.js to public/asset/site/index.js"
-node_modules/.bin/rome bundle src/index.js public/asset/site
-
-echo "Compiling SCSS file from src/public/index.scss to public/asset/site/index.css"
-node_modules/.bin/sass \
-    --load-path src \
-    --load-path node_modules \
-    src/index.scss \
-    public/asset/site/index.css
+#!/bin/sh
+npx parcel serve --port 1234  --hmr-port 4321 src/app/index.html
