@@ -1,7 +1,5 @@
 import * as React from 'react';
-import * as ReactRedux from 'react-redux';
-
-const { useSelector } = ReactRedux;
+import { useSelector } from 'react-redux';
 
 function Content() {
   const {me, journey, work} = useSelector(state => state);
