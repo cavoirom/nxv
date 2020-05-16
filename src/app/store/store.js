@@ -1,6 +1,4 @@
-import * as Redux from 'redux';
-
-const { createStore } = Redux;
+import { createStore } from 'redux';
 
 const store = createStore(
     (state, action) => {

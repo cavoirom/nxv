@@ -1,12 +1,10 @@
 import * as React from 'react';
-import * as ReactRedux from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import rest from '../../shared/rest';
 
 import Header from '../../component/header/header';
 import Content from '../../component/content/content';
-
-const { useEffect } = React;
-const { useDispatch, useSelector } = ReactRedux;
 
 function App() {
   const dispatch = useDispatch();

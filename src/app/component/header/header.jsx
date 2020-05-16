@@ -1,7 +1,5 @@
 import * as React from 'react';
-import * as ReactRedux from 'react-redux';
-
-const { useSelector } = ReactRedux;
+import { useSelector } from 'react-redux';
 
 function Header() {
   const title = useSelector(state => state.site.title);
