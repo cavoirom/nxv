@@ -1,25 +1,18 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import rest from '../../shared/rest';
 
 import Header from '../../component/header/header';
 import Content from '../../component/content/content';
+import { createFetchSiteAction } from '../../store/action';
+import Footer from '../../component/footer/footer';
 
 function App() {
   const dispatch = useDispatch();
 
   // Fetch data for first load
   useEffect(() => {
-    rest
-      .get('api/site.json')
-      .then((response) =>
-        dispatch({
-          type: 'LOAD_STATE',
-          content: response,
-        }),
-      )
-      .catch((error) => console.log(error));
+    dispatch(createFetchSiteAction());
   }, []);
 
   const stateDefined = useSelector((state) => state !== undefined);
@@ -27,6 +20,7 @@ function App() {
     <>
       <Header />
       <Content />
+      <Footer />
     </>
   ) : (
     <></>
