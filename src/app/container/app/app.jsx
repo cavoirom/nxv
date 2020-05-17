@@ -11,16 +11,26 @@ function App() {
 
   // Fetch data for first load
   useEffect(() => {
-    rest.get('db/db.json')
-        .then(response => dispatch({
+    rest
+      .get('api/site.json')
+      .then((response) =>
+        dispatch({
           type: 'LOAD_STATE',
-          content: response
-        }))
-        .catch(error => console.log(error));
+          content: response,
+        }),
+      )
+      .catch((error) => console.log(error));
   }, []);
 
-  const stateDefined = useSelector(state => state !== undefined);
-  return stateDefined ? <><Header/><Content/></> : <></>;
+  const stateDefined = useSelector((state) => state !== undefined);
+  return stateDefined ? (
+    <>
+      <Header />
+      <Content />
+    </>
+  ) : (
+    <></>
+  );
 }
 
 export default App;
