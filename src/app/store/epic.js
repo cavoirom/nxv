@@ -13,12 +13,12 @@ export function initializeEpic(action$) {
   );
 }
 
-const rootEpic = (action$, store$, dependencies) =>
-  combineEpics(initializeEpic)(action$, store$, dependencies).pipe(
+export default function rootEpic(action$, store$, dependencies) {
+  return combineEpics(initializeEpic)(action$, store$, dependencies).pipe(
     // catch all error happen in epics
     catchError((error, source) => {
       console.error(error);
       return source;
     }),
   );
-export default rootEpic;
+}

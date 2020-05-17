@@ -2,35 +2,45 @@
   "site": {
     "title": "vinh"
   },
-  "me": {
-    "title": "Who am I",
-    "content": "a Vietnamese who works as Software Engineer. I live in Saigon and love this city."
+  "home": {
+    "me": {
+      "title": "Who am I",
+      "content": "a Vietnamese who works as Software Engineer. I live in Saigon and love this city."
+    },
+    "journey": {
+      "title": "journey",
+      "years": [
+        {
+          "year": 2020,
+          "events": [
+            "started this site."
+          ]
+        }
+      ]
+    },
+    "work": {
+      "title": "experienced works",
+      "years": [
+        {
+          "year": 2018,
+          "events": [
+            "ubitec"
+          ]
+        },
+        {
+          "year": 2013,
+          "events": [
+            "Axon Active Vietnam"
+          ]
+        }
+      ]
+    }
   },
-  "journey": {
-    "title": "journey",
-    "years": [
+  "blog": {
+    "entries": [
       {
-        "year": 2020,
-        "events": [
-          "started this site."
-        ]
-      }
-    ]
-  },
-  "work": {
-    "title": "experienced works",
-    "years": [
-      {
-        "year": 2018,
-        "events": [
-          "ubitec"
-        ]
-      },
-      {
-        "year": 2013,
-        "events": [
-          "Axon Active Vietnam"
-        ]
+        "title": "start this site",
+        "content": "some content.."
       }
     ]
   }

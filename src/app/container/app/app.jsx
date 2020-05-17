@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 
-import Header from '../../component/header/header';
-import Content from '../../component/content/content';
+import Header from '../header/header';
 import { createFetchSiteAction } from '../../store/action';
-import Footer from '../../component/footer/footer';
+import Footer from '../footer/footer';
 
-function App() {
+const Home = lazy(() => import('../home/home'));
+const Blog = lazy(() => import('../blog/blog'));
+
+export default function App() {
   const dispatch = useDispatch();
 
   // Fetch data for first load
@@ -18,10 +21,13 @@ function App() {
   return (
     <>
       <Header />
-      <Content />
+      <div id="content" className="content">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/blog" component={Blog} />
+        </Switch>
+      </div>
       <Footer />
     </>
   );
 }
-
-export default App;
