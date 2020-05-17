@@ -6,13 +6,20 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 export default function configureStore() {
   const initialState = {
-    site: {},
-    me: {},
-    journey: {
-      years: [],
+    site: {
+      navItems: [],
     },
-    work: {
-      years: [],
+    home: {
+      me: {},
+      journey: {
+        years: [],
+      },
+      work: {
+        years: [],
+      },
+    },
+    blog: {
+      entries: [],
     },
   };
 

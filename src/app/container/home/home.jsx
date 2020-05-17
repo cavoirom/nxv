@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
+import EventSection from '../../component/event-section/event-section';
 
-function Content() {
-  const { me, journey, work } = useSelector((state) => state);
+export default function Home() {
+  const { me, journey, work } = useSelector((state) => state.home);
 
   return (
-    <div id="content" className="content">
+    <>
       <div className="pure-g">
         <div className="pure-u-1">
           <h3>{me.title}</h3>
@@ -16,29 +17,18 @@ function Content() {
         <div className="pure-u-1">
           <h3>{journey.title}</h3>
         </div>
-        {journey.years.map(renderYear)}
+        {journey.years.map((year) => (
+          <EventSection key={year.year} year={year} />
+        ))}
       </div>
       <div className="pure-g">
         <div className="pure-u-1">
           <h3>{work.title}</h3>
         </div>
-        {work.years.map(renderYear)}
+        {work.years.map((year) => (
+          <EventSection key={year.year} year={year} />
+        ))}
       </div>
-    </div>
+    </>
   );
 }
-
-function renderYear(year) {
-  return (
-    <div className="pure-u-1" key={year.year}>
-      <h4>{year.year}</h4>
-      <ul>{year.events.map(renderEvent)}</ul>
-    </div>
-  );
-}
-
-function renderEvent(event, index) {
-  return <li key={index}>{event}</li>;
-}
-
-export default Content;
