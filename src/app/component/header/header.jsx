@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 
-function Header() {
+export default function Header() {
   const title = useSelector((state) => state.site.title);
   return (
     <header>
@@ -18,5 +18,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
