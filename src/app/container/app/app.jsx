@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Header from '../../component/header/header';
 import Content from '../../component/content/content';
@@ -15,15 +15,12 @@ function App() {
     dispatch(createFetchSiteAction());
   }, []);
 
-  const stateDefined = useSelector((state) => state !== undefined);
-  return stateDefined ? (
+  return (
     <>
       <Header />
       <Content />
       <Footer />
     </>
-  ) : (
-    <></>
   );
 }
 

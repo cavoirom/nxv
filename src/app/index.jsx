@@ -13,10 +13,10 @@ const App = React.lazy(() => import('./container/app/app'));
 const rootElement = document.getElementById('app');
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Suspense fallback="Loading..">
+  <Suspense fallback="Loading..">
+    <Provider store={store}>
       <App />
-    </Suspense>
-  </Provider>,
+    </Provider>
+  </Suspense>,
   rootElement,
 );
