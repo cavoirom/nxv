@@ -11,7 +11,7 @@ export default function Content() {
     <div id="content" className="content">
       <Suspense fallback={<Spinner />}>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route path="/home" component={Home} />
           <Route path="/blog" component={Blog} />
         </Switch>
       </Suspense>
