@@ -6,6 +6,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import configureStore from './store/store';
+import Spinner from './component/spinner/spinner';
 
 const store = configureStore();
 
@@ -14,7 +15,7 @@ const App = lazy(() => import('./container/app/app'));
 const rootElement = document.getElementById('app');
 
 ReactDOM.render(
-  <Suspense fallback="Loading..">
+  <Suspense fallback={<Spinner />}>
     <Provider store={store}>
       <Router>
         <App />
