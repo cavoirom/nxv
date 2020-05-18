@@ -14,11 +14,17 @@ export default function Header() {
         </div>
         <div className="pure-u-1">
           <h2>
-            <NavLink to="/" className="nav-link">me</NavLink>
+            <NavLink to="/home" className="nav-link">
+              me
+            </NavLink>
             <span> &middot; </span>
-            <NavLink to="/blog" className="nav-link">blog</NavLink>
+            <NavLink to="/blog" className="nav-link">
+              blog
+            </NavLink>
             <span> &middot; </span>
-            <a href="https://github.com/cavoirom" className="nav-link">github</a>
+            <a href="https://github.com/cavoirom" className="nav-link">
+              github
+            </a>
           </h2>
         </div>
       </div>

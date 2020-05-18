@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter as Router, Redirect } from 'react-router-dom';
 import configureStore from './store/store';
 import Spinner from './component/spinner/spinner';
 
@@ -19,6 +19,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <App />
+        <Redirect exact from="/" to="/blog" />
       </Router>
     </Provider>
   </Suspense>,
