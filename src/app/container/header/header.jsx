@@ -1,11 +1,25 @@
 import './header.scss';
 
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { createFetchAction, FETCH_SITE } from '../../store/action';
 
 export default function Header() {
-  const title = useSelector((state) => state.site.title);
+  const site = useSelector((state) => state.site);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!site) {
+      dispatch(createFetchAction(FETCH_SITE));
+    }
+  }, []);
+
+  if (!site) {
+    return <></>;
+  }
+  const { title } = site;
   return (
     <header>
       <div className="pure-g">

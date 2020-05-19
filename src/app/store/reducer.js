@@ -4,9 +4,7 @@ import { connectRouter } from 'connected-react-router';
 
 const siteReducer = (state, action) => {
   if (state === undefined) {
-    return {
-      navItems: [],
-    };
+    return null;
   }
   if (action.type === FETCH_SITE_SUCCESSFULLY) {
     return action.payload;
@@ -16,15 +14,7 @@ const siteReducer = (state, action) => {
 
 const homeReducer = (state, action) => {
   if (state === undefined) {
-    return {
-      me: {},
-      journey: {
-        years: [],
-      },
-      work: {
-        years: [],
-      },
-    };
+    return null;
   }
   if (action.type === FETCH_HOME_SUCCESSFULLY) {
     return action.payload;
@@ -34,9 +24,7 @@ const homeReducer = (state, action) => {
 
 const blogReducer = (state, action) => {
   if (state === undefined) {
-    return {
-      entries: [],
-    };
+    return null;
   }
   if (action.type === FETCH_BLOG_SUCCESSFULLY) {
     return action.payload;

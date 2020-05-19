@@ -6,11 +6,20 @@ import { createFetchAction, FETCH_HOME } from '../../store/action';
 
 export default function Home() {
   const dispatch = useDispatch();
+
+  const home = useSelector((state) => state.home);
+
   useEffect(() => {
-    dispatch(createFetchAction(FETCH_HOME));
+    if (!home) {
+      dispatch(createFetchAction(FETCH_HOME));
+    }
   }, []);
 
-  const { me, journey, work } = useSelector((state) => state.home);
+  if (!home) {
+    return <></>;
+  }
+
+  const { me, journey, work } = home;
   return (
     <>
       <div className="pure-g">
