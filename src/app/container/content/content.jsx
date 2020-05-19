@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Suspense, lazy } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { h } from 'preact';
+import { Suspense, lazy } from 'preact/compat';
+import { Switch, Route } from 'react-router-dom';
 import Spinner from '../../component/spinner/spinner';
 
 const Home = lazy(() => import('../home/home'));

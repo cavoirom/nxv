@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { h } from 'preact';
+import * as React from 'preact/compat';
 
 export default function Spinner() {
   return (

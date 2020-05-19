@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { h, Fragment } from 'preact';
+import { useEffect } from 'preact/hooks';
 import { useDispatch, useSelector } from 'react-redux';
 import EventSection from '../../component/event-section/event-section';
 import { createFetchAction, FETCH_HOME } from '../../store/action';

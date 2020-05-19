@@ -1,6 +1,5 @@
-import { FETCH_BLOG_SUCCESSFULLY, FETCH_HOME_SUCCESSFULLY, FETCH_SITE_SUCCESSFULLY } from './action';
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
+import { FETCH_BLOG_SUCCESSFULLY, FETCH_HOME_SUCCESSFULLY, FETCH_SITE_SUCCESSFULLY } from './action';
 
 const siteReducer = (state, action) => {
   if (state === undefined) {
@@ -32,9 +31,8 @@ const blogReducer = (state, action) => {
   return state;
 };
 
-const createRootReducer = (history) => {
+const createRootReducer = () => {
   return combineReducers({
-    router: connectRouter(history),
     site: siteReducer,
     home: homeReducer,
     blog: blogReducer,

@@ -1,7 +1,7 @@
 import './header.scss';
 
-import * as React from 'react';
-import { useEffect } from 'react';
+import { h, Fragment } from 'preact';
+import { useEffect } from 'preact/compat';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { createFetchAction, FETCH_SITE } from '../../store/action';
