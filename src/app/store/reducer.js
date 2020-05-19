@@ -1,21 +1,56 @@
 import { FETCH_BLOG_SUCCESSFULLY, FETCH_HOME_SUCCESSFULLY, FETCH_SITE_SUCCESSFULLY } from './action';
+import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 
-export default function rootReducer(state, action) {
-  if (action.type === FETCH_SITE_SUCCESSFULLY) {
+const siteReducer = (state, action) => {
+  if (state === undefined) {
     return {
-      ...state,
-      site: action.payload,
-    };
-  } else if (action.type === FETCH_HOME_SUCCESSFULLY) {
-    return {
-      ...state,
-      home: action.payload,
-    };
-  } else if (action.type === FETCH_BLOG_SUCCESSFULLY) {
-    return {
-      ...state,
-      blog: action.payload,
+      navItems: [],
     };
   }
+  if (action.type === FETCH_SITE_SUCCESSFULLY) {
+    return action.payload;
+  }
   return state;
-}
+};
+
+const homeReducer = (state, action) => {
+  if (state === undefined) {
+    return {
+      me: {},
+      journey: {
+        years: [],
+      },
+      work: {
+        years: [],
+      },
+    };
+  }
+  if (action.type === FETCH_HOME_SUCCESSFULLY) {
+    return action.payload;
+  }
+  return state;
+};
+
+const blogReducer = (state, action) => {
+  if (state === undefined) {
+    return {
+      entries: [],
+    };
+  }
+  if (action.type === FETCH_BLOG_SUCCESSFULLY) {
+    return action.payload;
+  }
+  return state;
+};
+
+const createRootReducer = (history) => {
+  return combineReducers({
+    router: connectRouter(history),
+    site: siteReducer,
+    home: homeReducer,
+    blog: blogReducer,
+  });
+};
+
+export default createRootReducer;

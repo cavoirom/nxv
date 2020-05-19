@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "asset": "^0.4.13",
+    "connected-react-router": "^6.8.0",
     "font": "0.0.4",
     "purecss": "^1.0.1",
     "react": "^16.13.1",
