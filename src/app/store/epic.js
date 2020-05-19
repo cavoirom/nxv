@@ -1,20 +1,48 @@
 import { ofType, combineEpics } from 'redux-observable';
-import { createFetchSiteSuccessfullyAction, FETCH_SITE } from './action';
+import {
+  createFetchSuccessfullyAction,
+  FETCH_BLOG,
+  FETCH_BLOG_SUCCESSFULLY,
+  FETCH_HOME,
+  FETCH_HOME_SUCCESSFULLY,
+  FETCH_SITE,
+  FETCH_SITE_SUCCESSFULLY,
+} from './action';
 import { flatMap, map, catchError } from 'rxjs/operators';
 import { ajax } from 'rxjs/ajax';
 
-export function initializeEpic(action$) {
-  return action$.pipe(
+const fetchSiteEpic = (action$) =>
+  action$.pipe(
     ofType(FETCH_SITE),
-    // eslint-disable-next-line no-unused-vars
-    flatMap((action) =>
-      ajax.getJSON('/api/site.json').pipe(map((response) => createFetchSiteSuccessfullyAction(response))),
+    flatMap(() =>
+      ajax
+        .getJSON('/api/site.json')
+        .pipe(map((response) => createFetchSuccessfullyAction(FETCH_SITE_SUCCESSFULLY, response))),
     ),
   );
-}
+
+const fetchHomeEpic = (action$) =>
+  action$.pipe(
+    ofType(FETCH_HOME),
+    flatMap(() =>
+      ajax
+        .getJSON('/api/home.json')
+        .pipe(map((response) => createFetchSuccessfullyAction(FETCH_HOME_SUCCESSFULLY, response))),
+    ),
+  );
+
+const fetchBlogEpic = (action$) =>
+  action$.pipe(
+    ofType(FETCH_BLOG),
+    flatMap(() =>
+      ajax
+        .getJSON('/api/blog.json')
+        .pipe(map((response) => createFetchSuccessfullyAction(FETCH_BLOG_SUCCESSFULLY, response))),
+    ),
+  );
 
 export default function rootEpic(action$, store$, dependencies) {
-  return combineEpics(initializeEpic)(action$, store$, dependencies).pipe(
+  return combineEpics(fetchSiteEpic, fetchHomeEpic, fetchBlogEpic)(action$, store$, dependencies).pipe(
     // catch all error happen in epics
     catchError((error, source) => {
       console.error(error);
