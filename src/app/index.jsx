@@ -4,8 +4,9 @@ import * as React from 'react';
 import { Suspense, lazy } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter as Router, Redirect } from 'react-router-dom';
-import configureStore from './store/store';
+import { Redirect } from 'react-router-dom';
+import { ConnectedRouter as Router } from 'connected-react-router';
+import { configureStore, history } from './store/store';
 import Spinner from './component/spinner/spinner';
 
 const store = configureStore();
@@ -17,7 +18,7 @@ const rootElement = document.getElementById('app');
 ReactDOM.render(
   <Suspense fallback={<Spinner />}>
     <Provider store={store}>
-      <Router>
+      <Router history={history}>
         <App />
         <Redirect exact from="/" to="/blog" />
       </Router>
