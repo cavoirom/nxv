@@ -5,12 +5,20 @@ import BlogEntry from '../../component/blog-entry/blog-entry';
 import { createFetchAction, FETCH_BLOG } from '../../store/action';
 
 export default function Blog() {
+  const blog = useSelector((state) => state.blog);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(createFetchAction(FETCH_BLOG));
+    if (!blog) {
+      dispatch(createFetchAction(FETCH_BLOG));
+    }
   }, []);
 
-  const entries = useSelector((state) => state.blog.entries);
+  if (!blog) {
+    return <></>;
+  }
+
+  const { entries } = blog;
   return (
     <>
       {entries.map((entry, index) => (
