@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useEffect } from 'react';
+import { h, Fragment } from 'preact';
+import { useEffect } from 'preact/compat';
 import { useDispatch, useSelector } from 'react-redux';
 import BlogEntry from '../../component/blog-entry/blog-entry';
 import { createFetchAction, FETCH_BLOG } from '../../store/action';

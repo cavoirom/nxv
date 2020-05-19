@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { h, Fragment } from 'preact';
 import Header from '../header/header';
 import Content from '../content/content';
 import Footer from '../footer/footer';

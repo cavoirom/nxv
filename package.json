@@ -5,11 +5,10 @@
   "main": "src/index.js",
   "dependencies": {
     "asset": "^0.4.13",
-    "connected-react-router": "^6.8.0",
     "font": "0.0.4",
+    "history": "^4.10.1",
+    "preact": "^10.4.4",
     "purecss": "^1.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
@@ -18,10 +17,11 @@
     "rxjs": "^6.5.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.6",
     "eslint": "^7.0.0",
+    "eslint-config-preact": "^1.1.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-react": "^7.20.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "prettier": "^2.0.5",
@@ -37,13 +37,15 @@
     "type": "git",
     "url": "git+https://github.com/cavoirom/nxv.git"
   },
-  "directories": {
-    "assets:": "src/app/asset"
-  },
   "staticFiles": {
     "staticPath": [
       "src/static"
     ]
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom/test-utils": "preact/test-utils",
+    "react-dom": "preact/compat"
   },
   "keywords": [
     "vinh",

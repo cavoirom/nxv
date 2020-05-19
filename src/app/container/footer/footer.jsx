@@ -1,6 +1,6 @@
 import './footer.scss';
 
-import * as React from 'react';
+import { h } from 'preact';
 
 export default function Footer() {
   return (
