@@ -1,10 +1,16 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import EventSection from '../../component/event-section/event-section';
+import { createFetchAction, FETCH_HOME } from '../../store/action';
 
 export default function Home() {
-  const { me, journey, work } = useSelector((state) => state.home);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(createFetchAction(FETCH_HOME));
+  }, []);
 
+  const { me, journey, work } = useSelector((state) => state.home);
   return (
     <>
       <div className="pure-g">
