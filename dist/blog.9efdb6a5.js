@@ -3,4 +3,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{"preact":"aGsP"}],"AEHI":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=c;var e=require("preact"),r=require("preact/compat"),t=require("react-redux"),n=o(require("../../component/blog-entry/blog-entry")),u=require("../../store/action");function o(e){return e&&e.__esModule?e:{default:e}}function c(){var o=(0,t.useSelector)(function(e){return e.blog}),c=(0,t.useDispatch)();if((0,r.useEffect)(function(){o||c((0,u.createFetchAction)(u.FETCH_BLOG))},[]),!o)return(0,e.h)(e.Fragment,null);var a=o.entries;return(0,e.h)(e.Fragment,null,a.map(function(r,t){return(0,e.h)(n.default,{key:t,entry:r})}))}
 },{"preact":"aGsP","preact/compat":"JpYJ","react-redux":"IZTr","../../component/blog-entry/blog-entry":"rBzp","../../store/action":"oXRZ"}]},{},[], null)
-//# sourceMappingURL=/blog.59988598.js.map
+//# sourceMappingURL=/blog.9efdb6a5.js.map

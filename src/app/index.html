@@ -9,11 +9,26 @@
   <meta name="author" content="nguyenxuanvinh">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
 </head>
 
 <body>
-  <div id="app"></div>
-  <!-- KEEP SCRIPT AT BOTTOM -->
-  <script src="./index.jsx"></script>
+<div id="app"></div>
+<!-- KEEP SCRIPT AT BOTTOM -->
+<script src="./index.jsx"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/worker.js').then(function (registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function (err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
 </body>
 </html>
