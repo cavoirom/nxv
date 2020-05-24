@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import Header from '../header/header';
 import Content from '../content/content';

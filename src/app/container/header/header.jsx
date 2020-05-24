@@ -1,5 +1,6 @@
 import './header.scss';
 
+// eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/compat';
 import { useDispatch, useSelector } from 'react-redux';

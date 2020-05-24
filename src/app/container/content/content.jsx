@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { Suspense, lazy } from 'preact/compat';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Spinner from '../../component/spinner/spinner';
 
 const Home = lazy(() => import('../home/home'));
@@ -13,6 +13,7 @@ export default function Content() {
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/blog" component={Blog} />
+          <Redirect from="/" to="/blog" exact={true} />
         </Switch>
       </Suspense>
     </div>
