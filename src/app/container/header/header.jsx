@@ -34,7 +34,7 @@ export default function Header() {
             </NavLink>
             <span> &middot; </span>
             <NavLink to="/blog" className="nav-link">
-              blog
+              to be continued
             </NavLink>
             <span> &middot; </span>
             <a href="https://github.com/cavoirom" className="nav-link">
