@@ -5,7 +5,8 @@ export default function BlogEntry({ entry }) {
     <div className="pure-g">
       <div className="pure-u-1">
         <h3>{entry.title}</h3>
-        <p>{entry.content}</p>
+        {/* eslint-disable-next-line react/no-danger */}
+        <div dangerouslySetInnerHTML={{ __html: entry.content }} />
       </div>
     </div>
   );
