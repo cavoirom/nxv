@@ -3,7 +3,6 @@ const assetCacheName = 'asset';
 const preCacheResources = ['/', '/index.html'];
 // CacheResources will be keep every time we activate service worker, to reduce cache size.
 const cacheResources = [
-  '/',
   '/IBMPlexSans-Bold.4dfaebd3.ttf',
   '/IBMPlexSans-Bold.9bf2f545.svg',
   '/IBMPlexSans-Bold.9f766d0a.woff',
@@ -20,13 +19,18 @@ const cacheResources = [
   '/IBMPlexSans-Regular.97a23001.ttf',
   '/IBMPlexSans-Regular.b7fe0cc8.woff',
   '/IBMPlexSans-Regular.d9968fd3.eot',
-  '/app.90ec8c93.js',
-  '/app.90ec8c93.js.map',
-  '/app.9464b236.css',
-  '/app.9464b236.css.map',
+  '/app.13e74d63.js',
+  '/app.13e74d63.js.map',
+  '/app.6bb7ffb8.css',
+  '/app.6bb7ffb8.css.map',
+  '/app.8e976e8a.js',
+  '/app.8e976e8a.js.map',
+  '/app.ddab8523.css',
+  '/app.ddab8523.css.map',
   '/favicon.eb18f3b3.ico',
   '/index.html',
   '/manifest.webmanifest',
+  '/',
 ];
 
 self.addEventListener('install', (event) => {
