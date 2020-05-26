@@ -5,22 +5,21 @@ import { HashRouter as Router } from 'react-router-dom';
 import { configureStore } from './store/store';
 import { createHashHistory } from 'history';
 
-const state = window.__STATE__;
+const statePromise = window.__STATE__;
 delete window.__STATE__;
-const store = configureStore(state);
-
-const rootElement = document.getElementById('app');
 
 // Use dynamic import to let parcel do code splitting
-import('./container/app/app')
-  .then((exports) => exports.default || exports)
-  .then((App) => {
-    hydrate(
-      <Provider store={store}>
-        <Router history={createHashHistory()}>
-          <App />
-        </Router>
-      </Provider>,
-      rootElement,
-    );
-  });
+const appPromise = import('./container/app/app').then((exports) => exports.default || exports);
+
+Promise.all([statePromise, appPromise]).then(([state, App]) => {
+  const store = configureStore(state);
+  const rootElement = document.getElementById('app');
+  hydrate(
+    <Provider store={store}>
+      <Router history={createHashHistory()}>
+        <App />
+      </Router>
+    </Provider>,
+    rootElement,
+  );
+});
