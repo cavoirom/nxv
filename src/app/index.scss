@@ -1,5 +1,9 @@
-@import "purecss/build/pure-min.css";
+@import "purecss/build/base-min.css";
+@import "purecss/build/grids-min.css";
+@import "purecss/build/grids-responsive-min.css";
+
 @import "./asset/font/ibm-plex-sans/styles.css";
+@import "./container/header/header.scss";
 
 html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
   font-family: IBMPlexSans, Arial, Helvetica, sans-serif;
