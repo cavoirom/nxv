@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'wouter-preact';
 import Home from '../home/home';
 import Blog from '../blog/blog';
 
@@ -9,7 +9,6 @@ export default function Content() {
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/blog" component={Blog} />
-        <Redirect from="/" to="/blog" exact={true} />
       </Switch>
     </div>
   );
