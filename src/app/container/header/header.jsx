@@ -2,7 +2,7 @@
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/compat';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'wouter-preact';
 import { createFetchAction, FETCH_SITE } from '../../store/action';
 
 export default function Header() {
@@ -27,13 +27,13 @@ export default function Header() {
         </div>
         <div className="pure-u-1">
           <h2>
-            <NavLink to="/home" className="nav-link">
+            <Link href="/home" className="nav-link">
               me
-            </NavLink>
+            </Link>
             <span> &middot; </span>
-            <NavLink to="/blog" className="nav-link">
+            <Link href="/blog" className="nav-link">
               to be continued
-            </NavLink>
+            </Link>
             <span> &middot; </span>
             <a href="https://github.com/cavoirom" className="nav-link">
               github
