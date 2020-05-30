@@ -1,18 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/hooks';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAction, useSelector } from '@preact-hooks/unistore';
 import EventSection from '../../component/event-section/event-section';
-import { createFetchAction, FETCH_HOME } from '../../store/action';
+import { fetchHomeAction } from '../../store/action';
 
 export default function Home() {
-  const dispatch = useDispatch();
-
   const home = useSelector((state) => state.home);
 
+  const fetchHome = useAction(fetchHomeAction);
   useEffect(() => {
     if (!home) {
-      dispatch(createFetchAction(FETCH_HOME));
+      fetchHome();
     }
   }, []);
 

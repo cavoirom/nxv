@@ -1,17 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/compat';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'wouter-preact';
-import { createFetchAction, FETCH_SITE } from '../../store/action';
+import { useAction, useSelector } from '@preact-hooks/unistore';
+import { Link, useRoute } from 'wouter-preact';
+import { fetchSiteAction } from '../../store/action';
 
 export default function Header() {
   const site = useSelector((state) => state.site);
+  const [homeRouteMatched] = useRoute('/home');
+  const [blogRouteMatched] = useRoute('/blog');
 
-  const dispatch = useDispatch();
+  const fetchSite = useAction(fetchSiteAction);
   useEffect(() => {
     if (!site) {
-      dispatch(createFetchAction(FETCH_SITE));
+      fetchSite();
     }
   }, []);
 
@@ -27,11 +29,11 @@ export default function Header() {
         </div>
         <div className="pure-u-1">
           <h2>
-            <Link href="/home" className="nav-link">
+            <Link href="/home" className={`nav-link ${homeRouteMatched && 'active'}`}>
               me
             </Link>
             <span> &middot; </span>
-            <Link href="/blog" className="nav-link">
+            <Link href="/blog" className={`nav-link ${blogRouteMatched && 'active'}`}>
               to be continued
             </Link>
             <span> &middot; </span>
