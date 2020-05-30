@@ -1,7 +1,12 @@
 import createStore from 'unistore';
-import devtools from 'unistore/devtools';
 
 export function configureStore(initialState) {
   console.log('Initial state: ', initialState);
-  return process.env.NODE_ENV === 'production' ? createStore(initialState) : devtools(createStore(initialState));
+  // Only activate devtools for Browser
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Run in ENV: ', process.env.NODE_ENV);
+    const devtools = require('unistore/devtools');
+    return devtools(createStore(initialState));
+  }
+  return createStore(initialState);
 }
