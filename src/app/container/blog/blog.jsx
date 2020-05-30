@@ -1,17 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/compat';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAction, useSelector } from '@preact-hooks/unistore';
 import BlogEntry from '../../component/blog-entry/blog-entry';
-import { createFetchAction, FETCH_BLOG } from '../../store/action';
+import { fetchBlogAction } from '../../store/action';
 
 export default function Blog() {
   const blog = useSelector((state) => state.blog);
 
-  const dispatch = useDispatch();
+  const fetchBlog = useAction(fetchBlogAction);
   useEffect(() => {
     if (!blog) {
-      dispatch(createFetchAction(FETCH_BLOG));
+      fetchBlog();
     }
   }, []);
 

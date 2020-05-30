@@ -4,16 +4,14 @@
   "description": "vinh's personal page",
   "main": "src/index.js",
   "dependencies": {
+    "@preact-hooks/unistore": "^1.1.2",
     "asset": "^0.4.13",
     "font": "0.0.4",
     "history": "^4.10.1",
     "preact": "^10.4.4",
     "purecss": "^1.0.1",
-    "react-redux": "^7.2.0",
-    "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-observable": "^1.2.0",
-    "rxjs": "^6.5.5",
+    "unistore": "^3.5.1",
     "wouter-preact": "^2.4.0"
   },
   "devDependencies": {

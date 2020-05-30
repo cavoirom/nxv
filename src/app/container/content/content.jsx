@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Switch, Route, Redirect } from 'wouter-preact';
+import { Switch, Route } from 'wouter-preact';
 import Home from '../home/home';
 import Blog from '../blog/blog';
 

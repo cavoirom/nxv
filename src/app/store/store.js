@@ -1,13 +1,7 @@
-import { applyMiddleware, createStore } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
-import rootEpic from './epic';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import createRootReducer from './reducer';
+import createStore from 'unistore';
+import devtools from 'unistore/devtools';
 
 export function configureStore(initialState) {
-  console.log(initialState);
-  const epicMiddleware = createEpicMiddleware();
-  const store = createStore(createRootReducer(), initialState, composeWithDevTools(applyMiddleware(epicMiddleware)));
-  epicMiddleware.run(rootEpic);
-  return store;
+  console.log('Initial state: ', initialState);
+  return process.env.NODE_ENV === 'production' ? createStore(initialState) : devtools(createStore(initialState));
 }

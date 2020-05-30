@@ -1,6 +1,6 @@
 import './index.scss'; // index.scss use as entry point for css bundling
 import { h, hydrate } from 'preact';
-import { Provider } from 'react-redux';
+import { StoreProvider as Provider } from '@preact-hooks/unistore';
 import { configureStore } from './store/store';
 import Redirect from './component/redirect/redirect';
 
@@ -14,7 +14,7 @@ Promise.all([statePromise, appPromise]).then(([state, App]) => {
   const store = configureStore(state);
   const rootElement = document.getElementById('app');
   hydrate(
-    <Provider store={store}>
+    <Provider value={store}>
       <App />
       <Redirect from="/" to="/blog" />
     </Provider>,
