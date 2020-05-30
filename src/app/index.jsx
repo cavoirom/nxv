@@ -1,4 +1,11 @@
 import './index.scss'; // index.scss use as entry point for css bundling
+
+// Must be the first import
+if (process.env.NODE_ENV === 'development') {
+  // Must use require here as import statements are only allowed
+  // to exist at the top of a file.
+  require('preact/debug');
+}
 import { h, hydrate } from 'preact';
 import { StoreProvider as Provider } from '@preact-hooks/unistore';
 import { configureStore } from './store/store';
@@ -14,8 +21,8 @@ statePromise.then((state) => {
   const rootElement = document.getElementById('app');
   hydrate(
     <Provider value={store}>
-      <App />
       <Redirect from="/" to="/blog" />
+      <App />
     </Provider>,
     rootElement,
   );

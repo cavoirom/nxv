@@ -1,13 +1,5 @@
 **/.DS_Store
 .cache
+build
 node_modules
 nxv.iml
-public/asset/site/bundlebuddy.json
-public/asset/site/index.js
-public/asset/site/index.js
-public/asset/site/index.js.map
-public/asset/site/index.js.map
-src/app/index.css
-src/app/index.css
-src/app/index.css.map
-src/app/index.css.map

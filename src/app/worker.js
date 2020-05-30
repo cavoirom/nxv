@@ -2,35 +2,7 @@ const assetCacheName = 'asset';
 // preCacheResources will be cleaned up and pre-cached every time we install service worker.
 const preCacheResources = ['/', '/index.html'];
 // CacheResources will be keep every time we activate service worker, to reduce cache size.
-const cacheResources = [
-  '/IBMPlexSans-Bold.4dfaebd3.ttf',
-  '/IBMPlexSans-Bold.9bf2f545.svg',
-  '/IBMPlexSans-Bold.9f766d0a.woff',
-  '/IBMPlexSans-Bold.eb647a17.eot',
-  '/IBMPlexSans-BoldItalic.0be4c971.svg',
-  '/IBMPlexSans-BoldItalic.6b960924.eot',
-  '/IBMPlexSans-BoldItalic.a74a87a4.ttf',
-  '/IBMPlexSans-BoldItalic.d5946f79.woff',
-  '/IBMPlexSans-Italic.0bbe81ad.svg',
-  '/IBMPlexSans-Italic.3ab9eaea.woff',
-  '/IBMPlexSans-Italic.94529531.ttf',
-  '/IBMPlexSans-Italic.ec6868b4.eot',
-  '/IBMPlexSans-Regular.0fa616bf.svg',
-  '/IBMPlexSans-Regular.97a23001.ttf',
-  '/IBMPlexSans-Regular.b7fe0cc8.woff',
-  '/IBMPlexSans-Regular.d9968fd3.eot',
-  '/app.1581537b.css',
-  '/app.1581537b.css.map',
-  '/app.18cfd121.js',
-  '/app.18cfd121.js.map',
-  '/blog',
-  '/favicon.eb18f3b3.ico',
-  '/home',
-  '/index.html',
-  '/index.json',
-  '/manifest.webmanifest',
-  '/',
-];
+const cacheResources = ['rout-place-holder'];
 
 self.addEventListener('install', (event) => {
   // Pre-cache these resources to help page works offline.

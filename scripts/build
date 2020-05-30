@@ -1,0 +1,5 @@
+#!/bin/sh
+rm -rf build
+npx parcel build src/app/index.html --out-dir build/dist
+npx parcel build src/generator/generator.jsx --target node --out-dir build/generator
+node build/generator/generator.js
