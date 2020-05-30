@@ -2,7 +2,10 @@ import * as cheerio from 'cheerio';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const templateText = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), { encoding: 'utf8' });
+import config from './config';
+
+// Load generated html as template to keep generated js/css file name
+const templateText = fs.readFileSync(path.resolve(__dirname, `${config.distPath}/index.html`), 'utf8');
 const $ = cheerio.load(templateText);
 const head = cheerio.html($('head'));
 const scripts = cheerio.html($('body script'));
