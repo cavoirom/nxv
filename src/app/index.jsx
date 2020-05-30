@@ -13,7 +13,7 @@ import Redirect from './component/redirect/redirect';
 import App from './container/app/app';
 
 // Retrieve state from rendered json.
-const statePromise = window.__STATE__;
+const statePromise = window.__STATE__ ? window.__STATE__ : Promise.resolve({});
 delete window.__STATE__;
 
 statePromise.then((state) => {
