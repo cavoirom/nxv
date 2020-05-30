@@ -3,14 +3,13 @@ import { h, hydrate } from 'preact';
 import { StoreProvider as Provider } from '@preact-hooks/unistore';
 import { configureStore } from './store/store';
 import Redirect from './component/redirect/redirect';
+import App from './container/app/app';
 
+// Retrieve state from rendered json.
 const statePromise = window.__STATE__;
 delete window.__STATE__;
 
-// Use dynamic import to let parcel do code splitting
-const appPromise = import('./container/app/app').then((exports) => exports.default || exports);
-
-Promise.all([statePromise, appPromise]).then(([state, App]) => {
+statePromise.then((state) => {
   const store = configureStore(state);
   const rootElement = document.getElementById('app');
   hydrate(
