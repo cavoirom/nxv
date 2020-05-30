@@ -13,7 +13,7 @@ fs.readdir(directoryPath, (err, fileNames) => {
   const cacheRoutes = fileNames
     .concat(additionalPaths)
     .filter((fileName) => !excludedPaths.includes(fileName))
-    .map((fileName) => `'/${fileName}'`)
-    .join(', ');
+    .map((fileName) => `"/${fileName}"`)
+    .join(',');
   console.log(cacheRoutes);
 });
