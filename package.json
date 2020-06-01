@@ -25,6 +25,8 @@
     "parcel-plugin-static-files-copy": "^2.3.1",
     "preact-render-to-string": "^5.1.9",
     "prettier": "^2.0.5",
+    "remarkable": "^2.0.1",
+    "remarkable-front-matter": "^1.0.1-beta.1",
     "sass": "^1.26.5"
   },
   "scripts": {

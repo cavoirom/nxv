@@ -13,6 +13,22 @@ import config from './config';
 import buildState from './build-state';
 import buildMainTemplate from './main-template';
 import generateCacheRoutes from './generate-cache-routes';
+import findBlogEntry from './find-blog-entry';
+import buildBlogEntry from './build-blog-entry';
+
+// Collect markdown files
+const blogEntries = findBlogEntry(path.resolve(__dirname, '../../src/blog'));
+const blog = { entries: [] };
+blogEntries
+  .map((entryPath) => buildBlogEntry(entryPath))
+  .forEach(([entryUrl, entry]) => {
+    blog.entries.push(entry);
+    console.log('Entry URL: ', entryUrl);
+    console.log(JSON.stringify(entry));
+  });
+const blogText = JSON.stringify(blog);
+fs.writeFileSync(path.resolve(__dirname, 'api/blog.json'), blogText, { encoding: 'utf8' });
+fs.writeFileSync(path.resolve(__dirname, `${config.distPath}/api/blog.json`), blogText, { encoding: 'utf8' });
 
 // Should generate JSON API
 
