@@ -5,6 +5,14 @@
 @import "./asset/font/ibm-plex-sans/styles.css";
 @import "./container/header/header.scss";
 
+$font-size-normal: 20px;
+$color-normal: #333;
+
+html {
+  font-size: $font-size-normal;
+  color: $color-normal;
+}
+
 html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
   font-family: IBMPlexSans, Arial, Helvetica, sans-serif;
 }
@@ -15,13 +23,9 @@ html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
   margin-right: auto;
   margin-left: auto;
 }
+
 @media (min-width: 768px) {
   .pure-g {
     width: 750px;
-  }
-}
-@media (min-width: 992px) {
-  .pure-g {
-    width: 970px;
   }
 }
