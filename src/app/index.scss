@@ -16,6 +16,11 @@ html {
 
 a {
   color: $color-link;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
