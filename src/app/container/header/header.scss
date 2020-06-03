@@ -1,14 +1,5 @@
 .nav-link {
   color: initial;
-  text-decoration: none;
-
-  &:visited {
-    color: initial;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
 
   &.active {
     text-decoration: underline;
