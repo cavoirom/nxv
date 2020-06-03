@@ -20,5 +20,5 @@ export default function generateCacheRoutes() {
   // Replace the place holder routes array with real informations
   const workerPath = path.resolve(__dirname, `${config.distPath}/worker.js`);
   const workerText = fs.readFileSync(workerPath, 'utf8');
-  fs.writeFileSync(workerPath, workerText.replace('"rout-place-holder"', cacheRoutes), { encoding: 'utf8' });
+  fs.writeFileSync(workerPath, workerText.replace('"route-place-holder"', cacheRoutes), { encoding: 'utf8' });
 }
