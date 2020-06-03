@@ -1,5 +1,6 @@
 import { Remarkable } from 'remarkable';
 import frontMatter from 'remarkable-front-matter';
+import extLink from 'remarkable-extlink';
 import * as fs from 'fs';
 
 const ENTRY_PATH_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)\/index\.md/;
@@ -12,8 +13,9 @@ function buildBlogEntry(markdownFile) {
   const slug = found[4];
   const entryUrl = `/${year}/${month}/${day}/${slug}.json`;
   const entryMarkdown = fs.readFileSync(markdownFile, 'utf8');
-  const md = new Remarkable({ linkTarget: '_blank' });
+  const md = new Remarkable();
   md.use(frontMatter);
+  md.use(extLink, { host: 'nguyenxuanvinh.com' });
   const env = { frontMatter: undefined };
   const entryHtml = md.render(entryMarkdown, env);
   const entry = {
