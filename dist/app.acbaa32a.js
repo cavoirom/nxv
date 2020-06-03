@@ -47,4 +47,4 @@ parcelRequire=function(e,r,t,n){var i,o="function"==typeof parcelRequire&&parcel
 },{"preact":"aGsP","../header/header":"E9Ss","../content/content":"LjUl","../footer/footer":"VRsb"}],"deHo":[function(require,module,exports) {
 "use strict";require("./index.scss");var e=require("preact"),r=require("@preact-hooks/unistore"),t=require("./store/store"),o=n(require("./component/redirect/redirect")),i=n(require("./container/app/app"));function n(e){return e&&e.__esModule?e:{default:e}}var u=window.__STATE__?window.__STATE__:Promise.resolve({});delete window.__STATE__,u.then(function(n){var u=(0,t.configureStore)(n),d=document.getElementById("app");(0,e.hydrate)((0,e.h)(r.StoreProvider,{value:u},(0,e.h)(o.default,{from:"/",to:"/blog"}),(0,e.h)(i.default,null)),d)});
 },{"./index.scss":"eHzx","preact":"aGsP","@preact-hooks/unistore":"wq3n","./store/store":"sAcK","./component/redirect/redirect":"Cmse","./container/app/app":"TM1k"}]},{},["deHo"], null)
-//# sourceMappingURL=/app.81672ce8.js.map
+//# sourceMappingURL=/app.acbaa32a.js.map
