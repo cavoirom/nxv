@@ -1,32 +1,14 @@
 const assetCacheName = 'asset';
-// preCacheResources will be cleaned up and pre-cached every time we install service worker.
-const preCacheResources = ['/', '/index.html'];
-// CacheResources will be keep every time we activate service worker, to reduce cache size.
-const cacheResources = ['rout-place-holder'];
+// cacheResources will be keep every time we activate service worker, other routes will be cleaned up to reduce cache size.
+const cacheResources = ['route-place-holder'];
+// networkResources will be fetch for every request.
+const networkResources = cacheResources.filter(
+  (route) => ['/', '/blog', '/home'].indexOf(route) > -1 || route.endsWith('.html') || route.endsWith('.json'),
+);
 
 self.addEventListener('install', (event) => {
   // Pre-cache these resources to help page works offline.
-  const hostUrl = new URL(event.target.registration.scope);
-  event.waitUntil(
-    caches
-      .open(assetCacheName)
-      .then((assetCache) => Promise.all([Promise.resolve(assetCache), assetCache.keys()]))
-      .then(([assetCache, keys]) =>
-        Promise.all([
-          Promise.resolve(assetCache),
-          keys.map((key) => {
-            // Clean up pre-cached resources because they may out dated and they will be excluded when clean up the
-            // cache in activate event.
-            const url = new URL(key.url);
-            if (hostUrl.host === url.host && preCacheResources.indexOf(url.pathname) > -1) {
-              console.log('Clean up pre-cached resource: ', key.url);
-              return assetCache.delete(key);
-            }
-          }),
-        ]),
-      )
-      .then(([assetCache]) => assetCache.addAll(preCacheResources)),
-  );
+  event.waitUntil(caches.open(assetCacheName).then((assetCache) => assetCache.addAll(cacheResources)));
 });
 
 self.addEventListener('activate', (event) => {
@@ -53,7 +35,7 @@ self.addEventListener('activate', (event) => {
           keys.map((key) => {
             const url = new URL(key.url);
             if (hostUrl.host !== url.host || cacheResources.indexOf(url.pathname) === -1) {
-              console.log('Clean up cached resource: ', key.url);
+              console.log('Clean up outdated resource: ', key.url);
               return assetCache.delete(key);
             }
             console.log('Resource unchanged, keep the cache: ', key.url);
@@ -64,31 +46,48 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // Cache hit - return response
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      return fetch(event.request).then((response) => {
-        // Check if we received a valid response
-        if (!response || response.status !== 200 || response.type !== 'basic') {
+  const url = new URL(event.request.url);
+  if (networkResources.indexOf(url.pathname) > -1) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const toBeCachedResponse = response.clone();
+          caches.open(assetCacheName).then((cache) => cache.put(event.request, toBeCachedResponse));
+          console.log('Fetched network resource: ', url);
           return response;
+        })
+        .catch(() => {
+          console.log('Network error, return cached network resoure: ', url);
+          return caches.match(event.request);
+        }),
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        // Cache hit - return response
+        if (cachedResponse) {
+          return cachedResponse;
         }
 
-        // IMPORTANT: Clone the response. A response is a stream
-        // and because we want the browser to consume the response
-        // as well as the cache consuming the response, we need
-        // to clone it so we have two streams.
-        const toBeCachedResponse = response.clone();
+        return fetch(event.request).then((response) => {
+          // Check if we received a valid response
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
 
-        caches.open(assetCacheName).then((cache) => {
-          cache.put(event.request, toBeCachedResponse);
+          // IMPORTANT: Clone the response. A response is a stream
+          // and because we want the browser to consume the response
+          // as well as the cache consuming the response, we need
+          // to clone it so we have two streams.
+          const toBeCachedResponse = response.clone();
+
+          caches.open(assetCacheName).then((cache) => {
+            cache.put(event.request, toBeCachedResponse);
+          });
+
+          return response;
         });
-
-        return response;
-      });
-    }),
-  );
+      }),
+    );
+  }
 });
