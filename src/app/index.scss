@@ -11,7 +11,13 @@ $color-link: #1d6167;
 
 html {
   font-size: $font-size-normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: $color-normal;
+}
+
+html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
+  font-family: IBMPlexSans, Arial, Helvetica, sans-serif;
 }
 
 a {
@@ -23,8 +29,8 @@ a {
   }
 }
 
-html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
-  font-family: IBMPlexSans, Arial, Helvetica, sans-serif;
+p {
+  line-height: 1.6;
 }
 
 .pure-g {
