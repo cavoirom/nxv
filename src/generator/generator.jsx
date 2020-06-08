@@ -15,24 +15,46 @@ import buildMainTemplate from './main-template';
 import generateCacheRoutes from './generate-cache-routes';
 import findBlogEntry from './find-blog-entry';
 import buildBlogEntry from './build-blog-entry';
+import { toEntryUrl } from '../app/shared/blog-entries';
+
+const routes = ['', '/home', '/blog'];
 
 // Collect markdown files
 const blogEntries = findBlogEntry(path.resolve(__dirname, '../../src/blog'));
 const blog = { entries: [] };
 blogEntries
   .map((entryPath) => buildBlogEntry(entryPath))
-  .forEach(([entryUrl, entry]) => {
-    blog.entries.push(entry);
-    console.log('Entry URL: ', entryUrl);
-    console.log(JSON.stringify(entry));
+  .sort((a, b) => b.created - a.created)
+  .forEach((entry) => {
+    const previewBlogEntries = (({ content, ...rest }) => rest)(entry);
+    const json = JSON.stringify(entry);
+    blog.entries.push(previewBlogEntries);
+    console.log(json);
+    const year = entry.created.getFullYear();
+    const month = String(entry.created.getMonth() + 1).padStart(2, '0');
+    const day = String(entry.created.getDate()).padStart(2, '0');
+
+    fs.mkdirSync(path.resolve(__dirname, `api/blog/entry/${year}/${month}/${day}`), { recursive: true });
+    fs.writeFileSync(
+      path.resolve(__dirname, `api/blog/entry/${year}/${month}/${day}/${entry.slug}.json`),
+      json,
+      'utf8',
+    );
+
+    fs.mkdirSync(path.resolve(__dirname, `${config.distPath}/api/blog/entry/${year}/${month}/${day}`), {
+      recursive: true,
+    });
+    fs.writeFileSync(
+      path.resolve(__dirname, `${config.distPath}/api/blog/entry/${year}/${month}/${day}/${entry.slug}.json`),
+      json,
+      'utf8',
+    );
+
+    routes.push(toEntryUrl(entry));
   });
 const blogText = JSON.stringify(blog);
 fs.writeFileSync(path.resolve(__dirname, 'api/blog.json'), blogText, { encoding: 'utf8' });
 fs.writeFileSync(path.resolve(__dirname, `${config.distPath}/api/blog.json`), blogText, { encoding: 'utf8' });
-
-// Should generate JSON API
-
-const routes = ['', '/home', '/blog'];
 
 routes.map((route) => {
   const state = buildState(route);
