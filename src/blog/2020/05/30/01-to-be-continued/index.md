@@ -1,8 +1,9 @@
 ---
 title: To be continued
 author: vinh
-date: 2020-05-30T20:30:54.050+07:00
 preview: I create a blog, again
+created: 2020-05-30T20:30:54.050+07:00
+updated: 2020-05-30T20:30:54.050+07:00
 tags: blog
 ---
 
