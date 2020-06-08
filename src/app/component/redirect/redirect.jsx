@@ -5,9 +5,9 @@ export default function Redirect({ from, to }) {
   const [location, setLocation] = useLocation();
   useLayoutEffect(() => {
     if (from === undefined) {
-      setLocation(to, true);
+      setLocation(to);
     } else if (location === '/') {
-      setLocation(to, true);
+      setLocation(to);
     }
   }, []);
   return null;

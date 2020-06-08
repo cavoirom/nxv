@@ -11,9 +11,10 @@ import { StoreProvider as Provider } from '@preact-hooks/unistore';
 import { configureStore } from './store/store';
 import Redirect from './component/redirect/redirect';
 import App from './container/app/app';
+import initializeState from './initialize-state';
 
 // Retrieve state from rendered json.
-const statePromise = window.__STATE__ ? window.__STATE__ : Promise.resolve({});
+const statePromise = window.__STATE__ ? window.__STATE__ : initializeState(window.location.href);
 delete window.__STATE__;
 
 statePromise.then((state) => {
@@ -21,8 +22,8 @@ statePromise.then((state) => {
   const rootElement = document.getElementById('app');
   hydrate(
     <Provider value={store}>
-      <Redirect from="/" to="/blog" />
       <App />
+      <Redirect from="/" to="/blog" />
     </Provider>,
     rootElement,
   );

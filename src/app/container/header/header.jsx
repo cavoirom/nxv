@@ -1,25 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
-import { useEffect } from 'preact/compat';
-import { useAction, useSelector } from '@preact-hooks/unistore';
+import { useSelector } from '@preact-hooks/unistore';
 import { Link, useRoute } from 'wouter-preact';
-import { fetchSiteAction } from '../../store/action';
 
 export default function Header() {
   const site = useSelector((state) => state.site);
   const [homeRouteMatched] = useRoute('/home');
-  const [blogRouteMatched] = useRoute('/blog');
-
-  const fetchSite = useAction(fetchSiteAction);
-  useEffect(() => {
-    if (!site) {
-      fetchSite();
-    }
-  }, []);
+  const [blogRouteMatched] = useRoute('/blog/:entryUrl*');
 
   if (!site) {
     return <></>;
   }
+
   const { title } = site;
   return (
     <header>

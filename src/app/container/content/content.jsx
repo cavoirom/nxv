@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { Switch, Route } from 'wouter-preact';
 import Home from '../home/home';
 import Blog from '../blog/blog';
+import BlogEntry from '../blog-entry/blog-entry';
 
 export default function Content() {
   return (
@@ -9,6 +10,7 @@ export default function Content() {
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/blog" component={Blog} />
+        <Route path="/blog/:entryUrl+" component={BlogEntry} />
       </Switch>
     </div>
   );
