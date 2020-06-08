@@ -1,17 +1,15 @@
-export function fetchSiteAction() {
-  return fetch('/api/site.json')
-    .then((response) => response.json())
-    .then((data) => Promise.resolve({ site: data }));
+export function fetchSite() {
+  return fetch('/api/site.json').then((response) => response.json());
 }
 
-export function fetchBlogAction() {
-  return fetch('/api/blog.json')
-    .then((response) => response.json())
-    .then((data) => Promise.resolve({ blog: data }));
+export function fetchBlog() {
+  return fetch('/api/blog.json').then((response) => response.json());
 }
 
-export function fetchHomeAction() {
-  return fetch('/api/home.json')
-    .then((response) => response.json())
-    .then((data) => Promise.resolve({ home: data }));
+export function fetchHome() {
+  return fetch('/api/home.json').then((response) => response.json());
+}
+
+export function fetchBlogEntry(jsonUrl) {
+  return fetch(jsonUrl).then((response) => response.json());
 }

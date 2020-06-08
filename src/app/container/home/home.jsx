@@ -1,19 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
-import { useEffect } from 'preact/hooks';
-import { useAction, useSelector } from '@preact-hooks/unistore';
+import { useSelector } from '@preact-hooks/unistore';
 import EventSection from '../../component/event-section/event-section';
-import { fetchHomeAction } from '../../store/action';
 
 export default function Home() {
   const home = useSelector((state) => state.home);
-
-  const fetchHome = useAction(fetchHomeAction);
-  useEffect(() => {
-    if (!home) {
-      fetchHome();
-    }
-  }, []);
 
   if (!home) {
     return <></>;
