@@ -29,7 +29,6 @@ blogEntries
     const previewBlogEntries = (({ content, ...rest }) => rest)(entry);
     const json = JSON.stringify(entry);
     blog.entries.push(previewBlogEntries);
-    console.log(json);
     const year = entry.created.getFullYear();
     const month = String(entry.created.getMonth() + 1).padStart(2, '0');
     const day = String(entry.created.getDate()).padStart(2, '0');
@@ -49,8 +48,9 @@ blogEntries
       json,
       'utf8',
     );
-
-    routes.push(toEntryUrl(entry));
+    const entryUrl = toEntryUrl(entry);
+    console.log('Generated entry', entryUrl);
+    routes.push(entryUrl);
   });
 const blogText = JSON.stringify(blog);
 fs.writeFileSync(path.resolve(__dirname, 'api/blog.json'), blogText, { encoding: 'utf8' });
