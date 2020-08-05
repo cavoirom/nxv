@@ -2,9 +2,9 @@ import { Remarkable } from 'remarkable';
 import frontMatter from 'remarkable-front-matter';
 import extLink from 'remarkable-extlink';
 import * as fs from 'fs';
+import config from './config';
 
 const ENTRY_PATH_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)\/index\.md/;
-const HOST = 'nguyenxuanvinh.com';
 
 function buildBlogEntry(markdownFile) {
   const found = markdownFile.match(ENTRY_PATH_PATTERN);
@@ -12,7 +12,7 @@ function buildBlogEntry(markdownFile) {
   const entryMarkdown = fs.readFileSync(markdownFile, 'utf8');
   const md = new Remarkable();
   md.use(frontMatter);
-  md.use(extLink, { host: HOST });
+  md.use(extLink, { host: config.host });
   const env = { frontMatter: undefined };
   const entryHtml = md.render(entryMarkdown, env);
   return {
