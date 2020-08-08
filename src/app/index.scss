@@ -3,11 +3,8 @@
 @import "purecss/build/grids-responsive-min.css";
 
 @import "./asset/font/ibm-plex-sans/styles.css";
+@import "./shared/variables.scss";
 @import "./container/header/header.scss";
-
-$font-size-normal: 20px;
-$color-normal: #333;
-$color-link: #1d6167;
 
 html {
   font-size: $font-size-normal;
@@ -33,6 +30,10 @@ p {
   line-height: 1.6;
 }
 
+hr {
+  border-bottom: none;
+}
+
 .pure-g {
   padding-right: 15px;
   padding-left: 15px;
@@ -40,7 +41,7 @@ p {
   margin-left: auto;
 }
 
-@media (min-width: 768px) {
+@media (min-width: $screen-width-medium + 1) {
   .pure-g {
     width: 750px;
   }

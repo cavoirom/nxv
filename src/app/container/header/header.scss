@@ -1,7 +1,59 @@
-.nav-link {
-  color: initial;
+@import "../../shared/variables.scss";
 
-  &.active {
-    text-decoration: underline;
+.navigator {
+  margin-block-start: .4em;
+  margin-block-end: .4em;
+  font-size: 1em;
+  font-weight: bold;
+  color: $color-light;
+
+  /* Override ul tag */
+  list-style-type: none;
+  padding-inline-start: 0;
+
+  &__item {
+    color: inherit;
+
+    /* Override li tag */
+    display: inline-block;
+
+    &:before {
+      content: "·";
+      display: inline-block;
+      padding-inline-start: .35em;
+      padding-inline-end: .35em;
+    }
+
+    &:first-child {
+      padding-inline-start: 0;
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  &__link {
+    color: inherit;
+
+    &--active, &:hover {
+      color: $color-normal;
+      text-decoration: none;
+    }
+  }
+}
+
+@media (max-width: $screen-width-small) {
+  .navigator__item {
+    display: block;
+
+    &:before {
+      display: inline-block;
+      padding-inline-start: 0;
+    }
+
+    &:first-child:before {
+      display: inline-block;
+    }
   }
 }

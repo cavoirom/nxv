@@ -14,25 +14,26 @@ export default function Header() {
 
   const { title } = site;
   return (
-    <header>
+    <header className="header">
       <div className="pure-g">
         <div className="pure-u-1">
-          <h1>{title}</h1>
-        </div>
-        <div className="pure-u-1">
-          <h2>
-            <Link href="/home" className={`nav-link ${homeRouteMatched && 'active'}`}>
-              me
-            </Link>
-            <span> &middot; </span>
-            <Link href="/blog" className={`nav-link ${blogRouteMatched && 'active'}`}>
-              to be continued
-            </Link>
-            <span> &middot; </span>
-            <a href="https://github.com/cavoirom" className="nav-link">
-              github
-            </a>
-          </h2>
+          <ul className="navigator">
+            <li className="navigator__item">
+              <Link href="/home" className={`navigator__link ${homeRouteMatched && 'navigator__link--active'}`}>
+                {title}
+              </Link>
+            </li>
+            <li className="navigator__item">
+              <Link href="/blog" className={`navigator__link ${blogRouteMatched && 'navigator__link--active'}`}>
+                to be continued
+              </Link>
+            </li>
+            <li className="navigator__item">
+              <a href="https://github.com/cavoirom" className="navigator__link">
+                github
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </header>
