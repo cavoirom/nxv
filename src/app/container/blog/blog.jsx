@@ -15,12 +15,14 @@ export default function Blog() {
   return (
     <>
       {entries.map((entry) => (
-        <div key={toEntryUrl(entry)} className="pure-g">
+        <div key={toEntryUrl(entry)} className="blog-entry pure-g">
           <div className="pure-u-1">
-            <h3>
+            <h3 className="blog-entry__title">
               <Link href={toEntryUrl(entry)}>{entry.title}</Link>
             </h3>
-            <p>{entry.preview}</p>
+            <div className="blog-entry__content">
+              <p>{entry.preview}</p>
+            </div>
           </div>
         </div>
       ))}

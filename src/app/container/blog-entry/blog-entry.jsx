@@ -31,11 +31,11 @@ export default function BlogEntry() {
   }
 
   return (
-    <div className="pure-g">
+    <div className="blog-entry pure-g">
       <div className="pure-u-1">
-        <h3>{entry.title}</h3>
+        <h3 className="blog-entry__title">{entry.title}</h3>
         {/* eslint-disable-next-line react/no-danger */}
-        <div dangerouslySetInnerHTML={{ __html: entry.content }} />
+        <div className="blog-entry__content" dangerouslySetInnerHTML={{ __html: entry.content }} />
       </div>
     </div>
   );

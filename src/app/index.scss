@@ -5,6 +5,7 @@
 @import "./asset/font/ibm-plex-sans/styles.css";
 @import "./shared/variables.scss";
 @import "./container/header/header.scss";
+@import "./container/blog-entry/blog-entry.scss";
 
 html {
   font-size: $font-size-normal;
@@ -46,3 +47,4 @@ hr {
     width: 750px;
   }
 }
+
