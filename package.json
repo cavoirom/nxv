@@ -35,7 +35,8 @@
     "dev": "scripts/dev",
     "build": "scripts/build",
     "lint": "scripts/lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "npx parcel serve --port 4321  --out-dir dist src/app/index.html"
   },
   "repository": {
     "type": "git",
