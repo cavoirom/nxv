@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+git checkout main
+
+git filter-branch --tree-filter "rm -rf dist" --prune-empty HEAD
+git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
+
+scripts/build
+
+git add dist
+git commit -m "Build nxv page at `date`"
+
+git subtree split --prefix dist -b gh-pages
+
+git push -f origin gh-pages:gh-pages
+
+git branch -D gh-pages
+
+git gc
