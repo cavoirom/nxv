@@ -1,11 +1,13 @@
 import defaultState from './default-state.json';
+import * as path from 'path';
 
 const config = {
-  output: '../dist',
+  output: path.resolve(process.cwd(), 'build/dist'),
+  content: path.resolve(process.cwd(), 'src/content'),
   host: 'nguyenxuanvinh.com',
   static: '',
   defaultPathnames: ['/', '/home', '/blog'],
-  defaultState: defaultState,
+  defaultState,
 };
 
 export default config;

@@ -5,7 +5,7 @@ import * as path from 'path';
 import config from './config';
 
 // Load generated html as template to keep generated js/css file name
-const templateText = fs.readFileSync(path.resolve(__dirname, `${config.output}/index.html`), 'utf8');
+const templateText = fs.readFileSync(`${config.output}/index.html`, 'utf8');
 const $ = cheerio.load(templateText);
 const head = cheerio.html($('head'));
 const scripts = cheerio.html($('body script'));

@@ -9,7 +9,9 @@ import { fetchBlogEntry } from '../../store/action';
 
 export default function BlogEntry() {
   const entry = useSelector((state) => dlv(state, 'blog.entry'));
+  const entryUrl = toEntryUrl(entry);
   const [location] = useLocation();
+
   const fetchEntry = useAction((state) => {
     if (!isEntryUrl(location)) {
       console.log('The location is not an entry url: ', location);
@@ -19,14 +21,15 @@ export default function BlogEntry() {
       Promise.resolve({ ...state, blog: { ...state.blog, entry } }),
     );
   });
+
   useEffect(() => {
     // Only fetch entry if the current entry is not relevant to the url
-    if (!entry || location !== toEntryUrl(entry)) {
+    if (!entry || location !== entryUrl) {
       fetchEntry();
     }
-  }, [location]);
+  }, [location, entry, fetchEntry]);
 
-  if (!entry) {
+  if (!entry || location !== entryUrl) {
     return <></>;
   }
 

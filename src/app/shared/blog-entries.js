@@ -2,7 +2,7 @@ const BLOG_ENTRY_URL_PATTERN = /\/blog\/[\w-/]+/;
 
 export function toEntryUrl(entry) {
   if (!entry) {
-    throw 'Entry is undefined.';
+    return null;
   }
   const createdDate = new Date(entry.created);
   const year = createdDate.getFullYear();
