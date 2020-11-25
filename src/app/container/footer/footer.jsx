@@ -1,8 +1,11 @@
 import './footer.scss';
 
 import { h } from 'preact';
+import { log } from '../../shared/logger';
 
 export default function Footer() {
+  log.debug('Render Footer.');
+
   return (
     <footer id="footer">
       <div className="pure-g">

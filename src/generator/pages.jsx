@@ -12,6 +12,7 @@ import App from '../app/container/app/app';
 import buildMainTemplate from './main-template';
 import config from './config';
 import { isEntryUrl } from '../app/shared/blog-entries';
+import { log } from '../app/shared/logger';
 
 export default function generatePage(route) {
   const { state, pathname } = route;
@@ -38,7 +39,7 @@ export default function generatePage(route) {
   fs.writeFileSync(`${pageDirectory}/index.json`, JSON.stringify(state), writeOptions);
   // Write partial state for ajax call
   writePartialState(route, writeOptions);
-  console.log(`Generated: ${pathname}`);
+  log.debug(`Generated: ${pathname}`);
 }
 
 function writePartialState(route, writeOptions) {

@@ -5,9 +5,12 @@ import { Link } from 'wouter-preact';
 import { toEntryUrl } from '../../shared/blog-entries';
 import { useEffect } from 'preact/hooks';
 import { fetchBlog } from '../../store/action';
+import { log } from '../../shared/logger';
 
 export default function Blog() {
   const blog = useSelector((state) => state.blog);
+
+  log.debug('Render Blog:', blog);
 
   const fetchBlogAction = useAction((state) => {
     return fetchBlog().then((blog) => {

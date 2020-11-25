@@ -6,15 +6,18 @@ import { useEffect } from 'preact/hooks';
 import dlv from 'dlv';
 import { isEntryUrl, toEntryJsonUrl, toEntryUrl } from '../../shared/blog-entries';
 import { fetchBlogEntry } from '../../store/action';
+import { log } from '../../shared/logger';
 
 export default function BlogEntry() {
   const entry = useSelector((state) => dlv(state, 'blog.entry'));
   const entryUrl = toEntryUrl(entry);
   const [location] = useLocation();
 
+  log.debug('Render BlogEntry:', `url: ${location}`, '| entry: ', entry);
+
   const fetchEntry = useAction((state) => {
     if (!isEntryUrl(location)) {
-      console.log('The location is not an entry url: ', location);
+      log.debug('The location is not an entry url: ', location);
       return state;
     }
     return fetchBlogEntry(toEntryJsonUrl(location)).then((entry) =>

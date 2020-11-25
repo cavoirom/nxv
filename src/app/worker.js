@@ -1,3 +1,5 @@
+import { log } from './shared/logger';
+
 const assetCacheName = 'asset';
 // cacheResources will be keep every time we activate service worker, other routes will be cleaned up to reduce cache size.
 const cacheResources = ['route-place-holder'];
@@ -20,9 +22,9 @@ self.addEventListener('activate', (event) => {
       .then((keys) =>
         Promise.all(
           keys.map((key) => {
-            console.log('Found cache: ', key);
+            log.debug('Found cache: ', key);
             if (key !== assetCacheName) {
-              console.log('Delete out dated cache: ', key);
+              log.debug('Delete out dated cache: ', key);
               return caches.delete(key);
             }
           }),
@@ -35,10 +37,10 @@ self.addEventListener('activate', (event) => {
           keys.map((key) => {
             const url = new URL(key.url);
             if (hostUrl.host !== url.host || cacheResources.indexOf(url.pathname) === -1) {
-              console.log('Clean up outdated resource: ', key.url);
+              log.debug('Clean up outdated resource: ', key.url);
               return assetCache.delete(key);
             }
-            console.log('Resource unchanged, keep the cache: ', key.url);
+            log.debug('Resource unchanged, keep the cache: ', key.url);
           }),
         ),
       ),
@@ -53,11 +55,11 @@ self.addEventListener('fetch', (event) => {
         .then((response) => {
           const toBeCachedResponse = response.clone();
           caches.open(assetCacheName).then((cache) => cache.put(event.request, toBeCachedResponse));
-          console.log('Fetched network resource: ', url);
+          log.debug('Fetched network resource: ', url);
           return response;
         })
         .catch(() => {
-          console.log('Network error, return cached network resoure: ', url);
+          log.debug('Network error, return cached network resoure: ', url);
           return caches.match(event.request);
         }),
     );

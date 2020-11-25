@@ -3,8 +3,11 @@ import { Switch, Route } from 'wouter-preact';
 import Home from '../home/home';
 import Blog from '../blog/blog';
 import BlogEntry from '../blog-entry/blog-entry';
+import { log } from '../../shared/logger';
 
 export default function Content() {
+  log.debug('Render Content.');
+
   return (
     <div id="content" className="content">
       <Switch>

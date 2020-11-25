@@ -2,8 +2,11 @@
 import { h, Fragment } from 'preact';
 import { useSelector } from '@preact-hooks/unistore';
 import { Link, useRoute } from 'wouter-preact';
+import { log } from '../../shared/logger';
 
 export default function Header() {
+  log.debug('Render Header.');
+
   const site = useSelector((state) => state.site);
   const [homeRouteMatched] = useRoute('/home');
   const [blogRouteMatched] = useRoute('/blog/:entryUrl*');

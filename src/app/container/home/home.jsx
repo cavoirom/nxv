@@ -2,8 +2,11 @@
 import { h, Fragment } from 'preact';
 import { useSelector } from '@preact-hooks/unistore';
 import EventSection from '../../component/event-section/event-section';
+import { log } from '../../shared/logger';
 
 export default function Home() {
+  log.debug('Render Home.');
+
   const home = useSelector((state) => state.home);
 
   if (!home) {
