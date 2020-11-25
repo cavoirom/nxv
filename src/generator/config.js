@@ -6,7 +6,7 @@ const config = {
   content: path.resolve(process.cwd(), 'src/content'),
   host: 'nguyenxuanvinh.com',
   static: '',
-  defaultPathnames: ['/', '/home', '/blog'],
+  defaultPathnames: ['/', '/home'],
   defaultState,
 };
 

@@ -46,8 +46,10 @@ function writePartialState(route, writeOptions) {
   const outputDirectory = path.dirname(outputPath);
 
   let partialState = null;
-  if (route.pathname === '/blog' || route.pathname === '/home') {
+  if (route.pathname === '/home') {
     partialState = route.state;
+  } else if (route.pathname === '/blog') {
+    partialState = route.state.blog;
   } else if (isEntryUrl(route.pathname)) {
     partialState = route.state.blog.entry;
   }
