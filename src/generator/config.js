@@ -1,5 +1,5 @@
-import defaultState from './default-state.json';
 import * as path from 'path';
+import defaultState from './default-state.json';
 
 const config = {
   output: path.resolve(process.cwd(), 'build/dist'),
