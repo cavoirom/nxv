@@ -1,5 +1,5 @@
-import * as cheerio from 'cheerio';
-import * as fs from 'fs';
+import cheerio from 'cheerio';
+import fs from 'fs';
 import config from './config';
 
 // Load generated html as template to keep generated js/css file name

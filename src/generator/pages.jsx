@@ -4,8 +4,8 @@ import staticLocationHook from 'wouter-preact/static-location';
 import render from 'preact-render-to-string';
 import { StoreProvider as Provider } from '@preact-hooks/unistore';
 
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'fs';
+import path from 'path';
 
 import { configureStore } from '../app/store/store';
 import App from '../app/container/app/app';

@@ -54,7 +54,6 @@ export class BlogPageGenerator {
   }
 
   generatePage(route) {
-    // TODO Implement specific generator for Blog.
     generatePage(route);
   }
 

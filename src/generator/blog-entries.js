@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import cheerio from 'cheerio';
 import { Remarkable } from 'remarkable';
 import frontMatter from 'remarkable-front-matter';
 import extLink from 'remarkable-extlink';
@@ -7,6 +8,22 @@ import { isEntryUrl, toEntryUrl } from '../app/shared/blog-entries';
 import generatePage from './pages';
 
 const ENTRY_PATH_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)\/index\.md/;
+
+/**
+ * Convert absolute path of markdown file to public url of blog entry
+ */
+function toPathname(blogDirectory, markdownPathname) {
+  const entryPathname = path.dirname(markdownPathname).substring(blogDirectory.length);
+  return `/blog/entry${entryPathname}`;
+}
+
+/**
+ * Convert public url of blog entry to absolute path of markdown file
+ */
+function toMarkdownPathname(blogDirectory, pathname) {
+  const entryPathname = pathname.substring('/blog/entry'.length);
+  return `${blogDirectory + entryPathname}/index.md`;
+}
 
 export class BlogEntryCollector {
   constructor(config) {
@@ -26,15 +43,10 @@ export class BlogEntryCollector {
       if (fs.lstatSync(child).isDirectory()) {
         result = result.concat(this._collectPathnames(child));
       } else if (child.endsWith('.md')) {
-        result.push(this._toPathname(child));
+        result.push(toPathname(this.blogDirectory, child));
       }
     }
     return result;
-  }
-
-  _toPathname(markdownPathname) {
-    const entryPathname = path.dirname(markdownPathname).substring(this.blogDirectory.length);
-    return `/blog/entry${entryPathname}`;
   }
 }
 
@@ -50,7 +62,7 @@ export class BlogEntryRouteBuilder {
   }
 
   buildRoute(pathname) {
-    const markdownPathname = this._toMarkdownPathname(pathname);
+    const markdownPathname = toMarkdownPathname(this.blogDirectory, pathname);
     const blogEntry = this._buildBlogEntry(markdownPathname);
     return this._buildBlogEntryRoute(blogEntry);
   }
@@ -59,17 +71,33 @@ export class BlogEntryRouteBuilder {
     return isEntryUrl(pathname);
   }
 
-  _toMarkdownPathname(pathname) {
-    const entryPathname = pathname.substring('/blog/entry'.length);
-    return `${this.blogDirectory + entryPathname}/index.md`;
-  }
-
   _buildBlogEntry(markdownFile) {
     const found = markdownFile.match(ENTRY_PATH_PATTERN);
     const slug = found[4];
     const entryMarkdown = fs.readFileSync(markdownFile, 'utf8');
     const env = { frontMatter: undefined };
     const entryHtml = this.md.render(entryMarkdown, env);
+
+    // Change relative image path to public url and store information to copy image later
+    const $ = cheerio.load(entryHtml);
+    const pathname = toPathname(this.blogDirectory, markdownFile);
+    const images = [];
+    $('img').each((_, value) => {
+      const $img = $(value);
+      const relativeImagePathname = $img.attr('src');
+      if (relativeImagePathname.startsWith('image/')) {
+        const absoluteImagePathname = `${path.dirname(markdownFile)}/${relativeImagePathname}`;
+        const publicImagePathname = `${pathname}/${relativeImagePathname}`;
+        $img.attr('src', publicImagePathname);
+        images.push({
+          source: absoluteImagePathname,
+          destination: `${this.config.output}${publicImagePathname}`,
+        });
+      }
+    });
+    const content = $('body').html();
+    console.log(`Processed Blog Entry HTML:\n${content}`);
+
     return {
       title: env.frontMatter.title,
       slug,
@@ -77,7 +105,8 @@ export class BlogEntryRouteBuilder {
       preview: env.frontMatter.preview,
       created: new Date(env.frontMatter.created),
       updated: env.frontMatter.updated,
-      content: entryHtml,
+      content,
+      images,
     };
   }
 
@@ -95,6 +124,7 @@ export class BlogEntryRouteBuilder {
     return {
       pathname: blogEntryPathname,
       state: blogEntryState,
+      images: blogEntry.images,
     };
   }
 }
@@ -105,8 +135,13 @@ export class BlogEntryPageGenerator {
   }
 
   generatePage(route) {
-    // TODO Implement specific generator for Blog Entry.
     generatePage(route);
+    // copy image to output directory
+    route.images.forEach((image) => {
+      const destinationDirectory = path.dirname(image.destination);
+      fs.mkdirSync(destinationDirectory, { recursive: true });
+      fs.copyFileSync(image.source, image.destination);
+    });
   }
 
   isValid(route) {

@@ -35,7 +35,6 @@ export class DefaultPageGenerator {
   }
 
   generatePage(route) {
-    // TODO Implement specific generator for Default Routes.
     generatePage(route);
   }
 
