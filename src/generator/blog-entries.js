@@ -89,6 +89,7 @@ export class BlogEntryRouteBuilder {
         const absoluteImagePathname = `${path.dirname(markdownFile)}/${relativeImagePathname}`;
         const publicImagePathname = `${pathname}/${relativeImagePathname}`;
         $img.attr('src', publicImagePathname);
+        $img.addClass('blog-entry__image');
         images.push({
           source: absoluteImagePathname,
           destination: `${this.config.output}${publicImagePathname}`,
