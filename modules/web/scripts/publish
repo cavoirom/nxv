@@ -4,7 +4,9 @@ set -e
 
 git checkout main
 
-git filter-branch --tree-filter "rm -rf dist" --prune-empty HEAD
+git checkout -b build
+
+git -C ../.. filter-branch --force --tree-filter "rm -rf modules/web/dist" --prune-empty HEAD
 git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
 
 scripts/build
@@ -12,10 +14,14 @@ scripts/build
 git add dist
 git commit -m "Build nxv page at `date`"
 
-git subtree split --prefix dist -b gh-pages
+git -C ../.. subtree split --prefix modules/web/dist -b gh-pages
 
 git push -f origin gh-pages:gh-pages
 
+git checkout main
+
 git branch -D gh-pages
+
+git branch -D build
 
 git gc
