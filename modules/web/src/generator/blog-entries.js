@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import cheerio from 'cheerio';
 import { Remarkable } from 'remarkable';
 import frontMatter from 'remarkable-front-matter';
 import extLink from 'remarkable-extlink';
 import { isEntryUrl, toEntryUrl } from '../app/shared/blog-entries';
 import generatePage from './pages';
+import customRemarkable from './remarkable-rules';
 
 const ENTRY_PATH_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)\/index\.md/;
 
@@ -54,11 +54,6 @@ export class BlogEntryRouteBuilder {
   constructor(config) {
     this.config = config;
     this.blogDirectory = `${config.content}/blog`;
-
-    const md = new Remarkable();
-    md.use(frontMatter);
-    md.use(extLink, { host: config.host });
-    this.md = md;
   }
 
   buildRoute(pathname) {
@@ -72,32 +67,20 @@ export class BlogEntryRouteBuilder {
   }
 
   _buildBlogEntry(markdownFile) {
+    const pathname = toPathname(this.blogDirectory, markdownFile);
+
+    const md = new Remarkable();
+    md.use(frontMatter);
+    md.use(extLink, { host: this.config.host });
+    md.use(customRemarkable, { pathname, classes: 'blog-entry__image' });
+
     const found = markdownFile.match(ENTRY_PATH_PATTERN);
     const slug = found[4];
     const entryMarkdown = fs.readFileSync(markdownFile, 'utf8');
     const env = { frontMatter: undefined };
-    const entryHtml = this.md.render(entryMarkdown, env);
+    const entryHtml = md.render(entryMarkdown, env);
 
-    // Change relative image path to public url and store information to copy image later
-    const $ = cheerio.load(entryHtml);
-    const pathname = toPathname(this.blogDirectory, markdownFile);
-    const images = [];
-    $('img').each((_, value) => {
-      const $img = $(value);
-      const relativeImagePathname = $img.attr('src');
-      if (relativeImagePathname.startsWith('image/')) {
-        const absoluteImagePathname = `${path.dirname(markdownFile)}/${relativeImagePathname}`;
-        const publicImagePathname = `${pathname}/${relativeImagePathname}`;
-        $img.attr('src', publicImagePathname);
-        $img.addClass('blog-entry__image');
-        images.push({
-          source: absoluteImagePathname,
-          destination: `${this.config.output}${publicImagePathname}`,
-        });
-      }
-    });
-    const content = $('body').html();
-    console.log(`Processed Blog Entry HTML:\n${content}`);
+    console.log(`Processed Blog Entry HTML:\n${entryHtml}`);
 
     return {
       title: env.frontMatter.title,
@@ -106,8 +89,7 @@ export class BlogEntryRouteBuilder {
       preview: env.frontMatter.preview,
       created: new Date(env.frontMatter.created),
       updated: env.frontMatter.updated,
-      content,
-      images,
+      content: entryHtml,
     };
   }
 
@@ -125,7 +107,6 @@ export class BlogEntryRouteBuilder {
     return {
       pathname: blogEntryPathname,
       state: blogEntryState,
-      images: blogEntry.images,
     };
   }
 }
@@ -138,11 +119,16 @@ export class BlogEntryPageGenerator {
   generatePage(route) {
     generatePage(route);
     // copy image to output directory
-    route.images.forEach((image) => {
-      const destinationDirectory = path.dirname(image.destination);
+    const sourceDirectory = path.dirname(toMarkdownPathname(this.config.content + '/blog', route.pathname)) + '/image';
+    if (fs.existsSync(sourceDirectory)) {
+      const destinationDirectory = this.config.output + route.pathname + '/image';
       fs.mkdirSync(destinationDirectory, { recursive: true });
-      fs.copyFileSync(image.source, image.destination);
-    });
+
+      const images = fs.readdirSync(sourceDirectory);
+      images.forEach((image) => {
+        fs.copyFileSync(path.join(sourceDirectory, image), path.join(destinationDirectory, image));
+      });
+    }
   }
 
   isValid(route) {
