@@ -1,5 +1,5 @@
 {
-  "name": "nxv",
+  "name": "nxv-web",
   "version": "0.1.2",
   "description": "vinh's personal page",
   "main": "src/index.js",
