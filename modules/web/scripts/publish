@@ -2,26 +2,21 @@
 
 set -e
 
+# Prepare branch for build
 git checkout main
-
 git checkout -b build
 
-git -C ../.. filter-branch --force --tree-filter "rm -rf modules/web/dist" --prune-empty HEAD
-git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
-
+# Build website
 scripts/build
 
+# Commit build and push to github page
 git add dist
 git commit -m "Build nxv page at `date`"
-
 git -C ../.. subtree split --prefix modules/web/dist -b gh-pages
-
 git push -f origin gh-pages:gh-pages
 
+# Clean up
 git checkout main
-
 git branch -D gh-pages
-
 git branch -D build
-
 git gc
