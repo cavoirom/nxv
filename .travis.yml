@@ -1,0 +1,17 @@
+language: node_js
+os: linux
+dist: trusty
+branches:
+  only:
+    - dev
+    - main
+node_js:
+  - 14
+before_install:
+  - cd modules/web
+install:
+  - npm ci
+script:
+  - if [ "$TRAVIS_BRANCH" = "dev" ]; then npm run build; fi
+  - if [ "$TRAVIS_BRANCH" = "main" ]; then npm run publish; fi
+
