@@ -7,7 +7,7 @@ git checkout main
 git checkout -b build
 
 # Build website
-scripts/build
+script/build
 
 # Commit build and push to github page
 git add dist

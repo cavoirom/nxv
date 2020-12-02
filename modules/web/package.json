@@ -32,12 +32,12 @@
     "sass": "^1.28.0"
   },
   "scripts": {
-    "dev": "scripts/dev",
-    "build": "scripts/build",
-    "lint": "scripts/lint",
+    "dev": "script/dev",
+    "build": "script/build",
+    "lint": "script/lint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "scripts/build && parcel serve --port 4321  --out-dir dist src/app/index.html",
-    "publish": "scripts/publish"
+    "serve": "script/build && parcel serve --port 4321  --out-dir dist src/app/index.html",
+    "publish": "script/publish"
   },
   "repository": {
     "type": "git",
