@@ -9,4 +9,4 @@ tags: blog, image
 
 I now could add images to my blog entry, a long waiting feature to me.
 
-![my avatar](image/frozen_flame.jpeg "my avatar")
+![my avatar](image/frozen_flame.jpeg 'my avatar')

@@ -1,8 +1,8 @@
-@import "../../shared/variables.scss";
+@import '../../shared/variables.scss';
 
 .navigator {
-  margin-block-start: .4em;
-  margin-block-end: .4em;
+  margin-block-start: 0.4em;
+  margin-block-end: 0.4em;
   font-size: 1em;
   font-weight: bold;
   color: $color-light;
@@ -18,10 +18,10 @@
     display: inline-block;
 
     &:before {
-      content: "·";
+      content: '·';
       display: inline-block;
-      padding-inline-start: .35em;
-      padding-inline-end: .35em;
+      padding-inline-start: 0.35em;
+      padding-inline-end: 0.35em;
     }
 
     &:first-child {
@@ -36,7 +36,8 @@
   &__link {
     color: inherit;
 
-    &--active, &:hover {
+    &--active,
+    &:hover {
       color: $color-normal;
       text-decoration: none;
     }

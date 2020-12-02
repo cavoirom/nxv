@@ -9,9 +9,7 @@
       "years": [
         {
           "year": 2020,
-          "events": [
-            "started this site."
-          ]
+          "events": ["started this site."]
         }
       ]
     },
@@ -20,15 +18,11 @@
       "years": [
         {
           "year": 2018,
-          "events": [
-            "ubitec"
-          ]
+          "events": ["ubitec"]
         },
         {
           "year": 2013,
-          "events": [
-            "Axon Active Vietnam"
-          ]
+          "events": ["Axon Active Vietnam"]
         }
       ]
     }

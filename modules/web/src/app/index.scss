@@ -1,11 +1,11 @@
-@import "purecss/build/base-min.css";
-@import "purecss/build/grids-min.css";
-@import "purecss/build/grids-responsive-min.css";
+@import 'purecss/build/base-min.css';
+@import 'purecss/build/grids-min.css';
+@import 'purecss/build/grids-responsive-min.css';
 
-@import "./asset/font/ibm-plex-sans/styles.css";
-@import "./shared/variables.scss";
-@import "./container/header/header.scss";
-@import "./container/blog-entry/blog-entry.scss";
+@import './asset/font/ibm-plex-sans/styles.css';
+@import './shared/variables.scss';
+@import './container/header/header.scss';
+@import './container/blog-entry/blog-entry.scss';
 
 html {
   font-size: $font-size-normal;
@@ -14,7 +14,12 @@ html {
   color: $color-normal;
 }
 
-html, button, input, select, textarea, .pure-g [class *= "pure-u"] {
+html,
+button,
+input,
+select,
+textarea,
+.pure-g [class*='pure-u'] {
   font-family: IBMPlexSans, Arial, Helvetica, sans-serif;
 }
 
@@ -47,4 +52,3 @@ hr {
     width: 750px;
   }
 }
-

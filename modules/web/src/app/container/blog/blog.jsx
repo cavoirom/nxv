@@ -1,14 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
-import { useAction, useSelector } from '@preact-hooks/unistore';
-import { Link } from 'wouter-preact';
-import { toEntryUrl } from '../../shared/blog-entries';
+import { useAction, useSelector, useStore } from '@preact-hooks/unistore';
+import { useLocation } from 'wouter-preact';
+import { toEntryJsonUrl, toEntryUrl } from '../../shared/blog-entries';
 import { useEffect } from 'preact/hooks';
-import { fetchBlog } from '../../store/action';
+import { fetchBlog, fetchBlogEntry } from '../../store/action';
 import { log } from '../../shared/logger';
 
 export default function Blog() {
   const blog = useSelector((state) => state.blog);
+  const [location, setLocation] = useLocation();
 
   log.debug('Render Blog:', blog);
 
@@ -28,6 +29,20 @@ export default function Blog() {
     }
   }, []);
 
+  // Open blog entry when title clicked
+  const store = useStore();
+  function openBlogEntry(ev) {
+    const pathname = ev.target.getAttribute('href');
+    log.debug(`Opening blog entry: ${pathname}`);
+    fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
+      const state = store.getState();
+      store.setState({ ...state, blog: { ...state.blog, entry } });
+      setLocation(pathname);
+      log.debug(`Blog entry ${pathname} is opened:`, entry);
+    });
+    ev.preventDefault();
+  }
+
   if (!blog) {
     return <></>;
   }
@@ -39,7 +54,9 @@ export default function Blog() {
         <div key={toEntryUrl(entry)} className="blog-entry pure-g">
           <div className="pure-u-1">
             <h3 className="blog-entry__title">
-              <Link href={toEntryUrl(entry)}>{entry.title}</Link>
+              <a href={toEntryUrl(entry)} onClick={openBlogEntry}>
+                {entry.title}
+              </a>
             </h3>
             <div className="blog-entry__content">
               <p>{entry.preview}</p>
