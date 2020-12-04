@@ -48,6 +48,7 @@ function generatePages(generators, routes) {
   fs.writeFileSync(`${config.output}/api/default.json`, JSON.stringify(config.defaultState), { encoding: 'utf8' });
 
   routes.forEach((route) => {
+    console.log(`Generated: ${route.pathname}`);
     const generator = generators.find((generator) => {
       if (generator.isValid(route)) {
         return generator;
@@ -72,7 +73,6 @@ function generateCacheRoutes() {
     .filter((fileName) => !excludedPaths.includes(fileName))
     .map((fileName) => `"/${fileName}"`)
     .join(',');
-  console.log(`Cache routes:`, cacheRoutes.split(','));
 
   // Replace the place holder routes array with real informations
   const workerPath = `${config.output}/worker.js`;
@@ -86,13 +86,11 @@ function main() {
     new BlogCollector(config),
     new BlogEntryCollector(config),
   ]);
-  pathnames.forEach((pathname) => console.log(`Pathname: ${pathname}`));
 
   const routes = buildRoutes(
     [new DefaultRouteBuilder(config), new BlogRouteBuilder(config), new BlogEntryRouteBuilder(config)],
     pathnames,
   );
-  routes.forEach((route) => console.log(`Route:`, route));
 
   generatePages(
     [new DefaultPageGenerator(config), new BlogPageGenerator(config), new BlogEntryPageGenerator(config)],

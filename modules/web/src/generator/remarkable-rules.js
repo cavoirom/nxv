@@ -7,7 +7,6 @@ export default function customRemarkable(md, pluginOptions) {
    * images
    */
   md.renderer.rules.image = ((pluginOptions) => (tokens, idx, options, env) => {
-    console.log(pluginOptions);
     const src =
       ' src="' +
       (pluginOptions.pathname ? escapeHtml(pluginOptions.pathname) + '/' : '') +

@@ -38,7 +38,6 @@ export default function generatePage(route) {
   fs.writeFileSync(`${pageDirectory}/index.json`, JSON.stringify(state), writeOptions);
   // Write partial state for ajax call
   writePartialState(route, writeOptions);
-  console.log(`Generated: ${pathname}`);
 }
 
 function writePartialState(route, writeOptions) {

@@ -1,5 +1,9 @@
 # nguyenxuanvinh.com
 
+[![Publish](https://travis-ci.org/cavoirom/nxv.svg?branch=main "Publish")](https://travis-ci.org/cavoirom/nxv)
+
+[![Development](https://travis-ci.org/cavoirom/nxv.svg?branch=dev "Development")](https://travis-ci.org/cavoirom/nxv)
+
 ## Introduction
 
 ## Git Workflow

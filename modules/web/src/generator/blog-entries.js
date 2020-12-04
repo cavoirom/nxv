@@ -80,8 +80,6 @@ export class BlogEntryRouteBuilder {
     const env = { frontMatter: undefined };
     const entryHtml = md.render(entryMarkdown, env);
 
-    console.log(`Processed Blog Entry HTML:\n${entryHtml}`);
-
     return {
       title: env.frontMatter.title,
       slug,
