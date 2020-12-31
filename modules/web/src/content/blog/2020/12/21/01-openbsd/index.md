@@ -3,8 +3,8 @@ title: OpenBSD
 author: vinh
 preview: I experiment with OpenBSD as my server OS
 created: 2020-12-21T07:52:11.829+07:00
-updated: 2020-12-21T07:52:11.829+07:00
-tags: blog, self-hosted, openbsd
+updated: 2020-12-31T07:43:29.778+07:00
+tags: blog, self-hosted, openbsd, httpd, relayd, vim, doas
 ---
 
 I am moving my internet services from cloud to my controlled servers, to take back my data into my hands.
@@ -65,3 +65,5 @@ permit persist <my-username>
 # Webserver
 
 Running a webserver is one of the main purpose of this server, I will setup a Webserver with TLS based on [this guideline](https://www.alexander-pluhar.de/openbsd-webserver.html), using built-in `relayd`, `httpd`, `acme` (for Let's Encrypt).
+
+Because the `httpd` is running behind `relayd`, I need to refine the configuration to keep actual source address instead the address of `relayd`, following [a post on bsdhowto.ch](https://www.bsdhowto.ch/forwarded.html).
