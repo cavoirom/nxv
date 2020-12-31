@@ -48,48 +48,31 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  if (networkResources.indexOf(url.pathname) > -1) {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          const toBeCachedResponse = response.clone();
-          caches.open(assetCacheName).then((cache) => cache.put(event.request, toBeCachedResponse));
-          log.debug('Fetched network resource: ', url);
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      // Cache hit - return response
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      return fetch(event.request).then((response) => {
+        // Check if we received a valid response
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
-        })
-        .catch(() => {
-          log.debug('Network error, return cached network resoure: ', url);
-          return caches.match(event.request);
-        }),
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        // Cache hit - return response
-        if (cachedResponse) {
-          return cachedResponse;
         }
 
-        return fetch(event.request).then((response) => {
-          // Check if we received a valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
+        // IMPORTANT: Clone the response. A response is a stream
+        // and because we want the browser to consume the response
+        // as well as the cache consuming the response, we need
+        // to clone it so we have two streams.
+        const toBeCachedResponse = response.clone();
 
-          // IMPORTANT: Clone the response. A response is a stream
-          // and because we want the browser to consume the response
-          // as well as the cache consuming the response, we need
-          // to clone it so we have two streams.
-          const toBeCachedResponse = response.clone();
-
-          caches.open(assetCacheName).then((cache) => {
-            cache.put(event.request, toBeCachedResponse);
-          });
-
-          return response;
+        caches.open(assetCacheName).then((cache) => {
+          cache.put(event.request, toBeCachedResponse);
         });
-      }),
-    );
-  }
+
+        return response;
+      });
+    }),
+  );
 });

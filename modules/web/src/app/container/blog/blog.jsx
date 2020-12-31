@@ -34,30 +34,19 @@ export default function Blog() {
   function openBlogEntry(ev) {
     const pathname = ev.target.getAttribute('href');
     log.debug(`Opening blog entry: ${pathname}`);
-    const existedBlogEntryUrl = toEntryUrl(store.getState().blog.entry);
-    ev.preventDefault();
-    if (pathname !== existedBlogEntryUrl) {
-      fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
-        const state = store.getState();
-        store.setState({ ...state, blog: { ...state.blog, entry } });
-        setLocation(pathname);
-        log.debug(`Blog entry ${pathname} is opened:`, entry);
-      });
-    } else {
+    fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
+      const state = store.getState();
+      store.setState({ ...state, blog: { ...state.blog, entry } });
       setLocation(pathname);
-      log.debug(`Blog entry ${pathname} is opened.`);
-    }
+      log.debug(`Blog entry ${pathname} is opened:`, entry);
+    });
+    ev.preventDefault();
   }
+  // Prefetch json of blog entry, service worker will cache the response
   function prefetchBlogEntry(ev) {
     const pathname = ev.target.getAttribute('href');
-    const existedBlogEntryUrl = toEntryUrl(store.getState().blog.entry);
-    if (pathname !== existedBlogEntryUrl) {
-      log.debug(`Prefetch blog entry: ${pathname}`);
-      fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
-        const state = store.getState();
-        store.setState({ ...state, blog: { ...state.blog, entry } });
-      });
-    }
+    fetch(toEntryJsonUrl(pathname));
+    log.debug(`Prefetched blog entry ${pathname}`);
   }
 
   if (!blog) {
@@ -71,7 +60,12 @@ export default function Blog() {
         <div key={toEntryUrl(entry)} className="blog-entry pure-g">
           <div className="pure-u-1">
             <h3 className="blog-entry__title">
-              <a href={toEntryUrl(entry)} onClick={openBlogEntry} onMouseEnter={prefetchBlogEntry}>
+              <a
+                href={toEntryUrl(entry)}
+                onClick={openBlogEntry}
+                onMouseEnter={prefetchBlogEntry}
+                onTouchStart={prefetchBlogEntry}
+              >
                 {entry.title}
               </a>
             </h3>
