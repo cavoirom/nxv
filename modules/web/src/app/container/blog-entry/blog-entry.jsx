@@ -20,7 +20,7 @@ export default function BlogEntry() {
   return (
     <div className="blog-entry pure-g">
       <div className="pure-u-1">
-        <h3 className="blog-entry__title">{entry.title}</h3>
+        <h1 className="blog-entry__title">{entry.title}</h1>
         {/* eslint-disable-next-line react/no-danger */}
         <div className="blog-entry__content" dangerouslySetInnerHTML={{ __html: entry.content }} />
       </div>
