@@ -45,7 +45,7 @@ export default function Blog() {
       });
     } else {
       setLocation(pathname);
-      log.debug(`Blog entry ${pathname} is opened:`, entry);
+      log.debug(`Blog entry ${pathname} is opened.`);
     }
   }
   function prefetchBlogEntry(ev) {
