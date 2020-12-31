@@ -34,13 +34,30 @@ export default function Blog() {
   function openBlogEntry(ev) {
     const pathname = ev.target.getAttribute('href');
     log.debug(`Opening blog entry: ${pathname}`);
-    fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
-      const state = store.getState();
-      store.setState({ ...state, blog: { ...state.blog, entry } });
+    const existedBlogEntryUrl = toEntryUrl(store.getState().blog.entry);
+    ev.preventDefault();
+    if (pathname !== existedBlogEntryUrl) {
+      fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
+        const state = store.getState();
+        store.setState({ ...state, blog: { ...state.blog, entry } });
+        setLocation(pathname);
+        log.debug(`Blog entry ${pathname} is opened:`, entry);
+      });
+    } else {
       setLocation(pathname);
       log.debug(`Blog entry ${pathname} is opened:`, entry);
-    });
-    ev.preventDefault();
+    }
+  }
+  function prefetchBlogEntry(ev) {
+    const pathname = ev.target.getAttribute('href');
+    const existedBlogEntryUrl = toEntryUrl(store.getState().blog.entry);
+    if (pathname !== existedBlogEntryUrl) {
+      log.debug(`Prefetch blog entry: ${pathname}`);
+      fetchBlogEntry(toEntryJsonUrl(pathname)).then((entry) => {
+        const state = store.getState();
+        store.setState({ ...state, blog: { ...state.blog, entry } });
+      });
+    }
   }
 
   if (!blog) {
@@ -54,7 +71,7 @@ export default function Blog() {
         <div key={toEntryUrl(entry)} className="blog-entry pure-g">
           <div className="pure-u-1">
             <h3 className="blog-entry__title">
-              <a href={toEntryUrl(entry)} onClick={openBlogEntry}>
+              <a href={toEntryUrl(entry)} onClick={openBlogEntry} onMouseEnter={prefetchBlogEntry}>
                 {entry.title}
               </a>
             </h3>
