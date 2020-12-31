@@ -29,7 +29,7 @@ export class BlogRouteBuilder {
     const previewBlogEntries = blogEntryRoutes
       .map((blogEntryRoute) => blogEntryRoute.state.blog.entry)
       .map((blogEntry) => (({ content, ...rest }) => rest)(blogEntry))
-      .sort((a, b) => b.created - a.created);
+      .sort((a, b) => b.updated - a.updated);
     const { defaultState } = this.config;
     return {
       pathname,
