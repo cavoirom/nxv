@@ -16,7 +16,7 @@ My servers will run:
 
 I recently interested in OpenBSD because of its security focus and strictly free. I had a long time using Linux at work and home, there was nothing to complain about Linux (especially Gentoo and Archlinux) except the UI is sometime not so nice compare to Windows. Then I got a Macbook and suddenly the UI issues were solved, now the only use case I could think about other OS is running a server, and OpenBSD seems fit my requirement: free, secure, stable and doesn't change so fast.
 
-# Installation
+## Installation
 
 I followed the steps on <https://www.going-flying.com/blog/openbsd-on-digitalocean.html> because I also run my server on DigitalOcean.
 
@@ -40,9 +40,9 @@ It worked nicely with some information need to be noted before running the insta
 
 It's recommended to read [afterboot](https://man.openbsd.org/afterboot) after the installation. It helped me configure the newly installed host.
 
-# Essential tools
+## Essential tools
 
-## `vim`
+### `vim`
 
 Because this is a server, I will install `vim` with *no_x11* favor.
 
@@ -50,7 +50,7 @@ Because this is a server, I will install `vim` with *no_x11* favor.
 pkg_add vim-8.2.1805-no_x11
 ```
 
-## `doas`
+### `doas`
 
 `doas` could be used as a replacement of `sudo` in Linux world. It's included in the base, I only need to configure it.
 
@@ -62,7 +62,7 @@ Because I am the only one log into these servers, I will explicit allow my usern
 permit persist <my-username>
 ```
 
-# Webserver
+## Webserver
 
 Running a webserver is one of the main purpose of this server, I will setup a Webserver with TLS based on [this guideline](https://www.alexander-pluhar.de/openbsd-webserver.html), using built-in `relayd`, `httpd`, `acme` (for Let's Encrypt).
 
