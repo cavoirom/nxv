@@ -40,6 +40,7 @@ export class BlogRouteBuilder {
           entries: previewBlogEntries,
         },
       },
+      title: defaultState.site.title,
     };
   }
 

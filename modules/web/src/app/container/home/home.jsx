@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
+import { useEffect } from 'preact/hooks';
 import { useSelector } from '@preact-hooks/unistore';
 import EventSection from '../../component/event-section/event-section';
 import { log } from '../../shared/logger';
@@ -8,6 +9,12 @@ export default function Home() {
   log.debug('Render Home.');
 
   const home = useSelector((state) => state.home);
+  const title = useSelector((state) => state.site.title);
+
+  // Set title
+  useEffect(() => {
+    document.title = title;
+  }, []);
 
   if (!home) {
     return <></>;

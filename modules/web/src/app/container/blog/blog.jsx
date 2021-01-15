@@ -9,6 +9,7 @@ import { log } from '../../shared/logger';
 
 export default function Blog() {
   const blog = useSelector((state) => state.blog);
+  const title = useSelector((state) => state.site.title);
   const [location, setLocation] = useLocation();
 
   log.debug('Render Blog:', blog);
@@ -21,6 +22,11 @@ export default function Blog() {
       });
     });
   });
+
+  // Set title
+  useEffect(() => {
+    document.title = title;
+  }, []);
 
   // Initialize blog if it's undefined
   useEffect(() => {

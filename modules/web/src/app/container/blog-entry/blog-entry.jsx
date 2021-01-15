@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
+import { useEffect } from 'preact/hooks';
 import { useSelector } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
 import dlv from 'dlv';
@@ -13,17 +14,23 @@ export default function BlogEntry() {
 
   log.debug('Render BlogEntry:', `url: ${location}`, '| entry: ', entry);
 
+  useEffect(() => {
+    document.title = dlv(entry, 'title');
+  }, []);
+
   if (!entry || location !== entryUrl) {
     return <></>;
   }
 
   return (
     <div className="blog-entry pure-g">
-      <div className="pure-u-1">
-        <h1 className="blog-entry__title">{entry.title}</h1>
+      <article className="pure-u-1">
+        <header>
+          <h1 className="blog-entry__title">{entry.title}</h1>
+        </header>
         {/* eslint-disable-next-line react/no-danger */}
         <div className="blog-entry__content" dangerouslySetInnerHTML={{ __html: entry.content }} />
-      </div>
+      </article>
     </div>
   );
 }

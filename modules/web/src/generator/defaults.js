@@ -21,6 +21,7 @@ export class DefaultRouteBuilder {
       state: {
         ...this.config.defaultState,
       },
+      title: this.config.defaultState.site.title
     };
   }
 

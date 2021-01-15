@@ -105,6 +105,7 @@ export class BlogEntryRouteBuilder {
     return {
       pathname: blogEntryPathname,
       state: blogEntryState,
+      title: blogEntry.title,
     };
   }
 }

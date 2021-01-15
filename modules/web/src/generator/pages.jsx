@@ -14,7 +14,7 @@ import config from './config';
 import { isEntryUrl } from '../app/shared/blog-entries';
 
 export default function generatePage(route) {
-  const { state, pathname } = route;
+  const { state, pathname, title } = route;
   const store = configureStore(state);
 
   // Pre-render app html
@@ -27,7 +27,7 @@ export default function generatePage(route) {
   );
 
   // Build complete html page and json state
-  const html = buildMainTemplate(pathname, appHtml);
+  const html = buildMainTemplate(pathname, appHtml, title);
   // Create directory corresponding to pathname
   const pageDirectory = `${config.output}${pathname}`;
   fs.mkdirSync(pageDirectory, { recursive: true });

@@ -9,12 +9,12 @@ export default function Content() {
   log.debug('Render Content.');
 
   return (
-    <div id="content" className="content">
+    <main id="content" className="content">
       <Switch>
         <Route path="/home" component={Home} />
         <Route path="/blog" component={Blog} />
         <Route path="/blog/:entryUrl+" component={BlogEntry} />
       </Switch>
-    </div>
+    </main>
   );
 }
