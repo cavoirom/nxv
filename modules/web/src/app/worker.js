@@ -3,10 +3,6 @@ import { log } from './shared/logger';
 const assetCacheName = 'asset';
 // cacheResources will be keep every time we activate service worker, other routes will be cleaned up to reduce cache size.
 const cacheResources = ['route-place-holder'];
-// networkResources will be fetch for every request.
-const networkResources = cacheResources.filter(
-  (route) => ['/', '/blog', '/home'].indexOf(route) > -1 || route.endsWith('.html') || route.endsWith('.json'),
-);
 
 self.addEventListener('install', (event) => {
   // Pre-cache these resources to help page works offline.

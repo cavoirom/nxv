@@ -61,8 +61,8 @@ function generatePages(generators, routes) {
 }
 
 function generateCacheRoutes() {
-  const excludedPaths = ['api', 'worker.js', 'worker.js.map', 'CNAME'];
-  const additionalPaths = [''];
+  const excludedPaths = ['', 'index.html', 'api', 'worker.js', 'worker.js.map', 'CNAME'];
+  const additionalPaths = [];
 
   // List all files in /build/dist folder
   const fileNames = fs.readdirSync(config.output);
