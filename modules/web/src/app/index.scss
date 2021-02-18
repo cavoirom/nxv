@@ -5,6 +5,7 @@
 @import './asset/font/ibm-plex-sans/styles.css';
 @import './shared/variables.scss';
 @import './container/header/header.scss';
+@import './container/content/content.scss';
 @import './container/blog-entry/blog-entry.scss';
 
 html {
@@ -33,11 +34,15 @@ a {
 }
 
 p {
-  line-height: 1.6;
+  line-height: $line-height-normal;
 }
 
 hr {
   border-bottom: none;
+}
+
+li {
+  line-height: $line-height-normal;
 }
 
 .pure-g {
