@@ -45,6 +45,22 @@ li {
   line-height: $line-height-normal;
 }
 
+code {
+  display: inline-block;
+  background-color: #f5f5f5;
+  padding: 0 0.2rem;
+  border-radius: 0.1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  code {
+    display: inherit;
+    background-color: inherit;
+    padding: initial;
+    border-radius: initial;
+  }
+}
+
 .pure-g {
   padding-right: 15px;
   padding-left: 15px;
@@ -54,6 +70,6 @@ li {
 
 @media (min-width: $screen-width-medium + 1) {
   .pure-g {
-    width: 750px;
+    width: $screen-width-medium;
   }
 }
