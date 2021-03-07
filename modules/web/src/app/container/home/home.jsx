@@ -32,18 +32,18 @@ export default function Home() {
       <div className="pure-g">
         <div className="pure-u-1">
           <h3>{journey.title}</h3>
+          {journey.years.map((year) => (
+            <EventSection key={year.year} year={year} />
+          ))}
         </div>
-        {journey.years.map((year) => (
-          <EventSection key={year.year} year={year} />
-        ))}
       </div>
       <div className="pure-g">
         <div className="pure-u-1">
           <h3>{work.title}</h3>
+          {work.years.map((year) => (
+            <EventSection key={year.year} year={year} />
+          ))}
         </div>
-        {work.years.map((year) => (
-          <EventSection key={year.year} year={year} />
-        ))}
       </div>
     </>
   );
