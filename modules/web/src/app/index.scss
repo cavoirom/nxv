@@ -20,7 +20,8 @@ input,
 select,
 textarea,
 .pure-g [class*='pure-u'] {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Oxygen, Cantarell, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, 'Helvetica Neue', Oxygen,
+    Cantarell, sans-serif;
 }
 
 a {
@@ -51,7 +52,12 @@ code {
   border-radius: 0.1rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   code {
     display: inherit;
     background-color: inherit;

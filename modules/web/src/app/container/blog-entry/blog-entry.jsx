@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { useSelector } from '@preact-hooks/unistore';
@@ -19,18 +18,17 @@ export default function BlogEntry() {
   }, []);
 
   if (!entry || location !== entryUrl) {
-    return <></>;
+    return h(Fragment);
   }
 
-  return (
-    <div className="blog-entry pure-g">
-      <article className="pure-u-1">
-        <header>
-          <h1 className="blog-entry__title">{entry.title}</h1>
-        </header>
-        {/* eslint-disable-next-line react/no-danger */}
-        <div className="blog-entry__content" dangerouslySetInnerHTML={{ __html: entry.content }} />
-      </article>
-    </div>
+  const blogEntryHeader = h('header', null, h('h1', { className: 'blog-entry__title' }, entry.title));
+  const blogEntryContent = h('div', {
+    className: 'blog-entry__content',
+    dangerouslySetInnerHTML: { __html: entry.content },
+  });
+  return h(
+    'div',
+    { className: 'blog-entry pure-g' },
+    h('article', { className: 'pure-u-1' }, blogEntryHeader, blogEntryContent),
   );
 }

@@ -6,14 +6,8 @@ import { log } from '../../shared/logger';
 export default function Footer() {
   log.debug('Render Footer.');
 
-  return (
-    <footer id="footer">
-      <div className="pure-g">
-        <div className="pure-u-1">
-          <hr />
-          <i>Since 2020</i>
-        </div>
-      </div>
-    </footer>
-  );
+  const separator = h('hr', null);
+  const footerText = h('i', null, 'Since 2020');
+  const container = h('div', { className: 'pure-g' }, h('div', { className: 'pure-u-1' }, separator, footerText));
+  return h('footer', { id: 'footer' }, container);
 }

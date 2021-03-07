@@ -20,11 +20,6 @@ delete window.__STATE__;
 statePromise.then((state) => {
   const store = configureStore(state);
   const rootElement = document.getElementById('app');
-  hydrate(
-    <Provider value={store}>
-      <App />
-      <Redirect from="/" to="/blog" />
-    </Provider>,
-    rootElement,
-  );
+
+  hydrate(h(Provider, { value: store }, h(App, null), h(Redirect, { from: '/', to: '/blog' })), rootElement);
 });

@@ -8,13 +8,15 @@ import { log } from '../../shared/logger';
 export default function Content() {
   log.debug('Render Content.');
 
-  return (
-    <main id="content" className="content">
-      <Switch>
-        <Route path="/home" component={Home} />
-        <Route path="/blog" component={Blog} />
-        <Route path="/blog/:entryUrl+" component={BlogEntry} />
-      </Switch>
-    </main>
+  return h(
+    'main',
+    { id: 'content', className: 'content' },
+    h(
+      Switch,
+      null,
+      h(Route, { path: '/home', component: Home }),
+      h(Route, { path: '/blog', component: Blog }),
+      h(Route, { path: '/blog/:entryUrl+', component: BlogEntry }),
+    ),
   );
 }

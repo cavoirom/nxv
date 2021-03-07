@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import { h, Fragment } from 'preact';
+import { Fragment, h } from 'preact';
 import { useAction, useSelector, useStore } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
 import { toEntryJsonUrl, toEntryUrl } from '../../shared/blog-entries';
@@ -37,6 +36,7 @@ export default function Blog() {
 
   // Open blog entry when title clicked
   const store = useStore();
+
   function openBlogEntry(ev) {
     const pathname = ev.target.getAttribute('href');
     log.debug(`Opening blog entry: ${pathname}`);
@@ -48,6 +48,7 @@ export default function Blog() {
     });
     ev.preventDefault();
   }
+
   // Prefetch json of blog entry, service worker will cache the response
   function prefetchBlogEntry(ev) {
     const pathname = ev.target.getAttribute('href');
@@ -56,31 +57,30 @@ export default function Blog() {
   }
 
   if (!blog) {
-    return <></>;
+    return h(Fragment);
   }
 
   const { entries } = blog;
-  return (
-    <>
-      {entries.map((entry) => (
-        <div key={toEntryUrl(entry)} className="blog-entry pure-g">
-          <div className="pure-u-1">
-            <h3 className="blog-entry__title">
-              <a
-                href={toEntryUrl(entry)}
-                onClick={openBlogEntry}
-                onMouseEnter={prefetchBlogEntry}
-                onTouchStart={prefetchBlogEntry}
-              >
-                {entry.title}
-              </a>
-            </h3>
-            <div className="blog-entry__content">
-              <p>{entry.preview}</p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </>
-  );
+
+  // Render Blog Component
+  const entryItems = entries.map((item) => {
+    const title = h(
+      'h3',
+      { className: 'blog-entry__title' },
+      h(
+        'a',
+        {
+          href: toEntryUrl(item),
+          onClick: openBlogEntry,
+          onMouseEnter: prefetchBlogEntry,
+          onTouchStart: prefetchBlogEntry,
+        },
+        item.title,
+      ),
+    );
+    const content = h('div', { className: 'blog-entry__content' }, h('p', null, item.preview));
+    const entryWrapper = h('div', { className: 'pure-u-1' }, title, content);
+    return h('div', { key: toEntryUrl(item), className: 'blog-entry pure-g' }, entryWrapper);
+  });
+  return h(Fragment, null, entryItems);
 }

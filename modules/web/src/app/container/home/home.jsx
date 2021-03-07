@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { useSelector } from '@preact-hooks/unistore';
@@ -17,34 +16,30 @@ export default function Home() {
   }, []);
 
   if (!home) {
-    return <></>;
+    return h(Fragment);
   }
 
   const { me, journey, work } = home;
-  return (
-    <>
-      <div className="pure-g">
-        <div className="pure-u-1">
-          <h3>{me.title}</h3>
-          <p>{me.content}</p>
-        </div>
-      </div>
-      <div className="pure-g">
-        <div className="pure-u-1">
-          <h3>{journey.title}</h3>
-          {journey.years.map((year) => (
-            <EventSection key={year.year} year={year} />
-          ))}
-        </div>
-      </div>
-      <div className="pure-g">
-        <div className="pure-u-1">
-          <h3>{work.title}</h3>
-          {work.years.map((year) => (
-            <EventSection key={year.year} year={year} />
-          ))}
-        </div>
-      </div>
-    </>
+
+  const journeyEvents = journey.years.map((year) => h(EventSection, { key: year.year, year: year }));
+  const workEvents = work.years.map((year) => h(EventSection, { key: year.year, year: year }));
+  return h(
+    Fragment,
+    null,
+    h(
+      'div',
+      { className: 'pure-g' },
+      h('div', { className: 'pure-u-1' }, h('h3', null, me.title), h('p', null, me.content)),
+    ),
+    h(
+      'div',
+      { className: 'pure-g' },
+      h('div', { className: 'pure-u-1' }, h('h3', null, journey.title), ...journeyEvents),
+    ),
+    h(
+      'div',
+      { className: 'pure-g' },
+      h('div', { className: 'pure-u-1' }, h('h3', null, work.title), h('p', null, ...workEvents)),
+    ),
   );
 }
