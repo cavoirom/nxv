@@ -21,5 +21,5 @@ statePromise.then((state) => {
   const store = configureStore(state);
   const rootElement = document.getElementById('app');
 
-  hydrate(h(Provider, { value: store }, h(App, null), h(Redirect, { from: '/', to: '/blog' })), rootElement);
+  hydrate(h(Provider, { value: store }, h(App), h(Redirect, { from: '/', to: '/blog' })), rootElement);
 });

@@ -7,5 +7,5 @@ import { log } from '../../shared/logger';
 export default function App() {
   log.debug('Render App.');
 
-  return h(Fragment, null, Header(), Content(), Footer());
+  return h(Fragment, null, h(Header), h(Content), h(Footer));
 }
