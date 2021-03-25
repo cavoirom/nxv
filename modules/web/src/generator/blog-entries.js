@@ -118,9 +118,9 @@ export class BlogEntryPageGenerator {
   generatePage(route) {
     generatePage(route);
     // copy image to output directory
-    const sourceDirectory = path.dirname(toMarkdownPathname(this.config.content + '/blog', route.pathname)) + '/image';
+    const sourceDirectory = `${path.dirname(toMarkdownPathname(`${this.config.content}/blog`, route.pathname))}/image`;
     if (fs.existsSync(sourceDirectory)) {
-      const destinationDirectory = this.config.output + route.pathname + '/image';
+      const destinationDirectory = `${this.config.output + route.pathname}/image`;
       fs.mkdirSync(destinationDirectory, { recursive: true });
 
       const images = fs.readdirSync(sourceDirectory);

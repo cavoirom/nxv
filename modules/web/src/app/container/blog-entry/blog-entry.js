@@ -3,8 +3,8 @@ import { useEffect } from 'preact/hooks';
 import { useSelector } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
 import dlv from 'dlv';
-import { toEntryUrl } from '../../shared/blog-entries';
-import { log } from '../../shared/logger';
+import { toEntryUrl } from '../../shared/blog-entries.js';
+import { log } from '../../shared/logger.js';
 
 export default function BlogEntry() {
   const entry = useSelector((state) => dlv(state, 'blog.entry'));
@@ -15,7 +15,7 @@ export default function BlogEntry() {
 
   useEffect(() => {
     document.title = dlv(entry, 'title');
-  }, []);
+  });
 
   if (!entry || location !== entryUrl) {
     return h(Fragment);
@@ -29,6 +29,6 @@ export default function BlogEntry() {
   return h(
     'div',
     { className: 'blog-entry pure-g' },
-    h('article', { className: 'pure-u-1' }, blogEntryHeader, blogEntryContent),
+    h('article', { className: 'pure-u-1' }, blogEntryHeader, blogEntryContent)
   );
 }

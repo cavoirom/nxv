@@ -1,14 +1,15 @@
 import { Fragment, h } from 'preact';
 import { useAction, useSelector, useStore } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
-import { toEntryJsonUrl, toEntryUrl } from '../../shared/blog-entries';
+import { toEntryJsonUrl, toEntryUrl } from '../../shared/blog-entries.js';
 import { useEffect } from 'preact/hooks';
-import { fetchBlog, fetchBlogEntry } from '../../store/action';
-import { log } from '../../shared/logger';
+import { fetchBlog, fetchBlogEntry } from '../../store/action.js';
+import { log } from '../../shared/logger.js';
 
 export default function Blog() {
   const blog = useSelector((state) => state.blog);
   const title = useSelector((state) => state.site.title);
+  // eslint-disable-next-line no-unused-vars
   const [location, setLocation] = useLocation();
 
   log.debug('Render Blog:', blog);
@@ -25,14 +26,14 @@ export default function Blog() {
   // Set title
   useEffect(() => {
     document.title = title;
-  }, []);
+  });
 
   // Initialize blog if it's undefined
   useEffect(() => {
     if (!blog || !blog.entries || !blog.entries.length > 0) {
       fetchBlogAction();
     }
-  }, []);
+  });
 
   // Open blog entry when title clicked
   const store = useStore();
@@ -75,8 +76,8 @@ export default function Blog() {
           onMouseEnter: prefetchBlogEntry,
           onTouchStart: prefetchBlogEntry,
         },
-        item.title,
-      ),
+        item.title
+      )
     );
     const content = h('div', { className: 'blog-entry__content' }, h('p', null, item.preview));
     const entryWrapper = h('div', { className: 'pure-u-1' }, title, content);

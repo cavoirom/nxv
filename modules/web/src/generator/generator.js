@@ -89,12 +89,12 @@ function main() {
 
   const routes = buildRoutes(
     [new DefaultRouteBuilder(config), new BlogRouteBuilder(config), new BlogEntryRouteBuilder(config)],
-    pathnames,
+    pathnames
   );
 
   generatePages(
     [new DefaultPageGenerator(config), new BlogPageGenerator(config), new BlogEntryPageGenerator(config)],
-    routes,
+    routes
   );
 
   generateCacheRoutes();

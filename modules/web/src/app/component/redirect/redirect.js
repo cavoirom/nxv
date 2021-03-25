@@ -9,6 +9,6 @@ export default function Redirect({ from, to }) {
     } else if (location === '/') {
       setLocation(to);
     }
-  }, []);
+  });
   return null;
 }

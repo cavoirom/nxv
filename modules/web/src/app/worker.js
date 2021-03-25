@@ -1,4 +1,4 @@
-import { log } from './shared/logger';
+import { log } from './shared/logger.js';
 
 const assetCacheName = 'asset';
 // cacheResources will be keep every time we activate service worker, other routes will be cleaned up to reduce cache size.
@@ -23,8 +23,8 @@ self.addEventListener('activate', (event) => {
               log.debug('Delete out dated cache: ', key);
               return caches.delete(key);
             }
-          }),
-        ),
+          })
+        )
       )
       .then(() => caches.open(assetCacheName))
       .then((assetCache) => Promise.all([Promise.resolve(assetCache), assetCache.keys()]))
@@ -37,9 +37,9 @@ self.addEventListener('activate', (event) => {
               return assetCache.delete(key);
             }
             log.debug('Resource unchanged, keep the cache: ', key.url);
-          }),
-        ),
-      ),
+          })
+        )
+      )
   );
 });
 
@@ -69,6 +69,6 @@ self.addEventListener('fetch', (event) => {
 
         return response;
       });
-    }),
+    })
   );
 });

@@ -1,13 +1,13 @@
 export const log = {
-  debug: function (message, ...params) {
+  debug(message, ...params) {
     if (process.env.NODE_ENV === 'development') {
       console.log(message, ...params);
     }
   },
-  info: function (message, ...params) {
+  info(message, ...params) {
     console.log(message, ...params);
   },
-  error: function (message, ...params) {
+  error(message, ...params) {
     console.error(message, ...params);
   },
 };

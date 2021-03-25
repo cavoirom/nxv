@@ -24,7 +24,7 @@ export class BlogRouteBuilder {
   buildRoute(pathname) {
     const blogEntryPathnames = this.blogEntryCollector.collectPathnames();
     const blogEntryRoutes = blogEntryPathnames.map((blogEntryPathname) =>
-      this.blogEntryRouteBuilder.buildRoute(blogEntryPathname),
+      this.blogEntryRouteBuilder.buildRoute(blogEntryPathname)
     );
     const previewBlogEntries = blogEntryRoutes
       .map((blogEntryRoute) => blogEntryRoute.state.blog.entry)

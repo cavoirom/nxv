@@ -1,3 +1,4 @@
 #!/bin/sh
-
-npx prettier -w src/app
+set -e
+npx eslint --fix src/**/*.js
+npx prettier -w src/**/*.js

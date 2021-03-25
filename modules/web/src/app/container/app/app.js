@@ -1,8 +1,8 @@
 import { h, Fragment } from 'preact';
-import Header from '../header/header';
-import Content from '../content/content';
-import Footer from '../footer/footer';
-import { log } from '../../shared/logger';
+import Header from '../header/header.js';
+import Content from '../content/content.js';
+import Footer from '../footer/footer.js';
+import { log } from '../../shared/logger.js';
 
 export default function App() {
   log.debug('Render App.');

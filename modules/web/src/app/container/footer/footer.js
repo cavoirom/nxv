@@ -1,7 +1,5 @@
-import './footer.scss';
-
 import { h } from 'preact';
-import { log } from '../../shared/logger';
+import { log } from '../../shared/logger.js';
 
 export default function Footer() {
   log.debug('Render Footer.');

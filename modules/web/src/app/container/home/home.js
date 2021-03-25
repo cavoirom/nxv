@@ -1,8 +1,8 @@
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { useSelector } from '@preact-hooks/unistore';
-import EventSection from '../../component/event-section/event-section';
-import { log } from '../../shared/logger';
+import EventSection from '../../component/event-section/event-section.js';
+import { log } from '../../shared/logger.js';
 
 export default function Home() {
   log.debug('Render Home.');
@@ -13,7 +13,7 @@ export default function Home() {
   // Set title
   useEffect(() => {
     document.title = title;
-  }, []);
+  });
 
   if (!home) {
     return h(Fragment);
@@ -21,25 +21,25 @@ export default function Home() {
 
   const { me, journey, work } = home;
 
-  const journeyEvents = journey.years.map((year) => h(EventSection, { key: year.year, year: year }));
-  const workEvents = work.years.map((year) => h(EventSection, { key: year.year, year: year }));
+  const journeyEvents = journey.years.map((year) => h(EventSection, { key: year.year, year }));
+  const workEvents = work.years.map((year) => h(EventSection, { key: year.year, year }));
   return h(
     Fragment,
     null,
     h(
       'div',
       { className: 'pure-g' },
-      h('div', { className: 'pure-u-1' }, h('h3', null, me.title), h('p', null, me.content)),
+      h('div', { className: 'pure-u-1' }, h('h3', null, me.title), h('p', null, me.content))
     ),
     h(
       'div',
       { className: 'pure-g' },
-      h('div', { className: 'pure-u-1' }, h('h3', null, journey.title), ...journeyEvents),
+      h('div', { className: 'pure-u-1' }, h('h3', null, journey.title), ...journeyEvents)
     ),
     h(
       'div',
       { className: 'pure-g' },
-      h('div', { className: 'pure-u-1' }, h('h3', null, work.title), h('p', null, ...workEvents)),
-    ),
+      h('div', { className: 'pure-u-1' }, h('h3', null, work.title), h('p', null, ...workEvents))
+    )
   );
 }

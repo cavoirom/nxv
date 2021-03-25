@@ -1,5 +1,5 @@
-import { isEntryUrl, toEntryJsonUrl } from './shared/blog-entries';
-import { fetchDefaultState, fetchBlogEntry, fetchBlog } from './store/action';
+import { isEntryUrl, toEntryJsonUrl } from './shared/blog-entries.js';
+import { fetchDefaultState, fetchBlogEntry, fetchBlog } from './store/action.js';
 
 export default function initializeState(location) {
   const url = new URL(location);
@@ -23,7 +23,7 @@ export default function initializeState(location) {
             entry,
           },
         });
-      },
+      }
     );
   }
   return Promise.resolve({});
