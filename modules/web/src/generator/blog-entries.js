@@ -3,9 +3,9 @@ import path from 'path';
 import { Remarkable } from 'remarkable';
 import frontMatter from 'remarkable-front-matter';
 import extLink from 'remarkable-extlink';
-import { isEntryUrl, toEntryUrl } from '../app/shared/blog-entries';
-import generatePage from './pages';
-import customRemarkable from './remarkable-rules';
+import { isEntryUrl, toEntryUrl } from '../app/shared/blog-entries.js';
+import generatePage from './pages.js';
+import customRemarkable from './remarkable-rules.js';
 
 const ENTRY_PATH_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)\/index\.md/;
 

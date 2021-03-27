@@ -1,8 +1,8 @@
 import fs from 'fs';
-import config from './config';
-import { BlogEntryCollector, BlogEntryPageGenerator, BlogEntryRouteBuilder } from './blog-entries';
-import { DefaultCollector, DefaultPageGenerator, DefaultRouteBuilder } from './defaults';
-import { BlogCollector, BlogPageGenerator, BlogRouteBuilder } from './blogs';
+import config from './config.js';
+import { BlogEntryCollector, BlogEntryPageGenerator, BlogEntryRouteBuilder } from './blog-entries.js';
+import { DefaultCollector, DefaultPageGenerator, DefaultRouteBuilder } from './defaults.js';
+import { BlogCollector, BlogPageGenerator, BlogRouteBuilder } from './blogs.js';
 
 /*
  * The collectors will based on configuration to explore the pathnames.

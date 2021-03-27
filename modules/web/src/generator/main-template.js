@@ -1,6 +1,6 @@
 import cheerio from 'cheerio';
 import fs from 'fs';
-import config from './config';
+import config from './config.js';
 
 // Load generated html as template to keep generated js/css file name
 const templateText = fs.readFileSync(`${config.output}/index.html`, 'utf8');

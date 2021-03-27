@@ -1,4 +1,5 @@
 import path from 'path';
+// TODO We should use standard Node.js for read file.
 import defaultState from './default-state.json';
 
 const config = {

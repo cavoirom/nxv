@@ -18,13 +18,7 @@ export default function generatePage(route) {
   const store = configureStore(state);
 
   // Pre-render app html
-  const appHtml = render(
-    <Provider value={store}>
-      <Router hook={staticLocationHook(pathname)}>
-        <App />
-      </Router>
-    </Provider>,
-  );
+  const appHtml = render(h(Provider, { value: store }, h(Router, { hook: staticLocationHook(pathname) }, h(App))));
 
   // Build complete html page and json state
   const html = buildMainTemplate(pathname, appHtml, title);

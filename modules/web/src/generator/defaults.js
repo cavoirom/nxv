@@ -1,4 +1,4 @@
-import generatePage from './pages';
+import generatePage from './pages.js';
 
 export class DefaultCollector {
   constructor(config) {

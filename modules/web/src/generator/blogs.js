@@ -1,5 +1,5 @@
-import generatePage from './pages';
-import { BlogEntryCollector, BlogEntryRouteBuilder } from './blog-entries';
+import generatePage from './pages.js';
+import { BlogEntryCollector, BlogEntryRouteBuilder } from './blog-entries.js';
 
 const BLOG_PATHNAME = '/blog';
 
