@@ -4,7 +4,7 @@ author: vinh
 preview: I create a blog, again
 created: 2020-05-30T20:30:54.050+07:00
 updated: 2020-05-30T20:30:54.050+07:00
-tags: blog
+tags: to-be-continued
 ---
 
 It's been a long time since I first created a blog.

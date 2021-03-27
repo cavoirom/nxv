@@ -4,7 +4,7 @@ author: vinh
 preview: My page supports images
 created: 2020-11-26T22:16:31.517+07:00
 updated: 2020-11-26T22:16:31.517+07:00
-tags: blog, image
+tags: to-be-continued, image
 ---
 
 I now could add images to my blog entry, a long waiting feature to me.

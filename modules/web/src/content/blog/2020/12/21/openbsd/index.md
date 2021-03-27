@@ -4,7 +4,7 @@ author: vinh
 preview: I experiment with OpenBSD as my server OS
 created: 2020-12-21T07:52:11.829+07:00
 updated: 2020-12-31T07:43:29.778+07:00
-tags: blog, self-hosted, openbsd, httpd, relayd, vim, doas
+tags: self-hosted, openbsd, httpd, relayd, vim, doas
 ---
 
 I am moving my internet services from cloud to my controlled servers, to take back my data into my hands.
@@ -56,10 +56,12 @@ pkg_add vim-8.2.1805-no_x11
 
 Because I am the only one log into these servers, I will explicit allow my username has root privilege.
 
-`/etc/doas.conf`
-
 ```
+/etc/doas.conf
+                              
+...
 permit persist <my-username>
+...
 ```
 
 ## Webserver
