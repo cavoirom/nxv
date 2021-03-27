@@ -1,8 +1,8 @@
 # nguyenxuanvinh.com
 
-[![Publish](https://travis-ci.org/cavoirom/nxv.svg?branch=main "Publish")](https://travis-ci.org/cavoirom/nxv)
+[![Publish](https://travis-ci.com/cavoirom/nxv.svg?branch=main "Publish")](https://travis-ci.com/cavoirom/nxv)
 
-[![Development](https://travis-ci.org/cavoirom/nxv.svg?branch=dev "Development")](https://travis-ci.org/cavoirom/nxv)
+[![Development](https://travis-ci.com/cavoirom/nxv.svg?branch=dev "Development")](https://travis-ci.com/cavoirom/nxv)
 
 ## Introduction
 
