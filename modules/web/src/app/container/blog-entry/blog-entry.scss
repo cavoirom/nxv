@@ -18,4 +18,10 @@
       padding-left: 1em;
     }
   }
+
+  pre > code {
+    padding: 0.2rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
