@@ -16,9 +16,9 @@
     "wouter-preact": "^2.7.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.10",
+    "@babel/core": "^7.13.13",
     "cheerio": "^1.0.0-rc.5",
-    "eslint": "^7.22.0",
+    "eslint": "^7.23.0",
     "eslint-config-preact": "^1.1.3",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.1",
