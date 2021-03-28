@@ -5,9 +5,9 @@ export function toEntryUrl(entry) {
     return null;
   }
   const createdDate = new Date(entry.created);
-  const year = createdDate.getFullYear();
-  const month = String(createdDate.getMonth() + 1).padStart(2, '0');
-  const day = String(createdDate.getDate()).padStart(2, '0');
+  const year = createdDate.getUTCFullYear();
+  const month = String(createdDate.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(createdDate.getUTCDate()).padStart(2, '0');
   return `/blog/entry/${year}/${month}/${day}/${entry.slug}`;
 }
 

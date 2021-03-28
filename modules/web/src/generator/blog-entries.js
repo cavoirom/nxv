@@ -85,7 +85,7 @@ export class BlogEntryRouteBuilder {
       slug,
       author: env.frontMatter.author,
       preview: env.frontMatter.preview,
-      created: new Date(env.frontMatter.created),
+      created: env.frontMatter.created,
       updated: env.frontMatter.updated,
       content: entryHtml,
     };
