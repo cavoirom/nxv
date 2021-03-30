@@ -7,22 +7,42 @@ import { isEntryUrl, toEntryUrl } from '../app/shared/blog-entries.js';
 import generatePage from './pages.js';
 import customRemarkable from './remarkable-rules.js';
 
-const ENTRY_PATH_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)\/index\.md/;
+const PATHNAME_PATTERN = /(\d{4})\/(\d{2})\/(\d{2})\/([\w-]+)$/;
+const MARKDOWN_PATTERN = /(\d{4})\/([\w-]+)\/index\.md$/;
 
 /**
  * Convert absolute path of markdown file to public url of blog entry
  */
 function toPathname(blogDirectory, markdownPathname) {
-  const entryPathname = path.dirname(markdownPathname).substring(blogDirectory.length);
-  return `/blog/entry${entryPathname}`;
+  // TODO refactor the whole generator process to prevent reading markdown many times.
+
+  // Get created date to generate pathname
+  const md = new Remarkable();
+  md.use(frontMatter);
+  const env = { frontMatter: undefined };
+  const entryMarkdown = fs.readFileSync(markdownPathname, 'utf8');
+  md.render(entryMarkdown, env);
+  const createdDate = new Date(env.frontMatter.created);
+  const year = createdDate.getUTCFullYear();
+  const month = String(createdDate.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(createdDate.getUTCDate()).padStart(2, '0');
+
+  // Get slug to generate pathname
+  const found = markdownPathname.match(MARKDOWN_PATTERN);
+  const slug = found[2];
+
+  return `/blog/entry/${year}/${month}/${day}/${slug}`;
 }
 
 /**
  * Convert public url of blog entry to absolute path of markdown file
  */
 function toMarkdownPathname(blogDirectory, pathname) {
-  const entryPathname = pathname.substring('/blog/entry'.length);
-  return `${blogDirectory + entryPathname}/index.md`;
+  // const entryPathname = pathname.substring('/blog/entry'.length);
+  const found = pathname.match(PATHNAME_PATTERN);
+  const year = found[1];
+  const slug = found[4];
+  return `${blogDirectory}/${year}/${slug}/index.md`;
 }
 
 export class BlogEntryCollector {
@@ -74,8 +94,8 @@ export class BlogEntryRouteBuilder {
     md.use(extLink, { host: this.config.host });
     md.use(customRemarkable, { pathname, classes: 'blog-entry__image' });
 
-    const found = markdownFile.match(ENTRY_PATH_PATTERN);
-    const slug = found[4];
+    const found = markdownFile.match(MARKDOWN_PATTERN);
+    const slug = found[2];
     const entryMarkdown = fs.readFileSync(markdownFile, 'utf8');
     const env = { frontMatter: undefined };
     const entryHtml = md.render(entryMarkdown, env);

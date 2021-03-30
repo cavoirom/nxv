@@ -1,6 +1,6 @@
 {
   "name": "nxv-web",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "vinh's personal page",
   "main": "src/index.js",
   "dependencies": {
