@@ -45,6 +45,8 @@ export default function Blog() {
       const state = store.getState();
       store.setState({ ...state, blog: { ...state.blog, entry } });
       setLocation(pathname);
+      // Scroll page to top, otherwise the blog entry will be opened in the middle.
+      document.documentElement.scrollTop = 0;
       log.debug(`Blog entry ${pathname} is opened:`, entry);
     });
     ev.preventDefault();
