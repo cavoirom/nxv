@@ -39,7 +39,7 @@ export default function Home() {
     h(
       'div',
       { className: 'pure-g' },
-      h('div', { className: 'pure-u-1' }, h('h3', null, work.title), h('p', null, ...workEvents))
+      h('div', { className: 'pure-u-1' }, h('h3', null, work.title), ...workEvents)
     )
   );
 }
