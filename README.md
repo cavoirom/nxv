@@ -1,4 +1,4 @@
-# nguyenxuanvinh.com
+# ngxv.org
 
 [![Publish](https://travis-ci.com/cavoirom/nxv.svg?branch=main "Publish")](https://travis-ci.com/cavoirom/nxv)
 
@@ -56,4 +56,4 @@ npm run publish
 
 ## Travis Integration
 
-*(to be defined)*
+<https://travis-ci.com/github/cavoirom/nxv>
