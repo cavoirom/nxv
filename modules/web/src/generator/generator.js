@@ -61,23 +61,29 @@ function generatePages(generators, routes) {
 }
 
 function generateCacheRoutes() {
-  const excludedPaths = ['', 'index.html', 'api', 'worker.js', 'worker.js.map', 'CNAME'];
+  const excludedPaths = ['', 'blog', 'index.html', 'api', 'api/blog.json', 'worker.js', 'worker.js.map', 'CNAME'];
   const additionalPaths = [];
 
   // List all files in /build/dist folder
   const fileNames = fs.readdirSync(config.output);
 
   // Create routes to be caches in local
-  const cacheRoutes = fileNames
+  const cacheIdentifier = `asset-${new Date().getTime()}`;
+  const precachedResources = fileNames
     .concat(additionalPaths)
     .filter((fileName) => !excludedPaths.includes(fileName))
-    .map((fileName) => `"/${fileName}"`)
+    .map((fileName) => `'/${fileName}'`)
     .join(',');
+  const excludedResources = excludedPaths.map((excludedPath) => `'/${excludedPath}'`).join(',');
 
   // Replace the place holder routes array with real informations
   const workerPath = `${config.output}/worker.js`;
-  const workerText = fs.readFileSync(workerPath, 'utf8');
-  fs.writeFileSync(workerPath, workerText.replace('"route-place-holder"', cacheRoutes), { encoding: 'utf8' });
+  const workerText = fs
+    .readFileSync(workerPath, 'utf8')
+    .replace('<cache-identifier>', cacheIdentifier)
+    .replace('"<precached-resources>"', precachedResources)
+    .replace('"<excluded-resources>"', excludedResources);
+  fs.writeFileSync(workerPath, workerText, { encoding: 'utf8' });
 }
 
 function main() {

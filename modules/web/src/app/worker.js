@@ -1,45 +1,37 @@
 import { log } from './shared/logger.js';
 
-const assetCacheName = 'asset';
-// cacheResources will be keep every time we activate service worker, other routes will be cleaned up to reduce cache size.
-const cacheResources = ['route-place-holder'];
+// The cachName will identify the current cache version, every release will
+// have different cache version to prevent oudated files being cached and new
+// resources are not served correctly.
+//
+// The place holders will be replaced when running the
+// generator.
+const cacheIdentifier = '<cache-identifier>';
+// PrecachedResources will be keep every time we activate service worker,
+// other routes will be cleaned up to reduce cache size.
+const precachedResources = ['<precached-resources>'];
+// excludedResources will not be cached to prevent outdated.
+const excludedResources = ['<excluded-resources>'];
 
 self.addEventListener('install', (event) => {
   // Pre-cache these resources to help page works offline.
-  event.waitUntil(caches.open(assetCacheName).then((assetCache) => assetCache.addAll(cacheResources)));
+  event.waitUntil(caches.open(cacheIdentifier).then((currentCache) => currentCache.addAll(precachedResources)));
 });
 
 self.addEventListener('activate', (event) => {
   // Clean up the caches every time a new version activated to reduce cache size.
-  const hostUrl = new URL(event.target.registration.scope);
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.map((key) => {
-            log.debug('Found cache: ', key);
-            if (key !== assetCacheName) {
-              log.debug('Delete out dated cache: ', key);
-              return caches.delete(key);
-            }
-          })
-        )
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((cacheName) => {
+          log.debug('Found cacheIdentifier: ', cacheName);
+          if (cacheName !== cacheIdentifier) {
+            log.debug('Delete out dated cacheIdentifier: ', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
       )
-      .then(() => caches.open(assetCacheName))
-      .then((assetCache) => Promise.all([Promise.resolve(assetCache), assetCache.keys()]))
-      .then(([assetCache, keys]) =>
-        Promise.all(
-          keys.map((key) => {
-            const url = new URL(key.url);
-            if (hostUrl.host !== url.host || cacheResources.indexOf(url.pathname) === -1) {
-              log.debug('Clean up outdated resource: ', key.url);
-              return assetCache.delete(key);
-            }
-            log.debug('Resource unchanged, keep the cache: ', key.url);
-          })
-        )
-      )
+    )
   );
 });
 
@@ -52,8 +44,14 @@ self.addEventListener('fetch', (event) => {
       }
 
       return fetch(event.request).then((response) => {
-        // Check if we received a valid response
+        // Will not cache response which is not present, not successful, or not normal.
         if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
+        }
+
+        // Will not cache excluded resources
+        const requestUrl = new URL(event.request.url);
+        if (excludedResources.indexOf(requestUrl.pathname) !== -1) {
           return response;
         }
 
@@ -63,7 +61,7 @@ self.addEventListener('fetch', (event) => {
         // to clone it so we have two streams.
         const toBeCachedResponse = response.clone();
 
-        caches.open(assetCacheName).then((cache) => {
+        caches.open(cacheIdentifier).then((cache) => {
           cache.put(event.request, toBeCachedResponse);
         });
 
