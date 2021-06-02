@@ -25,7 +25,8 @@
     "remarkable": "^2.0.1",
     "remarkable-extlink": "^1.1.1",
     "remarkable-front-matter": "^1.0.1-beta.1",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "sqlite3": "^5.0.2"
   },
   "scripts": {
     "dev": "script/dev",

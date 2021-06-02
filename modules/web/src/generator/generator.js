@@ -1,67 +1,31 @@
-import fs from 'fs';
+import CacheStore from './cache-store/cache-store.js';
+import HomeCollector from './collector/home-collector.js';
+import BlogCollector from './collector/blog-collector.js';
 import config from './config.js';
-import { BlogEntryCollector, BlogEntryPageGenerator, BlogEntryRouteBuilder } from './blog-entries.js';
-import { DefaultCollector, DefaultPageGenerator, DefaultRouteBuilder } from './defaults.js';
-import { BlogCollector, BlogPageGenerator, BlogRouteBuilder } from './blogs.js';
+import StaticPageRenderer from './renderer/static-page-renderer';
+import BlogEntryCollector from './collector/blog-entry-collector';
+import BlogEntryRenderer from './renderer/blog-entry-renderer';
+import fs from 'fs';
 
-/*
- * The collectors will based on configuration to explore the pathnames.
- */
-function collectPathnames(collectors) {
-  const reducer = (accumulator, currentValue) => accumulator.concat(currentValue);
-  return collectors.map((collector) => collector.collectPathnames()).reduce(reducer, []);
-}
-
-/*
- * The builders will create route with all required information to generate page.
- * Route structure:
- * - pathname
- * - state
- * - (route specific metadata based on individual type)
- */
-function buildRoutes(builders, pathnames) {
-  return pathnames
-    .map((pathname) => {
-      const builder = builders.find((builder) => {
-        if (builder.isValid(pathname)) {
-          return builder;
-        }
-      });
-      if (builder) {
-        return builder.buildRoute(pathname);
-      }
-    })
-    .filter((route) => !!route);
-}
-
-/*
- * The generators will base on route to generate static page.
- * Generated artifact:
- * - index.html
- * - index.json
- * - partial.json
- * - (page specific artifact such as image, icon...)
- */
-function generatePages(generators, routes) {
+function _generateDefaultState(config) {
   // Generate default state
   fs.mkdirSync(`${config.output}/api`, { recursive: true });
   fs.writeFileSync(`${config.output}/api/default.json`, JSON.stringify(config.defaultState), { encoding: 'utf8' });
-
-  routes.forEach((route) => {
-    console.log(`Generated: ${route.pathname}`);
-    const generator = generators.find((generator) => {
-      if (generator.isValid(route)) {
-        return generator;
-      }
-    });
-    if (generator) {
-      generator.generatePage(route);
-    }
-  });
 }
 
-function generateCacheRoutes() {
-  const excludedPaths = ['', 'blog', 'index.html', 'api', 'api/blog.json', 'worker.js', 'worker.js.map', 'CNAME'];
+function _generateCacheRoutes(config) {
+  // TODO should reimplement this cache.
+  const excludedPaths = [
+    '',
+    'blog',
+    'index.html',
+    'api',
+    'api/blog.json',
+    'worker.js',
+    'worker.js.map',
+    'CNAME',
+    '.DS_Store',
+  ];
   const additionalPaths = [];
 
   // List all files in /build/dist folder
@@ -86,24 +50,37 @@ function generateCacheRoutes() {
   fs.writeFileSync(workerPath, workerText, { encoding: 'utf8' });
 }
 
-function main() {
-  const pathnames = collectPathnames([
-    new DefaultCollector(config),
-    new BlogCollector(config),
-    new BlogEntryCollector(config),
-  ]);
+(async () => {
+  // Path to cache database
+  const db = ':memory:';
+  // The cache store
+  const cacheStore = new CacheStore(db);
+  // Initialize the database schema
+  cacheStore.initialize();
+  // The collectors to generate cache metadata
+  const collectors = [
+    new HomeCollector(cacheStore, config),
+    new BlogEntryCollector(cacheStore, config),
+    new BlogCollector(cacheStore, config),
+  ];
+  // Collect the pages
+  for (const collector of collectors) {
+    await collector.collect();
+  }
+  // Render the pages
+  const pages = await cacheStore.findAllPage();
+  const staticPageRenderer = new StaticPageRenderer(config);
+  const blogEntryRenderer = new BlogEntryRenderer(config);
+  for (const page of pages) {
+    console.log(`Render page: ${page.url}`);
+    if (page.type === 'STATIC' || page.type === 'BLOG') {
+      staticPageRenderer.render(page);
+    } else if (page.type === 'BLOG_ENTRY') {
+      blogEntryRenderer.render(page);
+    }
+  }
 
-  const routes = buildRoutes(
-    [new DefaultRouteBuilder(config), new BlogRouteBuilder(config), new BlogEntryRouteBuilder(config)],
-    pathnames
-  );
+  _generateDefaultState(config);
 
-  generatePages(
-    [new DefaultPageGenerator(config), new BlogPageGenerator(config), new BlogEntryPageGenerator(config)],
-    routes
-  );
-
-  generateCacheRoutes();
-}
-
-main();
+  _generateCacheRoutes(config);
+})();
