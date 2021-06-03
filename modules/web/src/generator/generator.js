@@ -69,16 +69,21 @@ function _generateCacheRoutes(config) {
   }
   // Render the pages
   const pages = await cacheStore.findAllPage();
-  const staticPageRenderer = new StaticPageRenderer(config);
-  const blogEntryRenderer = new BlogEntryRenderer(config);
-  for (const page of pages) {
-    console.log(`Render page: ${page.url}`);
-    if (page.type === 'STATIC' || page.type === 'BLOG') {
-      staticPageRenderer.render(page);
-    } else if (page.type === 'BLOG_ENTRY') {
-      blogEntryRenderer.render(page);
+  const renderers = {
+    STATIC: new StaticPageRenderer(config),
+    BLOG: new StaticPageRenderer(config),
+    BLOG_ENTRY: new BlogEntryRenderer(config),
+  };
+  const rendererWorks = pages.map((page) => {
+    const renderer = renderers[page.type];
+    if (renderer) {
+      console.log(`Render page: ${page.url}`);
+      renderer.render(page);
+    } else {
+      console.log(`No renderer for page: ${page.type} ${page.url}`);
     }
-  }
+  });
+  await Promise.all(rendererWorks);
 
   _generateDefaultState(config);
 
