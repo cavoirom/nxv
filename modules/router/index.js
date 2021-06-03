@@ -7,15 +7,15 @@ REDIRECT_ROUTES.set("/home/", "/home");
 REDIRECT_ROUTES.set("/index.html", "/blog");
 REDIRECT_ROUTES.set("/", "/blog");
 
-// Should redirect nguyenxuanvinh.com/blog/entry/*/index.html
-const REDIRECT_ENTRY_PATTERN = /(?:(\/blog\/entry\/[\d\/]+[\w-]+)(\/(?:index\.html)?))$/;
+// Should redirect /blog/**/index.html
+const REDIRECT_BLOG_CHILD_PATTERN = /(?:(\/blog\/[\w-\/]+[\d\/]+[\w-]+)(\/(?:index\.html)?))$/;
 
 const REWRITE_ROUTES = new Map();
 REWRITE_ROUTES.set("/blog", "/blog/index.html");
 REWRITE_ROUTES.set("/home", "/home/index.html");
 
-// Should rewrite nguyenxuanvinh.com/blog/entry/<blog-post-title>
-const REWRITE_ENTRY_PATTERN = /(?:\/blog\/entry\/[\d\/]+[\w-]+)$/;
+// Should rewrite /blog/**
+const REWRITE_BLOG_CHILD_PATTERN = /(?:\/blog\/[\w-\/]+[\d\/]+[\w-]+)$/;
 
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
@@ -32,10 +32,10 @@ async function handleRequest(request) {
     );
   } else if (REWRITE_ROUTES.has(url.pathname)) {
     return fetch(url.origin + REWRITE_ROUTES.get(url.pathname));
-  } else if (REDIRECT_ENTRY_PATTERN.test(url.pathname)) {
-    const result = REDIRECT_ENTRY_PATTERN.exec(url.pathname);
+  } else if (REDIRECT_BLOG_CHILD_PATTERN.test(url.pathname)) {
+    const result = REDIRECT_BLOG_CHILD_PATTERN.exec(url.pathname);
     return Response.redirect(result[1], 301);
-  } else if (REWRITE_ENTRY_PATTERN.test(url.pathname)) {
+  } else if (REWRITE_BLOG_CHILD_PATTERN.test(url.pathname)) {
     return fetch(url.href + "/index.html");
   }
 

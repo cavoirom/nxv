@@ -80,7 +80,10 @@ export default class BlogEntryCollector {
     md.use(customRemarkable, { pathname: `./${slug}`, classes: 'blog-entry__image' });
 
     const entryHtml = md.render(blogEntryMarkdown, env);
-    const tags = env.frontMatter.tags.split(',').map((tag) => tag.trim());
+    const tags = env.frontMatter.tags
+      .split(',')
+      .map((tag) => tag.trim())
+      .sort();
 
     return {
       title: env.frontMatter.title,

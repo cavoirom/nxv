@@ -87,4 +87,12 @@ export default class CacheStore {
   async findBlogEntryPages() {
     return this.pageRepo.findBlogEntries();
   }
+
+  async findBlogEntryTags() {
+    return this.pageRepo.findBlogEntryTags();
+  }
+
+  async findBlogEntriesByTag(tag) {
+    return this.pageRepo.findBlogEntriesByTag(tag);
+  }
 }

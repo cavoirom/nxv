@@ -35,6 +35,7 @@
     "title": "vinh"
   },
   "blog": {
-    "entries": []
+    "entries": [],
+    "entriesByTag": []
   }
 }

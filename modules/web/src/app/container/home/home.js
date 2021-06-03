@@ -36,10 +36,6 @@ export default function Home() {
       { className: 'pure-g' },
       h('div', { className: 'pure-u-1' }, h('h3', null, journey.title), ...journeyEvents)
     ),
-    h(
-      'div',
-      { className: 'pure-g' },
-      h('div', { className: 'pure-u-1' }, h('h3', null, work.title), ...workEvents)
-    )
+    h('div', { className: 'pure-g' }, h('div', { className: 'pure-u-1' }, h('h3', null, work.title), ...workEvents))
   );
 }

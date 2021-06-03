@@ -9,6 +9,7 @@ export default class BlogCollector {
   async collect() {
     const { defaultState } = this.config;
     const blogEntryPages = await this.cacheStore.findBlogEntryPages();
+    // Get blog entry without content.
     const blogEntries = blogEntryPages.map((blogEntryPage) => {
       const { blogEntry } = blogEntryPage;
       return {

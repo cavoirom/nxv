@@ -8,7 +8,7 @@ export default function Header() {
 
   const site = useSelector((state) => state.site);
   const [homeRouteMatched] = useRoute('/home');
-  const [blogRouteMatched] = useRoute('/blog/:entryUrl*');
+  const [blogRouteMatched] = useRoute('/blog/:childUrl*');
 
   if (!site) {
     return h(Fragment);

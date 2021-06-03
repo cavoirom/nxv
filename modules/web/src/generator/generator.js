@@ -6,6 +6,7 @@ import StaticPageRenderer from './renderer/static-page-renderer';
 import BlogEntryCollector from './collector/blog-entry-collector';
 import BlogEntryRenderer from './renderer/blog-entry-renderer';
 import fs from 'fs';
+import BlogTagCollector from './collector/blog-tag-collector';
 
 function _generateDefaultState(config) {
   // Generate default state
@@ -53,6 +54,7 @@ function _generateCacheRoutes(config) {
 (async () => {
   // Path to cache database
   const db = ':memory:';
+  // const db = './cache.sqlite';
   // The cache store
   const cacheStore = new CacheStore(db);
   // Initialize the database schema
@@ -62,6 +64,7 @@ function _generateCacheRoutes(config) {
     new HomeCollector(cacheStore, config),
     new BlogEntryCollector(cacheStore, config),
     new BlogCollector(cacheStore, config),
+    new BlogTagCollector(cacheStore, config),
   ];
   // Collect the pages
   for (const collector of collectors) {
@@ -73,6 +76,7 @@ function _generateCacheRoutes(config) {
     STATIC: new StaticPageRenderer(config),
     BLOG: new StaticPageRenderer(config),
     BLOG_ENTRY: new BlogEntryRenderer(config),
+    BLOG_TAG: new StaticPageRenderer(config),
   };
   const rendererWorks = pages.map((page) => {
     const renderer = renderers[page.type];

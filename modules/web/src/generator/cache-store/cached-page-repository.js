@@ -6,6 +6,8 @@ export default class CachedPageRepository {
       VALUES ( $url, $type, json($state), json($partialState), $hash, json($tags), $blogEntryDirectory, json($blogEntry) );`;
   static FIND_ALL_STATEMENT = `SELECT * FROM CachedPage;`;
   static FIND_BLOG_ENTRIES_STATEMENT = `SELECT *, json_extract(blogEntry, '$.updated') as updated FROM CachedPage WHERE type = 'BLOG_ENTRY' ORDER BY updated DESC`;
+  static FIND_BLOG_ENTRY_TAGS_STATEMENT = `SELECT DISTINCT value as tag FROM cachedPage, json_each(cachedPage.tags)WHERE cachedPage.type = 'BLOG_ENTRY' ORDER BY tag;`;
+  static FIND_BLOG_ENTRIES_BY_TAG_STATEMENT = `SELECT cachedPage.*, json_extract(cachedPage.blogEntry, '$.updated') as updated FROM cachedPage, json_each(cachedPage.tags) WHERE cachedPage.type = 'BLOG_ENTRY' AND json_each.value = $tag ORDER BY updated DESC;`;
 
   constructor(connection) {
     this.connection = connection;
@@ -69,6 +71,38 @@ export default class CachedPageRepository {
         const pages = rows.map(CachedPageRepository.toPage);
         resolve(pages);
       });
+    });
+    return result;
+  }
+
+  async findBlogEntryTags() {
+    const result = new Promise((resolve, reject) => {
+      this.connection.all(CachedPageRepository.FIND_BLOG_ENTRY_TAGS_STATEMENT, function (error, rows) {
+        if (error) {
+          reject(error);
+          return;
+        }
+        const tags = rows.map((row) => row.tag);
+        resolve(tags);
+      });
+    });
+    return result;
+  }
+
+  async findBlogEntriesByTag(tag) {
+    const result = new Promise((resolve, reject) => {
+      this.connection.all(
+        CachedPageRepository.FIND_BLOG_ENTRIES_BY_TAG_STATEMENT,
+        { $tag: tag },
+        function (error, rows) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          const pages = rows.map(CachedPageRepository.toPage);
+          resolve(pages);
+        }
+      );
     });
     return result;
   }
