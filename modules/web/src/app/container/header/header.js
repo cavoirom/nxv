@@ -20,13 +20,13 @@ export default function Header() {
   function openBlog(ev) {
     const blogUrl = ev.target.getAttribute('href');
     log.debug(`Opening blog: ${blogUrl}`);
-    fetchPartialState(blogUrl).then((blog) => {
+    fetchPartialState(blogUrl).then((entries) => {
       const state = store.getState();
-      store.setState({ ...state, blog });
+      store.setState({ ...state, blog: { ...state.blog, entries } });
       setLocation(blogUrl);
       // Scroll page to top, otherwise the blog entry will be opened in the middle.
       document.documentElement.scrollTop = 0;
-      log.debug(`Blog ${blogUrl} is opened:`, blog);
+      log.debug(`Blog ${blogUrl} is opened:`, entries);
     });
     ev.preventDefault();
   }

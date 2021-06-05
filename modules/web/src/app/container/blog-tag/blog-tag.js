@@ -5,24 +5,28 @@ import { useEffect } from 'preact/hooks';
 import { fetchPartialState } from '../../store/action.js';
 import { log } from '../../shared/logger.js';
 import { SimpleBlogEntry } from '../blog-entry/blog-entry';
+import dlv from 'dlv';
 
 const BLOG_TAG_URL_PATTERN = /\/blog\/tag\/([\w-/]+)/;
 
 export default function BlogTag() {
   // VARIABLES
-  const blog = useSelector((state) => state.blog);
+  const entriesByTag = useSelector((state) => dlv(state, 'blog.entriesByTag'));
   const [location] = useLocation();
   const tag = location.match(BLOG_TAG_URL_PATTERN)[1];
   const title = useSelector((state) => `${state.site.title} - tag:${tag}`);
 
-  log.debug('Render Blog Tag:', blog);
+  log.debug('Render Blog Tag:', entriesByTag);
 
   // EVENT HANDLERS
   const fetchBlogTagAction = useAction((state) => {
-    return fetchPartialState(location).then((blog) => {
+    return fetchPartialState(location).then((entriesByTag) => {
       return Promise.resolve({
         ...state,
-        blog,
+        blog: {
+          ...state.blog,
+          entriesByTag,
+        },
       });
     });
   });
@@ -35,17 +39,16 @@ export default function BlogTag() {
 
   // Initialize blog if it's undefined
   useEffect(() => {
-    if (!blog || !blog.entriesByTag || !blog.entriesByTag.length > 0) {
+    if (!entriesByTag || entriesByTag.length === 0) {
       fetchBlogTagAction();
     }
   });
 
   // RENDER COMPONENT
-  if (!blog) {
+  if (!entriesByTag || entriesByTag.length <= 0) {
     return h(Fragment);
   }
 
-  const { entriesByTag } = blog;
   const titleItem = h(
     'div',
     { className: 'pure-g' },
@@ -53,4 +56,8 @@ export default function BlogTag() {
   );
   const entryItems = entriesByTag.map((item) => h(SimpleBlogEntry, { blogEntry: item }));
   return h(Fragment, null, titleItem, entryItems);
+}
+
+export function isBlogTagUrl(blogTagUrl) {
+  return BLOG_TAG_URL_PATTERN.test(blogTagUrl);
 }

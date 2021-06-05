@@ -93,6 +93,6 @@ export function SimpleBlogEntry({ children, ...props }) {
   return h('div', { key: blogEntry.url, className: 'blog-entry pure-g' }, wrapper);
 }
 
-export function isEntryUrl(entryUrl) {
-  return BLOG_ENTRY_URL_PATTERN.test(entryUrl);
+export function isBlogEntryUrl(blogEntryUrl) {
+  return BLOG_ENTRY_URL_PATTERN.test(blogEntryUrl);
 }

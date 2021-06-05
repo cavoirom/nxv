@@ -5,19 +5,23 @@ import { useEffect } from 'preact/hooks';
 import { fetchPartialState } from '../../store/action.js';
 import { log } from '../../shared/logger.js';
 import { SimpleBlogEntry } from '../blog-entry/blog-entry';
+import dlv from 'dlv';
 
 export default function Blog() {
-  const blog = useSelector((state) => state.blog);
+  const entries = useSelector((state) => dlv(state, 'blog.entries'));
   const title = useSelector((state) => state.site.title);
   const [location] = useLocation();
 
-  log.debug('Render Blog:', blog);
+  log.debug('Render Blog:', entries);
 
   const fetchBlogAction = useAction((state) => {
-    return fetchPartialState(location).then((blog) => {
+    return fetchPartialState(location).then((entries) => {
       return Promise.resolve({
         ...state,
-        blog,
+        blog: {
+          ...state.blog,
+          entries,
+        },
       });
     });
   });
@@ -29,17 +33,15 @@ export default function Blog() {
 
   // Initialize blog if it's undefined
   useEffect(() => {
-    if (!blog || !blog.entries || !blog.entries.length > 0) {
+    if (!entries || entries.length === 0) {
       fetchBlogAction();
     }
   });
 
   // RENDER COMPONENT
-  if (!blog) {
+  if (!entries || entries.length === 0) {
     return h(Fragment);
   }
-  const { entries } = blog;
-  // const entryItems = entries.map((item) => renderSimpleBlogEntry(item, openBlogEntry, prefetchBlogEntry));
   const entryItems = entries.map((item) => h(SimpleBlogEntry, { blogEntry: item }));
   return h(Fragment, null, entryItems);
 }
