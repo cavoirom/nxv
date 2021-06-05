@@ -1,15 +1,37 @@
 import { h, Fragment } from 'preact';
-import { useSelector } from '@preact-hooks/unistore';
-import { Link, useRoute } from 'wouter-preact';
+import {useSelector, useStore} from '@preact-hooks/unistore';
+import { Link, useLocation, useRoute } from 'wouter-preact';
 import { log } from '../../shared/logger.js';
+import { fetchPartialState } from '../../store/action';
 
 export default function Header() {
   log.debug('Render Header.');
 
+  // VARIABLES
   const site = useSelector((state) => state.site);
   const [homeRouteMatched] = useRoute('/home');
   const [blogRouteMatched] = useRoute('/blog/:childUrl*');
+  // eslint-disable-next-line no-unused-vars
+  const [location, setLocation] = useLocation();
+  const store = useStore();
 
+  // EVENT HANDLERS
+  // Open blog when blog link is clicked.
+  function openBlog(ev) {
+    const blogUrl = ev.target.getAttribute('href');
+    log.debug(`Opening blog: ${blogUrl}`);
+    fetchPartialState(blogUrl).then((blog) => {
+      const state = store.getState();
+      store.setState({ ...state, blog });
+      setLocation(blogUrl);
+      // Scroll page to top, otherwise the blog entry will be opened in the middle.
+      document.documentElement.scrollTop = 0;
+      log.debug(`Blog ${blogUrl} is opened:`, blog);
+    });
+    ev.preventDefault();
+  }
+
+  // RENDER COMPONENT
   if (!site) {
     return h(Fragment);
   }
@@ -25,8 +47,12 @@ export default function Header() {
     'li',
     { className: 'navigator__item' },
     h(
-      Link,
-      { href: '/blog', className: `navigator__link ${blogRouteMatched && 'navigator__link--active'}` },
+      'a',
+      {
+        href: '/blog',
+        className: `navigator__link ${blogRouteMatched && 'navigator__link--active'}`,
+        onClick: openBlog,
+      },
       'to be continued'
     )
   );
