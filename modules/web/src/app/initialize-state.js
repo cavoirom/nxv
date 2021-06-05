@@ -1,4 +1,4 @@
-import { isEntryUrl } from './shared/blog-entries.js';
+import { isEntryUrl } from './container/blog-entry/blog-entry.js';
 import { fetchDefaultState, fetchPartialState } from './store/action.js';
 
 export default function initializeState(location) {

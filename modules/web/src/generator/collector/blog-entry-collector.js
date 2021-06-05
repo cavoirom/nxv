@@ -84,9 +84,11 @@ export default class BlogEntryCollector {
       .split(',')
       .map((tag) => tag.trim())
       .sort();
+    const url = this._toBlogEntryUrl(slug, env.frontMatter.created);
 
     return {
       title: env.frontMatter.title,
+      url,
       slug,
       author: env.frontMatter.author,
       preview: env.frontMatter.preview,
@@ -95,5 +97,16 @@ export default class BlogEntryCollector {
       content: entryHtml,
       tags,
     };
+  }
+
+  _toBlogEntryUrl(slug, created) {
+    if (!created) {
+      throw new Error('Could not create blog entry url because blog entry is null.');
+    }
+    const createdDate = new Date(created);
+    const year = createdDate.getUTCFullYear();
+    const month = String(createdDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(createdDate.getUTCDate()).padStart(2, '0');
+    return `/blog/entry/${year}/${month}/${day}/${slug}`;
   }
 }
