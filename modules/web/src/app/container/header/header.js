@@ -1,5 +1,5 @@
 import { h, Fragment } from 'preact';
-import {useSelector, useStore} from '@preact-hooks/unistore';
+import { useSelector, useStore } from '@preact-hooks/unistore';
 import { Link, useLocation, useRoute } from 'wouter-preact';
 import { log } from '../../shared/logger.js';
 import { fetchPartialState } from '../../store/action';

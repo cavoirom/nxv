@@ -22,6 +22,7 @@ export default function Tags({ children, tags }) {
       document.documentElement.scrollTop = 0;
       log.debug(`Blog tag ${tagUrl} is opened:`, blog);
     });
+    ev.preventDefault();
   }
 
   // RENDER COMPONENT
