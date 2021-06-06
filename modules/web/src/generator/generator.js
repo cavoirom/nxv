@@ -51,7 +51,7 @@ function _generateCacheRoutes(config) {
   fs.writeFileSync(workerPath, workerText, { encoding: 'utf8' });
 }
 
-(async () => {
+async function generate(config) {
   // Path to cache database
   const db = ':memory:';
   // const db = './cache.sqlite';
@@ -92,4 +92,8 @@ function _generateCacheRoutes(config) {
   _generateDefaultState(config);
 
   _generateCacheRoutes(config);
+}
+
+(async () => {
+  await generate(config);
 })();
