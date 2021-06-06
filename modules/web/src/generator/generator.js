@@ -71,7 +71,7 @@ async function generate(config) {
     await collector.collect();
   }
   // Render the pages
-  const pages = await cacheStore.findAllPage();
+  const pages = await cacheStore.findAllPages();
   const renderers = {
     STATIC: new StaticPageRenderer(config),
     BLOG: new StaticPageRenderer(config),

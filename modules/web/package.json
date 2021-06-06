@@ -13,11 +13,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.13.13",
+    "@testing-library/preact": "^2.0.1",
+    "@testing-library/preact-hooks": "^1.1.0",
     "cheerio": "^1.0.0-rc.5",
     "eslint": "^7.23.0",
     "eslint-config-preact": "^1.1.3",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^27.0.4",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-static-files-copy": "^2.6.0",
     "preact-render-to-string": "^5.1.17",
@@ -29,11 +32,11 @@
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "dev": "script/dev",
+    "dev": "script/serve",
     "build": "script/build",
     "lint": "script/lint",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "script/build && parcel serve --port 4321  --out-dir dist src/app/index.html",
+    "test": "script/test",
+    "serve": "script/serve",
     "publish": "script/publish"
   },
   "repository": {
@@ -59,5 +62,6 @@
   "bugs": {
     "url": "https://github.com/cavoirom/nxv/issues"
   },
-  "homepage": "https://github.com/cavoirom/nxv#readme"
+  "homepage": "https://github.com/cavoirom/nxv#readme",
+  "type": "module"
 }

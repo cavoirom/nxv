@@ -1,10 +1,8 @@
 #!/bin/sh
 set -e
-
-NODE_OPTIONS=--experimental-vm-modules npx jest
 rm -rf build
 npx parcel build src/app/index.html --target browser --out-dir build/dist &
 npx parcel build src/generator/generator.js --target node --out-dir build/generator --out-file generator.cjs &
 wait
 NODE_ENV=production node build/generator/generator.cjs
-rm -rf dist && cp -r build/dist dist
+npx parcel serve --port 4321  --out-dir build/dist src/app/index.html

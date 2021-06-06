@@ -76,7 +76,7 @@ export default class CacheStore {
     // TODO remove page by id.
   }
 
-  async findAllPage() {
+  async findAllPages() {
     const pages = await this.pageRepo.findAll();
     for (const page of pages) {
       page.files = await this.fileRepo.findByPageId(page.id);
