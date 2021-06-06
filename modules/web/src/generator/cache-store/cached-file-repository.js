@@ -1,4 +1,4 @@
-import CachedFile from './cached-file';
+import CachedFile from './cached-file.js';
 
 export default class CachedFileRepository {
   static FIND_STATEMENT = `SELECT * FROM CachedFile WHERE id = $fileId;`;

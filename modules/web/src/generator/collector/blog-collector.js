@@ -1,4 +1,4 @@
-import CachedPage from '../cache-store/cached-page';
+import CachedPage from '../cache-store/cached-page.js';
 
 export default class BlogCollector {
   constructor(cacheStore, config) {

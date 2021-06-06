@@ -1,5 +1,5 @@
-import CachedPage from './cached-page';
-import CachedFile from './cached-file';
+import CachedPage from './cached-page.js';
+import CachedFile from './cached-file.js';
 
 export default class CachedPageRepository {
   static ADD_STATEMENT = `INSERT INTO CachedPage ( url, type, state, partialState, hash, tags, blogEntryDirectory, blogEntry )

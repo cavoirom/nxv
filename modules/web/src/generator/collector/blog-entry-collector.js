@@ -1,10 +1,10 @@
 import { Remarkable } from 'remarkable';
 import frontMatter from 'remarkable-front-matter';
 import extLink from 'remarkable-extlink';
-import customRemarkable from '../remarkable-rules';
+import customRemarkable from '../remarkable-rules.js';
 import fs from 'fs';
 import path from 'path';
-import CachedPage from '../cache-store/cached-page';
+import CachedPage from '../cache-store/cached-page.js';
 
 const SLUG_PATTERN = /(\d{4})\/([\w-]+)\/index\.md$/;
 

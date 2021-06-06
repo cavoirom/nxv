@@ -1,13 +1,13 @@
 import path from 'path';
-// TODO We should use standard Node.js for read file.
-import defaultState from './default-state.json';
+import fs from 'fs';
+
+const defaultStateJson = fs.readFileSync(path.resolve(process.cwd(), 'src/generator/default-state.json'), 'utf8');
+const defaultState = JSON.parse(defaultStateJson);
 
 const config = {
   output: path.resolve(process.cwd(), 'build/dist'),
   content: path.resolve(process.cwd(), 'src/content'),
   host: 'ngxv.org',
-  static: '',
-  defaultPathnames: ['/', '/home'],
   defaultState,
 };
 

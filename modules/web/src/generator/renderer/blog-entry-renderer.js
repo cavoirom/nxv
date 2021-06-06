@@ -1,4 +1,4 @@
-import Renderer from './renderer';
+import Renderer from './renderer.js';
 import fs from 'fs';
 import path from 'path';
 

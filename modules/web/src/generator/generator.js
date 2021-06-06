@@ -2,11 +2,11 @@ import CacheStore from './cache-store/cache-store.js';
 import HomeCollector from './collector/home-collector.js';
 import BlogCollector from './collector/blog-collector.js';
 import config from './config.js';
-import StaticPageRenderer from './renderer/static-page-renderer';
-import BlogEntryCollector from './collector/blog-entry-collector';
-import BlogEntryRenderer from './renderer/blog-entry-renderer';
+import StaticPageRenderer from './renderer/static-page-renderer.js';
+import BlogEntryCollector from './collector/blog-entry-collector.js';
+import BlogEntryRenderer from './renderer/blog-entry-renderer.js';
 import fs from 'fs';
-import BlogTagCollector from './collector/blog-tag-collector';
+import BlogTagCollector from './collector/blog-tag-collector.js';
 
 function _generateDefaultState(config) {
   // Generate default state

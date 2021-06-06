@@ -1,12 +1,12 @@
 import render from 'preact-render-to-string';
 import fs from 'fs';
 import cheerio from 'cheerio';
-import { configureStore } from '../../app/store/store';
+import { configureStore } from '../../app/store/store.js';
 import { h } from 'preact';
 import { StoreProvider as Provider } from '@preact-hooks/unistore';
 import { Router } from 'wouter-preact';
 import staticLocationHook from 'wouter-preact/static-location';
-import App from '../../app/container/app/app';
+import App from '../../app/container/app/app.js';
 import path from 'path';
 
 export default class Renderer {

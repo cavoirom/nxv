@@ -1,5 +1,5 @@
 import Collector from './collector';
-import CachedPage from '../cache-store/cached-page';
+import CachedPage from '../cache-store/cached-page.js';
 
 export default class BlogTagCollector extends Collector {
   async collect() {
