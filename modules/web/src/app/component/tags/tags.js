@@ -1,6 +1,11 @@
 import { h } from 'preact';
-import { useStore } from '@preact-hooks/unistore';
-import { fetchPartialState } from '../../store/action';
+// The normal `import { useStore } from '@preact-hooks/unistore'` is not working with Jest.
+import * as unistoreHooks from '@preact-hooks/unistore';
+// In Jest, all functions are available in unistoreHooks.default. The rest will use unistoreHooks.
+// The only way to mock the module is modifying module.default object.
+const { useStore } = unistoreHooks.default || unistoreHooks;
+import action from '../../store/action.js';
+const { fetchPartialState } = action;
 import { log } from '../../shared/logger';
 import { useLocation } from 'wouter-preact';
 

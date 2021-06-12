@@ -4,8 +4,9 @@ import { useSelector, useStore } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
 import dlv from 'dlv';
 import { log } from '../../shared/logger.js';
-import Tags from '../../component/tags/tags';
-import { fetchPartialState, toPartialStateUrl } from '../../store/action';
+import Tags from '../../component/tags/tags.js';
+import action from '../../store/action.js';
+const { fetchPartialState, toPartialStateUrl } = action;
 
 const BLOG_ENTRY_URL_PATTERN = /\/blog\/entry\/[\w-/]+/;
 

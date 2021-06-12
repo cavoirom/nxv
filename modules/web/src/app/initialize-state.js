@@ -1,5 +1,6 @@
 import { isBlogEntryUrl } from './container/blog-entry/blog-entry.js';
-import { fetchDefaultState, fetchPartialState } from './store/action.js';
+import action from './store/action.js';
+const { fetchDefaultState, fetchPartialState } = action;
 import { isBlogTagUrl } from './container/blog-tag/blog-tag';
 
 export default function initializeState(location) {

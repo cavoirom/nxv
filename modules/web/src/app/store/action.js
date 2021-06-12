@@ -1,11 +1,17 @@
-export function fetchDefaultState() {
+function fetchDefaultState() {
   return fetch('/api/default.json').then((response) => response.json());
 }
 
-export function fetchPartialState(pageUrl) {
+function fetchPartialState(pageUrl) {
   return fetch(toPartialStateUrl(pageUrl)).then((response) => response.json());
 }
 
-export function toPartialStateUrl(pageUrl) {
+function toPartialStateUrl(pageUrl) {
   return `/api${pageUrl}.json`;
 }
+
+export default {
+  fetchDefaultState,
+  fetchPartialState,
+  toPartialStateUrl,
+};

@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-
 import { h } from 'preact';
 import { render, screen } from '@testing-library/preact';
 import EventSection from '../../../../src/app/component/event-section/event-section';
