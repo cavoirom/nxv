@@ -3,7 +3,7 @@ title: OpenBSD
 author: vinh
 preview: I experiment with OpenBSD as my server OS
 created: 2020-12-21T07:52:11.829+07:00
-updated: 2020-12-31T07:43:29.778+07:00
+updated: 2021-06-12T16:57:23.265+07:00
 tags: self-hosted, openbsd, httpd, relayd, vim, doas
 ---
 
@@ -18,11 +18,25 @@ I recently interested in OpenBSD because of its security focus and strictly free
 
 ## Installation
 
-I followed the steps on <https://www.going-flying.com/blog/openbsd-on-digitalocean.html> because I also run my server on DigitalOcean.
+In my use case, I will install OpenBSD on DigitalOcean server. I use the smallest droplet with only $5/month and OpenBSD 6.8.
 
-It worked nicely with some information need to be noted before running the installation.
+**Step 1 ·** Prepare the droplet. Because DigitalOcean does not support OpenBSD, we will find a workaround.
 
-* OpenBSD Installer: <https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/miniroot68.img>
+* Create a FreeBSD droplet, don't need to care about file system and version because we will replace them with OpenBSD.
+* After created the droplet, power it off.
+
+**Step 2 ·** Boot the droplet and start OpenBSD installation.
+
+* Open DigitalOcean web console, select the droplet, then go to Recovery > Boot from Recovery ISO.
+* Boot the droplet, and select option 6 in the boot menu for a shell.
+* Fetch the OpenBSD Installer: <https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/miniroot68.img>
+* Write the Installer to the first hard disk: `dd if=miniroot68.img of=/dev/vda bs=512k`
+* Power off the droplet.
+* Go to Recovery > Boot from Hard Drive. Now the Hard Drive already have OpenBSD Installer.
+* Power on and the Installer will start.
+
+**Step 3 ·** Take note at some configuration.
+
 * Keyboard layout: default
 * Hostname: <hostname>
 * Network configuration:
@@ -38,7 +52,9 @@ It worked nicely with some information need to be noted before running the insta
   - base68.tgz
   - man68.tgz
 
-It's recommended to read [afterboot](https://man.openbsd.org/afterboot) after the installation. It helped me configure the newly installed host.
+**Step 4 ·** After the installation finished, it's recommended to read [afterboot](https://man.openbsd.org/afterboot) after the installation. It helped me configure the newly installed host.
+
+The above step is taken from this post <https://www.going-flying.com/blog/openbsd-on-digitalocean.html>.
 
 ## Essential tools
 
@@ -69,3 +85,9 @@ permit persist <my-username>
 Running a webserver is one of the main purpose of this server, I will setup a Webserver with TLS based on [this guideline](https://www.alexander-pluhar.de/openbsd-webserver.html), using built-in `relayd`, `httpd`, `acme` (for Let's Encrypt).
 
 Because the `httpd` is running behind `relayd`, I need to refine the configuration to keep actual source address instead the address of `relayd`, following [a post on bsdhowto.ch](https://www.bsdhowto.ch/forwarded.html).
+
+---
+*Entry History*
+
+* 2020-12-21 · Created.
+* 2021-05-12 · Updated the Installation steps.
