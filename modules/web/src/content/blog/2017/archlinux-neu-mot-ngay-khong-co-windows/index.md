@@ -4,7 +4,7 @@ author: vinh
 preview: Cái giả thuyết Windows ngày nào đó sẽ biến mất thật xa vời, nhưng ít ra, tôi đã không dùng nó từ 2 năm nay, công việc cũng như cá nhân.
 created: 2017-05-29T00:00:00.000+07:00
 updated: 2017-05-29T00:00:00.000+07:00
-tags: gui, linux, privacy
+tags: gui, linux, privacy, unix
 ---
 
 Cái giả thuyết Windows ngày nào đó sẽ biến mất thật xa vời, nhưng ít ra, tôi đã không dùng nó từ 2 năm nay, công việc cũng như cá nhân. Dù sao tôi vẫn mong mọi người cứ xài Windows bởi một lý do ích kỷ: thị trường Windows còn lớn thì hacker sẽ tập trung vào nó mà chừa Linux ra, cứ mong vậy đi, như dân làng Vũ Đại tin anh Chí có chửi chắc vẫn chừa mình ra. Nhưng đó ko hẳn là lý do tôi gắn bó với hệ điều hành Chim cụt cánh..à Cánh Cụt này. Mọi thứ bắt đầu từ ngày đẹp trời nọ..

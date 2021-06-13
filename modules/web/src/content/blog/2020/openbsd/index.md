@@ -4,7 +4,7 @@ author: vinh
 preview: I experiment with OpenBSD as my server OS
 created: 2020-12-21T07:52:11.829+07:00
 updated: 2021-06-12T16:57:23.265+07:00
-tags: self-hosted, openbsd, httpd, relayd, vim, doas
+tags: self-hosted, openbsd, httpd, relayd, vim, doas, unix
 ---
 
 I am moving my internet services from cloud to my controlled servers, to take back my data into my hands.
