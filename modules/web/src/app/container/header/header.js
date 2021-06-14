@@ -2,7 +2,8 @@ import { h, Fragment } from 'preact';
 import { useSelector, useStore } from '@preact-hooks/unistore';
 import { Link, useLocation, useRoute } from 'wouter-preact';
 import { log } from '../../shared/logger.js';
-import { fetchPartialState } from '../../store/action';
+import action from '../../store/action.js';
+const { fetchPartialState } = action;
 
 export default function Header() {
   log.debug('Render Header.');

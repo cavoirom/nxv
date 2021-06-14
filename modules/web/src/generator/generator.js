@@ -19,6 +19,7 @@ function _generateCacheRoutes(config) {
   const excludedPaths = [
     '',
     'blog',
+    'blog/index.json',
     'index.html',
     'api',
     'api/blog.json',
