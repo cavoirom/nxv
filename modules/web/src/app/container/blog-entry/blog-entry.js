@@ -1,6 +1,6 @@
 import { h, Fragment } from 'preact';
 import { useEffect } from 'preact/hooks';
-import { useSelector, useStore } from '@preact-hooks/unistore';
+import { useAction, useSelector, useStore } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
 import dlv from 'dlv';
 import { log } from '../../shared/logger.js';
@@ -16,7 +16,30 @@ export default function BlogEntry() {
 
   log.debug('Render BlogEntry:', `url: ${location}`, '| entry: ', entry);
 
+  /*
+   * When we navigate back/forward by Browser buttons, the blog entry could be undefined or incorrect.
+   * In this case, we should check the current blog entry with the url to reload blog entry if necessary.
+   */
+  const fetchBlogEntryAction = useAction((state) => {
+    return fetchPartialState(location).then((entry) => {
+      return Promise.resolve({
+        ...state,
+        blog: {
+          ...state.blog,
+          entry,
+        },
+      });
+    });
+  });
+
   // EFFECTS
+  useEffect(() => {
+    // We only fetch blog entry if the current url is blog entry url. Some time it's /blog.
+    if (isBlogEntryUrl(location) && location !== dlv(entry, 'url')) {
+      fetchBlogEntryAction();
+    }
+  });
+
   useEffect(() => {
     document.title = dlv(entry, 'title');
   });
