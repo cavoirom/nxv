@@ -3,13 +3,13 @@ title: My technologies of choice
 author: vinh
 preview: I prioritize performance, efficiency and security when choosing hardware, software and service...
 created: 2021-06-22T21:06:48.431+07:00
-updated: 2021-06-22T21:06:48.431+07:00
+updated: 2021-07-10T15:32:24.913+07:00
 tags: software, hardware, platform, macbook, macos, openbsd
 ---
 
-This blog entry is expected to be very long. I tried to explain in detail about my choice in every piece of technology. Those are what I'm using every day.
+This blog entry is expected to be very long. I tried to explain my opinion about every piece of technology. Those are what I'm using every day.
 
-In any technology, performance, efficiency and security are three top focus points I would like to consider. I'm willing to give up convenience, beautiful, feature rich to achieve some of those goals.
+In any technology, **performance**, **efficiency** and **security** are three top focus points I would like to consider. I'm willing to give up convenience, beautiful, feature rich to achieve some of those goals.
 
 ## Platform
 
@@ -74,6 +74,8 @@ When I talk about a platform, I mean hardware and operating system in combinatio
 
 ## Development
 
+I'm a Web Developer, I mostly work with Java back-end and Angular/React front-end, I care about the Terminal and the performance of every tool that I use. That's why you will see I tried to eliminate unnecessary complexity.
+
 ### Monospace Font · Fira Code
 
 * Monospace Font is very important because I'm looking at those character more than 8 hours/day, on terminal, text editor, IDE...
@@ -136,5 +138,5 @@ When I talk about a platform, I mean hardware and operating system in combinatio
 * Premium user experience.
 * Good plugins.
 * Good performance despite being built on Java Platform.
-* Why not Visual Studio Code? No thanks, the developers behind Visual Studio Code had done a great work, but I don't prefer WebApp when it's an application which I use every day, every millisecond matter.
+* Why not Visual Studio Code? No thanks, the developers behind Visual Studio Code had done a great work, but I don't prefer WebApp when it's an application which I use everyday, every millisecond matter.
 
