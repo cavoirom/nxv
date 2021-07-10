@@ -15,7 +15,7 @@ export default function BlogTag() {
   const entriesByTag = useSelector((state) => dlv(state, 'blog.entriesByTag'));
   const [location] = useLocation();
   const tag = location.match(BLOG_TAG_URL_PATTERN)[1];
-  const title = useSelector((state) => `${state.site.title} - tag:${tag}`);
+  const title = `tag:${tag} - to be continued`;
 
   log.debug('Render Blog Tag:', entriesByTag);
 

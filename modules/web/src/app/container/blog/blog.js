@@ -10,7 +10,6 @@ import dlv from 'dlv';
 
 export default function Blog() {
   const entries = useSelector((state) => dlv(state, 'blog.entries'));
-  const title = useSelector((state) => state.site.title);
   const [location] = useLocation();
 
   log.debug('Render Blog:', entries);
@@ -29,7 +28,7 @@ export default function Blog() {
 
   // Set title
   useEffect(() => {
-    document.title = title;
+    document.title = 'to be continued';
   });
 
   // Initialize blog if it's undefined

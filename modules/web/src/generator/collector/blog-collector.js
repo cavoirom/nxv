@@ -23,7 +23,7 @@ export default class BlogCollector {
         ...defaultState.blog,
         entries: blogEntries,
       },
-      pageTitle: defaultState.site.title,
+      pageTitle: 'to be continued',
     };
 
     const page = CachedPage.newBlog('/blog', 'BLOG', state, state.blog.entries);

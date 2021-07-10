@@ -24,6 +24,7 @@ export default class BlogEntryCollector {
       const { defaultState } = this.config;
       const state = {
         ...defaultState,
+        pageTitle: blogEntry.title,
         blog: {
           ...defaultState.blog,
           entry: blogEntry,
