@@ -58,11 +58,15 @@ function _renderBlogEntry(blogEntry) {
     className: 'blog-entry__content',
     dangerouslySetInnerHTML: { __html: blogEntry.content },
   });
-  const updated = h('div', { className: 'blog-entry__updated' }, `Updated: ${blogEntry.updated}`);
+  const dates = h(
+    'div',
+    { className: 'blog-entry__dates' },
+    `Created ${toDisplayDate(blogEntry.created)} · Updated ${toDisplayDate(blogEntry.updated)}`
+  );
   return h(
     'div',
     { className: 'blog-entry pure-g' },
-    h('article', { className: 'pure-u-1' }, title, tags, content, updated)
+    h('article', { className: 'pure-u-1' }, title, dates, tags, content)
   );
 }
 
@@ -119,4 +123,10 @@ export function SimpleBlogEntry({ children, ...props }) {
 
 export function isBlogEntryUrl(blogEntryUrl) {
   return BLOG_ENTRY_URL_PATTERN.test(blogEntryUrl);
+}
+
+function toDisplayDate(date) {
+  if (date) {
+    return date.slice(0, 10);
+  }
 }
