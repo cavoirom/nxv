@@ -1,11 +1,13 @@
 ---
-title: OpenBSD
+title: OpenBSD on DigitalOcean
 author: vinh
 preview: I experiment with OpenBSD as my server OS
 created: 2020-12-21T07:52:11.829+07:00
-updated: 2021-06-12T16:57:23.265+07:00
+updated: 2021-07-18T12:16:55.246+07:00
 tags: self-hosted, openbsd, httpd, relayd, vim, doas, unix
 ---
+
+*Note: you can apply this guideline for OpenBSD 6.9 and DigitalOcean, as of 07.2021.*
 
 I am moving my internet services from cloud to my controlled servers, to take back my data into my hands.
 
@@ -24,6 +26,10 @@ In my use case, I will install OpenBSD on DigitalOcean server. I use the smalles
 
 * Create a FreeBSD droplet, don't need to care about file system and version because we will replace them with OpenBSD.
 * After created the droplet, power it off.
+* Select the droplet > Networking, and write down the Public Network:
+  - Public IPv4 address.
+  - Public gateway.
+  - Subnet mask.
 
 **Step 2 ·** Boot the droplet and start OpenBSD installation.
 
@@ -38,6 +44,11 @@ In my use case, I will install OpenBSD on DigitalOcean server. I use the smalles
 **Step 3 ·** Take note at some configuration.
 
 * Keyboard layout: default
+* File system layout:
+  - `/` will have 15Gi.
+  - `swap`: 2Gi.
+  - `/home`: the rest.
+  - Adjust those information according to your droplet size.
 * Hostname: <hostname>
 * Network configuration:
   - Interface: `vio0`
@@ -51,6 +62,8 @@ In my use case, I will install OpenBSD on DigitalOcean server. I use the smalles
   - bsd.rd
   - base68.tgz
   - man68.tgz
+* Create a normal user when the intaller ask.
+* Choose UTC timezone.
 
 **Step 4 ·** After the installation finished, it's recommended to read [afterboot](https://man.openbsd.org/afterboot) after the installation. It helped me configure the newly installed host.
 
@@ -91,3 +104,5 @@ Because the `httpd` is running behind `relayd`, I need to refine the configurati
 
 * 2020-12-21 · Created.
 * 2021-05-12 · Updated the Installation steps.
+* 2021-07-18 · Update OpenBSD 6.9.
+
