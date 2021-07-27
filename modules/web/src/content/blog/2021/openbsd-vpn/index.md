@@ -15,6 +15,9 @@ The iked supports IKEv2 which is suitable for iOS and MacOS without additional c
 
 * An OpenBSD installation.
 * iked is installed by default.
+* a self-signed Root CA.
+* a server certificate and keypair.
+* a client certificate and keypair.
 
 ## Step 1 · Generate CA, certificate and keypair in PEM format
 
@@ -84,8 +87,9 @@ Create a `/etc/iked.conf` with permission `640`, otherwise iked will complain ab
 
 ```
 ikev2 "Orca VPN" passive esp \
-  from 0.0.0.0/0 to 0.0.0.0/0 \
-  peer 0.0.0.0/0 \
+  from dynamic to any \
+  from any to dynamic \
+  peer any \
   ikesa enc aes-256 \
     prf hmac-sha2-256 \
     auth hmac-sha2-256 \
@@ -98,7 +102,6 @@ ikev2 "Orca VPN" passive esp \
   config address 192.168.120.0/24 \
   config name-server 8.8.8.8 \
   config name-server 8.8.4.4 \
-  config netmask 255.255.255.0 \
   tag "$name-$id"
 ```
 
@@ -117,6 +120,21 @@ doas rcctl enable iked
 ## Step 3 · Configure firewall
 
 Allow port `500/udp` and `4500/udp`.
+
+```
+/etc/pf.conf
+---
+...
+match out on $wan inet nat-to ($wan:0)
+pass in quick on $wan inet proto udp from any to ($wan:0) port {500, 4500} keep state label ipsec
+pass in quick on $vpn inet keep state (if-bound)
+```
+
+Reload pf rules
+
+```
+pfctl -f /etc/pf.conf
+```
 
 ## Step 4 · Client configuration
 
