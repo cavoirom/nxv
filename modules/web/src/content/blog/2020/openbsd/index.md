@@ -20,7 +20,7 @@ I recently interested in OpenBSD because of its security focus and strictly free
 
 ## Installation
 
-In my use case, I will install OpenBSD on DigitalOcean server. I use the smallest droplet with only $5/month and OpenBSD 6.8.
+In my use case, I will install OpenBSD on DigitalOcean server. I use the smallest droplet with only $5/month and OpenBSD 6.9.
 
 **Step 1 ·** Prepare the droplet. Because DigitalOcean does not support OpenBSD, we will find a workaround.
 
@@ -35,8 +35,8 @@ In my use case, I will install OpenBSD on DigitalOcean server. I use the smalles
 
 * Open DigitalOcean web console, select the droplet, then go to Recovery > Boot from Recovery ISO.
 * Boot the droplet, and select option 6 in the boot menu for a shell.
-* Fetch the OpenBSD Installer: <https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/miniroot68.img>
-* Write the Installer to the first hard disk: `dd if=miniroot68.img of=/dev/vda bs=512k`
+* Fetch the OpenBSD Installer: <https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/miniroot69.img>
+* Write the Installer to the first hard disk: `dd if=miniroot69.img of=/dev/vda bs=512k`
 * Power off the droplet.
 * Go to Recovery > Boot from Hard Drive. Now the Hard Drive already have OpenBSD Installer.
 * Power on and the Installer will start.
@@ -60,8 +60,8 @@ In my use case, I will install OpenBSD on DigitalOcean server. I use the smalles
 * File sets:
   - bsd
   - bsd.rd
-  - base68.tgz
-  - man68.tgz
+  - base69.tgz
+  - man69.tgz
 * Create a normal user when the intaller ask.
 * Choose UTC timezone.
 
@@ -76,7 +76,7 @@ The above step is taken from this post <https://www.going-flying.com/blog/openbs
 Because this is a server, I will install `vim` with *no_x11* favor.
 
 ```
-pkg_add vim-8.2.1805-no_x11
+pkg_add vim-*-no_x11
 ```
 
 ### `doas`
