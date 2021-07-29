@@ -48,9 +48,11 @@
   }
 
   pre > code {
-    padding: 0.2rem;
+    padding: 0.5rem;
     width: 100%;
     box-sizing: border-box;
+    border: 1px solid;
+    font-size: 0.8rem;
   }
 }
 
