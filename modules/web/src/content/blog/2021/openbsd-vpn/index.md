@@ -3,9 +3,11 @@ title: OpenBSD's VPN
 author: vinh
 preview: Setting up my home VPN with OpenBSD
 created: 2021-01-14T07:48:59.379+07:00
-updated: 2021-07-31T14:19:33.356+07:00
+updated: 2021-07-31T17:34:24.227+07:00
 tags: self-hosted, openbsd, iked, vpn
 ---
+
+*Note: I wrote the guideline based on OpenBSD 6.9.*
 
 I'm going to setup VPN with [iked](https://man.openbsd.org/iked.8), a built-in VPN software from OpenBSD. The main focus of this setup is routing all outbound traffic from clients to my ***Gateway***. The Gateway is running OpenBSD, the clients are Android, iOS, MacOS.
 
@@ -300,12 +302,16 @@ General
 * Identifier: example
 * Organization: Example
 
+![Apple Configurator 2 - General](image/configurator_general.png 'Apple Configurator 2 - General')
+
 Certificates
 
 * Root CA.
 * Client certificate.
 
 **Note**: Apple Configurator 2 only allow PKCS12 keystore.
+
+![Apple Configurator 2 - Certificates](image/configurator_certificates.png 'Apple Configurator 2 - Certificates')
 
 VPN
 
@@ -316,6 +322,10 @@ VPN
 * Local Identifier: user@vpn.example.com
 * Machine Authentication: Certificate
 * Certificate Type: ECDSA
+
+![Apple Configurator 2 - VPN 1](image/configurator_vpn_1.png 'Apple Configurator 2 - VPN 1')
+
+![Apple Configurator 2 - VPN 2](image/configurator_vpn_2.png 'Apple Configurator 2 - VPN 2')
 
 ## Reference:
 
