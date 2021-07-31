@@ -11,6 +11,9 @@ Refer: <https://www.bsdhowto.ch/wordpress.html>
 
 ## httpd
 
+```
+```
+
 ## PHP
 
 ### Install PHP
@@ -24,5 +27,10 @@ Select PHP version: 7.4.15
 ## MariaDB
 
 `doas pkg_add -i mariadb-server`
+
+```
+CREATE DATABASE dendongphuong;
+CREATE USER 'dendongphuong'@'localhost' IDENTIFIED BY '<password>';
+```
 
 ## Wordpress
