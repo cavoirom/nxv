@@ -27,12 +27,12 @@ The ***iked*** supports IKEv2 which is suitable for iOS and MacOS without additi
 
 The above diagram shows related components in my setup.
 
-The Geteway is running OpenBSD, we will need 2 services:
+The Geteway is running OpenBSD, I will need 2 services:
 
 * ***pf***: filter and route traffic between network interfaces. `net.inet.ip.forwarding=1` should be set for pf routing.
 * ***iked***: manage VPN connections.
 
-PKI plays important role to make sure the VPN connection is established and secured. Because we use ***self-signed Root CA***, the ***Root CA*** should be installed on both iked and clients. Otherwise, the systems will not trust server and client certificates.
+PKI plays important role to make sure the VPN connection is established and secured. Because I use ***self-signed Root CA***, the ***Root CA*** should be installed on both iked and clients. Otherwise, the systems will not trust server and client certificates.
 
 ## Step 1 · Generate CA, certificate and keypair in PEM format
 
@@ -46,35 +46,163 @@ I prepared these CAs and keypairs in my Macbook because I don't want to leak my 
 
 ### Generate self-signed Root Certificate Authority.
 
-```
+I will create a PKCS12 keystore named `root_ca.pfx` to store the self-signed Rooot CA and its private key. The keystore should be secured at all cost to protect the system trusted in it.
 
 ```
+keytool -keystore root_ca.pfx \
+    -storetype pkcs12 \
+    -alias example_root_ca \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA \
+    -validity 3654 \
+    -ext bc:c
+```
+
+Explanation:
+
+* `-keystore root_ca.pfx`: use the keystore `root_ca.pfx`, create new keystore if it's not existed.
+* `-storetype pkcs12`: use PKCS12 format which is supported by many softwares, especially Apple Configurator 2.
+* `-alias example_root_ca`: the keystore can store many alias, I will store the new Root CA to alias called `example_root_ca`.
+* `-genkeypair`: tell keytool to generate a keypair (public key and private key).
+* `-keyalg EC`, `keysize 256`: the algorithm used to create the keypair. EC mean ECDSA, a modern algorithm. It's more secure than RSA and the key size is shorter (256 compare to RSA's 2048).
+* `-sigalg SHA256withECDSA`: the method to self-sign the Root CA. It should match with `-keyalg`.
+* `-validity 3654`: the Root CA will valid for next 10 years.
+* `-ext bc:c`: indicate this is Root CA.
+
+When running the above command, keytool ask for information about the Root CA, enter what suitable for you.
+
+* Keystore password: this password will protect all aliases in the keystore.
+* First and last name (***Common Name*** of the certificate)?
+* Organizational unit?
+* Organization?
+* City?
+* State?
+* Country?
 
 ### Generate and sign intermediate CA.
 
+I can use the Root CA to sign server & client certificate, but it will risk all systems if the Root CA is compromised. Because our systems will trusted any certificates signed by this Root CA. The good practice is creating an intermediate certificate and using this certificate to sign server & client certificates. If the intermediate certificate is compromised, I will add it to ***Certificate Revocation List*** (CRL) and our systems will not trust it anymore.
+
+I will create `intermediate_ca.pfx`
+
+```
+keytool -keystore intermediate.pfx \
+    -storetype pkcs12 \
+    -alias intermediate_ca \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA \
+    -validity 3650 \
+    -ext BC=0
 ```
 
+Explanation:
+
+* `-ext BC=0`: indicate a CA but not Root CA.
+
+I will create a ***sign request*** for intermediate CA and use the Root CA to sign the intermediate CA. You can read more about how PKI work to know why we should do these steps.
+
+Create sign request.
+
+```
+keytool -keystore intermediate.pfx \
+    -alias intermediate_ca \
+    -certreq -file intermediate_ca.certreq
+```
+
+Use Root CA to sign the intermediate certificate.
+
+```
+keytool -keystore root_ca.pfx \
+    -alias root_ca
+    -gencert \
+    -rfc \
+    -ext BC=0 \
+    -infile intermediate_ca.certreq \
+    -outfile intermediate_ca.cert
+```
+
+Explanation:
+
+* `-alias root_ca`: we will use `root_ca` to sign the intermediate certificate.
+* `-gencert`: sign the certificate.
+* `-rfc`: use PEM format for the signed certificate.
+* `-ext BC=0`: indicate this is intermediate CA.
+* `-infile intermediate_ca.certreq`: the sign request of the intermediate certificate.
+* `-outfile intermediate_ca.cert`: the intermediate certificate signed by Root CA.
+
+Import the siged certificate to `intermediate_ca.pfx` for storage. We need to import the Root CA first, because the keytool only allow us import the valid certificate. Without the Root CA in keystore, keytool will not trust our self-signed certificates.
+
+```
+# Export Root CA from root_ca.pfx.
+keytool -keystore root_ca.pfx -alias root_ca -exportcert -rfc -file root_ca.cert
+# Import Root CA to intermediate_ca.pfx.
+keytool -keystore intermediate_ca.pfx -alias root_ca -importcert -trustcacerts -file root_ca.cert
+# Import signed certificate to intermediate_ca.pfx.
+keytool -keystore intermediate_ca.pfx -alias intermediate_ca -importcert -file intermediate_ca.cert
 ```
 
 ### Generate VPN server certificate.
 
-```
+I will create the VPN server certificate and store in `vpn_server.pfx`, this certificate will have important `-ext SAN=DNS:<hostname>` option.
 
 ```
+keytool -keystore vpn_server.pfx \
+    -storetype pkcs12 \
+    -alias vpn_server \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA \
+    -validity 366 \
+    -ext SAN=DNS:vpn.example.com
+```
+
+Explanation:
+
+* `-validity 366`: the server certificate will have shorter valid time, to make sure I remember how to manage them.
+* `-ext SAN=DNS:vpn.example.com`: the certificate is only valid when using with domain `vpn.example.com`. It's important that the Common Name also use the same value with this option.
+
+I will repeat the previous steps:
+
+* Sign VPN server with intermediate CA.
+* Import Root CA to `vpn_server.pfx`.
+* Import signed server certificate to `vpn_server.pfx`.
 
 ### Generate client certificate.
 
-```
-
-```
+Generating the client certificate will be similar to server certificate except the option `-ext SAN=DNS:vpn.example.com` is replaced by `-ext SAN=email:user@vpn.example.com`. The `user` is used to identify individual client.
 
 ## Step 2 · Setup PKI for iked
 
+I will put all certificates and keypair in the previous steps to iked. It requires some preparation:
+
+* Export Root CA to `root_ca.cert`.
+* Export Intermediate CA to `intermediate_ca.cert`.
+* Export VPN server certificate to `vpn_server.cert`.
+* Export VPN server private key to `vpn_server.key`. Use this command: `openssl pkcs12 -in vpn_server.pfx -nocerts -out vpn_server.key -nodes`
+
+Build the `ca.crt` by combining the `root_ca.cert` and `intermediate_ca.cert`, it will look like:
+
 ```
-/etc/iked/ca/ca.crt
-/etc/iked/certs/vpn.example.com.crt
-/etc/iked/private/vpn.example.com.key
+-----BEGIN CERTIFICATE-----
+<intermediate-ca>
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+<root-ca>
+-----END CERTIFICATE-----
 ```
+
+Copy the certificates and private key to their places:
+
+* Rename `/etc/iked/local.pub` to `/etc/iked/local.pub.original`
+* Rename `/etc/iked/private/local.key` to `/etc/iked/private/local.key.original`
+* Copy `ca.crt` to `/etc/iked/ca/ca.crt`
+* Copy `vpn_server.cert` to `/etc/iked/certs/vpn.example.com.crt`
+* Copy `vpn_server.key` to `/etc/iked/private/local.key`
 
 **Important**: all certificates should have `640` permission.
 
