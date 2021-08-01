@@ -6,7 +6,7 @@ branches:
     - dev
     - main
 node_js:
-  - 16
+  - 14
 before_install:
   - cd modules/web
 install:
