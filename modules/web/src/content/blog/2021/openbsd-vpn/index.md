@@ -3,7 +3,7 @@ title: OpenBSD's VPN
 author: vinh
 preview: Setting up my home VPN with OpenBSD
 created: 2021-01-14T07:48:59.379+07:00
-updated: 2021-07-31T17:34:24.227+07:00
+updated: 2021-08-01T19:33:38.495+07:00
 tags: self-hosted, openbsd, iked, vpn
 ---
 
@@ -124,7 +124,7 @@ keytool -keystore root_ca.pfx \
     -rfc \
     -ext BC=0 \
     -infile intermediate_ca.certreq \
-    -outfile intermediate_ca.cert
+    -outfile intermediate_ca.crt
 ```
 
 Explanation:
@@ -134,17 +134,17 @@ Explanation:
 * `-rfc`: use PEM format for the signed certificate.
 * `-ext BC=0`: indicate this is intermediate CA.
 * `-infile intermediate_ca.certreq`: the sign request of the intermediate certificate.
-* `-outfile intermediate_ca.cert`: the intermediate certificate signed by Root CA.
+* `-outfile intermediate_ca.crt`: the intermediate certificate signed by Root CA.
 
 Import the siged certificate to `intermediate_ca.pfx` for storage. We need to import the Root CA first, because the keytool only allow us import the valid certificate. Without the Root CA in keystore, keytool will not trust our self-signed certificates.
 
 ```
 # Export Root CA from root_ca.pfx.
-keytool -keystore root_ca.pfx -alias root_ca -exportcert -rfc -file root_ca.cert
+keytool -keystore root_ca.pfx -alias root_ca -exportcert -rfc -file root_ca.crt
 # Import Root CA to intermediate_ca.pfx.
-keytool -keystore intermediate_ca.pfx -alias root_ca -importcert -trustcacerts -file root_ca.cert
+keytool -keystore intermediate_ca.pfx -alias root_ca -importcert -trustcacerts -file root_ca.crt
 # Import signed certificate to intermediate_ca.pfx.
-keytool -keystore intermediate_ca.pfx -alias intermediate_ca -importcert -file intermediate_ca.cert
+keytool -keystore intermediate_ca.pfx -alias intermediate_ca -importcert -file intermediate_ca.crt
 ```
 
 ### Generate VPN server certificate.
@@ -168,26 +168,28 @@ Explanation:
 * `-validity 366`: the server certificate will have shorter valid time, to make sure I remember how to manage them.
 * `-ext SAN=DNS:vpn.example.com`: the certificate is only valid when using with domain `vpn.example.com`. It's important that the Common Name also use the same value with this option.
 
-I will repeat the previous steps:
+I will repeat the steps that I've done for intermediate certificate:
 
-* Sign VPN server with intermediate CA.
+* Sign VPN server with intermediate CA. Remember to replace the `-ext BC=0` with `-ext SAN=DNS:vpn.example.com` because the certificate will be used for VPN server.
 * Import Root CA to `vpn_server.pfx`.
 * Import signed server certificate to `vpn_server.pfx`.
 
 ### Generate client certificate.
 
-Generating the client certificate will be similar to server certificate except the option `-ext SAN=DNS:vpn.example.com` is replaced by `-ext SAN=email:user@vpn.example.com`. The `user` is used to identify individual client.
+Generating the client certificate will be similar to server certificate except the option `-ext SAN=DNS:vpn.example.com` is replaced by `-ext SAN=email:user@vpn.example.com`. The `user` is used to identify individual client. In the end, I will have a keystore `vpn_user.pfx`, I will use this keystore, together with `root_ca.crt` and `intermediate_ca.crt`, to configure the VPN client.
+
+I will generate a certificate for each client in my home (phones, Macbooks).
 
 ## Step 2 · Setup PKI for iked
 
 I will put all certificates and keypair in the previous steps to iked. It requires some preparation:
 
-* Export Root CA to `root_ca.cert`.
-* Export Intermediate CA to `intermediate_ca.cert`.
-* Export VPN server certificate to `vpn_server.cert`.
+* Export Root CA to `root_ca.crt`.
+* Export Intermediate CA to `intermediate_ca.crt`.
+* Export VPN server certificate to `vpn_server.crt`.
 * Export VPN server private key to `vpn_server.key`. Use this command: `openssl pkcs12 -in vpn_server.pfx -nocerts -out vpn_server.key -nodes`
 
-Build the `ca.crt` by combining the `root_ca.cert` and `intermediate_ca.cert`, it will look like:
+Build the `ca.crt` by combining the `root_ca.crt` and `intermediate_ca.crt`, it will look like:
 
 ```
 -----BEGIN CERTIFICATE-----
@@ -203,7 +205,7 @@ Copy the certificates and private key to their places:
 * Rename `/etc/iked/local.pub` to `/etc/iked/local.pub.original`
 * Rename `/etc/iked/private/local.key` to `/etc/iked/private/local.key.original`
 * Copy `ca.crt` to `/etc/iked/ca/ca.crt`
-* Copy `vpn_server.cert` to `/etc/iked/certs/vpn.example.com.crt`
+* Copy `vpn_server.crt` to `/etc/iked/certs/vpn.example.com.crt`
 * Copy `vpn_server.key` to `/etc/iked/private/local.key`
 
 **Important**: all certificates should have `640` permission.
@@ -306,10 +308,11 @@ General
 
 Certificates
 
-* Root CA.
-* Client certificate.
+* Root CA (root_ca.crt).
+* Intermediate CA (intermediate_ca.crt).
+* Client certificate and private key (vpn_user.pfx).
 
-**Note**: Apple Configurator 2 only allow PKCS12 keystore.
+**Note**: Apple Configurator 2 only allow PKCS1 and PKCS12 keystore.
 
 ![Apple Configurator 2 - Certificates](image/configurator_certificates.png 'Apple Configurator 2 - Certificates')
 
