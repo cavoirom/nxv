@@ -96,14 +96,8 @@ keytool -keystore intermediate.pfx \
     -genkeypair \
     -keyalg EC \
     -keysize 256 \
-    -sigalg SHA256withECDSA \
-    -validity 3650 \
-    -ext BC=0
+    -sigalg SHA256withECDSA
 ```
-
-Explanation:
-
-* `-ext BC=0`: indicate a CA but not Root CA.
 
 I will create a ***sign request*** for intermediate CA and use the Root CA to sign the intermediate CA. You can read more about how PKI work to know why we should do these steps.
 
@@ -123,6 +117,7 @@ keytool -keystore root_ca.pfx \
     -gencert \
     -rfc \
     -ext BC=0 \
+    -validity 3650 \
     -infile intermediate_ca.certreq \
     -outfile intermediate_ca.crt
 ```
@@ -133,6 +128,7 @@ Explanation:
 * `-gencert`: sign the certificate.
 * `-rfc`: use PEM format for the signed certificate.
 * `-ext BC=0`: indicate this is intermediate CA.
+* `-validity 3650`: the CA will be valid for next 10 years.
 * `-infile intermediate_ca.certreq`: the sign request of the intermediate certificate.
 * `-outfile intermediate_ca.crt`: the intermediate certificate signed by Root CA.
 
@@ -158,19 +154,14 @@ keytool -keystore vpn_server.pfx \
     -genkeypair \
     -keyalg EC \
     -keysize 256 \
-    -sigalg SHA256withECDSA \
-    -validity 366 \
-    -ext SAN=DNS:vpn.example.com
+    -sigalg SHA256withECDSA
 ```
-
-Explanation:
-
-* `-validity 366`: the server certificate will have shorter valid time, to make sure I remember how to manage them.
-* `-ext SAN=DNS:vpn.example.com`: the certificate is only valid when using with domain `vpn.example.com`. It's important that the Common Name also use the same value with this option.
 
 I will repeat the steps that I've done for intermediate certificate:
 
-* Sign VPN server with intermediate CA. Remember to replace the `-ext BC=0` with `-ext SAN=DNS:vpn.example.com` because the certificate will be used for VPN server.
+* Sign VPN server with intermediate CA.
+  - Remember to replace the `-ext BC=0` with `-ext SAN=DNS:vpn.example.com` because the certificate will be used for VPN server. It's important that the Common Name also use the same value with this option.
+  - `-validity 366`: the server certificate will have shorter valid time, to make sure I remember how to manage them.
 * Import Root CA to `vpn_server.pfx`.
 * Import signed server certificate to `vpn_server.pfx`.
 
