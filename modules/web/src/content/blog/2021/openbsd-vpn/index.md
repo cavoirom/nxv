@@ -3,7 +3,7 @@ title: OpenBSD's VPN
 author: vinh
 preview: Setting up my home VPN with OpenBSD
 created: 2021-01-14T07:48:59.379+07:00
-updated: 2021-08-01T19:33:38.495+07:00
+updated: 2021-09-01T14:19:22.178+07:00
 tags: self-hosted, openbsd, iked, vpn
 ---
 
@@ -253,6 +253,22 @@ Start iked.
 
 ```
 rcctl enable iked
+```
+
+### Assign static IP for enc0
+
+When iked started, the VPN interface appeared as `enc0` but no IP is assigned, this setting will work fine unless I want to listen on that interface. In my case, I will assign `192.168.120.1` to `enc0`. In fact, this IP already assigned to the VPN server, but we need this explicit step to listen on that address. In my case, I will setup an Unbound DNS server only listen on the VPN interface.
+
+```
+/etc/hostname.enc0
+---
+inet 192.168.120.1 255.255.255.0
+```
+
+Apply the change.
+
+```
+sh /etc/netstart
 ```
 
 ## Step 4 · Configure pf
