@@ -7,17 +7,17 @@ updated: 2021-06-13T15:44:13.219+07:00
 tags: shell, unix, windows, cygwin, zsh, oh-my-zsh, development, java, nodejs
 ---
 
-## The Commandline Environment
+## The Command Line Environment
 
-I see new developers are usually struggling with Commandline just because they are using Windows, it makes them distance from the community who are using Linux and Unix-like systems, and end up with tutorials which is not working on Windows because it included Linux command or Bash script.
+I see new developers are usually struggling with command line just because they are using Windows, it makes them distance from the community who are using Linux and Unix-like systems, and end up with tutorials which is not working on Windows because it included Linux command or Bash script.
 
 For a Unix shell on Windows, we have plenty options: Git Bash, WSL, WSL2, MinGW. But I found them incomplete and un-natural to work with (sorry I don't want to go more detail about their issues, you could find them on the internet).
 
 In this *entry*, let's try a more classical way: [Cygwin](https://cygwin.com/install.html).
 
-**It's about the environment, not the tools ·** Cygwin tries to provide the POSIX-compliant development and run-time environment [\[1\]](https://en.wikipedia.org/wiki/POSIX#POSIX_for_Microsoft_Windows) while retains the speed of native Windows application. The POSIX-compliant is what make it feel the same with other Unix-like environment. It also comes with trade off: every program runs on Cygwin must be compiled for Cygwin. Thankfully, most of common commandline tools supported Cygwin.
+**It's about the environment, not the tools ·** Cygwin tries to provide the POSIX-compliant development and run-time environment [\[1\]](https://en.wikipedia.org/wiki/POSIX#POSIX_for_Microsoft_Windows) while retains the speed of native Windows application. The POSIX-compliant is what make it feel the same with other Unix-like environment. It also comes with trade off: every program runs on Cygwin must be compiled for Cygwin. Thankfully, most of common command line tools supported Cygwin.
 
-**The Terminal ·** When working with commandline, Terminal is the entry point for everything. Most of Windows users don't have nice memories with Terminal just because of cmd.exe. Cygwin bundled with Mintty which is very good. Read more about how a slow Terminal could affect your working experience: <https://danluu.com/term-latency/>
+**The Terminal ·** When working with command line, Terminal is the entry point for everything. Most of Windows users don't have nice memories with Terminal just because of cmd.exe. Cygwin bundled with Mintty which is very good. Read more about how a slow Terminal could affect your working experience: <https://danluu.com/term-latency/>
 
 ![Mintty screenshot from official home page](image/mintty.png 'Mintty screenshot from official home page')
 
