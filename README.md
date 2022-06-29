@@ -2,8 +2,6 @@
 
 [![Publish](https://travis-ci.com/cavoirom/nxv.svg?branch=main "Publish")](https://travis-ci.com/cavoirom/nxv)
 
-[![Development](https://travis-ci.com/cavoirom/nxv.svg?branch=dev "Development")](https://travis-ci.com/cavoirom/nxv)
-
 ## Introduction
 
 ## Git Workflow
@@ -12,9 +10,7 @@
 
 `main` contains released code.
 
-`dev` contains developing code, to be merged to `main` when release new version.
-
-`feature/<name-of-feature>` contains current developing feature, should increase minor version after create `feature` branch. The branch is derived from `dev` and to be merged to `dev`.
+`feature/<name-of-feature>` contains current developing feature, should increase minor version after create `feature` branch. The branch is derived from `main` and to be merged to `main`.
 
 `draft/<name-of-blog-entry>` contains draft blog entry. The branch is derived from `main`. We can publish the entry by merging the branch to `main`.
 
@@ -22,10 +18,10 @@
 
 ### Develop New Feature
 
-1. Create new `feature/*` from `dev`.
+1. Create new `feature/*` from `main`.
 2. Increase version if it's not increased from previous release.
 3. Develop feature.
-4. Test and merge to `dev`.
+4. Test and merge to `main`.
 
 ### Write Blog Entry
 
