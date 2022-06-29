@@ -9,7 +9,7 @@
 @import './container/blog-entry/blog-entry.scss';
 
 html {
-  font-size: $font-size-normal;
+  font-size: $font-size-mobile;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $color-normal;
@@ -75,6 +75,10 @@ h6 {
 }
 
 @media (min-width: $screen-width-medium + 1) {
+  html {
+    font-size: $font-size-normal;
+  }
+
   .pure-g {
     width: $screen-width-medium;
   }
