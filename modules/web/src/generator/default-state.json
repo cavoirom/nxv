@@ -17,6 +17,10 @@
       "title": "companies",
       "years": [
         {
+          "year": 2022,
+          "events": ["mesoneer"]
+        },
+        {
           "year": 2021,
           "events": ["UMB"]
         },
