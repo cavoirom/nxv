@@ -16,7 +16,9 @@ export default class BlogEntryCollector {
   }
 
   async collect() {
-    const blogEntryDirectories = this._scanBlogEntryDirectories(this.blogDirectory);
+    const blogEntryDirectories = this._scanBlogEntryDirectories(
+      this.blogDirectory,
+    );
     const pages = [];
     for (const blogEntryDirectory of blogEntryDirectories) {
       const blogEntry = this._buildBlogEntry(`${blogEntryDirectory}/index.md`);
@@ -37,7 +39,9 @@ export default class BlogEntryCollector {
       const day = String(createdDate.getUTCDate()).padStart(2, '0');
       const url = `/blog/entry/${year}/${month}/${day}/${blogEntry.slug}`;
       // Blog Entry Page
-      const blogEntryDirectoryRelativePath = blogEntryDirectory.substring(this.config.content.length + 1);
+      const blogEntryDirectoryRelativePath = blogEntryDirectory.substring(
+        this.config.content.length + 1,
+      );
       const page = CachedPage.newBlogEntry(
         url,
         'BLOG_ENTRY',
@@ -47,7 +51,7 @@ export default class BlogEntryCollector {
         0,
         blogEntry.tags,
         blogEntryDirectoryRelativePath,
-        blogEntry
+        blogEntry,
       );
       const storedPage = await this.cacheStore.addPage(page);
       pages.push(storedPage);
@@ -78,7 +82,10 @@ export default class BlogEntryCollector {
     const md = new Remarkable();
     md.use(frontMatter);
     md.use(extLink, { host: this.config.host });
-    md.use(customRemarkable, { pathname: `./${slug}`, classes: 'blog-entry__image' });
+    md.use(customRemarkable, {
+      pathname: `./${slug}`,
+      classes: 'blog-entry__image',
+    });
 
     const entryHtml = md.render(blogEntryMarkdown, env);
     const tags = env.frontMatter.tags
@@ -102,7 +109,9 @@ export default class BlogEntryCollector {
 
   _toBlogEntryUrl(slug, created) {
     if (!created) {
-      throw new Error('Could not create blog entry url because blog entry is null.');
+      throw new Error(
+        'Could not create blog entry url because blog entry is null.',
+      );
     }
     const createdDate = new Date(created);
     const year = createdDate.getUTCFullYear();

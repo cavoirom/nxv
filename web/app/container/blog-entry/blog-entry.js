@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { Fragment, h } from 'preact';
 import { useEffect } from 'preact/hooks';
 import { useAction, useSelector, useStore } from '@preact-hooks/unistore';
 import { useLocation } from 'wouter-preact';
@@ -52,7 +52,11 @@ export default function BlogEntry() {
 }
 
 function _renderBlogEntry(blogEntry) {
-  const title = h('header', null, h('h1', { className: 'blog-entry__title' }, blogEntry.title));
+  const title = h(
+    'header',
+    null,
+    h('h1', { className: 'blog-entry__title' }, blogEntry.title),
+  );
   const tags = h(Tags, { tags: blogEntry.tags });
   const content = h('div', {
     className: 'blog-entry__content',
@@ -61,12 +65,14 @@ function _renderBlogEntry(blogEntry) {
   const dates = h(
     'div',
     { className: 'blog-entry__dates' },
-    `Created ${toDisplayDate(blogEntry.created)} · Updated ${toDisplayDate(blogEntry.updated)}`
+    `Created ${toDisplayDate(blogEntry.created)} · Updated ${
+      toDisplayDate(blogEntry.updated)
+    }`,
   );
   return h(
     'div',
     { className: 'blog-entry pure-g' },
-    h('article', { className: 'pure-u-1' }, title, dates, tags, content)
+    h('article', { className: 'pure-u-1' }, title, dates, tags, content),
   );
 }
 
@@ -112,13 +118,21 @@ export function SimpleBlogEntry({ children, ...props }) {
         onMouseEnter: prefetchBlogEntry,
         onTouchStart: prefetchBlogEntry,
       },
-      blogEntry.title
-    )
+      blogEntry.title,
+    ),
   );
   const tags = h(Tags, { tags: blogEntry.tags });
-  const content = h('div', { className: 'blog-entry__content' }, h('p', null, blogEntry.preview));
+  const content = h(
+    'div',
+    { className: 'blog-entry__content' },
+    h('p', null, blogEntry.preview),
+  );
   const wrapper = h('div', { className: 'pure-u-1' }, title, tags, content);
-  return h('div', { key: blogEntry.url, className: 'blog-entry pure-g' }, wrapper);
+  return h(
+    'div',
+    { key: blogEntry.url, className: 'blog-entry pure-g' },
+    wrapper,
+  );
 }
 
 export function isBlogEntryUrl(blogEntryUrl) {

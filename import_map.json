@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "testing/": "https://deno.land/std@0.117.0/testing/",
+    "preact": "https://esm.sh/preact@10.6.4?dev",
+    "preact/hooks": "https://esm.sh/preact@10.6.4/hooks?dev",
+    "preact/jsx": "https://esm.sh/preact@10.6.4/src/jsx.d.ts",
+    "preact-router": "https://esm.sh/preact-router@3.2.1?dev",
+    "preact-router/match": "https://esm.sh/preact-router@3.2.1/match?dev"
+  }
+}

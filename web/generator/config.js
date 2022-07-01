@@ -1,7 +1,10 @@
 import path from 'path';
 import fs from 'fs';
 
-const defaultStateJson = fs.readFileSync(path.resolve(process.cwd(), 'src/generator/default-state.json'), 'utf8');
+const defaultStateJson = fs.readFileSync(
+  path.resolve(process.cwd(), 'src/generator/default-state.json'),
+  'utf8',
+);
 const defaultState = JSON.parse(defaultStateJson);
 
 const config = {

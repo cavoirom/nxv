@@ -42,6 +42,8 @@ export default function Blog() {
   if (!entries || entries.length === 0) {
     return h(Fragment);
   }
-  const entryItems = entries.map((item) => h(SimpleBlogEntry, { blogEntry: item }));
+  const entryItems = entries.map((item) =>
+    h(SimpleBlogEntry, { blogEntry: item })
+  );
   return h(Fragment, null, entryItems);
 }

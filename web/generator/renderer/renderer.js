@@ -13,7 +13,10 @@ export default class Renderer {
   constructor(config) {
     this.config = config;
     // Load generated html as template to know generated js/css file name.
-    const generatedIndex = fs.readFileSync(`${config.output}/index.html`, 'utf8');
+    const generatedIndex = fs.readFileSync(
+      `${config.output}/index.html`,
+      'utf8',
+    );
     // The $ indicate it's cheerio object, just like jQuery object.
     this.$generatedIndex = cheerio.load(generatedIndex);
     this.$scripts = cheerio.html(this.$generatedIndex('body script'));
@@ -29,7 +32,13 @@ export default class Renderer {
     // Create store.
     const store = configureStore(page.state);
     // Pre-render app html.
-    const appHtml = render(h(Provider, { value: store }, h(Router, { hook: staticLocationHook(page.url) }, h(App))));
+    const appHtml = render(
+      h(
+        Provider,
+        { value: store },
+        h(Router, { hook: staticLocationHook(page.url) }, h(App)),
+      ),
+    );
     // Build head with title and generated css.
     const headHtml = this._buildHeadHtml(page.state.pageTitle);
     return `<!DOCTYPE html>
@@ -56,7 +65,11 @@ ${this.$scripts}
     const writeOptions = { encoding: 'utf8' };
     fs.writeFileSync(`${pageDirectory}/index.html`, pageHtml, writeOptions);
     // Write state to pathname/index.json file
-    fs.writeFileSync(`${pageDirectory}/index.json`, JSON.stringify(page.state), writeOptions);
+    fs.writeFileSync(
+      `${pageDirectory}/index.json`,
+      JSON.stringify(page.state),
+      writeOptions,
+    );
   }
 
   _writePartialState(page) {
@@ -64,6 +77,10 @@ ${this.$scripts}
     const outputDirectory = path.dirname(outputJson);
     const writeOptions = { encoding: 'utf8' };
     fs.mkdirSync(outputDirectory, { recursive: true });
-    fs.writeFileSync(outputJson, JSON.stringify(page.partialState), writeOptions);
+    fs.writeFileSync(
+      outputJson,
+      JSON.stringify(page.partialState),
+      writeOptions,
+    );
   }
 }

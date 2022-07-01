@@ -11,7 +11,11 @@ import BlogTagCollector from './collector/blog-tag-collector.js';
 function _generateDefaultState(config) {
   // Generate default state
   fs.mkdirSync(`${config.output}/api`, { recursive: true });
-  fs.writeFileSync(`${config.output}/api/default.json`, JSON.stringify(config.defaultState), { encoding: 'utf8' });
+  fs.writeFileSync(
+    `${config.output}/api/default.json`,
+    JSON.stringify(config.defaultState),
+    { encoding: 'utf8' },
+  );
 }
 
 function _generateCacheRoutes(config) {
@@ -40,7 +44,9 @@ function _generateCacheRoutes(config) {
     .filter((fileName) => !excludedPaths.includes(fileName))
     .map((fileName) => `'/${fileName}'`)
     .join(',');
-  const excludedResources = excludedPaths.map((excludedPath) => `'/${excludedPath}'`).join(',');
+  const excludedResources = excludedPaths.map((excludedPath) =>
+    `'/${excludedPath}'`
+  ).join(',');
 
   // Replace the place holder routes array with real informations
   const workerPath = `${config.output}/worker.js`;

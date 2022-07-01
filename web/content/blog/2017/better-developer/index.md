@@ -14,4 +14,3 @@ tags: design, programming
 - Try to improve the wheel
 - Keep improving the wheel
 - Invent the jet
-

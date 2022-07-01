@@ -7,6 +7,8 @@ updated: 2021-05-26T10:28:29.261+07:00
 tags: family
 ---
 
-Our family is working on a long term project that I expect much hope and joy. We currently could not tell much about the future, may God bless us.
+Our family is working on a long term project that I expect much hope and joy. We
+currently could not tell much about the future, may God bless us.
 
-Update 2021-05-24: The project was stopped. Wish we have strength to overcome this hard time.
+Update 2021-05-24: The project was stopped. Wish we have strength to overcome
+this hard time.

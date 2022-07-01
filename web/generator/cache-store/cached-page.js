@@ -1,5 +1,16 @@
 export default class CachedPage {
-  constructor(id, url, type, state, partialState, files, hash, tags, blogEntryDirectory, blogEntry) {
+  constructor(
+    id,
+    url,
+    type,
+    state,
+    partialState,
+    files,
+    hash,
+    tags,
+    blogEntryDirectory,
+    blogEntry,
+  ) {
     this.id = id;
     this.url = url;
     this.type = type;
@@ -21,16 +32,49 @@ export default class CachedPage {
     hash = 0,
     tags = [],
     blogEntryDirectory = undefined,
-    blogEntry
+    blogEntry,
   ) {
-    return new CachedPage(undefined, url, type, state, partialState, files, hash, tags, blogEntryDirectory, blogEntry);
+    return new CachedPage(
+      undefined,
+      url,
+      type,
+      state,
+      partialState,
+      files,
+      hash,
+      tags,
+      blogEntryDirectory,
+      blogEntry,
+    );
   }
 
   static newStatic(url, type, state, partialState) {
-    return new CachedPage(undefined, url, type, state, partialState, [], 0, [], undefined, undefined);
+    return new CachedPage(
+      undefined,
+      url,
+      type,
+      state,
+      partialState,
+      [],
+      0,
+      [],
+      undefined,
+      undefined,
+    );
   }
 
   static newBlog(url, type, state, partialState) {
-    return new CachedPage(undefined, url, type, state, partialState, [], 0, [], undefined, undefined);
+    return new CachedPage(
+      undefined,
+      url,
+      type,
+      state,
+      partialState,
+      [],
+      0,
+      [],
+      undefined,
+      undefined,
+    );
   }
 }

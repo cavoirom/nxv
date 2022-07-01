@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Switch, Route } from 'wouter-preact';
+import { Route, Switch } from 'wouter-preact';
 import Home from '../home/home.js';
 import Blog from '../blog/blog.js';
 import BlogEntry from '../blog-entry/blog-entry.js';
@@ -18,7 +18,7 @@ export default function Content() {
       h(Route, { path: '/home', component: Home }),
       h(Route, { path: '/blog', component: Blog }),
       h(Route, { path: '/blog/tag/:tagUrl+', component: BlogTag }),
-      h(Route, { path: '/blog/entry/:entryUrl+', component: BlogEntry })
-    )
+      h(Route, { path: '/blog/entry/:entryUrl+', component: BlogEntry }),
+    ),
   );
 }

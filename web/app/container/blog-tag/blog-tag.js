@@ -53,9 +53,15 @@ export default function BlogTag() {
   const titleItem = h(
     'div',
     { className: 'pure-g' },
-    h('div', { className: 'pure-u-1' }, h('h1', { className: 'content__title' }, tag))
+    h(
+      'div',
+      { className: 'pure-u-1' },
+      h('h1', { className: 'content__title' }, tag),
+    ),
   );
-  const entryItems = entriesByTag.map((item) => h(SimpleBlogEntry, { blogEntry: item }));
+  const entryItems = entriesByTag.map((item) =>
+    h(SimpleBlogEntry, { blogEntry: item })
+  );
   return h(Fragment, null, titleItem, entryItems);
 }
 

@@ -35,8 +35,12 @@ export default function Tags({ children, tags }) {
     'ul',
     { className: 'blog-entry__tags' },
     ...tags.map((tag) => {
-      const tagLink = h('a', { href: `/blog/tag/${tag}`, onClick: openTag }, tag);
+      const tagLink = h(
+        'a',
+        { href: `/blog/tag/${tag}`, onClick: openTag },
+        tag,
+      );
       return h('li', { className: 'blog-entry__tag' }, tagLink);
-    })
+    }),
   );
 }

@@ -6,6 +6,10 @@ function renderEvent(event, index) {
 
 export default function EventSection({ year }) {
   const yearTitle = h('h4', { 'aria-label': `year ${year.year}` }, year.year);
-  const events = h('ul', { 'aria-label': `events in ${year.year}` }, year.events.map(renderEvent));
+  const events = h(
+    'ul',
+    { 'aria-label': `events in ${year.year}` },
+    year.events.map(renderEvent),
+  );
   return h('div', null, yearTitle, events);
 }

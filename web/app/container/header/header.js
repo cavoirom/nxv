@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { Fragment, h } from 'preact';
 import { useSelector, useStore } from '@preact-hooks/unistore';
 import { Link, useLocation, useRoute } from 'wouter-preact';
 import { log } from '../../shared/logger.js';
@@ -42,7 +42,12 @@ export default function Header() {
   const homeItem = h(
     'li',
     { className: 'navigator__item' },
-    h(Link, { href: '/home', className: `navigator__link ${homeRouteMatched && 'navigator__link--active'}` }, title)
+    h(Link, {
+      href: '/home',
+      className: `navigator__link ${
+        homeRouteMatched && 'navigator__link--active'
+      }`,
+    }, title),
   );
   const blogItem = h(
     'li',
@@ -51,16 +56,21 @@ export default function Header() {
       'a',
       {
         href: '/blog',
-        className: `navigator__link ${blogRouteMatched && 'navigator__link--active'}`,
+        className: `navigator__link ${
+          blogRouteMatched && 'navigator__link--active'
+        }`,
         onClick: openBlog,
       },
-      'to be continued'
-    )
+      'to be continued',
+    ),
   );
   const githubItem = h(
     'li',
     { className: 'navigator__item' },
-    h('a', { href: 'https://github.com/cavoirom', className: 'navigator__link' }, 'github')
+    h('a', {
+      href: 'https://github.com/cavoirom',
+      className: 'navigator__link',
+    }, 'github'),
   );
   return h(
     'header',
@@ -68,7 +78,11 @@ export default function Header() {
     h(
       'div',
       { className: 'pure-g' },
-      h('div', { className: 'pure-u-1' }, h('ul', { className: 'navigator' }, homeItem, blogItem, githubItem))
-    )
+      h(
+        'div',
+        { className: 'pure-u-1' },
+        h('ul', { className: 'navigator' }, homeItem, blogItem, githubItem),
+      ),
+    ),
   );
 }

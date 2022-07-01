@@ -2,12 +2,16 @@ import CachedPage from './cached-page.js';
 import CachedFile from './cached-file.js';
 
 export default class CachedPageRepository {
-  static ADD_STATEMENT = `INSERT INTO CachedPage ( url, type, state, partialState, hash, tags, blogEntryDirectory, blogEntry )
+  static ADD_STATEMENT =
+    `INSERT INTO CachedPage ( url, type, state, partialState, hash, tags, blogEntryDirectory, blogEntry )
       VALUES ( $url, $type, json($state), json($partialState), $hash, json($tags), $blogEntryDirectory, json($blogEntry) );`;
   static FIND_ALL_STATEMENT = `SELECT * FROM CachedPage;`;
-  static FIND_BLOG_ENTRIES_STATEMENT = `SELECT *, json_extract(blogEntry, '$.updated') as updated FROM CachedPage WHERE type = 'BLOG_ENTRY' ORDER BY updated DESC`;
-  static FIND_BLOG_ENTRY_TAGS_STATEMENT = `SELECT DISTINCT value as tag FROM cachedPage, json_each(cachedPage.tags)WHERE cachedPage.type = 'BLOG_ENTRY' ORDER BY tag;`;
-  static FIND_BLOG_ENTRIES_BY_TAG_STATEMENT = `SELECT cachedPage.*, json_extract(cachedPage.blogEntry, '$.updated') as updated FROM cachedPage, json_each(cachedPage.tags) WHERE cachedPage.type = 'BLOG_ENTRY' AND json_each.value = $tag ORDER BY updated DESC;`;
+  static FIND_BLOG_ENTRIES_STATEMENT =
+    `SELECT *, json_extract(blogEntry, '$.updated') as updated FROM CachedPage WHERE type = 'BLOG_ENTRY' ORDER BY updated DESC`;
+  static FIND_BLOG_ENTRY_TAGS_STATEMENT =
+    `SELECT DISTINCT value as tag FROM cachedPage, json_each(cachedPage.tags)WHERE cachedPage.type = 'BLOG_ENTRY' ORDER BY tag;`;
+  static FIND_BLOG_ENTRIES_BY_TAG_STATEMENT =
+    `SELECT cachedPage.*, json_extract(cachedPage.blogEntry, '$.updated') as updated FROM cachedPage, json_each(cachedPage.tags) WHERE cachedPage.type = 'BLOG_ENTRY' AND json_each.value = $tag ORDER BY updated DESC;`;
 
   constructor(connection) {
     this.connection = connection;
@@ -16,27 +20,37 @@ export default class CachedPageRepository {
   async add(page) {
     const params = CachedPageRepository.toParams(page);
     const result = new Promise((resolve, reject) => {
-      this.connection.run(CachedPageRepository.ADD_STATEMENT, params, function (error) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        const updatedFiles = page.files.map(
-          (file) => new CachedFile(file.id, this.lastID, file.relativePath, file.hash)
-        );
-        const storedPage = new CachedPage(
-          this.lastID,
-          page.url,
-          page.type,
-          page.state,
-          page.partialState,
-          updatedFiles,
-          page.hash,
-          page.tags,
-          page.blogEntryDirectory
-        );
-        resolve(storedPage);
-      });
+      this.connection.run(
+        CachedPageRepository.ADD_STATEMENT,
+        params,
+        function (error) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          const updatedFiles = page.files.map(
+            (file) =>
+              new CachedFile(
+                file.id,
+                this.lastID,
+                file.relativePath,
+                file.hash,
+              ),
+          );
+          const storedPage = new CachedPage(
+            this.lastID,
+            page.url,
+            page.type,
+            page.state,
+            page.partialState,
+            updatedFiles,
+            page.hash,
+            page.tags,
+            page.blogEntryDirectory,
+          );
+          resolve(storedPage);
+        },
+      );
     });
     return result;
   }
@@ -49,42 +63,51 @@ export default class CachedPageRepository {
 
   async findAll() {
     const result = new Promise((resolve, reject) => {
-      this.connection.all(CachedPageRepository.FIND_ALL_STATEMENT, function (error, rows) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        const pages = rows.map(CachedPageRepository.toPage);
-        resolve(pages);
-      });
+      this.connection.all(
+        CachedPageRepository.FIND_ALL_STATEMENT,
+        function (error, rows) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          const pages = rows.map(CachedPageRepository.toPage);
+          resolve(pages);
+        },
+      );
     });
     return result;
   }
 
   async findBlogEntries() {
     const result = new Promise((resolve, reject) => {
-      this.connection.all(CachedPageRepository.FIND_BLOG_ENTRIES_STATEMENT, function (error, rows) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        const pages = rows.map(CachedPageRepository.toPage);
-        resolve(pages);
-      });
+      this.connection.all(
+        CachedPageRepository.FIND_BLOG_ENTRIES_STATEMENT,
+        function (error, rows) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          const pages = rows.map(CachedPageRepository.toPage);
+          resolve(pages);
+        },
+      );
     });
     return result;
   }
 
   async findBlogEntryTags() {
     const result = new Promise((resolve, reject) => {
-      this.connection.all(CachedPageRepository.FIND_BLOG_ENTRY_TAGS_STATEMENT, function (error, rows) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        const tags = rows.map((row) => row.tag);
-        resolve(tags);
-      });
+      this.connection.all(
+        CachedPageRepository.FIND_BLOG_ENTRY_TAGS_STATEMENT,
+        function (error, rows) {
+          if (error) {
+            reject(error);
+            return;
+          }
+          const tags = rows.map((row) => row.tag);
+          resolve(tags);
+        },
+      );
     });
     return result;
   }
@@ -101,7 +124,7 @@ export default class CachedPageRepository {
           }
           const pages = rows.map(CachedPageRepository.toPage);
           resolve(pages);
-        }
+        },
       );
     });
     return result;
@@ -131,7 +154,7 @@ export default class CachedPageRepository {
       Number.parseInt(row.hash, 10),
       JSON.parse(row.tags),
       row.blogEntryDirectory,
-      JSON.parse(row.blogEntry)
+      JSON.parse(row.blogEntry),
     );
   }
 }

@@ -20,13 +20,15 @@ const asyncModulesHolder = import('@preact-hooks/unistore')
     return { unistoreHooks };
   })
   .then((asyncModulesHolder) => {
-    return import('../../../../src/app/store/action.js').then(({ default: action }) => {
-      action.fetchPartialState = mockAction.fetchPartialState;
-      return {
-        ...asyncModulesHolder,
-        action,
-      };
-    });
+    return import('../../../../src/app/store/action.js').then(
+      ({ default: action }) => {
+        action.fetchPartialState = mockAction.fetchPartialState;
+        return {
+          ...asyncModulesHolder,
+          action,
+        };
+      },
+    );
   })
   .then((asyncModulesHolder) => {
     return import('wouter-preact').then(({ default: wouterPreact }) => {
@@ -38,7 +40,9 @@ const asyncModulesHolder = import('@preact-hooks/unistore')
     });
   })
   .then((asyncModulesHolder) => {
-    return import('../../../../src/app/component/tags/tags.js').then(({ default: Tags }) => ({
+    return import('../../../../src/app/component/tags/tags.js').then((
+      { default: Tags },
+    ) => ({
       ...asyncModulesHolder,
       Tags,
     }));
@@ -53,7 +57,9 @@ test('[Tags] should have correct roles and accessible name', async () => {
   expect(tagsElement).toBeTruthy();
 
   const tagElements = await screen.findAllByRole('listitem');
-  tags.forEach((tag, index) => expect(tagElements[index].textContent).toEqual(tag));
+  tags.forEach((tag, index) =>
+    expect(tagElements[index].textContent).toEqual(tag)
+  );
 });
 
 test('[Tags] should call server to get state and then set correct url when tag is clicked', async () => {

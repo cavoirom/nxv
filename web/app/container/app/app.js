@@ -1,4 +1,4 @@
-import { h, Fragment } from 'preact';
+import { Fragment, h } from 'preact';
 import Header from '../header/header.js';
 import Content from '../content/content.js';
 import Footer from '../footer/footer.js';

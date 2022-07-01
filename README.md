@@ -12,9 +12,11 @@
 
 `feature/<name-of-feature>` contains current developing feature, should increase minor version after create `feature` branch. The branch is derived from `main` and to be merged to `main`.
 
-`draft/<name-of-blog-entry>` contains draft blog entry. The branch is derived from `main`. We can publish the entry by merging the branch to `main`.
+`draft/<name-of-blog-entry>` contains draft blog entry. The branch is derived
+from `main`. We can publish the entry by merging the branch to `main`.
 
-`gh-pages` contains generated website, Github Page will use this branch. The branch is created by command `npm run publish`.
+`gh-pages` contains generated website, Github Page will use this branch. The
+branch is created by command `npm run publish`.
 
 ### Develop New Feature
 

@@ -13,10 +13,14 @@ test('event-section should have correct roles and accessible name', async () => 
   render(h(EventSection, { year }));
 
   // Assert events
-  const yearTitle = await screen.findByRole('heading', { name: `year ${year.year}` });
+  const yearTitle = await screen.findByRole('heading', {
+    name: `year ${year.year}`,
+  });
   expect(yearTitle.textContent).toEqual(year.year.toString());
 
   // Assert events
-  const firstEvent = await screen.findByRole('listitem', { name: `event ${year.events[0]}` });
+  const firstEvent = await screen.findByRole('listitem', {
+    name: `event ${year.events[0]}`,
+  });
   expect(firstEvent.textContent).toEqual(year.events[0]);
 });

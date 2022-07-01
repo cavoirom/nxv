@@ -11,13 +11,17 @@ export default class BlogEntryRenderer extends Renderer {
 
   _copyImages(page) {
     // copy image to output directory
-    const sourceDirectory = `${this.config.content}/${page.blogEntryDirectory}/image`;
+    const sourceDirectory =
+      `${this.config.content}/${page.blogEntryDirectory}/image`;
     const destinationDirectory = `${this.config.output + page.url}/image`;
     if (fs.existsSync(sourceDirectory)) {
       fs.mkdirSync(destinationDirectory, { recursive: true });
       const images = fs.readdirSync(sourceDirectory);
       images.forEach((image) => {
-        fs.copyFileSync(path.join(sourceDirectory, image), path.join(destinationDirectory, image));
+        fs.copyFileSync(
+          path.join(sourceDirectory, image),
+          path.join(destinationDirectory, image),
+        );
       });
     }
   }

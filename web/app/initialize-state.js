@@ -8,35 +8,38 @@ export default function initializeState(location) {
   if (url.pathname === '/' || url.pathname === '/home') {
     return fetchDefaultState();
   } else if (url.pathname === '/blog') {
-    return Promise.all([fetchDefaultState(), fetchPartialState(url.pathname)]).then(([defaultState, entries]) => {
-      return Promise.resolve({
-        ...defaultState,
-        blog: {
-          ...defaultState.blog,
-          entries,
-        },
+    return Promise.all([fetchDefaultState(), fetchPartialState(url.pathname)])
+      .then(([defaultState, entries]) => {
+        return Promise.resolve({
+          ...defaultState,
+          blog: {
+            ...defaultState.blog,
+            entries,
+          },
+        });
       });
-    });
   } else if (isBlogEntryUrl(url.pathname)) {
-    return Promise.all([fetchDefaultState(), fetchPartialState(url.pathname)]).then(([defaultState, entry]) => {
-      return Promise.resolve({
-        ...defaultState,
-        blog: {
-          ...defaultState.blog,
-          entry,
-        },
+    return Promise.all([fetchDefaultState(), fetchPartialState(url.pathname)])
+      .then(([defaultState, entry]) => {
+        return Promise.resolve({
+          ...defaultState,
+          blog: {
+            ...defaultState.blog,
+            entry,
+          },
+        });
       });
-    });
   } else if (isBlogTagUrl(url.pathname)) {
-    return Promise.all([fetchDefaultState(), fetchPartialState(url.pathname)]).then(([defaultState, entriesByTag]) => {
-      return Promise.resolve({
-        ...defaultState,
-        blog: {
-          ...defaultState.blog,
-          entriesByTag,
-        },
+    return Promise.all([fetchDefaultState(), fetchPartialState(url.pathname)])
+      .then(([defaultState, entriesByTag]) => {
+        return Promise.resolve({
+          ...defaultState,
+          blog: {
+            ...defaultState.blog,
+            entriesByTag,
+          },
+        });
       });
-    });
   }
   return fetchDefaultState();
 }

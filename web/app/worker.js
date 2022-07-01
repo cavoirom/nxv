@@ -15,7 +15,11 @@ const excludedResources = ['<excluded-resources>'];
 
 self.addEventListener('install', (event) => {
   // Pre-cache these resources to help page works offline.
-  event.waitUntil(caches.open(cacheIdentifier).then((currentCache) => currentCache.addAll(precachedResources)));
+  event.waitUntil(
+    caches.open(cacheIdentifier).then((currentCache) =>
+      currentCache.addAll(precachedResources)
+    ),
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -29,9 +33,9 @@ self.addEventListener('activate', (event) => {
             log.debug('Delete out dated cacheIdentifier: ', cacheName);
             return caches.delete(cacheName);
           }
-        })
+        }),
       )
-    )
+    ),
   );
 });
 
@@ -67,6 +71,6 @@ self.addEventListener('fetch', (event) => {
 
         return response;
       });
-    })
+    }),
   );
 });
