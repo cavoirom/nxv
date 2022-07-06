@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+PROJECT_DIRECTORY="${SCRIPT_DIRECTORY}/.."
+WEB_DIRECTORY="${PROJECT_DIRECTORY}/web"
+BUILD_DIRECTORY="${WEB_DIRECTORY}/build"
+
+# Client up build directory.
+rm -rf "${BUILD_DIRECTORY}"
+mkdir -p "${BUILD_DIRECTORY}"
+
+# Bundle JavaScript.
+deno bundle \
+    --config "${PROJECT_DIRECTORY}/deno.json" \
+    --import-map "${PROJECT_DIRECTORY}/import_map.json" \
+    "${WEB_DIRECTORY}/app/index.js" \
+    "${BUILD_DIRECTORY}/bundle.js"
+

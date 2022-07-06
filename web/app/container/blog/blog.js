@@ -1,30 +1,18 @@
-import { Fragment, h } from 'preact';
-import { useAction, useSelector } from '@preact-hooks/unistore';
-import { useLocation } from 'wouter-preact';
-import { useEffect } from 'preact/hooks';
-import action from '../../store/action.js';
-const { fetchPartialState } = action;
+import { Fragment, h } from '../../../deps/preact.js';
+import { useLocation } from '../../../deps/wouter-preact.js';
+import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import { log } from '../../shared/logger.js';
-import { SimpleBlogEntry } from '../blog-entry/blog-entry';
-import dlv from 'dlv';
+import { SimpleBlogEntry } from '../blog-entry/blog-entry.js';
+import dlv from '../../../deps/dlv.js';
+import { StoreContext } from '../../store/store.js';
+import { ActionTypes, fetchPartialState } from '../../store/action.js';
 
 export default function Blog() {
-  const entries = useSelector((state) => dlv(state, 'blog.entries'));
+  const [state, dispatch] = useContext(StoreContext);
+  const entries = dlv(state, 'blog.entries');
   const [location] = useLocation();
 
   log.debug('Render Blog:', entries);
-
-  const fetchBlogAction = useAction((state) => {
-    return fetchPartialState(location).then((entries) => {
-      return Promise.resolve({
-        ...state,
-        blog: {
-          ...state.blog,
-          entries,
-        },
-      });
-    });
-  });
 
   // Set title
   useEffect(() => {
@@ -34,7 +22,9 @@ export default function Blog() {
   // Initialize blog if it's undefined
   useEffect(() => {
     if (!entries || entries.length === 0) {
-      fetchBlogAction();
+      fetchPartialState(location).then((entries) => {
+        dispatch({ type: ActionTypes.SET_BLOG_ENTRIES, payload: { entries } });
+      });
     }
   });
 

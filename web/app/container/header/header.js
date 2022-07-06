@@ -1,20 +1,20 @@
-import { Fragment, h } from 'preact';
-import { useSelector, useStore } from '@preact-hooks/unistore';
-import { Link, useLocation, useRoute } from 'wouter-preact';
+import { Fragment, h } from '../../../deps/preact.js';
+import { Link, useLocation } from '../../../deps/wouter-preact.js';
 import { log } from '../../shared/logger.js';
-import action from '../../store/action.js';
-const { fetchPartialState } = action;
+import { StoreContext } from '../../store/store.js';
+import { useContext } from '../../../deps/preact-hooks.js';
+import { ActionTypes, fetchPartialState } from '../../store/action.js';
 
 export default function Header() {
   log.debug('Render Header.');
 
   // VARIABLES
-  const site = useSelector((state) => state.site);
-  const [homeRouteMatched] = useRoute('/home');
-  const [blogRouteMatched] = useRoute('/blog/:childUrl*');
-  // eslint-disable-next-line no-unused-vars
+  const [state, dispatch] = useContext(StoreContext);
+  const { site } = state;
+  const [homeRouteMatched] = useLocation('/home');
+  const [blogRouteMatched] = useLocation('/blog/:childUrl*');
+  // deno-lint-ignore no-unused-vars
   const [location, setLocation] = useLocation();
-  const store = useStore();
 
   // EVENT HANDLERS
   // Open blog when blog link is clicked.
@@ -22,8 +22,7 @@ export default function Header() {
     const blogUrl = ev.target.getAttribute('href');
     log.debug(`Opening blog: ${blogUrl}`);
     fetchPartialState(blogUrl).then((entries) => {
-      const state = store.getState();
-      store.setState({ ...state, blog: { ...state.blog, entries } });
+      dispatch({ type: ActionTypes.SET_BLOG_ENTRIES, payload: { entries } });
       setLocation(blogUrl);
       // Scroll page to top, otherwise the blog entry will be opened in the middle.
       document.documentElement.scrollTop = 0;

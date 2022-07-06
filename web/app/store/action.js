@@ -1,17 +1,17 @@
-function fetchDefaultState() {
+export function fetchDefaultState() {
   return fetch('/api/default.json').then((response) => response.json());
 }
 
-function fetchPartialState(pageUrl) {
+export function fetchPartialState(pageUrl) {
   return fetch(toPartialStateUrl(pageUrl)).then((response) => response.json());
 }
 
-function toPartialStateUrl(pageUrl) {
+export function toPartialStateUrl(pageUrl) {
   return `/api${pageUrl}.json`;
 }
 
-export default {
-  fetchDefaultState,
-  fetchPartialState,
-  toPartialStateUrl,
+export const ActionTypes = {
+  SET_BLOG_ENTRY: 0,
+  SET_BLOG_ENTRIES: 1,
+  SET_BLOG_ENTRIES_BY_TAG: 2,
 };

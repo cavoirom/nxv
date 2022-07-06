@@ -37,19 +37,19 @@ branch is created by command `npm run publish`.
 ### Build
 
 ```
-npm run build
+bash ./script/build
 ```
 
 ### Develop
 
 ```
-npm run serve
+bash ./script/dev
 ```
 
 ### Publish
 
 ```
-npm run publish
+bash ./script/publish
 ```
 
 ## Travis Integration

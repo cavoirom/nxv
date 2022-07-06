@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h } from '../../../deps/preact.js';
 
 function renderEvent(event, index) {
   return h('li', { key: index, 'aria-label': `event ${event}` }, event);

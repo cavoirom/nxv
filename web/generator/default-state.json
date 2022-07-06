@@ -40,6 +40,7 @@
   },
   "blog": {
     "entries": [],
-    "entriesByTag": []
+    "entriesByTag": [],
+    "entry": null
   }
 }

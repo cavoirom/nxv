@@ -1,36 +1,24 @@
-import { Fragment, h } from 'preact';
-import { useAction, useSelector } from '@preact-hooks/unistore';
-import { useLocation } from 'wouter-preact';
-import { useEffect } from 'preact/hooks';
-import action from '../../store/action.js';
-const { fetchPartialState } = action;
+import { Fragment, h } from '../../../deps/preact.js';
+import { useContext } from '../../../deps/preact-hooks.js';
+import { useLocation } from '../../../deps/wouter-preact.js';
+import { useEffect } from '../../../deps/preact-hooks.js';
+import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { log } from '../../shared/logger.js';
-import { SimpleBlogEntry } from '../blog-entry/blog-entry';
-import dlv from 'dlv';
+import { SimpleBlogEntry } from '../blog-entry/blog-entry.js';
+import dlv from '../../../deps/dlv.js';
+import { StoreContext } from '../../store/store.js';
 
 const BLOG_TAG_URL_PATTERN = /\/blog\/tag\/([\w-/]+)/;
 
 export default function BlogTag() {
   // VARIABLES
-  const entriesByTag = useSelector((state) => dlv(state, 'blog.entriesByTag'));
+  const [state, dispatch] = useContext(StoreContext);
+  const entriesByTag = dlv(state, 'blog.entriesByTag');
   const [location] = useLocation();
   const tag = location.match(BLOG_TAG_URL_PATTERN)[1];
   const title = `tag:${tag} - to be continued`;
 
   log.debug('Render Blog Tag:', entriesByTag);
-
-  // EVENT HANDLERS
-  const fetchBlogTagAction = useAction((state) => {
-    return fetchPartialState(location).then((entriesByTag) => {
-      return Promise.resolve({
-        ...state,
-        blog: {
-          ...state.blog,
-          entriesByTag,
-        },
-      });
-    });
-  });
 
   // EFFECTS
   // Set title
@@ -41,7 +29,12 @@ export default function BlogTag() {
   // Initialize blog if it's undefined
   useEffect(() => {
     if (!entriesByTag || entriesByTag.length === 0) {
-      fetchBlogTagAction();
+      fetchPartialState(location).then((entriesByTag) => {
+        dispatch({
+          type: ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
+          payload: { entriesByTag },
+        });
+      });
     }
   });
 

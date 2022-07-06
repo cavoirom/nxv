@@ -1,42 +1,36 @@
-import { Fragment, h } from 'preact';
-import { useEffect } from 'preact/hooks';
-import { useAction, useSelector, useStore } from '@preact-hooks/unistore';
-import { useLocation } from 'wouter-preact';
-import dlv from 'dlv';
+import { Fragment, h } from '../../../deps/preact.js';
+import { useContext, useEffect } from '../../../deps/preact-hooks.js';
+import { useLocation } from '../../../deps/wouter-preact.js';
+import dlv from '../../../deps/dlv.js';
 import { log } from '../../shared/logger.js';
 import Tags from '../../component/tags/tags.js';
-import action from '../../store/action.js';
-const { fetchPartialState, toPartialStateUrl } = action;
+import { StoreContext } from '../../store/store.js';
+import {
+  ActionTypes,
+  fetchPartialState,
+  toPartialStateUrl,
+} from '../../store/action.js';
 
 const BLOG_ENTRY_URL_PATTERN = /\/blog\/entry\/[\w-/]+/;
 
 export default function BlogEntry() {
-  const entry = useSelector((state) => dlv(state, 'blog.entry'));
+  const [state, dispatch] = useContext(StoreContext);
+  const entry = dlv(state, 'blog.entry');
   const [location] = useLocation();
 
   log.debug('Render BlogEntry:', `url: ${location}`, '| entry: ', entry);
 
+  // EFFECTS
   /*
    * When we navigate back/forward by Browser buttons, the blog entry could be undefined or incorrect.
    * In this case, we should check the current blog entry with the url to reload blog entry if necessary.
    */
-  const fetchBlogEntryAction = useAction((state) => {
-    return fetchPartialState(location).then((entry) => {
-      return Promise.resolve({
-        ...state,
-        blog: {
-          ...state.blog,
-          entry,
-        },
-      });
-    });
-  });
-
-  // EFFECTS
   useEffect(() => {
     // We only fetch blog entry if the current url is blog entry url. Some time it's /blog.
     if (isBlogEntryUrl(location) && location !== dlv(entry, 'url')) {
-      fetchBlogEntryAction();
+      fetchPartialState(location).then((entry) => {
+        dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry } });
+      });
     }
   });
 
@@ -76,12 +70,12 @@ function _renderBlogEntry(blogEntry) {
   );
 }
 
-export function SimpleBlogEntry({ children, ...props }) {
+export function SimpleBlogEntry({ blogEntry }) {
   // VARIABLES
-  const { blogEntry } = props;
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   const [location, setLocation] = useLocation();
-  const store = useStore();
+  // deno-lint-ignore no-unused-vars
+  const [state, dispatch] = useContext(StoreContext);
 
   // EVENT HANDLERS
   // Open blog entry when title clicked
@@ -89,8 +83,7 @@ export function SimpleBlogEntry({ children, ...props }) {
     const blogEntryUrl = ev.target.getAttribute('href');
     log.debug(`Opening blog entry: ${blogEntryUrl}`);
     fetchPartialState(blogEntryUrl).then((entry) => {
-      const state = store.getState();
-      store.setState({ ...state, blog: { ...state.blog, entry } });
+      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry } });
       setLocation(blogEntryUrl);
       // Scroll page to top, otherwise the blog entry will be opened in the middle.
       document.documentElement.scrollTop = 0;

@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h } from '../../../deps/preact.js';
 import { log } from '../../shared/logger.js';
 
 export default function Footer() {

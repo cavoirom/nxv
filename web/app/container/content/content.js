@@ -1,5 +1,5 @@
-import { h } from 'preact';
-import { Route, Switch } from 'wouter-preact';
+import { h } from '../../../deps/preact.js';
+import { Route, Switch } from '../../../deps/wouter-preact.js';
 import Home from '../home/home.js';
 import Blog from '../blog/blog.js';
 import BlogEntry from '../blog-entry/blog-entry.js';

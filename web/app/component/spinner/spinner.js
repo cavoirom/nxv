@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h } from '../../../deps/preact.js';
 
 export default function Spinner() {
   const loading = h('div', { className: 'pure-u-1' }, 'Loading..');

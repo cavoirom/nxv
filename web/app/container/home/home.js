@@ -1,14 +1,16 @@
-import { Fragment, h } from 'preact';
-import { useEffect } from 'preact/hooks';
-import { useSelector } from '@preact-hooks/unistore';
+import { Fragment, h } from '../../../deps/preact.js';
+import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import EventSection from '../../component/event-section/event-section.js';
 import { log } from '../../shared/logger.js';
+import { StoreContext } from '../../store/store.js';
 
 export default function Home() {
   log.debug('Render Home.');
 
-  const home = useSelector((state) => state.home);
-  const title = useSelector((state) => state.site.title);
+  // deno-lint-ignore no-unused-vars
+  const [state, dispatch] = useContext(StoreContext);
+  const home = state.home;
+  const title = state.site.title;
 
   // Set title
   useEffect(() => {

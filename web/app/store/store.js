@@ -1,11 +1,42 @@
-import createStore from 'unistore';
+import { h } from '../../deps/preact.js';
+import { createContext } from '../../deps/preact.js';
+import { useReducer } from '../../deps/preact-hooks.js';
+import { ActionTypes } from './action.js';
 
-export function configureStore(initialState) {
-  // Only activate devtools for Browser
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Run in ENV: ', process.env.NODE_ENV);
-    const devtools = require('unistore/devtools');
-    return devtools(createStore(initialState));
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ActionTypes.SET_BLOG_ENTRY:
+      return {
+        ...state,
+        blog: {
+          ...state.blog,
+          entry: action.payload.entry,
+        },
+      };
+    case ActionTypes.SET_BLOG_ENTRIES:
+      return {
+        ...state,
+        blog: {
+          ...state.blog,
+          entries: action.payload.entries,
+        },
+      };
+    case ActionTypes.SET_BLOG_ENTRIES_BY_TAG:
+      return {
+        ...state,
+        blog: {
+          ...state.blog,
+          entriesByTag: action.payload.entriesByTag,
+        },
+      };
+    default:
+      return state;
   }
-  return createStore(initialState);
+};
+
+export const StoreContext = createContext([{}, null]);
+
+export function StoreProvider({ children, state }) {
+  const store = useReducer(reducer, state);
+  return h(StoreContext.Provider, { value: store }, ...children);
 }
