@@ -20,9 +20,7 @@
         "closure-compiler-externs",
         "web/build",
         "web/dist",
-        "web/generator",
-        "web/test",
-        "router"
+        "web/test"
       ]
     }
   }

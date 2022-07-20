@@ -3,6 +3,7 @@
     "dlv": "https://esm.sh/dlv@1.1.3?dev",
     "preact": "https://esm.sh/preact@10.8.2?dev",
     "preact/hooks": "https://esm.sh/preact@10.8.2/hooks?dev",
+    "sqlite": "https://deno.land/x/sqlite@v3.4.0/mod.ts",
     "testing/": "https://deno.land/std@0.117.0/testing/",
     "wouter-preact": "https://esm.sh/wouter-preact@2.7.5?dev"
   }

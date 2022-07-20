@@ -1,15 +1,16 @@
-import CacheStore from '../../../src/generator/cache-store/cache-store';
-import CachedPage from '../../../src/generator/cache-store/cached-page';
+import { assertEquals } from '../../../deps/testing.js';
+import CacheStore from '../../../generator/cache-store/cache-store.js';
+import CachedPage from '../../../generator/cache-store/cached-page.js';
 
-test('should store page and load page successfully.', async () => {
+Deno.test('should store page and load page successfully.', () => {
   const cacheStore = new CacheStore(':memory:');
-  cacheStore.initialize();
   const page = CachedPage.newStatic('/home', 'STATIC', {}, {});
-  await cacheStore.addPage(page);
-  const storedPages = await cacheStore.findAllPages();
+  cacheStore.addPage(page);
+  const storedPages = cacheStore.findAllPages();
   const storedPage = storedPages[0];
+  cacheStore.close();
 
   // Assert stored page
-  expect(storedPages.length).toEqual(1);
-  expect(storedPage.url).toEqual(page.url);
+  assertEquals(storedPages.length, 1);
+  assertEquals(storedPage.url, page.url);
 });

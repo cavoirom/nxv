@@ -1,120 +1,83 @@
 import CachedFile from './cached-file.js';
 
 export default class CachedFileRepository {
-  static FIND_STATEMENT = `SELECT * FROM CachedFile WHERE id = $fileId;`;
+  static FIND_STATEMENT = `SELECT * FROM CachedFile WHERE id = :fileId;`;
   static FIND_BY_PAGE_ID_STATEMENT =
-    `SELECT * FROM CachedFile WHERE pageId = $pageId;`;
+    `SELECT * FROM CachedFile WHERE pageId = :pageId;`;
   static ADD_STATEMENT =
-    `INSERT INTO CachedFile ( pageId, relativePath, hash ) VALUES ( $pageId, $relativePath, $hash );`;
+    `INSERT INTO CachedFile ( pageId, relativePath, hash ) VALUES ( :pageId, :relativePath, :hash );`;
   static UPDATE_STATEMENT =
-    `UPDATE CachedFile SET ( hash = $hash ) WHERE id = $fileId;`;
-  static REMOVE_STETEMENT = `DELETE FROM CachedFile WHERE id = $fileId;`;
+    `UPDATE CachedFile SET ( hash = :hash ) WHERE id = :fileId;`;
+  static REMOVE_STETEMENT = `DELETE FROM CachedFile WHERE id = :fileId;`;
   static REMOVE_BY_PAGE_ID_STATEMENT =
-    `DELETE FROM CachedFile WHERE pageId = $pageId;`;
+    `DELETE FROM CachedFile WHERE pageId = :pageId;`;
 
   constructor(connection) {
     this.connection = connection;
+    this.findCachedFileQuery = this.connection.prepareQuery(
+      CachedFileRepository.FIND_STATEMENT,
+    );
+    this.findCachedFileByPageIdQuery = this.connection.prepareQuery(
+      CachedFileRepository.FIND_BY_PAGE_ID_STATEMENT,
+    );
+    this.addCachedFileQuery = this.connection.prepareQuery(
+      CachedFileRepository.ADD_STATEMENT,
+    );
+    this.removeCachedFileQuery = this.connection.prepareQuery(
+      CachedFileRepository.REMOVE_STETEMENT,
+    );
+    this.removeCachedFileByPageIdQuery = this.connection.prepareQuery(
+      CachedFileRepository.REMOVE_BY_PAGE_ID_STATEMENT,
+    );
   }
 
-  async find(fileId) {
-    const result = new Promise((resolve, reject) => {
-      this.connection.get(CachedFileRepository.FIND_STATEMENT, {
-        $fileId: fileId,
-      }, function (error, row) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        if (row === undefined) {
-          reject(new Error(`File not found with ID: ${fileId}.`));
-        }
-        resolve(CachedFileRepository.toFile(row));
-      });
-    });
-    return result;
+  close() {
+    this.findCachedFileQuery.finalize();
+    this.findCachedFileByPageIdQuery.finalize();
+    this.addCachedFileQuery.finalize();
+    this.removeCachedFileQuery.finalize();
+    this.removeCachedFileByPageIdQuery.finalize();
   }
 
-  async findByPageId(pageId) {
-    const result = new Promise((resolve, reject) => {
-      this.connection.get(CachedFileRepository.FIND_BY_PAGE_ID_STATEMENT, {
-        $pageId: pageId,
-      }, function (error, row) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        if (row === undefined) {
-          resolve([]);
-          return;
-        }
-        resolve(CachedFileRepository.toFile(row));
-      });
-    });
-    return result;
+  find(fileId) {
+    const result = this.findCachedFileQuery.oneEntry({ fileId });
+    return CachedFileRepository.toFile(result);
   }
 
-  async add(file) {
+  findByPageId(pageId) {
+    const rows = this.findCachedFileByPageIdQuery.allEntries({ pageId });
+    return rows.map(CachedFileRepository.toFile);
+  }
+
+  add(file) {
     const params = CachedFileRepository.toParams(file);
-    const result = new Promise((resolve, reject) => {
-      this.connection.run(
-        CachedFileRepository.ADD_STATEMENT,
-        params,
-        function (error) {
-          if (error) {
-            reject(error);
-            return;
-          }
-          const storedFile = new CachedFile(
-            this.lastID,
-            file.pageId,
-            file.relativePath,
-            file.hash,
-          );
-          resolve(storedFile);
-        },
-      );
-    });
-    return result;
+    this.addCachedFileQuery.execute(params);
+    const addedFileId = this.connection.lastInsertRowId;
+    const addedFile = new CachedFile(
+      addedFileId,
+      file.pageId,
+      file.relativePath,
+      file.hash,
+    );
+    return addedFile;
   }
 
   // eslint-disable-next-line no-unused-vars
-  async update(file) {}
+  update(file) {}
 
-  async remove(fileId) {
-    const result = new Promise((resolve, reject) => {
-      this.connection.run(CachedFileRepository.REMOVE_STETEMENT, {
-        $fileId: fileId,
-      }, function (error) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
-    return result;
+  remove(fileId) {
+    this.removeCachedFileQuery.execute({ fileId });
   }
 
   async removeByPageId(pageId) {
-    const result = new Promise((resolve, reject) => {
-      this.connection.run(CachedFileRepository.REMOVE_BY_PAGE_ID_STATEMENT, {
-        $pageId: pageId,
-      }, function (error) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
-    });
-    return result;
+    this.removeCachedFileByPageIdQuery.execute({ pageId });
   }
 
   static toParams(file) {
     return {
-      $pageId: file.pageId,
-      $relativePath: file.relativePath,
-      $hash: file.hash,
+      pageId: file.pageId,
+      relativePath: file.relativePath,
+      hash: file.hash,
     };
   }
 

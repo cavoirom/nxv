@@ -1,4 +1,4 @@
-import sqlite3 from 'sqlite3';
+import { DB } from '../../deps/sqlite.js';
 import CachedPageRepository from './cached-page-repository.js';
 import CachedFileRepository from './cached-file-repository.js';
 
@@ -30,24 +30,22 @@ export default class CacheStore {
   constructor(sqliteDatabase) {
     this.sqliteDatabase = sqliteDatabase;
 
-    const sqlite = sqlite3.verbose();
     console.log(`Create database connection: ${this.sqliteDatabase}`);
-    this.connection = new sqlite.Database(this.sqliteDatabase);
-
-    // Close connection when exit.
-    process.on('SIGINT', () => {
-      console.log(`Close database connection: ${this.sqliteDatabase}`);
-    });
+    this.connection = new DB(this.sqliteDatabase);
+    this.initialize();
 
     this.pageRepo = new CachedPageRepository(this.connection);
     this.fileRepo = new CachedFileRepository(this.connection);
   }
 
   initialize() {
-    const self = this;
-    this.connection.serialize(function () {
-      self.connection.exec(CacheStore.INITIALIZE_STATEMENTS);
-    });
+    this.connection.execute(CacheStore.INITIALIZE_STATEMENTS);
+  }
+
+  close() {
+    this.pageRepo.close();
+    this.fileRepo.close();
+    this.connection.close();
   }
 
   /**
@@ -55,11 +53,11 @@ export default class CacheStore {
    * @param {CachedPage} page
    * @returns {Promise<CachedPage>}
    */
-  async addPage(page) {
-    const storedPage = await this.pageRepo.add(page);
+  addPage(page) {
+    const storedPage = this.pageRepo.add(page);
     const storedFiles = [];
     for (const file of storedPage.files) {
-      const storedFile = await this.fileRepo.add(file);
+      const storedFile = this.fileRepo.add(file);
       storedFiles.push(storedFile);
     }
     storedPage.files = storedFiles;
@@ -76,23 +74,23 @@ export default class CacheStore {
     // TODO remove page by id.
   }
 
-  async findAllPages() {
-    const pages = await this.pageRepo.findAll();
+  findAllPages() {
+    const pages = this.pageRepo.findAll();
     for (const page of pages) {
-      page.files = await this.fileRepo.findByPageId(page.id);
+      page.files = this.fileRepo.findByPageId(page.id);
     }
     return pages;
   }
 
-  async findBlogEntryPages() {
+  findBlogEntryPages() {
     return this.pageRepo.findBlogEntries();
   }
 
-  async findBlogEntryTags() {
+  findBlogEntryTags() {
     return this.pageRepo.findBlogEntryTags();
   }
 
-  async findBlogEntriesByTag(tag) {
+  findBlogEntriesByTag(tag) {
     return this.pageRepo.findBlogEntriesByTag(tag);
   }
 }
