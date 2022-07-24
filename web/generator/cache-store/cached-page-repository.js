@@ -92,7 +92,7 @@ export default class CachedPageRepository {
   }
 
   findBlogEntriesByTag(tag) {
-    const rows = this.findBlogEntriesByTagQuery.allEntries();
+    const rows = this.findBlogEntriesByTagQuery.allEntries({ tag });
     const pages = rows.map(CachedPageRepository.toPage);
     return pages;
   }
