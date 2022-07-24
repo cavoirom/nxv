@@ -6,7 +6,7 @@ export default function customRemarkable(md, pluginOptions) {
   /**
    * images
    */
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   md.renderer.rules.image = ((pluginOptions) => (tokens, idx, options, env) => {
     const src = ` src="${
       pluginOptions.pathname ? `${escapeHtml(pluginOptions.pathname)}/` : ''

@@ -62,14 +62,14 @@ export default class CachedFileRepository {
     return addedFile;
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   update(file) {}
 
   remove(fileId) {
     this.removeCachedFileQuery.execute({ fileId });
   }
 
-  async removeByPageId(pageId) {
+  removeByPageId(pageId) {
     this.removeCachedFileByPageIdQuery.execute({ pageId });
   }
 

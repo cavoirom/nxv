@@ -4,6 +4,7 @@ export default class Collector {
     this.config = config;
   }
 
+  // deno-lint-ignore require-await
   async collect() {
     throw new Error('Method not implemented.');
   }

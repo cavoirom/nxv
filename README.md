@@ -10,7 +10,9 @@
 
 `main` contains released code.
 
-`feature/<name-of-feature>` contains current developing feature, should increase minor version after create `feature` branch. The branch is derived from `main` and to be merged to `main`.
+`feature/<name-of-feature>` contains current developing feature, should increase
+minor version after create `feature` branch. The branch is derived from `main`
+and to be merged to `main`.
 
 `draft/<name-of-blog-entry>` contains draft blog entry. The branch is derived
 from `main`. We can publish the entry by merging the branch to `main`.

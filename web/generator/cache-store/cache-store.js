@@ -64,12 +64,12 @@ export default class CacheStore {
     return storedPage;
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   async updatePage(page) {
     // TODO update page.
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   async removePage(pageId) {
     // TODO remove page by id.
   }

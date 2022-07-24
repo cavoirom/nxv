@@ -90,7 +90,7 @@ async function generate(config) {
     const renderer = renderers[page.type];
     if (renderer) {
       console.log(`Render page: ${page.url}`);
-      await renderer.render(page);
+      renderer.render(page);
     } else {
       console.log(`No renderer for page: ${page.type} ${page.url}`);
     }

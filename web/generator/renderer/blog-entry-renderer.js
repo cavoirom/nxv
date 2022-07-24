@@ -1,8 +1,8 @@
 import Renderer from './renderer.js';
-import { copySync, ensureDirSync } from '../../deps/fs.js';
+import { copySync } from '../../deps/fs.js';
 
 export default class BlogEntryRenderer extends Renderer {
-  async render(page) {
+  render(page) {
     this._writePageHtml(page);
     this._writePartialState(page);
     this._copyImages(page);
@@ -19,6 +19,7 @@ export default class BlogEntryRenderer extends Renderer {
     try {
       const sourceDirectoryInfo = Deno.statSync(sourceDirectory);
       sourceDirectoryExists = sourceDirectoryInfo.isDirectory;
+      // deno-lint-ignore no-unused-vars
     } catch (error) {
       sourceDirectoryExists = false;
     }

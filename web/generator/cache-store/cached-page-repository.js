@@ -67,10 +67,10 @@ export default class CachedPageRepository {
     return addedCachedPage;
   }
 
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   update(page) {}
 
-  // eslint-disable-next-line no-unused-vars
+  // deno-lint-ignore no-unused-vars
   remove(page) {}
 
   findAll() {

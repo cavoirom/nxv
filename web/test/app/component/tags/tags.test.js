@@ -8,11 +8,8 @@ const { click } = userEvent.default;
 /*
  * Workaround for ESM Mock, based on https://github.com/facebook/jest/issues/10025#issuecomment-811461098
  */
-// eslint-disable-next-line jest/no-mocks-import
 import mockUnistoreHooks from '../../../../__mocks__/@preact-hooks/unistore.js';
-// eslint-disable-next-line jest/no-mocks-import
 import mockWouterPreact from '../../../../__mocks__/wouter-preact.js';
-// eslint-disable-next-line jest/no-mocks-import
 import mockAction from '../../../../src/app/store/__mocks__/action.js';
 const asyncModulesHolder = import('@preact-hooks/unistore')
   .then(({ default: unistoreHooks }) => {

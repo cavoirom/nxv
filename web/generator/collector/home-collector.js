@@ -6,6 +6,7 @@ export default class HomeCollector {
     this.config = config;
   }
 
+  // deno-lint-ignore require-await
   async collect() {
     const { defaultState } = this.config;
     const state = { ...defaultState, pageTitle: defaultState.site.title };

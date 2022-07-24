@@ -22,6 +22,7 @@ addEventListener('fetch', (event) => {
   event.respondWith(handleRequest(event.request));
 });
 
+// deno-lint-ignore require-await
 async function handleRequest(request) {
   const url = new URL(request.url);
 
