@@ -1,4 +1,4 @@
-import { h } from '../../deps/preact.js';
+import { h, toChildArray } from '../../deps/preact.js';
 import { createContext } from '../../deps/preact.js';
 import { useReducer } from '../../deps/preact-hooks.js';
 import { ActionTypes } from './action.js';
@@ -38,5 +38,6 @@ export const StoreContext = createContext([{}, null]);
 
 export function StoreProvider({ children, state }) {
   const store = useReducer(reducer, state);
-  return h(StoreContext.Provider, { value: store }, ...children);
+  // We need toChildArray because children may be a single element.
+  return h(StoreContext.Provider, { value: store }, ...toChildArray(children));
 }

@@ -1,10 +1,10 @@
-import { Remarkable } from 'remarkable';
-import frontMatter from 'remarkable-front-matter';
-import extLink from 'remarkable-extlink';
+import { Remarkable } from '../../deps/remarkable.js';
+import frontMatter from '../../deps/remarkable-front-matter.js';
+import extLink from '../../deps/remarkable-extlink.js';
 import customRemarkable from '../remarkable-rules.js';
-import fs from 'fs';
-import path from 'path';
 import CachedPage from '../cache-store/cached-page.js';
+import { expandGlobSync } from '../../deps/fs.js';
+import { dirname } from '../../deps/path.js';
 
 const SLUG_PATTERN = /(\d{4})\/([\w-]+)\/index\.md$/;
 
@@ -60,23 +60,16 @@ export default class BlogEntryCollector {
   }
 
   _scanBlogEntryDirectories(blogDirectory) {
-    const files = fs.readdirSync(blogDirectory);
-    let result = [];
-    for (const file of files) {
-      const child = path.resolve(blogDirectory, file);
-      if (fs.lstatSync(child).isDirectory()) {
-        result = result.concat(this._scanBlogEntryDirectories(child));
-      } else if (child.endsWith('.md')) {
-        result.push(path.dirname(child));
-      }
-    }
+    const result = [...expandGlobSync(`${blogDirectory}\/**\/*.md`)].map((
+      item,
+    ) => item.path).map(dirname);
     return result;
   }
 
   _buildBlogEntry(markdownFile) {
     const found = markdownFile.match(SLUG_PATTERN);
     const slug = found[2];
-    const blogEntryMarkdown = fs.readFileSync(markdownFile, 'utf8');
+    const blogEntryMarkdown = Deno.readTextFileSync(markdownFile);
     const env = { frontMatter: undefined };
 
     const md = new Remarkable();

@@ -1,15 +1,13 @@
-import path from 'path';
-import fs from 'fs';
+import { resolve } from '../deps/path.js';
 
-const defaultStateJson = fs.readFileSync(
-  path.resolve(process.cwd(), 'src/generator/default-state.json'),
-  'utf8',
+const defaultStateJson = Deno.readTextFileSync(
+  'web/generator/default-state.json',
 );
 const defaultState = JSON.parse(defaultStateJson);
 
 const config = {
-  output: path.resolve(process.cwd(), 'build/dist'),
-  content: path.resolve(process.cwd(), 'src/content'),
+  output: resolve(Deno.cwd(), './web/build/dist'),
+  content: resolve(Deno.cwd(), './web/content'),
   host: 'ngxv.org',
   defaultState,
 };

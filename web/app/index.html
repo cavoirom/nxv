@@ -12,17 +12,17 @@
 
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="stylesheet" href="index.scss" />
+    <link rel="stylesheet" href="/index.css" />
   </head>
 
   <body>
     <div id="app"></div>
     <!-- KEEP SCRIPT AT BOTTOM -->
-    <script src="index.js"></script>
+    <script src="/index.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
-          navigator.serviceWorker.register('./worker.js').then(
+          navigator.serviceWorker.register('/worker.js').then(
             function (registration) {
               // Registration was successful
               console.log('ServiceWorker registration successful with scope: ', registration.scope);

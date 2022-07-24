@@ -5,16 +5,15 @@ import config from './config.js';
 import StaticPageRenderer from './renderer/static-page-renderer.js';
 import BlogEntryCollector from './collector/blog-entry-collector.js';
 import BlogEntryRenderer from './renderer/blog-entry-renderer.js';
-import fs from 'fs';
+import { ensureDirSync, expandGlobSync } from '../deps/fs.js';
 import BlogTagCollector from './collector/blog-tag-collector.js';
 
 function _generateDefaultState(config) {
   // Generate default state
-  fs.mkdirSync(`${config.output}/api`, { recursive: true });
-  fs.writeFileSync(
+  ensureDirSync(`${config.output}/api`);
+  Deno.writeTextFileSync(
     `${config.output}/api/default.json`,
     JSON.stringify(config.defaultState),
-    { encoding: 'utf8' },
   );
 }
 
@@ -35,7 +34,9 @@ function _generateCacheRoutes(config) {
   const additionalPaths = [];
 
   // List all files in /build/dist folder
-  const fileNames = fs.readdirSync(config.output);
+  const fileNames = [...expandGlobSync(`${config.output}/*`)].map((item) =>
+    item.path
+  ).map((item) => item.substring(config.output.length + 1));
 
   // Create routes to be caches in local
   const cacheIdentifier = `asset-${new Date().getTime()}`;
@@ -50,12 +51,11 @@ function _generateCacheRoutes(config) {
 
   // Replace the place holder routes array with real informations
   const workerPath = `${config.output}/worker.js`;
-  const workerText = fs
-    .readFileSync(workerPath, 'utf8')
+  const workerText = Deno.readTextFileSync(workerPath)
     .replace('<cache-identifier>', cacheIdentifier)
-    .replace('"<precached-resources>"', precachedResources)
-    .replace('"<excluded-resources>"', excludedResources);
-  fs.writeFileSync(workerPath, workerText, { encoding: 'utf8' });
+    .replace(`'<precached-resources>'`, precachedResources)
+    .replace(`'<excluded-resources>'`, excludedResources);
+  Deno.writeTextFileSync(workerPath, workerText);
 }
 
 async function generate(config) {
@@ -78,29 +78,29 @@ async function generate(config) {
     await collector.collect();
   }
   // Render the pages
-  const pages = await cacheStore.findAllPages();
+  const pages = cacheStore.findAllPages();
   const renderers = {
     STATIC: new StaticPageRenderer(config),
     BLOG: new StaticPageRenderer(config),
     BLOG_ENTRY: new BlogEntryRenderer(config),
     BLOG_TAG: new StaticPageRenderer(config),
   };
-  const rendererWorks = pages.map((page) => {
+
+  for (const page of pages) {
     const renderer = renderers[page.type];
     if (renderer) {
       console.log(`Render page: ${page.url}`);
-      renderer.render(page);
+      await renderer.render(page);
     } else {
       console.log(`No renderer for page: ${page.type} ${page.url}`);
     }
-  });
-  await Promise.all(rendererWorks);
+  }
 
   _generateDefaultState(config);
 
   _generateCacheRoutes(config);
+
+  cacheStore.close();
 }
 
-(async () => {
-  await generate(config);
-})();
+await generate(config);

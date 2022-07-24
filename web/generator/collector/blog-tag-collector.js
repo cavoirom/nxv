@@ -1,4 +1,4 @@
-import Collector from './collector';
+import Collector from './collector.js';
 import CachedPage from '../cache-store/cached-page.js';
 
 export default class BlogTagCollector extends Collector {
