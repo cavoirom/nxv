@@ -1,10 +1,44 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-NODE_OPTIONS=--experimental-vm-modules npx jest
-rm -rf build
-npx parcel build src/app/index.html --target browser --out-dir build/dist &
-npx parcel build src/generator/generator.js --target node --out-dir build/generator --out-file generator.cjs &
-wait
-NODE_ENV=production node build/generator/generator.cjs
-rm -rf dist && cp -r build/dist dist
+# Prerequisites
+# - deno 1.24.0.
+# - dart-sass 1.37.0.
+
+# TODO run tests.
+
+# clean build directory.
+rm -rf ./web/build
+mkdir -p ./web/build/dist
+
+# bundle the app to index.js.
+deno bundle --config deno.json --import-map import_map.json ./web/app/index.js ./web/build/dist/index.js
+
+# bundle worker.js
+deno bundle --config deno.json --import-map import_map.json ./web/app/worker.js ./web/build/dist/worker.js
+
+
+# bundle css to index.css.
+# TODO bundle dependencies, could use esbuild.
+sass ./web/app/index.scss ./web/build/dist/index.css
+
+# copy static content.
+cp ./web/app/favicon.ico ./web/build/dist/
+cp ./web/app/manifest.webmanifest ./web/build/dist/
+cp ./web/app/index.html ./web/build/dist/
+cp ./web/content/static/CNAME ./web/build/dist/
+
+# generate site from content.
+deno run \
+    --config deno.json \
+    --import-map import_map.json \
+    --no-check=remote \
+    --allow-read \
+    --allow-write \
+    --allow-env \
+    ./web/generator/generator.js
+
+# copy to official directory.
+rm -rf ./web/dist
+cp -r ./web/build/dist ./web/dist
+
