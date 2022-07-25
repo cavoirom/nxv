@@ -1,6 +1,9 @@
-@import 'https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/base-min.css';
-@import 'https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-min.css';
-@import 'https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css';
+/*
+ * We are using dart-sass to bundle scss files.
+ * The tool is not support bundle css imports and remote imports.
+ * We workaround this issue by downloading purecss and refer to it locally.
+ */
+@import '../deps/purecss.scss';
 
 @import './shared/variables.scss';
 @import './container/header/header.scss';

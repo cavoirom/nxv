@@ -5,6 +5,17 @@ set -e
 # - deno 1.24.0.
 # - dart-sass 1.37.0.
 
+# utilities
+download() {
+  local HASH=$1
+  local URL=$2
+  local OUTPUT=$3
+  local SHA256SUM="$HASH  $OUTPUT"
+  if ! echo "$SHA256SUM" | shasum -s -c; then
+    curl -L "$URL" -o "$OUTPUT"
+  fi
+}
+
 # TODO run tests.
 
 # clean build directory.
@@ -17,10 +28,13 @@ deno bundle --config deno.json --import-map import_map.json ./web/app/index.js .
 # bundle worker.js
 deno bundle --config deno.json --import-map import_map.json ./web/app/worker.js ./web/build/dist/worker.js
 
-
+# download purecss
+mkdir -p ".cache/deps/purecss/2.1.0"
+download "8c01fbca2681ae46e5a6c626c236734cc7fea87785b611554fc818ece43c08ac" "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/base-min.css" "./.cache/deps/purecss/2.1.0/base-min.scss"
+download "dbb583ba6e838e6c22199e69bcae90af3ea735f959df70d97bc792bdeaf72285" "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-min.css" "./.cache/deps/purecss/2.1.0/grids-min.scss"
+download "2131b61e813b7ce13fe5ab44c2a1bd25ab937f6eb4b5343584e22c981d262227" "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" "./.cache/deps/purecss/2.1.0/grids-responsive-min.scss"
 # bundle css to index.css.
-# TODO bundle dependencies, could use esbuild.
-sass ./web/app/index.scss ./web/build/dist/index.css
+sass --style compressed ./web/app/index.scss ./web/build/dist/index.css
 
 # copy static content.
 cp ./web/app/favicon.ico ./web/build/dist/
@@ -37,6 +51,7 @@ deno run \
     --allow-write \
     --allow-env \
     ./web/generator/generator.js
+# TODO minify the result.
 
 # copy to official directory.
 rm -rf ./web/dist
