@@ -12,6 +12,9 @@
     "remarkable-front-matter": "https://esm.sh/remarkable-front-matter@1.0.0?dev",
     "sqlite": "https://deno.land/x/sqlite@v3.4.0/mod.ts",
     "testing/": "https://deno.land/std@0.149.0/testing/",
+    "@testing-library/preact": "https://esm.sh/@testing-library/preact@3.2.2?dev",
+    "@testing-library/user-event": "https://esm.sh/@testing-library/user-event@14.3.0?dev",
+    "deno_dom/": "https://deno.land/x/deno_dom@v0.1.33-alpha/",
     "wouter-preact": "https://esm.sh/wouter-preact@2.8.0-alpha.2?dev",
     "wouter-preact/static-location": "https://esm.sh/wouter-preact@2.8.0-alpha.2/static-location?dev"
   }
