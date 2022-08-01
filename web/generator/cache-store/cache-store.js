@@ -27,13 +27,10 @@ export default class CacheStore {
       FOREIGN KEY (pageId) REFERENCES CachedPage(id)
     );`;
 
-  constructor(sqliteDatabase) {
-    this.sqliteDatabase = sqliteDatabase;
-
-    console.log(`Create database connection: ${this.sqliteDatabase}`);
-    this.connection = new DB(this.sqliteDatabase);
+  constructor(db) {
+    this.db = db;
+    this.connection = new DB(this.db);
     this.initialize();
-
     this.pageRepo = new CachedPageRepository(this.connection);
     this.fileRepo = new CachedFileRepository(this.connection);
   }
@@ -43,8 +40,6 @@ export default class CacheStore {
   }
 
   close() {
-    this.pageRepo.close();
-    this.fileRepo.close();
     this.connection.close();
   }
 

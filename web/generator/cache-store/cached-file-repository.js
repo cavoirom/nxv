@@ -1,6 +1,7 @@
 import CachedFile from './cached-file.js';
+import Repository from './repository.js';
 
-export default class CachedFileRepository {
+export default class CachedFileRepository extends Repository {
   static FIND_STATEMENT = `SELECT * FROM CachedFile WHERE id = :fileId;`;
   static FIND_BY_PAGE_ID_STATEMENT =
     `SELECT * FROM CachedFile WHERE pageId = :pageId;`;
@@ -13,46 +14,30 @@ export default class CachedFileRepository {
     `DELETE FROM CachedFile WHERE pageId = :pageId;`;
 
   constructor(connection) {
-    this.connection = connection;
-    this.findCachedFileQuery = this.connection.prepareQuery(
-      CachedFileRepository.FIND_STATEMENT,
-    );
-    this.findCachedFileByPageIdQuery = this.connection.prepareQuery(
-      CachedFileRepository.FIND_BY_PAGE_ID_STATEMENT,
-    );
-    this.addCachedFileQuery = this.connection.prepareQuery(
-      CachedFileRepository.ADD_STATEMENT,
-    );
-    this.removeCachedFileQuery = this.connection.prepareQuery(
-      CachedFileRepository.REMOVE_STETEMENT,
-    );
-    this.removeCachedFileByPageIdQuery = this.connection.prepareQuery(
-      CachedFileRepository.REMOVE_BY_PAGE_ID_STATEMENT,
-    );
-  }
-
-  close() {
-    this.findCachedFileQuery.finalize();
-    this.findCachedFileByPageIdQuery.finalize();
-    this.addCachedFileQuery.finalize();
-    this.removeCachedFileQuery.finalize();
-    this.removeCachedFileByPageIdQuery.finalize();
+    super(connection);
   }
 
   find(fileId) {
-    const result = this.findCachedFileQuery.oneEntry({ fileId });
+    const result = this.oneEntry(CachedFileRepository.FIND_STATEMENT, {
+      fileId,
+    });
     return CachedFileRepository.toFile(result);
   }
 
   findByPageId(pageId) {
-    const rows = this.findCachedFileByPageIdQuery.allEntries({ pageId });
+    const rows = this.allEntries(
+      CachedFileRepository.FIND_BY_PAGE_ID_STATEMENT,
+      { pageId },
+    );
     return rows.map(CachedFileRepository.toFile);
   }
 
   add(file) {
     const params = CachedFileRepository.toParams(file);
-    this.addCachedFileQuery.execute(params);
-    const addedFileId = this.connection.lastInsertRowId;
+    const addedFileId = this.addEntry(
+      CachedFileRepository.ADD_STATEMENT,
+      params,
+    );
     const addedFile = new CachedFile(
       addedFileId,
       file.pageId,
@@ -66,11 +51,11 @@ export default class CachedFileRepository {
   update(file) {}
 
   remove(fileId) {
-    this.removeCachedFileQuery.execute({ fileId });
+    this.execute(CachedFileRepository.REMOVE_STETEMENT, { fileId });
   }
 
   removeByPageId(pageId) {
-    this.removeCachedFileByPageIdQuery.execute({ pageId });
+    this.execute(CachedFileRepository.REMOVE_BY_PAGE_ID_STATEMENT, { pageId });
   }
 
   static toParams(file) {
