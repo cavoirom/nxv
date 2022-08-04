@@ -28,6 +28,7 @@ export default class CacheStore {
     );`;
 
   constructor(db) {
+    console.log(`Create cache store: ${db}`);
     this.db = db;
     this.connection = new DB(this.db);
     this.initialize();

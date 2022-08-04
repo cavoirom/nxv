@@ -3,7 +3,7 @@ import frontMatter from '../../deps/remarkable-front-matter.js';
 import extLink from '../../deps/remarkable-extlink.js';
 import customRemarkable from '../remarkable-rules.js';
 import CachedPage from '../cache-store/cached-page.js';
-import { expandGlobSync } from '../../deps/fs.js';
+import { expandGlob } from '../../deps/fs.js';
 import { dirname } from '../../deps/path.js';
 
 const SLUG_PATTERN = /(\d{4})\/([\w-]+)\/index\.md$/;
@@ -16,12 +16,14 @@ export default class BlogEntryCollector {
   }
 
   async collect() {
-    const blogEntryDirectories = this._scanBlogEntryDirectories(
+    const blogEntryDirectories = await this._scanBlogEntryDirectories(
       this.blogDirectory,
     );
     const pages = [];
     for (const blogEntryDirectory of blogEntryDirectories) {
-      const blogEntry = this._buildBlogEntry(`${blogEntryDirectory}/index.md`);
+      const blogEntry = await this._buildBlogEntry(
+        `${blogEntryDirectory}/index.md`,
+      );
       // Construct state
       const { defaultState } = this.config;
       const state = {
@@ -59,17 +61,19 @@ export default class BlogEntryCollector {
     return pages;
   }
 
-  _scanBlogEntryDirectories(blogDirectory) {
-    const result = [...expandGlobSync(`${blogDirectory}\/**\/*.md`)].map((
-      item,
-    ) => item.path).map(dirname);
+  async _scanBlogEntryDirectories(blogDirectory) {
+    const result = [];
+    for await (const item of expandGlob(`${blogDirectory}\/**\/*.md`)) {
+      const path = item.path;
+      result.push(dirname(path));
+    }
     return result;
   }
 
-  _buildBlogEntry(markdownFile) {
+  async _buildBlogEntry(markdownFile) {
     const found = markdownFile.match(SLUG_PATTERN);
     const slug = found[2];
-    const blogEntryMarkdown = Deno.readTextFileSync(markdownFile);
+    const blogEntryMarkdown = await Deno.readTextFile(markdownFile);
     const env = { frontMatter: undefined };
 
     const md = new Remarkable();

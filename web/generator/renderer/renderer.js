@@ -5,7 +5,7 @@ import { h } from '../../deps/preact.js';
 import { Router } from '../../deps/wouter-preact.js';
 import staticLocationHook from '../../deps/wouter-preact-static-location.js';
 import App from '../../app/container/app/app.js';
-import { ensureDirSync } from '../../deps/fs.js';
+import { ensureDir } from '../../deps/fs.js';
 import { dirname } from '../../deps/path.js';
 
 export default class Renderer {
@@ -36,13 +36,6 @@ export default class Renderer {
         h(Router, { hook: location }, h(App, null, null)),
       ),
     );
-    // const appHtml = render(
-    //     h(
-    //         StoreProvider,
-    //         { state: page.state },
-    //         h(App, null, null),
-    //     ),
-    // );
     // Build head with title and generated css.
     const headHtml = this._buildHeadHtml(page.state.pageTitle);
     return `<!DOCTYPE html>
@@ -59,26 +52,26 @@ ${this.$scripts}
 `;
   }
 
-  _writePageHtml(page) {
+  async _writePageHtml(page) {
     // Build Page's HTML
     const pageHtml = this._buildPageHtml(page);
     // Create directory corresponding to url
     const pageDirectory = `${this.config.output}${page.url}`;
-    ensureDirSync(pageDirectory);
+    await ensureDir(pageDirectory);
     // Write html to url/index.html file
-    Deno.writeTextFileSync(`${pageDirectory}/index.html`, pageHtml);
+    await Deno.writeTextFile(`${pageDirectory}/index.html`, pageHtml);
     // Write state to pathname/index.json file
-    Deno.writeTextFileSync(
+    await Deno.writeTextFile(
       `${pageDirectory}/index.json`,
       JSON.stringify(page.state),
     );
   }
 
-  _writePartialState(page) {
+  async _writePartialState(page) {
     const outputJson = `${this.config.output}/api${page.url}.json`;
     const outputDirectory = dirname(outputJson);
-    ensureDirSync(outputDirectory);
-    Deno.writeTextFileSync(
+    await ensureDir(outputDirectory);
+    await Deno.writeTextFile(
       outputJson,
       JSON.stringify(page.partialState),
     );

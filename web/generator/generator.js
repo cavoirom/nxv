@@ -5,19 +5,19 @@ import config from './config.js';
 import StaticPageRenderer from './renderer/static-page-renderer.js';
 import BlogEntryCollector from './collector/blog-entry-collector.js';
 import BlogEntryRenderer from './renderer/blog-entry-renderer.js';
-import { ensureDirSync, expandGlobSync } from '../deps/fs.js';
+import { ensureDir, expandGlob } from '../deps/fs.js';
 import BlogTagCollector from './collector/blog-tag-collector.js';
 
-function _generateDefaultState(config) {
+async function _generateDefaultState(config) {
   // Generate default state
-  ensureDirSync(`${config.output}/api`);
-  Deno.writeTextFileSync(
+  await ensureDir(`${config.output}/api`);
+  await Deno.writeTextFile(
     `${config.output}/api/default.json`,
     JSON.stringify(config.defaultState),
   );
 }
 
-function _generateCacheRoutes(config) {
+async function _generateCacheRoutes(config) {
   // TODO should reimplement this cache.
   const excludedPaths = [
     '',
@@ -34,9 +34,11 @@ function _generateCacheRoutes(config) {
   const additionalPaths = [];
 
   // List all files in /build/dist folder
-  const fileNames = [...expandGlobSync(`${config.output}/*`)].map((item) =>
-    item.path
-  ).map((item) => item.substring(config.output.length + 1));
+  const fileNames = [];
+  for await (const item of expandGlob(`${config.output}/*`)) {
+    const path = item.path;
+    fileNames.push(path.substring(config.output.length + 1));
+  }
 
   // Create routes to be caches in local
   const cacheIdentifier = `asset-${new Date().getTime()}`;
@@ -55,7 +57,7 @@ function _generateCacheRoutes(config) {
     .replace('<cache-identifier>', cacheIdentifier)
     .replace(`'<precached-resources>'`, precachedResources)
     .replace(`'<excluded-resources>'`, excludedResources);
-  Deno.writeTextFileSync(workerPath, workerText);
+  await Deno.writeTextFile(workerPath, workerText);
 }
 
 async function generate(config) {
@@ -90,15 +92,15 @@ async function generate(config) {
     const renderer = renderers[page.type];
     if (renderer) {
       console.log(`Render page: ${page.url}`);
-      renderer.render(page);
+      await renderer.render(page);
     } else {
       console.log(`No renderer for page: ${page.type} ${page.url}`);
     }
   }
 
-  _generateDefaultState(config);
+  await _generateDefaultState(config);
 
-  _generateCacheRoutes(config);
+  await _generateCacheRoutes(config);
 
   cacheStore.close();
 }

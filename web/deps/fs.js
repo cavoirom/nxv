@@ -1,1 +1,1 @@
-export { copySync, ensureDirSync, expandGlobSync } from 'fs/mod.ts';
+export { copy, ensureDir, expandGlob } from 'fs/mod.ts';
