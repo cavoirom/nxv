@@ -2,11 +2,11 @@
   "imports": {
     "cheerio": "https://esm.sh/cheerio@1.0.0-rc.12?dev",
     "dlv": "https://esm.sh/dlv@1.1.3?dev",
-    "preact": "https://esm.sh/preact@10.10.0?dev",
     "fs/": "https://deno.land/std@0.150.0/fs/",
     "path/": "https://deno.land/std@0.150.0/path/",
+    "preact": "https://esm.sh/preact@10.10.0?dev&pin=v87",
     "preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.1?dev",
-    "preact/hooks": "https://esm.sh/preact@10.10.0/hooks?dev",
+    "preact/hooks": "https://esm.sh/preact@10.10.0/hooks?dev&pin=v87",
     "remarkable": "https://esm.sh/remarkable@2.0.1?dev",
     "remarkable-extlink": "https://esm.sh/remarkable-extlink@1.1.1?dev",
     "remarkable-front-matter": "https://esm.sh/remarkable-front-matter@1.0.0?dev",
