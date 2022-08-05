@@ -1,33 +1,78 @@
 #!/bin/bash
+
 set -e
 
 # Prerequisites
 # - deno 1.24.0.
 # - dart-sass 1.37.0.
+# - closure-compiler via environment variable java.
+
+if ! which deno &> /dev/null; then
+  echo "deno is not installed, stop!"
+  exit 1
+fi
+
+if ! which sass &> /dev/null; then
+  echo "dart-sass is not installed, stop!"
+  exit 1
+fi
+
+if ! which java &> /dev/null; then
+  echo "java is not installed, stop!"
+  exit 1
+fi
 
 # utilities
 download() {
-  local HASH=$1
-  local URL=$2
-  local OUTPUT=$3
-  local SHA256SUM="$HASH  $OUTPUT"
-  if ! echo "$SHA256SUM" | shasum -s -c; then
-    curl -L "$URL" -o "$OUTPUT"
+  local hash="$1"
+  local url="$2"
+  local output="$3"
+  local sha256="$hash  $output"
+  if ! echo "$sha256" | shasum -s -c; then
+    curl -L "$url" -o "$output"
   fi
 }
 
+# Environment variables
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
+WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
+
+if [ -z "$CLOSURE_COMPILER" ]; then
+  CLOSURE_COMPILER_SHA256="78458d84c523a7e88107dbb3541e37d2401f9288ed2b1d834d41b0a7131cf94b"
+  CLOSURE_COMPILER_DIRECTORY="$WEB_DIRECTORY/.cache/tools/closure_compiler"
+  CLOSURE_COMPILER="$CLOSURE_COMPILER_DIRECTORY/closure_compiler.jar"
+  mkdir -p "$CLOSURE_COMPILER_DIRECTORY"
+  download \
+      "$CLOSURE_COMPILER_SHA256" \
+      "https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20220719/closure-compiler-v20220719.jar" \
+      "$CLOSURE_COMPILER"
+fi
+
 # test the web.
-deno test --config deno.json --import-map import_map.json --allow-env ./web/test
+deno test \
+    --config deno.json \
+    --import-map import_map.json \
+    --allow-env \
+    "$WEB_DIRECTORY/test"
 
 # clean build directory.
-rm -rf ./web/build
-mkdir -p ./web/build/dist
+rm -rf "$WEB_DIRECTORY/build"
+mkdir -p "$WEB_DIRECTORY/build/dist"
 
 # bundle the app to index.js.
-deno bundle --config deno.json --import-map import_map.json ./web/app/index.js ./web/build/dist/index.js
+deno bundle \
+    --config deno.json \
+    --import-map import_map.json \
+    "$WEB_DIRECTORY/app/index.js" \
+    "$WEB_DIRECTORY/build/dist/index.js"
 
 # bundle worker.js
-deno bundle --config deno.json --import-map import_map.json ./web/app/worker.js ./web/build/dist/worker.js
+deno bundle \
+    --config deno.json \
+    --import-map import_map.json \
+    "$WEB_DIRECTORY/app/worker.js" \
+    "$WEB_DIRECTORY/build/dist/worker.js"
 
 # download purecss
 mkdir -p ".cache/deps/purecss/2.1.0"
@@ -44,13 +89,17 @@ download \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" \
     "./.cache/deps/purecss/2.1.0/grids-responsive-min.scss"
 # bundle css to index.css.
-sass --style compressed ./web/app/index.scss ./web/build/dist/index.css
+sass --style compressed "$WEB_DIRECTORY/app/index.scss" "$WEB_DIRECTORY/build/dist/index.css"
 
 # copy static content.
-cp ./web/app/favicon.ico ./web/build/dist/
-cp ./web/app/manifest.webmanifest ./web/build/dist/
-cp ./web/app/index.html ./web/build/dist/
-cp ./web/content/static/CNAME ./web/build/dist/
+cp "$WEB_DIRECTORY/app/favicon.ico" "$WEB_DIRECTORY/build/dist/"
+cp "$WEB_DIRECTORY/app/manifest.webmanifest" "$WEB_DIRECTORY/build/dist/"
+cp "$WEB_DIRECTORY/app/index.html" "$WEB_DIRECTORY/build/dist/"
+# change reference to minified bundle.
+# TODO check OS and use correct sed option.
+sed -n -i '' -E "s|index\.js|index\.min\.js|g" "$WEB_DIRECTORY/build/dist/index.html"
+sed -n -i '' -E "s|worker\.js|worker.min\.js|g" "$WEB_DIRECTORY/build/dist/index.html"
+cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
 
 # generate site from content.
 deno run \
@@ -60,10 +109,25 @@ deno run \
     --allow-read \
     --allow-write \
     --allow-env \
-    ./web/generator/generator.js
-# TODO minify the result.
+    "$WEB_DIRECTORY/generator/generator.js"
+
+echo "Minify the bundle."
+java -jar $CLOSURE_COMPILER \
+    --compilation_level SIMPLE \
+    --env BROWSER \
+    --language_in ECMASCRIPT_NEXT \
+    --language_out ECMASCRIPT5 \
+    --warning_level QUIET \
+    --js_output_file "$WEB_DIRECTORY/build/dist/index.min.js" "$WEB_DIRECTORY/build/dist/index.js"
+java -jar $CLOSURE_COMPILER \
+    --compilation_level SIMPLE \
+    --env BROWSER \
+    --language_in ECMASCRIPT_NEXT \
+    --language_out ECMASCRIPT5 \
+    --warning_level QUIET \
+    --js_output_file "$WEB_DIRECTORY/build/dist/worker.min.js" "$WEB_DIRECTORY/build/dist/worker.js"
 
 # copy to official directory.
-rm -rf ./web/dist
-cp -r ./web/build/dist ./web/dist
+rm -rf "$WEB_DIRECTORY/dist"
+cp -r "$WEB_DIRECTORY/build/dist" "$WEB_DIRECTORY/dist"
 
