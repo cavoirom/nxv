@@ -1,26 +1,14 @@
-language: node_js
-os: linux
-dist: trusty
+language: "java"
+os: "linux"
+dist: "jammy"
+jdk: "openjdk11"
 branches:
   only:
-    - dev
-    - main
-node_js:
-  - 14
+    - "/^feature\/.*$/"
+    - "main"
 before_install:
-  - cd modules/web
-install:
-  - npm ci
-script:
-  - if [ "$TRAVIS_BRANCH" = "dev" ]; then npm run build; fi
-  - |
-    if [ "$TRAVIS_BRANCH" = "main" ]; then
-      mkdir -p ~/.ssh
-      echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
-      chmod 600 ~/.ssh/deploy_key
-      eval `ssh-agent`
-      ssh-add ~/.ssh/deploy_key
-      git remote set-url origin git@github.com:cavoirom/nxv.git
-      npm run publish
-    fi
+  - "pwd"
+  - "echo \"$TRAVIS_BRANCH\""
+install: "./script/travis-install-dependencies"
+script: "./script/travis-build"
 

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# stop when error.
+set -e
+# print command.
+set -v
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+source "$SCRIPT_DIRECTORY/utilities"
+
+# install deno
+curl -fsSL https://deno.land/x/install/install.sh | sh
+ls -l "$HOME/.deno"
+
+echo "export DENO_INSTALL=\"\$HOME/.deno\"" >> "$HOME/.bashrc"
+echo "export PATH=\"\$DENO_INSTALL/bin:\$PATH\"" >> "$HOME/.bashrc"
+
+# install dart-sass
+mkdir -p "$HOME/.dart-sass"
+download \
+    "2cac7da41a776ed426821631f2052bf264884b355db5b9e6902eaf35488f813d" \
+    "https://github.com/sass/dart-sass/releases/download/1.54.4/dart-sass-1.54.4-linux-x64.tar.gz" \
+    "$HOME/.dart-sass/dart-sass.tar.gz"
+tar xvzf "$HOME/.dart-sass/dart-sass.tar.gz" -C "$HOME/.dart-sass"
+
+echo "export PATH=\"\$HOME/.dart-sass/dart-sass:\$PATH\"" >> "$HOME/.bashrc"
+
+cat "$HOME/.bashrc"
+

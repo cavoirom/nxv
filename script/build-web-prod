@@ -96,9 +96,14 @@ cp "$WEB_DIRECTORY/app/favicon.ico" "$WEB_DIRECTORY/build/dist/"
 cp "$WEB_DIRECTORY/app/manifest.webmanifest" "$WEB_DIRECTORY/build/dist/"
 cp "$WEB_DIRECTORY/app/index.html" "$WEB_DIRECTORY/build/dist/"
 # change reference to minified bundle.
-# TODO check OS and use correct sed option.
-sed -i '' -E "s|index\.js|index\.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
-sed -i '' -E "s|worker\.js|worker.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
+# use Unix sed or GNU sed, depend on environment.
+if [[ $OSTYPE == "darwin"* ]]; then
+  sed -i '' -E "s|index\.js|index\.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
+  sed -i '' -E "s|worker\.js|worker.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
+else
+  sed -i -r "s/index\.js/index\.min\.js/" "$WEB_DIRECTORY/build/dist/index.html"
+  sed -i -r "s/worker\.js/worker.min\.js/" "$WEB_DIRECTORY/build/dist/index.html"
+fi
 cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
 
 # generate site from content.

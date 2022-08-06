@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# stop when error.
+set -e
+# print command.
+set -v
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+source "$HOME/.bashrc"
+
+ls -la "$HOME/.deno/bin"
+ls -la "$HOME/.dart-sass/dart-sass"
+
+echo "Start building branch: $TRAVIS_BRANCH"
+
+# build feature build to spot error.
+if [[ "$TRAVIS_BRANCH" =~ feature/ ]]; then
+  echo "Build feature branch."
+  PATH="$HOME/.deno/bin:$HOME/.dart-sass/dart-sass:$PATH" "$SCRIPT_DIRECTORY/build-web-prod"
+fi
+
+# build and publish new version of the site.
+if [ "$TRAVIS_BRANCH" = "main" ]; then
+  echo "Build main branch."
+  mkdir -p ~/.ssh
+  echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+  chmod 600 ~/.ssh/deploy_key
+  eval `ssh-agent`
+  ssh-add ~/.ssh/deploy_key
+  git remote set-url origin git@github.com:cavoirom/nxv.git
+  npm run publish
+fi
+
