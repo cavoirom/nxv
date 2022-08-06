@@ -116,14 +116,14 @@ java -jar $CLOSURE_COMPILER \
     --compilation_level SIMPLE \
     --env BROWSER \
     --language_in ECMASCRIPT_NEXT \
-    --language_out ECMASCRIPT5 \
+    --language_out ECMASCRIPT_2016 \
     --warning_level QUIET \
     --js_output_file "$WEB_DIRECTORY/build/dist/index.min.js" "$WEB_DIRECTORY/build/dist/index.js"
 java -jar $CLOSURE_COMPILER \
     --compilation_level SIMPLE \
     --env BROWSER \
     --language_in ECMASCRIPT_NEXT \
-    --language_out ECMASCRIPT5 \
+    --language_out ECMASCRIPT_2016 \
     --warning_level QUIET \
     --js_output_file "$WEB_DIRECTORY/build/dist/worker.min.js" "$WEB_DIRECTORY/build/dist/worker.js"
 
