@@ -97,8 +97,8 @@ cp "$WEB_DIRECTORY/app/manifest.webmanifest" "$WEB_DIRECTORY/build/dist/"
 cp "$WEB_DIRECTORY/app/index.html" "$WEB_DIRECTORY/build/dist/"
 # change reference to minified bundle.
 # TODO check OS and use correct sed option.
-sed -n -i '' -E "s|index\.js|index\.min\.js|g" "$WEB_DIRECTORY/build/dist/index.html"
-sed -n -i '' -E "s|worker\.js|worker.min\.js|g" "$WEB_DIRECTORY/build/dist/index.html"
+sed -i '' -E "s|index\.js|index\.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
+sed -i '' -E "s|worker\.js|worker.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
 cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
 
 # generate site from content.
