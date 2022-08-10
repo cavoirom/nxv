@@ -29,6 +29,6 @@ if [ "$TRAVIS_BRANCH" = "main" ]; then
   eval `ssh-agent`
   ssh-add ~/.ssh/deploy_key
   git remote set-url origin git@github.com:cavoirom/nxv.git
-  "$SCRIPT_DIRECTORY/publish"
+  PATH="$HOME/.deno/bin:$HOME/.dart-sass/dart-sass:$PATH" "$SCRIPT_DIRECTORY/publish"
 fi
 
