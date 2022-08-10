@@ -32,20 +32,13 @@ branch is created by command `npm run publish`.
 1. Create new `draft/*` from `main`.
 2. Write blog entry.
 3. Test and merge to `main`.
-4. Run `npm run publish` to publish the blog entry.
 
 ## Development
 
 ### Build
 
 ```
-bash ./script/build
-```
-
-### Develop
-
-```
-bash ./script/dev
+bash ./script/build-web-prod
 ```
 
 ### Publish
