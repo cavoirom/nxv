@@ -22,19 +22,11 @@ if ! which java &> /dev/null; then
   exit 1
 fi
 
-# utilities
-download() {
-  local hash="$1"
-  local url="$2"
-  local output="$3"
-  local sha256="$hash  $output"
-  if ! echo "$sha256" | shasum -s -c; then
-    curl -L "$url" -o "$output"
-  fi
-}
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+source "$SCRIPT_DIRECTORY/utilities"
 
 # Environment variables
-SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
 WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
 

@@ -2,17 +2,19 @@
 
 set -e
 
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
 # Prepare branch for build
 git checkout main
 git checkout -b build
 
 # Build website
-script/build
+"$SCRIPT_DIRECTORY/build-web-prod"
 
 # Commit build and push to github page
-git add dist
+git add web/dist
 git commit -m "Build nxv page at `date`"
-git -C ../.. subtree split --prefix modules/web/dist -b gh-pages
+git subtree split --prefix web/dist -b gh-pages
 git push -f origin gh-pages:gh-pages
 
 # Clean up
