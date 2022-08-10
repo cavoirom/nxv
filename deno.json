@@ -19,8 +19,7 @@
         ".git",
         "closure-compiler-externs",
         "web/build",
-        "web/dist",
-        "web/test"
+        "web/dist"
       ]
     }
   }

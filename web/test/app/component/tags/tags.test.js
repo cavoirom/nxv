@@ -1,10 +1,8 @@
 import { h } from 'preact';
-import { render, screen } from '../../../../deps/testing-library-preact.js';
-import userEvent from '../../../../deps/testing-library-user-event.js';
+import { render } from '../../../../deps/testing-library-preact.js';
 import {
   assertEquals,
   assertExists,
-  assertSpyCall,
   returnsNext,
   stub,
 } from '../../../../deps/testing.js';

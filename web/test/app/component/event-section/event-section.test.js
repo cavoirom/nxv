@@ -1,10 +1,10 @@
 import { h } from '../../../../deps/preact.js';
-import { render, screen } from '../../../../deps/testing-library-preact.js';
+import { render } from '../../../../deps/testing-library-preact.js';
 import EventSection from '../../../../app/component/event-section/event-section.js';
 import { assertEquals } from '../../../../deps/testing.js';
 import { setupDom, tearDownDom } from '../../../dom.js';
 
-Deno.test('event-section should have correct roles and accessible name', async (test) => {
+Deno.test('event-section should have correct roles and accessible name', () => {
   setupDom();
 
   const year = {
