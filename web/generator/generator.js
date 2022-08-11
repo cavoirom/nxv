@@ -26,10 +26,11 @@ async function _generateCacheRoutes(config) {
     'index.html',
     'api',
     'api/blog.json',
-    'worker.js',
-    'worker.js.map',
+    'worker.min.js',
+    'worker.min.js.map',
     'CNAME',
     '.DS_Store',
+    'index.css.map',
   ];
   const additionalPaths = [];
 
@@ -45,18 +46,20 @@ async function _generateCacheRoutes(config) {
   const precachedResources = fileNames
     .concat(additionalPaths)
     .filter((fileName) => !excludedPaths.includes(fileName))
-    .map((fileName) => `'/${fileName}'`)
+    .map((fileName) => `"/${fileName}"`)
     .join(',');
   const excludedResources = excludedPaths.map((excludedPath) =>
-    `'/${excludedPath}'`
+    `"/${excludedPath}"`
   ).join(',');
 
   // Replace the place holder routes array with real informations
-  const workerPath = `${config.output}/worker.js`;
+  // The double quotes or single quotes is depending on
+  // google-closure-compiler.
+  const workerPath = `${config.output}/worker.min.js`;
   const workerText = Deno.readTextFileSync(workerPath)
     .replace('<cache-identifier>', cacheIdentifier)
-    .replace(`'<precached-resources>'`, precachedResources)
-    .replace(`'<excluded-resources>'`, excludedResources);
+    .replace(`"<precached-resources>"`, precachedResources)
+    .replace(`"<excluded-resources>"`, excludedResources);
   await Deno.writeTextFile(workerPath, workerText);
 }
 

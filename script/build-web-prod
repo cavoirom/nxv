@@ -66,6 +66,26 @@ deno bundle \
     "$WEB_DIRECTORY/app/worker.js" \
     "$WEB_DIRECTORY/build/dist/worker.js"
 
+echo "Minify the bundle."
+java -jar $CLOSURE_COMPILER \
+    --compilation_level SIMPLE \
+    --env BROWSER \
+    --language_in ECMASCRIPT_NEXT \
+    --language_out ECMASCRIPT_2016 \
+    --warning_level QUIET \
+    --js_output_file "$WEB_DIRECTORY/build/dist/index.min.js" "$WEB_DIRECTORY/build/dist/index.js"
+
+java -jar $CLOSURE_COMPILER \
+    --compilation_level SIMPLE \
+    --env BROWSER \
+    --language_in ECMASCRIPT_NEXT \
+    --language_out ECMASCRIPT_2016 \
+    --warning_level QUIET \
+    --js_output_file "$WEB_DIRECTORY/build/dist/worker.min.js" "$WEB_DIRECTORY/build/dist/worker.js"
+
+echo "Remove original bundles."
+rm "$WEB_DIRECTORY/build/dist/index.js" "$WEB_DIRECTORY/build/dist/worker.js"
+
 # download purecss
 mkdir -p ".cache/deps/purecss/2.1.0"
 download \
@@ -107,22 +127,6 @@ deno run \
     --allow-write \
     --allow-env \
     "$WEB_DIRECTORY/generator/generator.js"
-
-echo "Minify the bundle."
-java -jar $CLOSURE_COMPILER \
-    --compilation_level SIMPLE \
-    --env BROWSER \
-    --language_in ECMASCRIPT_NEXT \
-    --language_out ECMASCRIPT_2016 \
-    --warning_level QUIET \
-    --js_output_file "$WEB_DIRECTORY/build/dist/index.min.js" "$WEB_DIRECTORY/build/dist/index.js"
-java -jar $CLOSURE_COMPILER \
-    --compilation_level SIMPLE \
-    --env BROWSER \
-    --language_in ECMASCRIPT_NEXT \
-    --language_out ECMASCRIPT_2016 \
-    --warning_level QUIET \
-    --js_output_file "$WEB_DIRECTORY/build/dist/worker.min.js" "$WEB_DIRECTORY/build/dist/worker.js"
 
 # copy to official directory.
 rm -rf "$WEB_DIRECTORY/dist"
