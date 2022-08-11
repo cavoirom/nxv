@@ -11,7 +11,6 @@ source "$SCRIPT_DIRECTORY/utilities"
 
 # install deno
 curl -fsSL https://deno.land/x/install/install.sh | sh
-ls -l "$HOME/.deno"
 
 echo "export DENO_INSTALL=\"\$HOME/.deno\"" >> "$HOME/.bashrc"
 echo "export PATH=\"\$DENO_INSTALL/bin:\$PATH\"" >> "$HOME/.bashrc"
@@ -26,5 +25,22 @@ tar xvzf "$HOME/.dart-sass/dart-sass.tar.gz" -C "$HOME/.dart-sass"
 
 echo "export PATH=\"\$HOME/.dart-sass/dart-sass:\$PATH\"" >> "$HOME/.bashrc"
 
-cat "$HOME/.bashrc"
+# Cache dependencies.
+DENO_CLI="$HOME/.deno/bin/deno"
+"$DENO_CLI" cache \
+    --config "$SCRIPT_DIRECTORY/../deno.json" \
+    --import-map "$SCRIPT_DIRECTORY/../import_map.json" \
+    --lock "$SCRIPT_DIRECTORY/../lock.json" \
+    "$SCRIPT_DIRECTORY/../web/app/index.js" \
+    "$SCRIPT_DIRECTORY/../web/generator/generator.js"
+# Find all test files to cache dependencies.
+# Convert find result to array: https://stackoverflow.com/questions/23356779/how-can-i-store-the-find-command-results-as-an-array-in-bash
+mapfile -d $'\0' test_files < <(find "$SCRIPT_DIRECTORY/../web/test" -type f -name "*.test.js" -print0)
+for item in "${test_files[@]}"; do
+  "$DENO_CLI" cache \
+      --config "$SCRIPT_DIRECTORY/../deno.json" \
+      --import-map "$SCRIPT_DIRECTORY/../import_map.json" \
+      --lock "$SCRIPT_DIRECTORY/../lock.json" \
+      "$item"
+done
 

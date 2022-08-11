@@ -2,6 +2,11 @@ language: "java"
 os: "linux"
 dist: "jammy"
 jdk: "openjdk11"
+cache:
+  directories:
+    - "$HOME/.deno"
+    - "$HOME/.dart-sass"
+    - "$HOME/.cache/deno"
 branches:
   only:
     - "/^feature\/.*$/"
