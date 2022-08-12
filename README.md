@@ -4,6 +4,11 @@
 
 ## Introduction
 
+This repository contains the source code of [ngxv.org](https://ngxv.org). The
+development is started with _**node.js/npm**_ but was migrated to _**deno**_
+because I see _**deno**_ environment is better in term of consistency,
+dependency management.
+
 ## Git Workflow
 
 ### Branch Convention
@@ -34,6 +39,14 @@ branch is created by command `npm run publish`.
 3. Test and merge to `main`.
 
 ## Development
+
+### Prerequisites
+
+- _**bash/zsh**_: run various scripts during development.
+- _**git**_: source version control and release.
+- _**deno**_: code format, bundle, run generator...
+- _**dart-sass**_: build SCSS.
+- _**JDK**_ 8 or later: run Google Closure Compiler.
 
 ### Build
 
