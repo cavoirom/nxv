@@ -1,4 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+
 set -e
-npx eslint --fix "src/**/*.js" "test/**/*.js"
-npx prettier -w "src/**/*.js" "test/**/*.js"
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+deno lint --config "$SCRIPT_DIRECTORY/../deno.json"
+deno fmt --config "$SCRIPT_DIRECTORY/../deno.json"

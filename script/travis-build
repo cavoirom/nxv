@@ -14,6 +14,9 @@ ls -la "$HOME/.dart-sass/dart-sass"
 
 echo "Start building branch: $TRAVIS_BRANCH"
 
+# check coding style.
+PATH="$HOME/.deno/bin:$HOME/.dart-sass/dart-sass:$PATH" "$SCRIPT_DIRECTORY/lint"
+
 # build feature build to spot error.
 if [[ "$TRAVIS_BRANCH" =~ feature/ ]]; then
   echo "Build feature branch."
