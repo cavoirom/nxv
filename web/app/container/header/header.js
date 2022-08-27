@@ -1,5 +1,5 @@
 import { Fragment, h } from '../../../deps/preact.js';
-import { Link, useLocation } from '../../../deps/wouter-preact.js';
+import { Link, useLocation, useRoute } from '../../../deps/wouter-preact.js';
 import { log } from '../../shared/logger.js';
 import { StoreContext } from '../../store/store.js';
 import { useContext } from '../../../deps/preact-hooks.js';
@@ -11,8 +11,8 @@ export default function Header() {
   // VARIABLES
   const [state, dispatch] = useContext(StoreContext);
   const { site } = state;
-  const [homeRouteMatched] = useLocation('/home');
-  const [blogRouteMatched] = useLocation('/blog/:childUrl*');
+  const [homeRouteMatched] = useRoute('/home');
+  const [blogRouteMatched] = useRoute('/blog/:childUrl*');
   // deno-lint-ignore no-unused-vars
   const [location, setLocation] = useLocation();
 

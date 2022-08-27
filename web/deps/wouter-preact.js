@@ -1,1 +1,8 @@
-export { Link, Route, Router, Switch, useLocation } from 'wouter-preact';
+export {
+  Link,
+  Route,
+  Router,
+  Switch,
+  useLocation,
+  useRoute,
+} from 'wouter-preact';
