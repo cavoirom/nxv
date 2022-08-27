@@ -1,8 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 set -e
-rm -rf build
-npx parcel build src/app/index.html --target browser --out-dir build/dist &
-npx parcel build src/generator/generator.js --target node --out-dir build/generator --out-file generator.cjs &
-wait
-NODE_ENV=production node build/generator/generator.cjs
-npx parcel serve --port 4321  --out-dir build/dist src/app/index.html
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Environment variables
+PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
+DEV_SERVER_DIRECTORY="$PROJECT_DIRECTORY/dev-server"
+
+# go to project directory.
+pushd "$PROJECT_DIRECTORY"
+deno run \
+    --config "$PROJECT_DIRECTORY/deno.json" \
+    --import-map "$PROJECT_DIRECTORY/import_map.json" \
+    --watch \
+    --allow-net \
+    --allow-read \
+    "$DEV_SERVER_DIRECTORY/server.js"
+# back to previous directory after done.
+popd
+

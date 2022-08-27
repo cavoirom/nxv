@@ -1,0 +1,17 @@
+export const mimeTypes = {
+  '.css': 'text/css',
+  '.eot': 'application/vnd.ms-fontobject',
+  '.gif': 'image/gif',
+  '.html': 'text/html',
+  '.jpg': 'image/jpg',
+  '.js': 'text/javascript',
+  '.json': 'application/json',
+  '.mp4': 'video/mp4',
+  '.otf': 'application/font-otf',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.ttf': 'application/font-ttf',
+  '.wasm': 'application/wasm',
+  '.wav': 'audio/wav',
+  '.woff': 'application/font-woff',
+};
