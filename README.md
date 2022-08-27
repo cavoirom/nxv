@@ -9,6 +9,14 @@ development is started with _**node.js/npm**_ but was migrated to _**deno**_
 because I see _**deno**_ environment is better in term of consistency,
 dependency management.
 
+## Features
+
+- [x] lightweight.
+- [x] pages are pre-generated, could work without JavaScript.
+- [x] write blog with Markdown.
+- [x] support image in blog entry.
+- [ ] lazy load image.
+
 ## Git Workflow
 
 ### Branch Convention
