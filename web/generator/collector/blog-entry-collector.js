@@ -76,7 +76,7 @@ export default class BlogEntryCollector {
     const blogEntryMarkdown = await Deno.readTextFile(markdownFile);
     const env = { frontMatter: undefined };
 
-    const md = new Remarkable();
+    const md = new Remarkable({ html: true });
     md.use(frontMatter);
     md.use(extLink, { host: this.config.host });
     md.use(customRemarkable, {
