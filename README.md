@@ -15,6 +15,7 @@ dependency management.
 - [x] pages are pre-generated, could work without JavaScript.
 - [x] write blog with Markdown.
 - [x] support image in blog entry.
+- [ ] RSS.
 - [ ] lazy load image.
 
 ## Git Workflow
