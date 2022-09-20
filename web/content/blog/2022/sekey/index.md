@@ -11,8 +11,9 @@ I have been using _**Sekey**_ for more than 4 years, I could say the experience
 is better than using SSH private key with passphrase. Sekey will ask for Touch
 ID authentication every time I use the private key, it serves great as a second
 factor when I work with SSH and git. For example: Everytime I push a commit,
-Sekey will ask for permission, no script could silently modify git repository
-without notice.
+Sekey will ask for permission. If I run a script that modify my git repository,
+the Touch ID popup will pop out, the script could not silently modify git
+repository without my notice.
 
 Sekey will generate and store SSH keys in Secure Enclave and will not expose
 private key. The public key could be export to transfer to remote host, the
@@ -30,7 +31,7 @@ not worry of leaking these privated keys.
 ## Authenticating 2 Github accounts
 
 The problem with 2 Github accounts is they are using the same username and
-hostname for SSH connection. We need a way to distinguish betwenn accounts.
+hostname for SSH connection. We need a way to distinguish between accounts.
 
 We will use _**git**_ config to make the hostname of those accounts look
 different. Then we will config _**SSH**_ sending identity to remote host.
@@ -56,10 +57,12 @@ sekey --export-key <key-id-2> > ~/.ssh/key_2.pub
 
 ```
 Host github.com-account-1
+    HostName github.com
     IdentityFile ~/.ssh/key_1.pub
     IdentitiesOnly yes
 
 Host github.com-account-2
+    HostName github.com
     IdentityFile ~/.ssh/key_2.pub
     IdentitiesOnly yes
 ```
@@ -67,6 +70,6 @@ Host github.com-account-2
 ## Too many failed attempts
 
 When I was using Macbook Pro 2017, the Touch ID was not so accurate, I got many
-failed scans because my finger was getting wet. In such case, the Touch ID may
+failed scans because my fingers was getting wet. In such case, the Touch ID may
 locked. I need to lock the computer and use password or Touch ID to unlock, the
 Touch ID will happily work again with Sekey.
