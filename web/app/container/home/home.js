@@ -39,7 +39,7 @@ export default function Home() {
         'div',
         { className: 'pure-u-1' },
         h('h3', null, me.title),
-        h('p', null, me.content),
+        h('p', { dangerouslySetInnerHTML: { __html: me.content } }),
       ),
     ),
     h(
