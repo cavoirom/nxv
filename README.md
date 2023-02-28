@@ -18,6 +18,10 @@ dependency management.
 - [ ] RSS.
 - [ ] lazy load image.
 
+## Todo
+
+- deno-v1.30 is able to use node standard libraries and modules. Try to make the test run again with original npm modules.
+
 ## Git Workflow
 
 ### Branch Convention
