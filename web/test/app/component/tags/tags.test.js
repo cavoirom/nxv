@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import { h } from '../../../../deps/preact.js';
 import { render } from '../../../../deps/testing-library-preact.js';
 import {
   assertEquals,

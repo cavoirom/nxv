@@ -6,7 +6,7 @@
 
 This repository contains the source code of [ngxv.org](https://ngxv.org). The
 development is started with _**node.js/npm**_ but was migrated to _**deno**_
-because I see _**deno**_ environment is better in term of consistency,
+because I see _**deno**_ environment is better in terms of consistency,
 dependency management.
 
 ## Features
@@ -20,7 +20,10 @@ dependency management.
 
 ## Todo
 
-- deno-v1.30 is able to use node standard libraries and modules. Try to make the test run again with original npm modules.
+- deno-v1.30 is able to use node standard libraries and modules. Try to make the
+  test run again with original npm modules. P/s: it's currently not possible
+  because the deno bundle is deprecated.
+- `deno bundle` is deprecated, use `deno_emit` instead.
 
 ## Git Workflow
 

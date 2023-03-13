@@ -1,1 +1,1 @@
-export { render, screen } from '@testing-library/preact';
+export { render } from '@testing-library/preact';

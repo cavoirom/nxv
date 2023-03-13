@@ -1,23 +1,24 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
 
 # Prerequisites
-# - deno 1.24.0.
-# - dart-sass 1.37.0.
-# - closure-compiler via environment variable java.
+# - deno 1.31.1.
+# - dart-sass 1.57.1.
+# - closure-compiler via environment variable CLOSURE_COMPILER.
 
-if ! which deno &> /dev/null; then
+if ! command -v deno &> /dev/null; then
   echo "deno is not installed, stop!"
   exit 1
 fi
 
-if ! which sass &> /dev/null; then
+if ! command -v sass &> /dev/null; then
   echo "dart-sass is not installed, stop!"
   exit 1
 fi
 
-if ! which java &> /dev/null; then
+if ! command -v java &> /dev/null; then
   echo "java is not installed, stop!"
   exit 1
 fi
@@ -30,9 +31,10 @@ source "$SCRIPT_DIRECTORY/utilities"
 PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
 WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
 
+# Download and install closure-compiler.
 if [ -z "$CLOSURE_COMPILER" ]; then
   CLOSURE_COMPILER_SHA256="78458d84c523a7e88107dbb3541e37d2401f9288ed2b1d834d41b0a7131cf94b"
-  CLOSURE_COMPILER_DIRECTORY="$WEB_DIRECTORY/.cache/tools/closure_compiler"
+  CLOSURE_COMPILER_DIRECTORY="$PROJECT_DIRECTORY/.cache/tools/closure_compiler"
   CLOSURE_COMPILER="$CLOSURE_COMPILER_DIRECTORY/closure_compiler.jar"
   mkdir -p "$CLOSURE_COMPILER_DIRECTORY"
   download \
@@ -43,9 +45,7 @@ fi
 
 # test the web.
 deno test \
-    --config deno.json \
-    --import-map import_map.json \
-    --lock lock.json \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
     --allow-env \
     "$WEB_DIRECTORY/test"
 
@@ -55,22 +55,18 @@ mkdir -p "$WEB_DIRECTORY/build/dist"
 
 # bundle the app to index.js.
 deno bundle \
-    --config deno.json \
-    --import-map import_map.json \
-    --lock lock.json \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
     "$WEB_DIRECTORY/app/index.js" \
     "$WEB_DIRECTORY/build/dist/index.js"
 
 # bundle worker.js
 deno bundle \
-    --config deno.json \
-    --import-map import_map.json \
-    --lock lock.json \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
     "$WEB_DIRECTORY/app/worker.js" \
     "$WEB_DIRECTORY/build/dist/worker.js"
 
 echo "Minify the bundle."
-java -jar $CLOSURE_COMPILER \
+java -jar "$CLOSURE_COMPILER" \
     --compilation_level SIMPLE \
     --env BROWSER \
     --language_in ECMASCRIPT_NEXT \
@@ -78,7 +74,7 @@ java -jar $CLOSURE_COMPILER \
     --warning_level QUIET \
     --js_output_file "$WEB_DIRECTORY/build/dist/index.min.js" "$WEB_DIRECTORY/build/dist/index.js"
 
-java -jar $CLOSURE_COMPILER \
+java -jar "$CLOSURE_COMPILER" \
     --compilation_level SIMPLE \
     --env BROWSER \
     --language_in ECMASCRIPT_NEXT \
@@ -90,19 +86,19 @@ echo "Remove original bundles."
 rm "$WEB_DIRECTORY/build/dist/index.js" "$WEB_DIRECTORY/build/dist/worker.js"
 
 # download purecss
-mkdir -p ".cache/deps/purecss/2.1.0"
+mkdir -p "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0"
 download \
     "8c01fbca2681ae46e5a6c626c236734cc7fea87785b611554fc818ece43c08ac" \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/base-min.css" \
-    "./.cache/deps/purecss/2.1.0/base-min.scss"
+    "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0/base-min.scss"
 download \
     "dbb583ba6e838e6c22199e69bcae90af3ea735f959df70d97bc792bdeaf72285" \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-min.css" \
-    "./.cache/deps/purecss/2.1.0/grids-min.scss"
+    "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0/grids-min.scss"
 download \
     "2131b61e813b7ce13fe5ab44c2a1bd25ab937f6eb4b5343584e22c981d262227" \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" \
-    "./.cache/deps/purecss/2.1.0/grids-responsive-min.scss"
+    "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0/grids-responsive-min.scss"
 # bundle css to index.css.
 sass --style compressed "$WEB_DIRECTORY/app/index.scss" "$WEB_DIRECTORY/build/dist/index.css"
 
@@ -111,7 +107,7 @@ cp "$WEB_DIRECTORY/app/favicon.ico" "$WEB_DIRECTORY/build/dist/"
 cp "$WEB_DIRECTORY/app/manifest.webmanifest" "$WEB_DIRECTORY/build/dist/"
 cp "$WEB_DIRECTORY/app/index.html" "$WEB_DIRECTORY/build/dist/"
 # change reference to minified bundle.
-# use Unix sed or GNU sed, depend on environment.
+# use UNIX sed or GNU sed, depend on environment.
 if [[ $OSTYPE == "darwin"* ]]; then
   sed -i '' -E "s|index\.js|index\.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
   sed -i '' -E "s|worker\.js|worker.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
@@ -123,9 +119,7 @@ cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
 
 # generate site from content.
 deno run \
-    --config deno.json \
-    --import-map import_map.json \
-    --lock lock.json \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
     --allow-read \
     --allow-write \
     --allow-env \
@@ -134,4 +128,3 @@ deno run \
 # copy to official directory.
 rm -rf "$WEB_DIRECTORY/dist"
 cp -r "$WEB_DIRECTORY/build/dist" "$WEB_DIRECTORY/dist"
-

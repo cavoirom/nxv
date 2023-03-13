@@ -1,9 +1,12 @@
-import { CTOR_KEY, DOMImplementation } from '../deps/deno-dom.js';
+import { JSDOM } from '../deps/jsdom.js';
 
 export const setupDom = () => {
-  const dom = new DOMImplementation(CTOR_KEY);
-  const document = dom.createHTMLDocument('Deno Test');
-  globalThis.document = document;
+  const dom = new JSDOM(
+    `<!DOCTYPE html><html lang="en"><head></head><body></body></html>`,
+    { pretendToBeVisual: true },
+  );
+  globalThis.document = dom.window.document;
+  globalThis.HTMLIFrameElement = dom.window.HTMLIFrameElement;
 };
 
 export const tearDownDom = () => {

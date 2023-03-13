@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
 
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -14,8 +15,6 @@ mkdir -p "${BUILD_DIRECTORY}"
 
 # Bundle JavaScript.
 deno bundle \
-    --config "${PROJECT_DIRECTORY}/deno.json" \
-    --import-map "${PROJECT_DIRECTORY}/import_map.json" \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc" \
     "${WEB_DIRECTORY}/app/index.js" \
     "${BUILD_DIRECTORY}/bundle.js"
-

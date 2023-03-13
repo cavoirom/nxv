@@ -16,6 +16,7 @@ Deno.test('event-section should have correct roles and accessible name', () => {
   // Assert events
   // TODO I would like to use screen.findByRole to actually test by accessibility role, but test-library is not support deno for now (2022-07-30).
   const yearTitle = document.querySelector(`[aria-label="year ${year.year}"]`);
+  // const yearTitle = screen.findByRole('heading', { name: `year ${year.year}` });
   assertEquals(yearTitle.textContent, year.year.toString());
 
   // Assert events
@@ -23,6 +24,7 @@ Deno.test('event-section should have correct roles and accessible name', () => {
   const firstEvent = document.querySelector(
     `[aria-label="event ${year.events[0]}"]`,
   );
+  // const firstEvent = screen.findByRole('heading', { name: `event ${year.events[0]}` });
   assertEquals(firstEvent.textContent, year.events[0]);
 
   tearDownDom();
