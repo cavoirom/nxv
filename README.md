@@ -1,7 +1,5 @@
 # ngxv.org
 
-[![Publish](https://travis-ci.com/cavoirom/nxv.svg?branch=main "Publish")](https://travis-ci.com/github/cavoirom/nxv)
-
 ## Introduction
 
 This repository contains the source code of [ngxv.org](https://ngxv.org). The
@@ -22,12 +20,12 @@ dependency management.
 
 - deno-v1.30 is able to use node standard libraries and modules. Try to make the
   test run again with original npm modules. P/s: it's currently not possible
-  because the deno bundle is deprecated.
+  because some Node.js APIs are not implemented.
 - `deno bundle` is deprecated, use `deno_emit` instead.
 
-## Git Workflow
+## Git workflow
 
-### Branch Convention
+### Branch convention
 
 `main` contains released code.
 
@@ -39,16 +37,16 @@ and to be merged to `main`.
 from `main`. We can publish the entry by merging the branch to `main`.
 
 `gh-pages` contains generated website, Github Page will use this branch. The
-branch is created by command `npm run publish`.
+branch is created by command `<repo-root>/script/publish`.
 
-### Develop New Feature
+### Develop new feature
 
 1. Create new `feature/*` from `main`.
 2. Increase version if it's not increased from previous release.
 3. Develop feature.
 4. Test and merge to `main`.
 
-### Write Blog Entry
+### Write blog entry
 
 1. Create new `draft/*` from `main`.
 2. Write blog entry.
@@ -67,15 +65,11 @@ branch is created by command `npm run publish`.
 ### Build
 
 ```
-bash ./script/build-web-prod
+<repo-root>/script/build-web-prod
 ```
 
 ### Publish
 
 ```
-bash ./script/publish
+<repo-root>/script/publish
 ```
-
-## Travis Integration
-
-<https://travis-ci.com/github/cavoirom/nxv>
