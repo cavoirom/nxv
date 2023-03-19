@@ -22,6 +22,8 @@ dependency management.
   test run again with original npm modules. P/s: it's currently not possible
   because some Node.js APIs are not implemented.
 - `deno bundle` is deprecated, use `deno_emit` instead.
+- Store all code dependencies to `<repo-root>/vendor` to less depend on outside
+  source.
 
 ## Git workflow
 
@@ -29,28 +31,29 @@ dependency management.
 
 `main` contains released code.
 
-`feature/<name-of-feature>` contains current developing feature, should increase
-minor version after create `feature` branch. The branch is derived from `main`
-and to be merged to `main`.
+`feature/<name-of-feature>` contains current developing feature. The branch is
+derived from `main` and to be merged to `main`. We should maintain the linear
+history of `main`.
 
 `draft/<name-of-blog-entry>` contains draft blog entry. The branch is derived
-from `main`. We can publish the entry by merging the branch to `main`.
+from `main`. We can publish the entry by merging the branch to `main` with
+_**rebase**_ strategy.
 
-`gh-pages` contains generated website, Github Page will use this branch. The
-branch is created by command `<repo-root>/script/publish`.
+`gh-pages` contains generated website, we didn't use GitHub Page since March
+2023 and moved to self-hosted server, we keep the branch name for historical
+reason. The branch is created by command `<repo-root>/script/publish`.
 
 ### Develop new feature
 
 1. Create new `feature/*` from `main`.
-2. Increase version if it's not increased from previous release.
-3. Develop feature.
-4. Test and merge to `main`.
+2. Develop feature.
+3. Test and merge to `main` with _**rebase**_ strategy.
 
 ### Write blog entry
 
 1. Create new `draft/*` from `main`.
 2. Write blog entry.
-3. Test and merge to `main`.
+3. Test and merge to `main` with _**rebase**_ strategy.
 
 ## Development
 
