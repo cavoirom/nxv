@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+set -v
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+TMP="${SCRIPT_DIRECTORY}/ngxv_tmp"
+WEB_ROOT="/var/www/htdocs/ngxv"
+BACKUP="${SCRIPT_DIRECTORY}/ngxv_backup"
+
+rm -rf "${TMP}"
+mkdir -p "${BACKUP}"
+
+# Clone gh-pages branch
+git clone --depth 1 --branch gh-pages git@github.com:cavoirom/nxv.git "${TMP}"
+
+# Create gzip files
+find "${TMP}" \( -name '*.css' -o -name '*.html' -o -name '*.js' -o -name '*.json' \) -exec gzip -v -k -f '{}' \;
+
+# Backup existing files from $WEB_ROOT and store to $BACKUP as a tarball.
+tar cvzf "${BACKUP}/ngxv_$( date +%Y%m%d_%H%M%S ).tar.gz" -C "${WEB_ROOT}" .
+
+# Sync to $WEB_ROOT
+rsync --recursive --archive --delete --cvs-exclude --size-only "${TMP}/" "${WEB_ROOT}/"
