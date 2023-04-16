@@ -38,6 +38,18 @@ export default function BlogTag() {
     }
   });
 
+  // Event handler when blog entry title is clicked.
+  function openBlogEntry(entry) {
+    log.debug(`Opening blog entry: ${blogEntryUrl}`);
+    fetchPartialState(entry.url).then((item) => {
+      // Only need to scroll to top when user intentionally navigates to a blog.
+      // Will keep the scroll position when user navigate back/forward.
+      document.documentElement.scrollTop = 0;
+      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { item } });
+      setLocation(blogEntryUrl);
+    });
+  }
+
   // RENDER COMPONENT
   if (!entriesByTag || entriesByTag.length <= 0) {
     return h(Fragment);
@@ -53,7 +65,7 @@ export default function BlogTag() {
     ),
   );
   const entryItems = entriesByTag.map((item) =>
-    h(SimpleBlogEntry, { blogEntry: item })
+    h(SimpleBlogEntry, { blogEntry: item, onOpen: openBlogEntry })
   );
   return h(Fragment, null, titleItem, entryItems);
 }

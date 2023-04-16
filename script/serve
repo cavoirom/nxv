@@ -10,9 +10,7 @@ DEV_SERVER_DIRECTORY="$PROJECT_DIRECTORY/dev-server"
 # go to project directory.
 pushd "$PROJECT_DIRECTORY"
 deno run \
-    --config "$PROJECT_DIRECTORY/deno.json" \
-    --import-map "$PROJECT_DIRECTORY/import_map.json" \
-    --lock lock.json \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
     --watch \
     --allow-net \
     --allow-read \
