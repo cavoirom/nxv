@@ -5,8 +5,6 @@ import { log } from '../../shared/logger.js';
 import Tags from '../tags/tags.js';
 import { toPartialStateUrl } from '../../store/action.js';
 
-const BLOG_ENTRY_URL_PATTERN = /\/blog\/entry\/[\w-/]+/;
-
 export default function BlogEntry({ blogEntry }) {
   // INPUT
   // empty
@@ -100,10 +98,6 @@ export function SimpleBlogEntry({ blogEntry, onOpen }) {
     { key: blogEntry.url, className: 'blog-entry pure-g' },
     wrapper,
   );
-}
-
-export function isBlogEntryUrl(blogEntryUrl) {
-  return BLOG_ENTRY_URL_PATTERN.test(blogEntryUrl);
 }
 
 function _toDisplayDate(date) {

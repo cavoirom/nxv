@@ -10,11 +10,12 @@ import {
   fetchPartialState,
   toPartialStateUrl,
 } from '../../store/action.js';
+import { useOpenBlogEntry } from '../../shared/blog-entries.js';
 
 export default function Blog() {
   const [state, dispatch] = useContext(StoreContext);
   const entries = dlv(state, 'blog.entries');
-  const [location, setLocation] = useLocation();
+  const [location, _setLocation] = useLocation();
 
   log.debug('Render Blog:', entries);
 
@@ -33,16 +34,7 @@ export default function Blog() {
   });
 
   // Event handler when blog entry title is clicked.
-  function openBlogEntry(entry) {
-    log.debug(`Opening blog entry: ${entry.url}`);
-    fetchPartialState(entry.url).then((item) => {
-      // Only need to scroll to top when user intentionally navigates to a blog.
-      // Will keep the scroll position when user navigate back/forward.
-      document.documentElement.scrollTop = 0;
-      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry: item } });
-      setLocation(item.url);
-    });
-  }
+  const openBlogEntry = useOpenBlogEntry();
 
   // RENDER COMPONENT
   if (!entries || entries.length === 0) {

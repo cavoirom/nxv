@@ -2,15 +2,14 @@ import { h } from '../../../deps/preact.js';
 import { Route, Switch, useLocation } from '../../../deps/wouter-preact.js';
 import Home from '../home/home.js';
 import Blog from '../blog/blog.js';
-import BlogEntry, {
-  isBlogEntryUrl,
-} from '../../component/blog-entry/blog-entry.js';
+import BlogEntry from '../../component/blog-entry/blog-entry.js';
 import { log } from '../../shared/logger.js';
 import BlogTag from '../blog-tag/blog-tag.js';
 import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { StoreContext } from '../../store/store.js';
 import dlv from '../../../deps/dlv.js';
+import { isBlogEntryUrl } from '../../shared/blog-entries.js';
 
 export default function Content() {
   // INPUT

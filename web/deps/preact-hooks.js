@@ -1,4 +1,5 @@
 export {
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,

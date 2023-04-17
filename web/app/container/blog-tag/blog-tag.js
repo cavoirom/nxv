@@ -7,6 +7,7 @@ import { log } from '../../shared/logger.js';
 import { SimpleBlogEntry } from '../../component/blog-entry/blog-entry.js';
 import dlv from '../../../deps/dlv.js';
 import { StoreContext } from '../../store/store.js';
+import { useOpenBlogEntry } from '../../shared/blog-entries.js';
 
 const BLOG_TAG_URL_PATTERN = /\/blog\/tag\/([\w-/]+)/;
 
@@ -14,7 +15,7 @@ export default function BlogTag() {
   // VARIABLES
   const [state, dispatch] = useContext(StoreContext);
   const entriesByTag = dlv(state, 'blog.entriesByTag');
-  const [location, setLocation] = useLocation();
+  const [location, _setLocation] = useLocation();
   const tag = getTagFromUrl(location);
   const title = `tag: ${tag} - to be continued`;
 
@@ -40,16 +41,7 @@ export default function BlogTag() {
   });
 
   // Event handler when blog entry title is clicked.
-  function openBlogEntry(entry) {
-    log.debug(`Opening blog entry: ${entry.url}`);
-    fetchPartialState(entry.url).then((item) => {
-      // Only need to scroll to top when user intentionally navigates to a blog.
-      // Will keep the scroll position when user navigate back/forward.
-      document.documentElement.scrollTop = 0;
-      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry: item } });
-      setLocation(item.url);
-    });
-  }
+  const openBlogEntry = useOpenBlogEntry();
 
   // RENDER COMPONENT
   if (!entriesByTag || entriesByTag.length <= 0) {
