@@ -2,7 +2,7 @@ import { Fragment, h } from '../../../deps/preact.js';
 import { useLocation } from '../../../deps/wouter-preact.js';
 import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import { log } from '../../shared/logger.js';
-import { SimpleBlogEntry } from '../blog-entry/blog-entry.js';
+import { SimpleBlogEntry } from '../../component/blog-entry/blog-entry.js';
 import dlv from '../../../deps/dlv.js';
 import { StoreContext } from '../../store/store.js';
 import {
@@ -34,13 +34,13 @@ export default function Blog() {
 
   // Event handler when blog entry title is clicked.
   function openBlogEntry(entry) {
-    log.debug(`Opening blog entry: ${blogEntryUrl}`);
+    log.debug(`Opening blog entry: ${entry.url}`);
     fetchPartialState(entry.url).then((item) => {
       // Only need to scroll to top when user intentionally navigates to a blog.
       // Will keep the scroll position when user navigate back/forward.
       document.documentElement.scrollTop = 0;
-      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { item } });
-      setLocation(blogEntryUrl);
+      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry: item } });
+      setLocation(item.url);
     });
   }
 

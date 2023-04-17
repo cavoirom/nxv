@@ -2,7 +2,7 @@ import { Fragment, h } from '../../../deps/preact.js';
 import { useEffect } from '../../../deps/preact-hooks.js';
 import dlv from '../../../deps/dlv.js';
 import { log } from '../../shared/logger.js';
-import Tags from '../../component/tags/tags.js';
+import Tags from '../tags/tags.js';
 import { toPartialStateUrl } from '../../store/action.js';
 
 const BLOG_ENTRY_URL_PATTERN = /\/blog\/entry\/[\w-/]+/;
@@ -11,7 +11,7 @@ export default function BlogEntry({ blogEntry }) {
   // INPUT
   // empty
 
-  log.debug('Render BlogEntry:', `url: ${location}`, '| entry: ', blogEntry);
+  log.debug('Render BlogEntry:', blogEntry);
 
   // EFFECTS
   useEffect(() => {
@@ -66,6 +66,7 @@ export function SimpleBlogEntry({ blogEntry, onOpen }) {
   }
 
   // Prefetch json of blog entry, service worker will cache the response
+  // TODO extract prefetch logic outside of BlogEntry.
   function prefetchBlogEntry(ev) {
     const pathname = ev.target.getAttribute('href');
     log.debug(`Prefetched blog entry ${pathname}`);

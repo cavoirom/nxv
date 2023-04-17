@@ -4,7 +4,7 @@ import { useLocation } from '../../../deps/wouter-preact.js';
 import { useEffect } from '../../../deps/preact-hooks.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { log } from '../../shared/logger.js';
-import { SimpleBlogEntry } from '../blog-entry/blog-entry.js';
+import { SimpleBlogEntry } from '../../component/blog-entry/blog-entry.js';
 import dlv from '../../../deps/dlv.js';
 import { StoreContext } from '../../store/store.js';
 
@@ -14,9 +14,9 @@ export default function BlogTag() {
   // VARIABLES
   const [state, dispatch] = useContext(StoreContext);
   const entriesByTag = dlv(state, 'blog.entriesByTag');
-  const [location] = useLocation();
-  const tag = location.match(BLOG_TAG_URL_PATTERN)[1];
-  const title = `tag:${tag} - to be continued`;
+  const [location, setLocation] = useLocation();
+  const tag = getTagFromUrl(location);
+  const title = `tag: ${tag} - to be continued`;
 
   log.debug('Render Blog Tag:', entriesByTag);
 
@@ -26,13 +26,14 @@ export default function BlogTag() {
     document.title = title;
   });
 
-  // Initialize blog if it's undefined
+  // Initialize entriesByTag if it's undefined
+  // We could extract this one a custom hook.
   useEffect(() => {
-    if (!entriesByTag || entriesByTag.length === 0) {
-      fetchPartialState(location).then((entriesByTag) => {
+    if (!!tag && (!entriesByTag || entriesByTag.length === 0)) {
+      fetchPartialState(location).then((item) => {
         dispatch({
           type: ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
-          payload: { entriesByTag },
+          payload: { entriesByTag: item },
         });
       });
     }
@@ -40,13 +41,13 @@ export default function BlogTag() {
 
   // Event handler when blog entry title is clicked.
   function openBlogEntry(entry) {
-    log.debug(`Opening blog entry: ${blogEntryUrl}`);
+    log.debug(`Opening blog entry: ${entry.url}`);
     fetchPartialState(entry.url).then((item) => {
       // Only need to scroll to top when user intentionally navigates to a blog.
       // Will keep the scroll position when user navigate back/forward.
       document.documentElement.scrollTop = 0;
-      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { item } });
-      setLocation(blogEntryUrl);
+      dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry: item } });
+      setLocation(item.url);
     });
   }
 
@@ -72,4 +73,11 @@ export default function BlogTag() {
 
 export function isBlogTagUrl(blogTagUrl) {
   return BLOG_TAG_URL_PATTERN.test(blogTagUrl);
+}
+
+export function getTagFromUrl(blogTagUrl) {
+  if (BLOG_TAG_URL_PATTERN.test(blogTagUrl)) {
+    const tag = blogTagUrl.match(BLOG_TAG_URL_PATTERN)[1];
+    return tag;
+  }
 }

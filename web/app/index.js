@@ -3,6 +3,7 @@ import Redirect from './component/redirect/redirect.js';
 import App from './container/app/app.js';
 import initializeState from './initialize-state.js';
 import { StoreProvider } from './store/store.js';
+import { Router } from '../deps/wouter-preact.js';
 
 // Retrieve state from rendered json.
 const statePromise = window.__STATE__
@@ -17,7 +18,7 @@ statePromise.then((state) => {
     h(
       StoreProvider,
       { state },
-      h(App, null, null),
+      h(Router, null, h(App, null, null)),
       h(Redirect, { from: '/', to: '/blog' }, null),
     ),
     rootElement,

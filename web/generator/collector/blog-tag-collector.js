@@ -22,7 +22,7 @@ export default class BlogTagCollector extends Collector {
           ...defaultState.blog,
           entriesByTag: blogEntriesByTag,
         },
-        pageTitle: `tag:${tag} - to be continued`,
+        pageTitle: `tag: ${tag} - to be continued`,
       };
       const page = CachedPage.newBlog(
         `/blog/tag/${tag}`,

@@ -1,4 +1,4 @@
-import { isBlogEntryUrl } from './container/blog-entry/blog-entry.js';
+import { isBlogEntryUrl } from './component/blog-entry/blog-entry.js';
 import { fetchDefaultState, fetchPartialState } from './store/action.js';
 import { isBlogTagUrl } from './container/blog-tag/blog-tag.js';
 

@@ -16,10 +16,8 @@ export const _externals = {
 
 export default function Tags({ tags }) {
   // VARIABLES
-  // deno-lint-ignore no-unused-vars
-  const [state, dispatch] = _externals.useContext(StoreContext);
-  // deno-lint-ignore no-unused-vars
-  const [location, setLocation] = _externals.useLocation();
+  const [_state, dispatch] = _externals.useContext(StoreContext);
+  const [_location, setLocation] = _externals.useLocation();
 
   // EVENT HANDLERS
   function openTag(ev) {

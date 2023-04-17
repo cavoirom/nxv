@@ -38,6 +38,7 @@
     "https://deno.land/std@0.177.0/fs/move.ts": "4cb47f880e3f0582c55e71c9f8b1e5e8cfaacb5e84f7390781dd563b7298ec19",
     "https://deno.land/std@0.177.0/fs/walk.ts": "ea95ffa6500c1eda6b365be488c056edc7c883a1db41ef46ec3bf057b1c0fe32",
     "https://deno.land/std@0.177.0/http/http_status.ts": "8a7bcfe3ac025199ad804075385e57f63d055b2aed539d943ccc277616d6f932",
+    "https://deno.land/std@0.177.0/http/server.ts": "cbb17b594651215ba95c01a395700684e569c165a567e4e04bba327f41197433",
     "https://deno.land/std@0.177.0/node/_core.ts": "9a58c0ef98ee77e9b8fcc405511d1b37a003a705eb6a9b6e95f75434d8009adc",
     "https://deno.land/std@0.177.0/node/_crypto/crypto_browserify/asn1.js/base/buffer.js": "c9364c761681134015ec8ba6f33b39c067d6e5dd59860d55face8d5be8522744",
     "https://deno.land/std@0.177.0/node/_crypto/crypto_browserify/asn1.js/base/node.js": "8f7f23bfa300990bbd6db7e7395e9688b54a04e3eb2fab5cab9a9a72e26c525f",
