@@ -22,4 +22,4 @@ find "${TMP}" \( -name '*.css' -o -name '*.html' -o -name '*.js' -o -name '*.jso
 tar cvzf "${BACKUP}/ngxv_$( date +%Y%m%d_%H%M%S ).tar.gz" -C "${WEB_ROOT}" .
 
 # Sync to $WEB_ROOT
-rsync --recursive --archive --delete --cvs-exclude --size-only "${TMP}/" "${WEB_ROOT}/"
+rsync --recursive --archive --delete --cvs-exclude --checksum "${TMP}/" "${WEB_ROOT}/"
