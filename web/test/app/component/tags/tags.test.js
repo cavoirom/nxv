@@ -3,12 +3,13 @@ import { render } from '../../../../deps/testing-library-preact.js';
 import {
   assertEquals,
   assertExists,
+  assertSpyCall,
   returnsNext,
   stub,
 } from '../../../../deps/testing.js';
 import { setupDom, tearDownDom } from '../../../dom.js';
-import Tags from '../../../../app/component/tags/tags.js';
-import { _externals } from '../../../../app/component/tags/tags.js';
+import Tags, { _externals } from '../../../../app/component/tags/tags.js';
+import userEvent from '../../../../deps/testing-library-user-event.js';
 
 Deno.test('[Tags] should have correct roles and accessible name', () => {
   setupDom();
@@ -45,52 +46,39 @@ Deno.test('[Tags] should have correct roles and accessible name', () => {
 // not working well. We need a test framework that support ESModule and could
 // run on browser.
 //
-// Deno.test('[Tags] should call server to get state and then set correct url when tag is clicked', () => {
-//   setupDom();
-//
-//   const useContextStub = stub(
-//     _internals,
-//     'useContext',
-//     returnsNext([[{}, () => {}]]),
-//   );
-//   const useLocationStub = stub(
-//     _internals,
-//     'useLocation',
-//     returnsNext(['', () => {}]),
-//   );
-//   const fetchPartialStateStub = stub(
-//     _internals,
-//     'fetchPartialState',
-//     returnsNext([]),
-//   );
-//
-//   try {
-//     const tags = ['linux', 'windows'];
-//     render(h(Tags, { tags }));
-//     const tagLink = document.querySelector(`[aria-label="tag ${tags[0]}"] a`);
-//     console.log(typeof tagLink);
-//     userEvent.click(tagLink);
-//     // const tagPartialStateUrl = mockAction.fetchPartialState.mock.calls[0][0];
-//     // expect(tagPartialStateUrl).toEqual('/blog/tag/linux');
-//     assertSpyCall(fetchPartialStateStub, 0, {
-//       args: ['/blog/tag/linux'],
-//     });
-//
-//     const location = await new Promise((resolve, reject) => {
-//       setTimeout(() => {
-//         try {
-//           resolve(mockWouterPreact.setLocation.mock.calls[0][0]);
-//         } catch (error) {
-//           reject(error);
-//         }
-//       });
-//     });
-//     assertEquals(location, '/blog/tag/linux');
-//   } finally {
-//     fetchPartialStateStub.restore();
-//     useLocationStub.restore();
-//     useContextStub.restore();
-//   }
-//
-//   tearDownDom();
-// });
+Deno.test('[Tags] should call server to get state and then set correct url when tag is clicked', async () => {
+  setupDom();
+
+  const useContextStub = stub(
+    _externals,
+    'useContext',
+    returnsNext([[{}, () => {}]]),
+  );
+  const useLocationStub = stub(
+    _externals,
+    'useLocation',
+    returnsNext([['', () => {}]]),
+  );
+  const fetchPartialStateStub = stub(
+    _externals,
+    'fetchPartialState',
+    returnsNext([Promise.resolve({})]),
+  );
+
+  try {
+    const tags = ['linux', 'windows'];
+    render(h(Tags, { tags }));
+    const tagLink = document.querySelector(`[aria-label="tag ${tags[0]}"] a`);
+    await userEvent.click(tagLink);
+
+    assertSpyCall(fetchPartialStateStub, 0, {
+      args: ['/blog/tag/linux'],
+    });
+  } finally {
+    fetchPartialStateStub.restore();
+    useLocationStub.restore();
+    useContextStub.restore();
+  }
+
+  tearDownDom();
+});

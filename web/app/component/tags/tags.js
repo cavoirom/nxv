@@ -9,20 +9,21 @@ import { ActionTypes, fetchPartialState } from '../../store/action.js';
 // testing.
 // See more: https://deno.land/manual@main/testing/mocking
 export const _externals = {
-  useContext,
-  useLocation,
-  fetchPartialState,
+  'useContext': useContext,
+  'useLocation': useLocation,
+  'fetchPartialState': fetchPartialState,
 };
 
 export default function Tags({ tags }) {
   // VARIABLES
   const [_state, dispatch] = _externals.useContext(StoreContext);
   const [_location, setLocation] = _externals.useLocation();
+  const { fetchPartialState } = _externals;
 
   // EVENT HANDLERS
-  function openTag(ev) {
+  const openTag = (ev) => {
     const tagUrl = ev.target.getAttribute('href');
-    _externals.fetchPartialState(tagUrl).then((entriesByTag) => {
+    fetchPartialState(tagUrl).then((entriesByTag) => {
       dispatch({
         type: ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
         payload: { entriesByTag },
@@ -33,7 +34,7 @@ export default function Tags({ tags }) {
       log.debug(`Blog tag ${tagUrl} is opened:`, entriesByTag);
     });
     ev.preventDefault();
-  }
+  };
 
   // RENDER COMPONENT
   return h(
