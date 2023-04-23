@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Environment variables
+PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
+WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
+
+deno test \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
+    --allow-env \
+    "$WEB_DIRECTORY/test/"
+

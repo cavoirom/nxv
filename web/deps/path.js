@@ -1,1 +1,1 @@
-export { dirname, resolve } from 'path/mod.ts';
+export { dirname, resolve, toFileUrl } from 'path/mod.ts';

@@ -54,16 +54,28 @@ rm -rf "$WEB_DIRECTORY/build"
 mkdir -p "$WEB_DIRECTORY/build/dist"
 
 # bundle the app to index.js.
-deno bundle \
-    --config "$PROJECT_DIRECTORY/deno.jsonc" \
-    "$WEB_DIRECTORY/app/index.js" \
-    "$WEB_DIRECTORY/build/dist/index.js"
+deno run \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc" \
+    --allow-read \
+    --allow-run \
+    --allow-env \
+    --allow-write \
+    "${WEB_DIRECTORY}/bundler/bundler.js" \
+    --import-map "${PROJECT_DIRECTORY}/import-map.json" \
+    --entrypoint "${WEB_DIRECTORY}/app/index.js" \
+    --out-file "${WEB_DIRECTORY}/build/dist/index.js"
 
 # bundle worker.js
-deno bundle \
-    --config "$PROJECT_DIRECTORY/deno.jsonc" \
-    "$WEB_DIRECTORY/app/worker.js" \
-    "$WEB_DIRECTORY/build/dist/worker.js"
+deno run \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc" \
+    --allow-read \
+    --allow-run \
+    --allow-env \
+    --allow-write \
+    "${WEB_DIRECTORY}/bundler/bundler.js" \
+    --import-map "${PROJECT_DIRECTORY}/import-map.json" \
+    --entrypoint "${WEB_DIRECTORY}/app/worker.js" \
+    --out-file "${WEB_DIRECTORY}/build/dist/worker.js"
 
 echo "Minify the bundle."
 java -jar "$CLOSURE_COMPILER" \

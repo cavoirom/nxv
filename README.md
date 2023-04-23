@@ -24,6 +24,7 @@ dependency management.
 - `deno bundle` is deprecated, use `deno_emit` instead.
 - Store all code dependencies to `<repo-root>/vendor` to less depend on outside
   source.
+- Have at least 1 test case for each component.
 
 ## Git workflow
 
