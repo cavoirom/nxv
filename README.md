@@ -30,14 +30,14 @@ dependency management.
 
 ### Branch convention
 
-`main` contains released code.
+`trunk` contains released code.
 
 `feature/<name-of-feature>` contains current developing feature. The branch is
-derived from `main` and to be merged to `main`. We should maintain the linear
-history of `main`.
+derived from `trunk` and to be merged to `trunk`. We should maintain the linear
+history of `trunk`.
 
 `draft/<name-of-blog-entry>` contains draft blog entry. The branch is derived
-from `main`. We can publish the entry by merging the branch to `main` with
+from `trunk`. We can publish the entry by merging the branch to `trunk` with
 _**rebase**_ strategy.
 
 `gh-pages` contains generated website, we didn't use GitHub Page since March
@@ -46,15 +46,15 @@ reason. The branch is created by command `<repo-root>/script/publish`.
 
 ### Develop new feature
 
-1. Create new `feature/*` from `main`.
+1. Create new `feature/*` from `trunk`.
 2. Develop feature.
-3. Test and merge to `main` with _**rebase**_ strategy.
+3. Test and merge to `trunk` with _**rebase**_ strategy.
 
 ### Write blog entry
 
-1. Create new `draft/*` from `main`.
+1. Create new `draft/*` from `trunk`.
 2. Write blog entry.
-3. Test and merge to `main` with _**rebase**_ strategy.
+3. Test and merge to `trunk` with _**rebase**_ strategy.
 
 ## Development
 
