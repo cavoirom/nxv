@@ -21,7 +21,6 @@ dependency management.
 - deno-v1.30 is able to use node standard libraries and modules. Try to make the
   test run again with original npm modules. P/s: it's currently not possible
   because some Node.js APIs are not implemented.
-- `deno bundle` is deprecated, use `deno_emit` instead.
 - Store all code dependencies to `<repo-root>/vendor` to less depend on outside
   source.
 - Have at least 1 test case for each component.
