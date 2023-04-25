@@ -14,5 +14,6 @@ download() {
   local sha256="$hash  $output"
   if ! echo "$sha256" | shasum -s -c; then
     curl -L "$url" -o "$output"
+    echo "$sha256" | shasum -s -c
   fi
 }
