@@ -1,6 +1,6 @@
 import { serve as httpServe } from './deps/http.js';
 import { extname, resolve } from './deps/path.js';
-import { mimeTypes } from './mimeTypes.js';
+import { mimeTypes } from './mime-types.js';
 
 async function serve(port = 8080, directory = './web/dist') {
   const root = resolve(directory);
