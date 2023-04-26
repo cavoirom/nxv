@@ -5,11 +5,7 @@ import { log } from '../../shared/logger.js';
 import { SimpleBlogEntry } from '../../component/blog-entry/blog-entry.js';
 import dlv from '../../../deps/dlv.js';
 import { StoreContext } from '../../store/store.js';
-import {
-  ActionTypes,
-  fetchPartialState,
-  toPartialStateUrl,
-} from '../../store/action.js';
+import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { useOpenBlogEntry } from '../../shared/blog-entries.js';
 
 export default function Blog() {

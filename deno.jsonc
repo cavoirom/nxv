@@ -3,12 +3,24 @@
   "compilerOptions": {
     "strict": true,
     "useUnknownInCatchVariables": true,
-    "lib": ["dom", "deno.ns", "esnext", "dom.iterable", "dom.asynciterable"],
+    "lib": [
+      "deno.ns",
+      "dom",
+      "dom.asynciterable",
+      "dom.iterable",
+      "esnext"
+    ],
     "jsxFactory": "h"
   },
   "fmt": {
     "files": {
-      "exclude": [".git", "web/build", "web/dist"]
+      "exclude": [
+        ".cache",
+        ".git",
+        ".idea",
+        "web/build",
+        "web/dist"
+      ]
     },
     "options": {
       "singleQuote": true
@@ -17,7 +29,9 @@
   "lint": {
     "files": {
       "exclude": [
+        ".cache",
         ".git",
+        ".idea",
         "closure-compiler-externs",
         "web/build",
         "web/dist"

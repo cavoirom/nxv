@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 set -o pipefail
@@ -9,17 +9,17 @@ set -o pipefail
 # - closure-compiler via environment variable CLOSURE_COMPILER.
 
 if ! command -v deno &> /dev/null; then
-  echo "deno is not installed, stop!"
+  echo "Please install deno 1.31.1 or later."
   exit 1
 fi
 
 if ! command -v sass &> /dev/null; then
-  echo "dart-sass is not installed, stop!"
+  echo "Please install dart-sass 1.57.1 or later."
   exit 1
 fi
 
 if ! command -v java &> /dev/null; then
-  echo "java is not installed, stop!"
+  echo "Please install JDK 11 or later."
   exit 1
 fi
 
@@ -28,13 +28,16 @@ SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$SCRIPT_DIRECTORY/utilities"
 
 # Environment variables
-PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
+PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
 WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
+
+CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
+DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
 # Download and install closure-compiler.
 if [ -z "$CLOSURE_COMPILER" ]; then
   CLOSURE_COMPILER_SHA256="78458d84c523a7e88107dbb3541e37d2401f9288ed2b1d834d41b0a7131cf94b"
-  CLOSURE_COMPILER_DIRECTORY="$PROJECT_DIRECTORY/.cache/tools/closure_compiler"
+  CLOSURE_COMPILER_DIRECTORY="${CACHE_DIRECTORY}/tools/closure_compiler"
   CLOSURE_COMPILER="$CLOSURE_COMPILER_DIRECTORY/closure_compiler.jar"
   mkdir -p "$CLOSURE_COMPILER_DIRECTORY"
   download \
@@ -44,7 +47,7 @@ if [ -z "$CLOSURE_COMPILER" ]; then
 fi
 
 # test the web: currently error because of JSDOM on esm.sh.
-# deno test \
+# DENO_DIR="${DENO_DIRECTORY}" deno test \
 #     --config "$PROJECT_DIRECTORY/deno.jsonc" \
 #     --allow-env \
 #     "$WEB_DIRECTORY/test"
@@ -54,7 +57,7 @@ rm -rf "$WEB_DIRECTORY/build"
 mkdir -p "$WEB_DIRECTORY/build/dist"
 
 # bundle the app to index.js.
-deno run \
+DENO_DIR="${DENO_DIRECTORY}" deno run \
     --config "${PROJECT_DIRECTORY}/deno.jsonc" \
     --allow-read \
     --allow-run \
@@ -66,7 +69,7 @@ deno run \
     --out-file "${WEB_DIRECTORY}/build/dist/index.js"
 
 # bundle worker.js
-deno run \
+DENO_DIR="${DENO_DIRECTORY}" deno run \
     --config "${PROJECT_DIRECTORY}/deno.jsonc" \
     --allow-read \
     --allow-run \
@@ -99,19 +102,19 @@ echo "Remove original bundles."
 rm "$WEB_DIRECTORY/build/dist/index.js" "$WEB_DIRECTORY/build/dist/worker.js"
 
 # download purecss
-mkdir -p "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0"
+mkdir -p "${CACHE_DIRECTORY}/deps/purecss/2.1.0"
 download \
     "8c01fbca2681ae46e5a6c626c236734cc7fea87785b611554fc818ece43c08ac" \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/base-min.css" \
-    "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0/base-min.scss"
+    "${CACHE_DIRECTORY}/deps/purecss/2.1.0/base-min.scss"
 download \
     "dbb583ba6e838e6c22199e69bcae90af3ea735f959df70d97bc792bdeaf72285" \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-min.css" \
-    "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0/grids-min.scss"
+    "${CACHE_DIRECTORY}/deps/purecss/2.1.0/grids-min.scss"
 download \
     "2131b61e813b7ce13fe5ab44c2a1bd25ab937f6eb4b5343584e22c981d262227" \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" \
-    "$PROJECT_DIRECTORY/.cache/deps/purecss/2.1.0/grids-responsive-min.scss"
+    "${CACHE_DIRECTORY}/deps/purecss/2.1.0/grids-responsive-min.scss"
 # bundle css to index.css.
 sass --style compressed "$WEB_DIRECTORY/app/index.scss" "$WEB_DIRECTORY/build/dist/index.css"
 
@@ -131,7 +134,7 @@ fi
 cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
 
 # generate site from content.
-deno run \
+DENO_DIR="${DENO_DIRECTORY}" deno run \
     --config "$PROJECT_DIRECTORY/deno.jsonc" \
     --allow-read \
     --allow-write \

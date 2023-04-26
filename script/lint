@@ -1,8 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-deno lint --config "$SCRIPT_DIRECTORY/../deno.json"
-deno fmt --config "$SCRIPT_DIRECTORY/../deno.json"
+source "$SCRIPT_DIRECTORY/utilities"
+
+PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
+
+CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
+DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
+
+# format source code.
+DENO_DIR="${DENO_DIRECTORY}" deno fmt \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc"
+
+# lint
+DENO_DIR="${DENO_DIRECTORY}" deno lint \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc"

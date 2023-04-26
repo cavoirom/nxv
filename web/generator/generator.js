@@ -52,7 +52,7 @@ async function _generateCacheRoutes(config) {
     `"/${excludedPath}"`
   ).join(',');
 
-  // Replace the place holder routes array with real informations
+  // Replace the placeholder routes array with real information
   // The double quotes or single quotes is depending on
   // google-closure-compiler.
   const workerPath = `${config.output}/worker.min.js`;

@@ -1,15 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 set -e
+set -o pipefail
 
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+source "$SCRIPT_DIRECTORY/utilities"
+
 # Environment variables
-PROJECT_DIRECTORY="$SCRIPT_DIRECTORY/.."
+PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
 DEV_SERVER_DIRECTORY="$PROJECT_DIRECTORY/dev-server"
+
+CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
+DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
 # go to project directory.
 pushd "$PROJECT_DIRECTORY"
-deno run \
+DENO_DIR="${DENO_DIRECTORY}" deno run \
     --config "$PROJECT_DIRECTORY/deno.jsonc" \
     --watch \
     --allow-net \
@@ -17,4 +24,3 @@ deno run \
     "$DEV_SERVER_DIRECTORY/server.js"
 # back to previous directory after done.
 popd
-

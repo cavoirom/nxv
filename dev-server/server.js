@@ -1,9 +1,10 @@
 import { serve as httpServe } from './deps/http.js';
 import { extname, resolve } from './deps/path.js';
 import { mimeTypes } from './mime-types.js';
+import { argsParse } from './deps/flags.js';
 
-async function serve(port = 8080, directory = './web/dist') {
-  const root = resolve(directory);
+async function serve(port = 8080, webRootPath = './web/dist') {
+  const root = resolve(webRootPath);
   const handler = async (request) => {
     const url = new URL(request.url);
     console.log(`Path: ${url.pathname}`);
@@ -12,7 +13,7 @@ async function serve(port = 8080, directory = './web/dist') {
     console.log(`Expected path: ${expectedPath}`);
 
     let realPath;
-    // serve the file if existed.
+    // serve-prod the file if existed.
     if (await fileExists(expectedPath)) {
       realPath = expectedPath;
     }
@@ -81,4 +82,22 @@ async function directoryExists(path) {
   }
 }
 
-await serve();
+async function main(args) {
+  const argsParseOptions = {
+    string: ['webRoot'],
+    alias: {
+      webRoot: 'web-root',
+    },
+  };
+
+  const parsedArgs = argsParse(args, argsParseOptions);
+  const { webRoot } = parsedArgs;
+  await serve(undefined, webRoot);
+}
+
+try {
+  await main(Deno.args);
+} catch (error) {
+  console.error(error);
+  Deno.exit(1);
+}

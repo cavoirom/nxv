@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Download a file from URL and verify downloaded file with SHA256.
 # If the file existed, verify it with SHA256. If the hash does not match, try
@@ -16,4 +16,12 @@ download() {
     curl -L "$url" -o "$output"
     echo "$sha256" | shasum -s -c
   fi
+}
+
+# Resolve absolute path without '..' or '.' in between.
+# Parameters:
+#   $1: path
+absolute_path() {
+  local path="$1"
+  cd "${path}" &> /dev/null && pwd
 }

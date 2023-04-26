@@ -10,11 +10,19 @@ source "$SCRIPT_DIRECTORY/utilities"
 # Environment variables
 PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
 WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
+DEV_SERVER_DIRECTORY="$PROJECT_DIRECTORY/dev-server"
 
 CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
 DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
-DENO_DIR="${DENO_DIRECTORY}" deno test \
+# go to project directory.
+pushd "$PROJECT_DIRECTORY"
+DENO_DIR="${DENO_DIRECTORY}" deno run \
     --config "$PROJECT_DIRECTORY/deno.jsonc" \
-    --allow-env \
-    "$WEB_DIRECTORY/test/"
+    --watch \
+    --allow-net \
+    --allow-read \
+    "$DEV_SERVER_DIRECTORY/server.js" \
+    --web-root "${WEB_DIRECTORY}/build/dist"
+# back to previous directory after done.
+popd
