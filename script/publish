@@ -5,7 +5,7 @@ set -e
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Prepare branch for build
-git checkout main
+git checkout trunk
 git checkout -b build
 
 # Build website
@@ -18,7 +18,7 @@ git subtree split --prefix web/dist -b gh-pages
 git push -f origin gh-pages:gh-pages
 
 # Clean up
-git checkout main
+git checkout trunk
 git branch -D gh-pages
 git branch -D build
 git gc

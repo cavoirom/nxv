@@ -9,7 +9,7 @@ tags: self-hosted, openbsd, iked, vpn
 
 _Note: I wrote the guideline based on OpenBSD 6.9._
 
-I'm going to setup VPN with [iked](https://man.openbsd.org/iked.8), a built-in
+I'm going to set up VPN with [iked](https://man.openbsd.org/iked.8), a built-in
 VPN software from OpenBSD. The main focus of this setup is routing all outbound
 traffic from clients to my _**Gateway**_. The Gateway is running OpenBSD, the
 clients are Android, iOS, MacOS.
@@ -220,7 +220,7 @@ the VPN client.
 
 I will generate a certificate for each client in my home (phones, Macbooks).
 
-## Step 2 · Setup PKI for iked
+## Step 2 · Set up PKI for iked
 
 I will put all certificates and keypair in the previous steps to iked. It
 requires some preparation:
