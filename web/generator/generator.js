@@ -55,7 +55,7 @@ async function _generateCacheRoutes(config) {
   // Replace the placeholder routes array with real information
   // The double quotes or single quotes is depending on
   // google-closure-compiler.
-  const workerPath = `${config.output}/worker.min.js`;
+  const workerPath = `${config.output}/worker.js`;
   const workerText = Deno.readTextFileSync(workerPath)
     .replace('<cache-identifier>', cacheIdentifier)
     .replace(`"<precached-resources>"`, precachedResources)
