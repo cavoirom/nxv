@@ -13,18 +13,14 @@
     "jsxFactory": "h"
   },
   "fmt": {
-    "files": {
-      "exclude": [
-        ".cache",
-        ".git",
-        ".idea",
-        "web/build",
-        "web/dist"
-      ]
-    },
-    "options": {
-      "singleQuote": true
-    }
+    "exclude": [
+      ".cache",
+      ".git",
+      ".idea",
+      "web/build",
+      "web/dist"
+    ],
+    "singleQuote": true
   },
   "lint": {
     "files": {
