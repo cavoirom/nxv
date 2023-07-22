@@ -14,13 +14,13 @@ VPN software from OpenBSD. The main focus of this setup is routing all outbound
 traffic from clients to my _**Gateway**_. The Gateway is running OpenBSD, the
 clients are Android, iOS, MacOS.
 
-The _**iked**_ supports IKEv2 which is suitable for iOS and MacOS without
+The _**iked**_ supports IKEv2 which is suitable for iOS and macOS without
 additional client, Android could connect via _**strongSwan**_. iked supports
 authentication with _shared secret_, _keypair_ and _certificate_. The _shared
 secret_ is the simplest method but least secure because the whole network is at
-risk if the _shared secret_ is compromised. _Keypair_ is the next simplier
+risk if the _shared secret_ is compromised. _Keypair_ is the next simpler
 method, but it requires adding the public key to iked every time we add new
-client. _Certificate_ is the most complicated one, we need to setup a _**Public
+client. _Certificate_ is the most complicated one, we need to set up a _**Public
 Key Infrastructure**_ (PKI) for our system, later, we only need to issue a valid
 certificate for new client, no change to the iked. I will use PKI for my iked
 setup.
@@ -41,7 +41,7 @@ setup.
 
 The above diagram shows related components in my setup.
 
-The Geteway is running OpenBSD, I will need 2 services:
+The Gateway is running OpenBSD, I will need 2 services:
 
 - _**pf**_: filter and route traffic between network interfaces.
   `net.inet.ip.forwarding=1` should be set for pf routing.
@@ -60,13 +60,13 @@ I use self-signed CA to create all certificates:
 - Server certificate.
 - Client certificate.
 
-I prepared these CAs and keypairs in my Macbook because I don't want to leak my
+I prepared these CAs and keypair in my Macbook because I don't want to leak my
 Root CA private key. I use JDK's _**keytool**_ for generating CA and keypair.
 
 ### Generate self-signed Root Certificate Authority.
 
 I will create a PKCS12 keystore named `root_ca.pfx` to store the self-signed
-Rooot CA and its private key. The keystore should be secured at all cost to
+Root CA and its private key. The keystore should be secured at all cost to
 protect the system trusted in it.
 
 ```
@@ -85,7 +85,7 @@ Explanation:
 
 - `-keystore root_ca.pfx`: use the keystore `root_ca.pfx`, create new keystore
   if it's not existed.
-- `-storetype pkcs12`: use PKCS12 format which is supported by many softwares,
+- `-storetype pkcs12`: use PKCS12 format which is supported by many programs,
   especially Apple Configurator 2.
 - `-alias example_root_ca`: the keystore can store many alias, I will store the
   new Root CA to alias called `example_root_ca`.
@@ -113,7 +113,7 @@ enter what suitable for you.
 ### Generate and sign intermediate CA.
 
 I can use the Root CA to sign server & client certificate, but it will risk all
-systems if the Root CA is compromised. Because our systems will trusted any
+systems if the Root CA is compromised. Because our systems will trust any
 certificates signed by this Root CA. The good practice is creating an
 intermediate certificate and using this certificate to sign server & client
 certificates. If the intermediate certificate is compromised, I will add it to
@@ -169,8 +169,8 @@ Explanation:
 - `-outfile intermediate_ca.crt`: the intermediate certificate signed by Root
   CA.
 
-Import the siged certificate to `intermediate_ca.pfx` for storage. We need to
-import the Root CA first, because the keytool only allow us import the valid
+Import the signed certificate to `intermediate_ca.pfx` for storage. We need to
+import the Root CA first, because the keytool only allow us importing the valid
 certificate. Without the Root CA in keystore, keytool will not trust our
 self-signed certificates.
 
@@ -292,7 +292,7 @@ Explanation:
 
 - `from dynamic to any`: traffic from VPN IP to any host will match with this
   configuration.
-- `from any to dynamic`: traffic from any host reponse to VPN IP will match with
+- `from any to dynamic`: traffic from any host response to VPN IP will match with
   this configuration.
 - `peer any`: the peer (client) can connect to Gateway from any IP address.
 - `srcid vpn.example.com`: will tell iked to use the certificate / private key
@@ -318,7 +318,7 @@ When iked started, the VPN interface appeared as `enc0` but no IP is assigned,
 this setting will work fine unless I want to listen on that interface. In my
 case, I will assign `192.168.120.1` to `enc0`. In fact, this IP already assigned
 to the VPN server, but we need this explicit step to listen on that address. In
-my case, I will setup an Unbound DNS server only listen on the VPN interface.
+my case, I will set up an Unbound DNS server only listen on the VPN interface.
 
 ```
 /etc/hostname.enc0
