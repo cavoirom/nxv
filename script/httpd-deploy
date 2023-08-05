@@ -5,9 +5,9 @@ set -o pipefail
 set -v
 
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-TMP="${SCRIPT_DIRECTORY}/ngxv_tmp"
+TMP="${SCRIPT_DIRECTORY}/../../ngxv_tmp"
 WEB_ROOT="/var/www/htdocs/ngxv"
-BACKUP="${SCRIPT_DIRECTORY}/ngxv_backup"
+BACKUP="${SCRIPT_DIRECTORY}/../../ngxv_backup"
 
 rm -rf "${TMP}"
 mkdir -p "${BACKUP}"
