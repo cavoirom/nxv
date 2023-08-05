@@ -36,15 +36,15 @@ contains my writings about the things I'm interesting and what I believe.
 #### Technical Constraints
 
 - Programming language: JavaScript, HTML, SCSS, Bash script.
-- Platform: deno.
-- Framework: preact.
-- IDE: IntelliJ IDEA.
+- Platform: deno 1.35 or later.
+- Framework: preact 10.13.2.
+- IDE: IntelliJ IDEA 2023 or later.
 - Source version control: git, GitHub.
 - Development tools.
   - _**bash/zsh**_: run various scripts during development.
   - _**git**_: source version control and release.
-  - _**deno**_: code format, bundle, run generator...
-  - _**dart-sass**_: build SCSS.
+  - _**deno**_ 1.35 or later: code format, bundle, run generator...
+  - _**dart-sass**_ 1.57 or later: build SCSS.
   - _**JDK**_ 8 or later: run Google Closure Compiler.
 - Development environment: macOS.
 - Production environment: OpenBSD, httpd.
@@ -122,6 +122,8 @@ reason. The branch is created by command `<repo-root>/script/publish`.
 
 #### Building the website
 
+On the development machine, run the following command to build the website:
+
 ```
 <repo-root>/script/build-web-prod
 ```
@@ -132,7 +134,19 @@ reason. The branch is created by command `<repo-root>/script/publish`.
 <repo-root>/script/publish
 ```
 
-_TODO: write more details about the build process._
+The static files are generated and saved to branch `gh-pages`.
+
+Login to the server, clone the repository (skip if already cloned).
+
+```
+git clone git@github.com:cavoirom/nxv.git
+```
+
+Run the deploy script to publish the website.
+
+```
+<repo-root>/script/httpd-deploy
+```
 
 ### Design Decisions
 
