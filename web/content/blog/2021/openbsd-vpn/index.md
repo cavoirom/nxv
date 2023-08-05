@@ -292,8 +292,8 @@ Explanation:
 
 - `from dynamic to any`: traffic from VPN IP to any host will match with this
   configuration.
-- `from any to dynamic`: traffic from any host response to VPN IP will match with
-  this configuration.
+- `from any to dynamic`: traffic from any host response to VPN IP will match
+  with this configuration.
 - `peer any`: the peer (client) can connect to Gateway from any IP address.
 - `srcid vpn.example.com`: will tell iked to use the certificate / private key
   `vpn.example.com`.
