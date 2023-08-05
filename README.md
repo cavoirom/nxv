@@ -86,9 +86,12 @@ _(to be defined)_
 
 #### Todo
 
-- deno-v1.30 is able to use node standard libraries and modules. Try to make the
-  test run again with original npm modules. P/s: it's currently not possible
-  because some Node.js APIs are not implemented.
+- List of dependencies that are not support ES module.
+  - remarkable-front-matter 1.0.0.
+- Could not run tests because `jsdom` is facing error:
+  `Error: Not implemented: isContext`. Reference:
+  <https://github.com/denoland/deno/issues/18315>. We should give deno some
+  time.
 
 #### Git workflow
 
@@ -151,6 +154,16 @@ Run the deploy script to publish the website.
 ### Design Decisions
 
 _(to be defined)_
+
+#### Troubleshooting
+
+##### Error when generating the website (preact 10.16.0): `Uncaught TypeError: Cannot read properties of undefined (reading '__H')`
+
+It's because of multiple versions of preact are used. The solution is defining
+the same preact version all dependencies.
+
+Reference:
+<https://github.com/preactjs/preact/issues/3657#issuecomment-1242715259>
 
 ### Quality Requirements
 

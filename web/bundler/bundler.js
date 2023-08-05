@@ -1,5 +1,5 @@
 import esbuild from '../deps/esbuild.js';
-import { denoPlugin } from '../deps/esbuild-deno-loader.js';
+import { denoPlugins } from '../deps/esbuild-deno-loader.js';
 import { toFileUrl } from '../deps/path.js';
 import { argsParse } from '../deps/flags.js';
 
@@ -17,7 +17,7 @@ async function main(args) {
 
   const result = await esbuild.build({
     plugins: [
-      denoPlugin({
+      ...denoPlugins({
         importMapURL: new URL(
           toFileUrl(importMap),
         ),

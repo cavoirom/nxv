@@ -2,6 +2,7 @@
 
 set -e
 set -o pipefail
+set -v
 
 # Prerequisites
 # - deno 1.31.1.
@@ -118,6 +119,7 @@ DENO_DIR="${DENO_DIRECTORY}" deno run \
     --allow-read \
     --allow-write \
     --allow-env \
+    --allow-net \
     "$WEB_DIRECTORY/generator/generator.js"
 
 echo "Minify index.js."

@@ -3,7 +3,6 @@ import cheerio from '../../deps/cheerio.js';
 import { StoreProvider } from '../../app/store/store.js';
 import { h } from '../../deps/preact.js';
 import { Router } from '../../deps/wouter-preact.js';
-import staticLocationHook from '../../deps/wouter-preact-static-location.js';
 import App from '../../app/container/app/app.js';
 import { ensureDir } from '../../deps/fs.js';
 import { dirname } from '../../deps/path.js';
@@ -27,13 +26,12 @@ export default class Renderer {
   }
 
   _buildPageHtml(page) {
-    const location = staticLocationHook(page.url);
     // Pre-render app html.
     const appHtml = render(
       h(
         StoreProvider,
         { state: page.state },
-        h(Router, { hook: location }, h(App, null, null)),
+        h(Router, { ssrPath: page.url }, h(App, null, null)),
       ),
     );
     // Build head with title and generated css.

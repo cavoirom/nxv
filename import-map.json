@@ -1,33 +1,24 @@
 {
   "imports": {
-    "@testing-library/preact": "https://esm.sh/@testing-library/preact@3.2.3?dev&deno-std=0.177.0&pin=v114",
-    "@testing-library/user-event": "https://esm.sh/@testing-library/user-event@14.4.3?dev&deno-std=0.177.0&pin=v114",
+    "@testing-library/preact": "npm:@testing-library/preact@3.2.3",
+    "@testing-library/user-event": "npm:@testing-library/user-event@14.4.3",
     "cheerio": "npm:cheerio@1.0.0-rc.12",
-    "dlv": "https://esm.sh/dlv@1.1.3?dev&deno-std=0.177.0&pin=v114",
-    "esbuild": "https://deno.land/x/esbuild@v0.17.17/mod.js",
-    "esbuild_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.6.0/mod.ts",
-    "fs/": "https://deno.land/std@0.177.0/fs/",
-    "flags/": "https://deno.land/std@0.177.0/flags/",
-    "http/": "https://deno.land/std@0.177.0/http/",
-    "jsdom": "https://esm.sh/jsdom@21.1.0?dev&deno-std=0.177.0&pin=v108",
-    "path/": "https://deno.land/std@0.177.0/path/",
-    "preact": "https://esm.sh/preact@10.13.2?dev&pin=v114",
-    "preact-render-to-string": "https://esm.sh/preact-render-to-string@6.0.2?dev&pin=v114",
-    "preact/hooks": "https://esm.sh/preact@10.13.2/hooks?dev&pin=v114",
+    "dlv": "npm:dlv@1.1.3",
+    "esbuild": "https://deno.land/x/esbuild@v0.18.17/mod.js",
+    "esbuild_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.8.1/mod.ts",
+    "flags/": "https://deno.land/std@0.197.0/flags/",
+    "fs/": "https://deno.land/std@0.197.0/fs/",
+    "http/": "https://deno.land/std@0.197.0/http/",
+    "jsdom": "npm:jsdom@22.1.0",
+    "path/": "https://deno.land/std@0.197.0/path/",
+    "preact": "npm:preact@10.16.0",
+    "preact-render-to-string": "npm:preact-render-to-string@6.2.0",
+    "preact/": "npm:/preact@10.16.0/",
     "remarkable": "npm:remarkable@2.0.1",
     "remarkable-extlink": "npm:remarkable-extlink@1.1.1",
-    "remarkable-front-matter": "https://esm.sh/remarkable-front-matter@1.0.0?dev&pin=v114",
+    "remarkable-front-matter": "https://esm.sh/remarkable-front-matter@1.0.0?dev&pin=v130",
     "sqlite": "https://deno.land/x/sqlite@v3.7.0/mod.ts",
-    "testing/": "https://deno.land/std@0.177.0/testing/",
-    "wouter-preact": "https://esm.sh/wouter-preact@2.10.0-alpha.1?dev&pin=v114",
-    "wouter-preact/static-location": "https://esm.sh/wouter-preact@2.10.0-alpha.1/static-location?deno-std=0.177.0&dev&pin=v114"
-  },
-  "scopes": {
-    "https://esm.sh/v108/jsdom@21.1.0/": {
-      "https://deno.land/std@0.177.0/node/vm.ts": "https://github.com/john-griffin/deno-dom-test/raw/main/lib/std/node/vm.ts"
-    },
-    "https://deno.land/x/esbuild_deno_loader@0.6.0/": {
-      "https://deno.land/std@0.156.0/": "https://deno.land/std@0.177.0/"
-    }
+    "testing/": "https://deno.land/std@0.197.0/testing/",
+    "wouter-preact": "npm:wouter-preact@2.11.0"
   }
 }
