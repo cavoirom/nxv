@@ -1,0 +1,11 @@
+name: "build"
+on: [ "push" ]
+jobs:
+  build-ngxv:
+    name: "Build ngxv.org"
+    runs-on: "ubuntu-20.04"
+    steps:
+      - uses: "actions/checkout@v3"
+      - run: "bash ./script/travis-install-dependencies"
+      - run: "bash ./script/build-web-prod"
+
