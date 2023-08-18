@@ -1,11 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -e
+set -o pipefail
 
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Prepare branch for build
 git checkout trunk
+git branch -D build
 git checkout -b build
 
 # Build website
