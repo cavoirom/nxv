@@ -9,11 +9,13 @@ SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$SCRIPT_DIRECTORY/utilities"
 
-# install deno
-curl -fsSL https://deno.land/x/install/install.sh | sh
+LOCAL_BIN="${HOME}/.local/bin"
+mkdir -p "${LOCAL_BIN}"
 
-echo "export DENO_INSTALL=\"\$HOME/.deno\"" >> "$HOME/.bashrc"
-echo "export PATH=\"\$DENO_INSTALL/bin:\$PATH\"" >> "$HOME/.bashrc"
+# install deno
+export DENO_INSTALL="$HOME/.deno"
+curl -fsSL https://deno.land/x/install/install.sh | sh
+ln -s "${DENO_INSTALL}/bin/deno" "${LOCAL_BIN}/deno"
 
 # install dart-sass
 mkdir -p "$HOME/.dart-sass"
@@ -22,25 +24,5 @@ download \
     "https://github.com/sass/dart-sass/releases/download/1.54.4/dart-sass-1.54.4-linux-x64.tar.gz" \
     "$HOME/.dart-sass/dart-sass.tar.gz"
 tar xvzf "$HOME/.dart-sass/dart-sass.tar.gz" -C "$HOME/.dart-sass"
-
-echo "export PATH=\"\$HOME/.dart-sass/dart-sass:\$PATH\"" >> "$HOME/.bashrc"
-
-# Cache dependencies.
-DENO_CLI="$HOME/.deno/bin/deno"
-"$DENO_CLI" cache \
-    --config "$SCRIPT_DIRECTORY/../deno.json" \
-    --import-map "$SCRIPT_DIRECTORY/../import_map.json" \
-    --lock "$SCRIPT_DIRECTORY/../lock.json" \
-    "$SCRIPT_DIRECTORY/../web/app/index.js" \
-    "$SCRIPT_DIRECTORY/../web/generator/generator.js"
-# Find all test files to cache dependencies.
-# Convert find result to array: https://stackoverflow.com/questions/23356779/how-can-i-store-the-find-command-results-as-an-array-in-bash
-mapfile -d $'\0' test_files < <(find "$SCRIPT_DIRECTORY/../web/test" -type f -name "*.test.js" -print0)
-for item in "${test_files[@]}"; do
-  "$DENO_CLI" cache \
-      --config "$SCRIPT_DIRECTORY/../deno.json" \
-      --import-map "$SCRIPT_DIRECTORY/../import_map.json" \
-      --lock "$SCRIPT_DIRECTORY/../lock.json" \
-      "$item"
-done
+ln -s "${HOME}/.dart-sass/dart-sass/sass" "${LOCAL_BIN}/sass"
 

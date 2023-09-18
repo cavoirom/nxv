@@ -33,7 +33,7 @@ PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
 WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
 
 CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
-DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
+DENO_DIRECTORY="${HOME}/deno"
 
 # Download and install closure-compiler.
 if [ -z "$CLOSURE_COMPILER" ]; then
@@ -64,6 +64,7 @@ DENO_DIR="${DENO_DIRECTORY}" deno run \
     --allow-run \
     --allow-env \
     --allow-write \
+    --allow-net \
     "${WEB_DIRECTORY}/bundler/bundler.js" \
     --import-map "${PROJECT_DIRECTORY}/import-map.json" \
     --entrypoint "${WEB_DIRECTORY}/app/index.js" \
@@ -76,6 +77,7 @@ DENO_DIR="${DENO_DIRECTORY}" deno run \
     --allow-run \
     --allow-env \
     --allow-write \
+    --allow-net \
     "${WEB_DIRECTORY}/bundler/bundler.js" \
     --import-map "${PROJECT_DIRECTORY}/import-map.json" \
     --entrypoint "${WEB_DIRECTORY}/app/worker.js" \
