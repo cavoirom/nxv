@@ -7,7 +7,8 @@ SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Prepare branch for build
 git checkout trunk
-git branch -D build
+# Suppress error if branch doesn't exist
+git branch -D build || true
 git checkout -b build
 
 # Build website
