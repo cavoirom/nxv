@@ -23,16 +23,14 @@
     "singleQuote": true
   },
   "lint": {
-    "files": {
-      "exclude": [
-        ".cache",
-        ".git",
-        ".idea",
-        "closure-compiler-externs",
-        "web/build",
-        "web/dist"
-      ]
-    }
+    "exclude": [
+      ".cache",
+      ".git",
+      ".idea",
+      "closure-compiler-externs",
+      "web/build",
+      "web/dist"
+    ]
   },
   "importMap": "./import-map.json"
 }
