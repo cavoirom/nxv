@@ -114,6 +114,7 @@ else
   sed -i -r "s/worker\.js/worker.min\.js/" "$WEB_DIRECTORY/build/dist/index.html"
 fi
 cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
+cp "$WEB_DIRECTORY/content/static/robots.txt" "$WEB_DIRECTORY/build/dist/"
 
 # generate site from content.
 DENO_DIR="${DENO_DIRECTORY}" deno run \

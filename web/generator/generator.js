@@ -21,16 +21,17 @@ async function _generateCacheRoutes(config) {
   // TODO should reimplement this cache.
   const excludedPaths = [
     '',
-    'blog',
-    'blog/index.json',
-    'index.html',
+    '.DS_Store',
+    'CNAME',
     'api',
     'api/blog.json',
+    'blog',
+    'blog/index.json',
+    'index.css.map',
+    'index.html',
+    'robots.txt',
     'worker.min.js',
     'worker.min.js.map',
-    'CNAME',
-    '.DS_Store',
-    'index.css.map',
   ];
   const additionalPaths = [];
 
