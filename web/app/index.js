@@ -6,10 +6,10 @@ import { StoreProvider } from './store/store.js';
 import { Router } from '../deps/wouter-preact.js';
 
 // Retrieve state from rendered json.
-const statePromise = window.__STATE__
-  ? window.__STATE__
-  : initializeState(window.location.href);
-delete window.__STATE__;
+const statePromise = globalThis.__STATE__
+  ? globalThis.__STATE__
+  : initializeState(globalThis.location.href);
+delete globalThis.__STATE__;
 
 statePromise.then((state) => {
   const rootElement = document.getElementById('app');
