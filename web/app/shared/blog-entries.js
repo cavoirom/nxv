@@ -22,3 +22,16 @@ export function useOpenBlogEntry() {
 export function isBlogEntryUrl(blogEntryUrl) {
   return BLOG_ENTRY_URL_PATTERN.test(blogEntryUrl);
 }
+
+export function toTagColorCssClass(tag) {
+  // We pre-defined the number of colors in blog-entry.scss.
+  const numberOfColors = 10;
+  // Convert string to integer by converting char to 8 bits integer and count the total value.
+  const tagUint8Array = new TextEncoder().encode(tag);
+  const tagInteger = tagUint8Array.reduce(
+    (accumulator, current) => accumulator + current,
+    0,
+  );
+  const tagIndex = tagInteger % numberOfColors;
+  return `blog-entry__tag__color-${tagIndex}`;
+}

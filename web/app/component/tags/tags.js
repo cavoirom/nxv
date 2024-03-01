@@ -4,6 +4,7 @@ import { log } from '../../shared/logger.js';
 import { useLocation } from '../../../deps/wouter-preact.js';
 import { StoreContext } from '../../store/store.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
+import { toTagColorCssClass } from '../../shared/blog-entries.js';
 
 // The _externals object will help mocking these methods, assist the unit
 // testing.
@@ -47,7 +48,7 @@ export default function Tags({ tags }) {
         tag,
       );
       return h('li', {
-        className: 'blog-entry__tag',
+        className: `blog-entry__tag ${toTagColorCssClass(tag)}`,
         'aria-label': `tag ${tag}`,
       }, tagLink);
     }),

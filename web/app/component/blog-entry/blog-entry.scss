@@ -27,6 +27,56 @@
       padding: 0 0.3rem;
       color: $color-normal;
     }
+
+    &__color-0 a {
+      // sky.
+      color: #00a8dc;
+    }
+
+    &__color-1 a {
+      // blue.
+      color: #0000e5;
+    }
+
+    &__color-2 a {
+      // purple.
+      color: #6100b6;
+    }
+
+    &__color-3 a {
+      // pink.
+      color: #a901a3;
+    }
+
+    &__color-4 a {
+      // red.
+      color: #b90018;
+    }
+
+    &__color-5 a {
+      // orange.
+      color: #f99900;
+    }
+
+    &__color-6 a {
+      // banana.
+      color: #edc002;
+    }
+
+    &__color-7 a {
+      // yellow.
+      color: #e2ce02;
+    }
+
+    &__color-8 a {
+      // green.
+      color: #00c839;
+    }
+
+    &__color-9 a {
+      // leafy.
+      color: #407d00;
+    }
   }
 
   &__tag:first-child {
