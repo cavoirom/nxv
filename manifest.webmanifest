@@ -1,0 +1,17 @@
+{
+  "name": "nxv",
+  "short_name": "nxv",
+  "description": "vinh's personal site.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-ico",
+      "sizes": "16x16"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "display": "minimal-ui",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}
