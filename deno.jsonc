@@ -32,5 +32,6 @@
       "web/dist"
     ]
   },
-  "importMap": "./import-map.json"
+  "importMap": "./import-map.json",
+  "nodeModulesDir": false
 }

@@ -33,7 +33,7 @@ PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
 WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
 
 CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
-DENO_DIRECTORY="${HOME}/deno"
+DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
 # Download and install closure-compiler.
 if [ -z "$CLOSURE_COMPILER" ]; then
