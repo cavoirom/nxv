@@ -153,7 +153,8 @@ Run the deploy script to publish the website.
 
 ### Design Decisions
 
-_(to be defined)_
+- We will stop `wouter-preact` at `2.x` version, because the newer version is
+  becoming bloated.
 
 #### Troubleshooting
 

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e
+set -o pipefail
+
+SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+source "$SCRIPT_DIRECTORY/utilities"
+
+# Environment variables
+PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
+WEB_DIRECTORY="${PROJECT_DIRECTORY}/web"
+CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
+DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
+
+shopt -s extglob
+
+DENO_DIR="${DENO_DIRECTORY}" deno cache \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc" \
+    --lock "${PROJECT_DIRECTORY}/deno.lock" \
+    "${PROJECT_DIRECTORY}/dev-server/server.js" \
+    "${WEB_DIRECTORY}/app/index.js" \
+    "${WEB_DIRECTORY}/app/worker.js" \
+    "${WEB_DIRECTORY}/bundler/bundler.js" \
+    "${WEB_DIRECTORY}/generator/generator.js"
