@@ -18,7 +18,6 @@
     "remarkable-extlink": "npm:remarkable-extlink@1.1.1",
     "remarkable-front-matter": "https://esm.sh/remarkable-front-matter@1.0.0?dev&pin=v130",
     "sqlite": "https://deno.land/x/sqlite@v3.8/mod.ts",
-    "testing/": "https://deno.land/std@0.204.0/testing/",
-    "wouter-preact": "npm:wouter-preact@2.12.2"
+    "testing/": "https://deno.land/std@0.204.0/testing/"
   }
 }

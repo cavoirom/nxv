@@ -3,15 +3,14 @@
   "packages": {
     "specifiers": {
       "npm:@testing-library/preact@3.2.3": "npm:@testing-library/preact@3.2.3_preact@10.20.1",
-      "npm:@testing-library/user-event@14.5.2": "npm:@testing-library/user-event@14.5.2_@testing-library+dom@9.3.4",
+      "npm:@testing-library/user-event@14.5.2": "npm:@testing-library/user-event@14.5.2_@testing-library+dom@8.20.1",
       "npm:cheerio@1.0.0-rc.12": "npm:cheerio@1.0.0-rc.12",
       "npm:dlv@1.1.3": "npm:dlv@1.1.3",
       "npm:jsdom@24.0.0": "npm:jsdom@24.0.0",
       "npm:preact-render-to-string@6.4.1": "npm:preact-render-to-string@6.4.1_preact@10.20.1",
       "npm:preact@10.20.1": "npm:preact@10.20.1",
       "npm:remarkable-extlink@1.1.1": "npm:remarkable-extlink@1.1.1",
-      "npm:remarkable@2.0.1": "npm:remarkable@2.0.1",
-      "npm:wouter-preact@2.12.2": "npm:wouter-preact@2.12.2_preact@10.20.1"
+      "npm:remarkable@2.0.1": "npm:remarkable@2.0.1"
     },
     "npm": {
       "@babel/code-frame@7.24.2": {
@@ -53,19 +52,6 @@
           "pretty-format": "pretty-format@27.5.1"
         }
       },
-      "@testing-library/dom@9.3.4": {
-        "integrity": "sha512-FlS4ZWlp97iiNWig0Muq8p+3rVDjRiYE+YKGbAqXOu9nwJFFOdL00kFpz42M+4huzYi86vAK1sOOfyOG45muIQ==",
-        "dependencies": {
-          "@babel/code-frame": "@babel/code-frame@7.24.2",
-          "@babel/runtime": "@babel/runtime@7.24.1",
-          "@types/aria-query": "@types/aria-query@5.0.4",
-          "aria-query": "aria-query@5.1.3",
-          "chalk": "chalk@4.1.2",
-          "dom-accessibility-api": "dom-accessibility-api@0.5.16",
-          "lz-string": "lz-string@1.5.0",
-          "pretty-format": "pretty-format@27.5.1"
-        }
-      },
       "@testing-library/preact@3.2.3_preact@10.20.1": {
         "integrity": "sha512-y6Kklp1XK3f1X2fWCbujmJyzkf+1BgLYXNgAx21j9+D4CoqMTz5qC4SQufb1L6q/jxLGACzrQ90ewVOTBvHOfg==",
         "dependencies": {
@@ -73,10 +59,10 @@
           "preact": "preact@10.20.1"
         }
       },
-      "@testing-library/user-event@14.5.2_@testing-library+dom@9.3.4": {
+      "@testing-library/user-event@14.5.2_@testing-library+dom@8.20.1": {
         "integrity": "sha512-YAh82Wh4TIrxYLmfGcixwD18oIjyC1pFQC2Y01F2lzV2HTMiYrI0nze0FD0ocB//CKS/7jIUgae+adPqxK5yCQ==",
         "dependencies": {
-          "@testing-library/dom": "@testing-library/dom@9.3.4"
+          "@testing-library/dom": "@testing-library/dom@8.20.1"
         }
       },
       "@types/aria-query@5.0.4": {
@@ -925,12 +911,6 @@
           "for-each": "for-each@0.3.3",
           "gopd": "gopd@1.0.1",
           "has-tostringtag": "has-tostringtag@1.0.2"
-        }
-      },
-      "wouter-preact@2.12.2_preact@10.20.1": {
-        "integrity": "sha512-THjKGUOlmwVPblxAERKF4lbaFo9yZBiBVoWAmwKBdosCQSaBi11t6MCXyxHxA1SWOvUtr3YMtqEs+ZJMrGIFyg==",
-        "dependencies": {
-          "preact": "preact@10.20.1"
         }
       },
       "ws@8.16.0": {

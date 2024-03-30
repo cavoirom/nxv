@@ -17,6 +17,7 @@
       ".cache",
       ".git",
       ".idea",
+      "vendor",
       "web/build",
       "web/dist"
     ],
@@ -28,6 +29,7 @@
       ".git",
       ".idea",
       "closure-compiler-externs",
+      "vendor",
       "web/build",
       "web/dist"
     ]

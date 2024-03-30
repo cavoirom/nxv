@@ -5,4 +5,4 @@ export {
   Switch,
   useLocation,
   useRoute,
-} from 'wouter-preact';
+} from '../../vendor/wouter/mod.js';
