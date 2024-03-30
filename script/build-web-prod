@@ -26,25 +26,25 @@ fi
 
 SCRIPT_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-source "$SCRIPT_DIRECTORY/utilities"
+source "${SCRIPT_DIRECTORY}/utilities"
 
 # Environment variables
 PROJECT_DIRECTORY="$( absolute_path "${SCRIPT_DIRECTORY}/.." )"
-WEB_DIRECTORY="$PROJECT_DIRECTORY/web"
+WEB_DIRECTORY="${PROJECT_DIRECTORY}/web"
 
 CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
 DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
 # Download and install closure-compiler.
-if [ -z "$CLOSURE_COMPILER" ]; then
-  CLOSURE_COMPILER_SHA256="78458d84c523a7e88107dbb3541e37d2401f9288ed2b1d834d41b0a7131cf94b"
+if [ -z "${CLOSURE_COMPILER}" ]; then
+  CLOSURE_COMPILER_SHA256="6b1250ac21c05bdd209dc515d9b6037b30b5555a284dd741ff0591a82848b7ce"
   CLOSURE_COMPILER_DIRECTORY="${CACHE_DIRECTORY}/tools/closure_compiler"
-  CLOSURE_COMPILER="$CLOSURE_COMPILER_DIRECTORY/closure_compiler.jar"
-  mkdir -p "$CLOSURE_COMPILER_DIRECTORY"
+  CLOSURE_COMPILER="${CLOSURE_COMPILER_DIRECTORY}/closure_compiler.jar"
+  mkdir -p "${CLOSURE_COMPILER_DIRECTORY}"
   download \
-      "$CLOSURE_COMPILER_SHA256" \
-      "https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20220719/closure-compiler-v20220719.jar" \
-      "$CLOSURE_COMPILER"
+      "${CLOSURE_COMPILER_SHA256}" \
+      "https://repo1.maven.org/maven2/com/google/javascript/closure-compiler/v20240317/closure-compiler-v20240317.jar" \
+      "${CLOSURE_COMPILER}"
 fi
 
 # test the web: currently error because of JSDOM on esm.sh.
@@ -54,8 +54,8 @@ fi
 #     "$WEB_DIRECTORY/test"
 
 # clean build directory.
-rm -rf "$WEB_DIRECTORY/build"
-mkdir -p "$WEB_DIRECTORY/build/dist"
+rm -rf "${WEB_DIRECTORY}/build"
+mkdir -p "${WEB_DIRECTORY}/build/dist"
 
 # bundle the app to index.js.
 DENO_DIR="${DENO_DIRECTORY}" deno run \
@@ -98,54 +98,54 @@ download \
     "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" \
     "${CACHE_DIRECTORY}/deps/purecss/2.1.0/grids-responsive-min.scss"
 # bundle css to index.css.
-sass --style compressed "$WEB_DIRECTORY/app/index.scss" "$WEB_DIRECTORY/build/dist/index.css"
+sass --style compressed "${WEB_DIRECTORY}/app/index.scss" "${WEB_DIRECTORY}/build/dist/index.css"
 
 # copy static content.
-cp "$WEB_DIRECTORY/app/favicon.ico" "$WEB_DIRECTORY/build/dist/"
-cp "$WEB_DIRECTORY/app/manifest.webmanifest" "$WEB_DIRECTORY/build/dist/"
-cp "$WEB_DIRECTORY/app/index.html" "$WEB_DIRECTORY/build/dist/"
+cp "${WEB_DIRECTORY}/app/favicon.ico" "${WEB_DIRECTORY}/build/dist/"
+cp "${WEB_DIRECTORY}/app/manifest.webmanifest" "${WEB_DIRECTORY}/build/dist/"
+cp "${WEB_DIRECTORY}/app/index.html" "${WEB_DIRECTORY}/build/dist/"
 # change reference to minified bundle.
 # use UNIX sed or GNU sed, depend on environment.
 if [[ $OSTYPE == "darwin"* ]]; then
-  sed -i '' -E "s|index\.js|index\.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
-  sed -i '' -E "s|worker\.js|worker.min\.js|" "$WEB_DIRECTORY/build/dist/index.html"
+  sed -i '' -E "s|index\.js|index\.min\.js|" "${WEB_DIRECTORY}/build/dist/index.html"
+  sed -i '' -E "s|worker\.js|worker.min\.js|" "${WEB_DIRECTORY}/build/dist/index.html"
 else
-  sed -i -r "s/index\.js/index\.min\.js/" "$WEB_DIRECTORY/build/dist/index.html"
-  sed -i -r "s/worker\.js/worker.min\.js/" "$WEB_DIRECTORY/build/dist/index.html"
+  sed -i -r "s/index\.js/index\.min\.js/" "${WEB_DIRECTORY}/build/dist/index.html"
+  sed -i -r "s/worker\.js/worker.min\.js/" "${WEB_DIRECTORY}/build/dist/index.html"
 fi
-cp "$WEB_DIRECTORY/content/static/CNAME" "$WEB_DIRECTORY/build/dist/"
-cp "$WEB_DIRECTORY/content/static/robots.txt" "$WEB_DIRECTORY/build/dist/"
+cp "${WEB_DIRECTORY}/content/static/CNAME" "${WEB_DIRECTORY}/build/dist/"
+cp "${WEB_DIRECTORY}/content/static/robots.txt" "${WEB_DIRECTORY}/build/dist/"
 
 # generate site from content.
 DENO_DIR="${DENO_DIRECTORY}" deno run \
-    --config "$PROJECT_DIRECTORY/deno.jsonc" \
+    --config "${PROJECT_DIRECTORY}/deno.jsonc" \
     --allow-read \
     --allow-write \
     --allow-env \
     --allow-net \
-    "$WEB_DIRECTORY/generator/generator.js"
+    "${WEB_DIRECTORY}/generator/generator.js"
 
 echo "Minify index.js."
-java -jar "$CLOSURE_COMPILER" \
+java -jar "${CLOSURE_COMPILER}" \
     --compilation_level SIMPLE \
     --env BROWSER \
     --language_in ECMASCRIPT_NEXT \
     --language_out ECMASCRIPT_2016 \
     --warning_level QUIET \
-    --js_output_file "$WEB_DIRECTORY/build/dist/index.min.js" "$WEB_DIRECTORY/build/dist/index.js"
+    --js_output_file "${WEB_DIRECTORY}/build/dist/index.min.js" "${WEB_DIRECTORY}/build/dist/index.js"
 
 echo "Minify worker.js."
-java -jar "$CLOSURE_COMPILER" \
+java -jar "${CLOSURE_COMPILER}" \
     --compilation_level SIMPLE \
     --env BROWSER \
     --language_in ECMASCRIPT_NEXT \
     --language_out ECMASCRIPT_2016 \
     --warning_level QUIET \
-    --js_output_file "$WEB_DIRECTORY/build/dist/worker.min.js" "$WEB_DIRECTORY/build/dist/worker.js"
+    --js_output_file "${WEB_DIRECTORY}/build/dist/worker.min.js" "${WEB_DIRECTORY}/build/dist/worker.js"
 
 echo "Remove original bundles."
-rm "$WEB_DIRECTORY/build/dist/index.js" "$WEB_DIRECTORY/build/dist/worker.js"
+rm "${WEB_DIRECTORY}/build/dist/index.js" "${WEB_DIRECTORY}/build/dist/worker.js"
 
 # copy to official directory.
-rm -rf "$WEB_DIRECTORY/dist"
-cp -r "$WEB_DIRECTORY/build/dist" "$WEB_DIRECTORY/dist"
+rm -rf "${WEB_DIRECTORY}/dist"
+cp -r "${WEB_DIRECTORY}/build/dist" "${WEB_DIRECTORY}/dist"
