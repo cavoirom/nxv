@@ -163,6 +163,11 @@ Run the deploy script to publish the website.
 It's because of multiple versions of preact are used. The solution is defining
 the same preact version all dependencies.
 
+##### Closure Compiler could not work with `dangerouslySetInnerHTML`
+
+When we try to use _**ADVANCE**_ of Closure compiler, the compiler causes
+`dangerouslySetInnerHTML` not working. We don't know how to fix.
+
 Reference:
 <https://github.com/preactjs/preact/issues/3657#issuecomment-1242715259>
 

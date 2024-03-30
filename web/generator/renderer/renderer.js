@@ -35,7 +35,7 @@ export default class Renderer {
       ),
     );
     // Build head with title and generated css.
-    const headHtml = this._buildHeadHtml(page.state.pageTitle);
+    const headHtml = this._buildHeadHtml(page['state']['pageTitle']);
     return `<!DOCTYPE html>
 <html lang="en">
 ${headHtml}

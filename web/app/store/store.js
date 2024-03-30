@@ -8,25 +8,25 @@ const reducer = (state, action) => {
     case ActionTypes.SET_BLOG_ENTRY:
       return {
         ...state,
-        blog: {
-          ...state.blog,
-          entry: action.payload.entry,
+        'blog': {
+          ...state['blog'],
+          'entry': action['payload']['entry'],
         },
       };
     case ActionTypes.SET_BLOG_ENTRIES:
       return {
         ...state,
-        blog: {
-          ...state.blog,
-          entries: action.payload.entries,
+        'blog': {
+          ...state['blog'],
+          'entries': action['payload']['entries'],
         },
       };
     case ActionTypes.SET_BLOG_ENTRIES_BY_TAG:
       return {
         ...state,
-        blog: {
-          ...state.blog,
-          entriesByTag: action.payload.entriesByTag,
+        'blog': {
+          ...state['blog'],
+          'entriesByTag': action['payload']['entriesByTag'],
         },
       };
     default:

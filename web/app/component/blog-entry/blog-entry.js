@@ -18,7 +18,8 @@ export default function BlogEntry({ blogEntry }) {
 
   // RENDER COMPONENT
   if (!blogEntry) {
-    return h(Fragment);
+    // return h(Fragment);
+    return h('div', null, null);
   }
   return _renderBlogEntry(blogEntry);
 }
@@ -27,24 +28,24 @@ function _renderBlogEntry(blogEntry) {
   const title = h(
     'header',
     null,
-    h('h1', { className: 'blog-entry__title' }, blogEntry.title),
+    h('h1', { className: 'blog-entry__title' }, blogEntry['title']),
   );
-  const tags = h(Tags, { tags: blogEntry.tags });
+  const tags = h(Tags, { 'tags': blogEntry['tags'] });
   const content = h('div', {
-    className: 'blog-entry__content',
-    dangerouslySetInnerHTML: { __html: blogEntry.content },
-  });
+    'className': 'blog-entry__content',
+    'dangerouslySetInnerHTML': { '__html': blogEntry['content'] },
+  }, null);
   const dates = h(
     'div',
     { className: 'blog-entry__dates' },
-    `Created ${_toDisplayDate(blogEntry.created)} · Updated ${
-      _toDisplayDate(blogEntry.updated)
+    `Created ${_toDisplayDate(blogEntry['created'])} · Updated ${
+      _toDisplayDate(blogEntry['updated'])
     }`,
   );
   return h(
     'div',
-    { className: 'blog-entry pure-g' },
-    h('article', { className: 'pure-u-1' }, title, dates, tags, content),
+    { 'className': 'blog-entry pure-g' },
+    h('article', { 'className': 'pure-u-1' }, title, dates, tags, content),
   );
 }
 
@@ -60,13 +61,13 @@ export function SimpleBlogEntry({ blogEntry, onOpen }) {
   // Open blog entry when title clicked
   function openBlogEntry(ev) {
     onOpen(blogEntry);
-    ev.preventDefault();
+    ev['preventDefault']();
   }
 
   // Prefetch json of blog entry, service worker will cache the response
   // TODO extract prefetch logic outside of BlogEntry.
   function prefetchBlogEntry(ev) {
-    const pathname = ev.target.getAttribute('href');
+    const pathname = ev['target']['getAttribute']('href');
     log.debug(`Prefetched blog entry ${pathname}`);
     fetch(toPartialStateUrl(pathname));
   }
@@ -78,24 +79,24 @@ export function SimpleBlogEntry({ blogEntry, onOpen }) {
     h(
       'a',
       {
-        href: blogEntry.url,
-        onClick: openBlogEntry,
-        onMouseEnter: prefetchBlogEntry,
-        onTouchStart: prefetchBlogEntry,
+        href: blogEntry['url'],
+        'onClick': openBlogEntry,
+        'onMouseEnter': prefetchBlogEntry,
+        'onTouchStart': prefetchBlogEntry,
       },
-      blogEntry.title,
+      blogEntry['title'],
     ),
   );
-  const tags = h(Tags, { tags: blogEntry.tags });
+  const tags = h(Tags, { 'tags': blogEntry['tags'] });
   const content = h(
     'div',
-    { className: 'blog-entry__content' },
-    h('p', null, blogEntry.preview),
+    { 'className': 'blog-entry__content' },
+    h('p', null, blogEntry['preview']),
   );
-  const wrapper = h('div', { className: 'pure-u-1' }, title, tags, content);
+  const wrapper = h('div', { 'className': 'pure-u-1' }, title, tags, content);
   return h(
     'div',
-    { key: blogEntry.url, className: 'blog-entry pure-g' },
+    { 'key': blogEntry['url'], 'className': 'blog-entry pure-g' },
     wrapper,
   );
 }

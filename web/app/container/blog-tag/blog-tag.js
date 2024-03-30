@@ -33,8 +33,8 @@ export default function BlogTag() {
     if (!!tag && (!entriesByTag || entriesByTag.length === 0)) {
       fetchPartialState(location).then((item) => {
         dispatch({
-          type: ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
-          payload: { entriesByTag: item },
+          'type': ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
+          'payload': { 'entriesByTag': item },
         });
       });
     }

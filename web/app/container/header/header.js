@@ -10,7 +10,7 @@ export default function Header() {
 
   // VARIABLES
   const [state, dispatch] = useContext(StoreContext);
-  const { site } = state;
+  const site = state['site'];
   const [homeRouteMatched] = useRoute('/home');
   const [blogRouteMatched] = useRoute('/blog/:childUrl*');
   // deno-lint-ignore no-unused-vars
@@ -22,21 +22,25 @@ export default function Header() {
     const blogUrl = ev.target.getAttribute('href');
     log.debug(`Opening blog: ${blogUrl}`);
     fetchPartialState(blogUrl).then((entries) => {
-      dispatch({ type: ActionTypes.SET_BLOG_ENTRIES, payload: { entries } });
+      dispatch({
+        'type': ActionTypes.SET_BLOG_ENTRIES,
+        'payload': { 'entries': entries },
+      });
       setLocation(blogUrl);
       // Scroll page to top, otherwise the blog entry will be opened in the middle.
       document.documentElement.scrollTop = 0;
       log.debug(`Blog ${blogUrl} is opened:`, entries);
     });
-    ev.preventDefault();
+    ev['preventDefault']();
   }
 
   // RENDER COMPONENT
   if (!site) {
-    return h(Fragment);
+    h('div', null, null);
+    //return h(Fragment);
   }
 
-  const { title } = site;
+  const title = site['title'];
 
   const homeItem = h(
     'li',
@@ -58,7 +62,7 @@ export default function Header() {
         className: `navigator__link ${
           blogRouteMatched && 'navigator__link--active'
         }`,
-        onClick: openBlog,
+        'onClick': openBlog,
       },
       'to be continued',
     ),

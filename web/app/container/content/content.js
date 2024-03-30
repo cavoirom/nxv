@@ -28,8 +28,8 @@ export default function Content() {
       log.debug('Auto fetch blog entry:', location);
       fetchPartialState(location).then((item) => {
         dispatch({
-          type: ActionTypes.SET_BLOG_ENTRY,
-          payload: { entry: item },
+          'type': ActionTypes.SET_BLOG_ENTRY,
+          'payload': { 'entry': item },
         });
       });
     }

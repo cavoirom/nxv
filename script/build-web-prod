@@ -127,20 +127,22 @@ DENO_DIR="${DENO_DIRECTORY}" deno run \
 
 echo "Minify index.js."
 java -jar "${CLOSURE_COMPILER}" \
-    --compilation_level SIMPLE \
+    --compilation_level ADVANCED \
     --env BROWSER \
+    --externs "${PROJECT_DIRECTORY}/extern/web.js" \
     --language_in ECMASCRIPT_NEXT \
-    --language_out ECMASCRIPT_2016 \
-    --warning_level QUIET \
+    --language_out ECMASCRIPT_2019 \
+    --warning_level DEFAULT \
     --js_output_file "${WEB_DIRECTORY}/build/dist/index.min.js" "${WEB_DIRECTORY}/build/dist/index.js"
 
 echo "Minify worker.js."
 java -jar "${CLOSURE_COMPILER}" \
-    --compilation_level SIMPLE \
+    --compilation_level ADVANCED \
     --env BROWSER \
+    --externs "${PROJECT_DIRECTORY}/extern/web.js" \
     --language_in ECMASCRIPT_NEXT \
-    --language_out ECMASCRIPT_2016 \
-    --warning_level QUIET \
+    --language_out ECMASCRIPT_2019 \
+    --warning_level DEFAULT \
     --js_output_file "${WEB_DIRECTORY}/build/dist/worker.min.js" "${WEB_DIRECTORY}/build/dist/worker.js"
 
 echo "Remove original bundles."

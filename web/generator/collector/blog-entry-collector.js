@@ -28,18 +28,18 @@ export default class BlogEntryCollector {
       const { defaultState } = this.config;
       const state = {
         ...defaultState,
-        pageTitle: blogEntry.title,
+        pageTitle: blogEntry['title'],
         blog: {
           ...defaultState.blog,
           entry: blogEntry,
         },
       };
       // Build URL
-      const createdDate = new Date(blogEntry.created);
+      const createdDate = new Date(blogEntry['created']);
       const year = createdDate.getUTCFullYear();
       const month = String(createdDate.getUTCMonth() + 1).padStart(2, '0');
       const day = String(createdDate.getUTCDate()).padStart(2, '0');
-      const url = `/blog/entry/${year}/${month}/${day}/${blogEntry.slug}`;
+      const url = `/blog/entry/${year}/${month}/${day}/${blogEntry['slug']}`;
       // Blog Entry Page
       const blogEntryDirectoryRelativePath = blogEntryDirectory.substring(
         this.config.content.length + 1,
@@ -48,10 +48,10 @@ export default class BlogEntryCollector {
         url,
         'BLOG_ENTRY',
         state,
-        state.blog.entry,
+        state['blog']['entry'],
         [],
         0,
-        blogEntry.tags,
+        blogEntry['tags'],
         blogEntryDirectoryRelativePath,
         blogEntry,
       );

@@ -24,7 +24,11 @@ export default function Blog() {
   useEffect(() => {
     if (!entries || entries.length === 0) {
       fetchPartialState(location).then((entries) => {
-        dispatch({ type: ActionTypes.SET_BLOG_ENTRIES, payload: { entries } });
+        log.debug('Fetched entries:', entries);
+        dispatch({
+          'type': ActionTypes.SET_BLOG_ENTRIES,
+          'payload': { entries },
+        });
       });
     }
   });

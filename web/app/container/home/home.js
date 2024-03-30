@@ -9,8 +9,8 @@ export default function Home() {
 
   // deno-lint-ignore no-unused-vars
   const [state, dispatch] = useContext(StoreContext);
-  const home = state.home;
-  const title = state.site.title;
+  const home = state['home'];
+  const title = state['site']['title'];
 
   // Set title
   useEffect(() => {
@@ -21,13 +21,16 @@ export default function Home() {
     return h(Fragment);
   }
 
-  const { me, journey, work } = home;
+  // const { me, journey, work } = home;
+  const me = home['me'];
+  const journey = home['journey'];
+  const work = home['work'];
 
-  const journeyEvents = journey.years.map((year) =>
-    h(EventSection, { key: year.year, year })
+  const journeyEvents = journey['years'].map((year) =>
+    h(EventSection, { key: year['year'], year })
   );
-  const workEvents = work.years.map((year) =>
-    h(EventSection, { key: year.year, year })
+  const workEvents = work['years'].map((year) =>
+    h(EventSection, { key: year['year'], year })
   );
   return h(
     Fragment,

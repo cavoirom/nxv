@@ -28,7 +28,7 @@ export default class BlogTagCollector extends Collector {
         `/blog/tag/${tag}`,
         'BLOG_TAG',
         state,
-        state.blog.entriesByTag,
+        state['blog']['entriesByTag'],
       );
       const storedPage = await this.cacheStore.addPage(page);
       storedPages.push(storedPage);

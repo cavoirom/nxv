@@ -26,7 +26,12 @@ export default class BlogCollector {
       pageTitle: 'to be continued',
     };
 
-    const page = CachedPage.newBlog('/blog', 'BLOG', state, state.blog.entries);
+    const page = CachedPage.newBlog(
+      '/blog',
+      'BLOG',
+      state,
+      state['blog']['entries'],
+    );
     return this.cacheStore.addPage(page);
   }
 }

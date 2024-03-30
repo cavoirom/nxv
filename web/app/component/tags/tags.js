@@ -15,7 +15,7 @@ export const _externals = {
   'fetchPartialState': fetchPartialState,
 };
 
-export default function Tags({ tags }) {
+export default function Tags({ 'tags': tags }) {
   // VARIABLES
   const [_state, dispatch] = _externals.useContext(StoreContext);
   const [_location, setLocation] = _externals.useLocation();
@@ -26,15 +26,15 @@ export default function Tags({ tags }) {
     const tagUrl = ev.target.getAttribute('href');
     fetchPartialState(tagUrl).then((entriesByTag) => {
       dispatch({
-        type: ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
-        payload: { entriesByTag },
+        'type': ActionTypes.SET_BLOG_ENTRIES_BY_TAG,
+        'payload': { 'entriesByTag': entriesByTag },
       });
       setLocation(tagUrl);
       // Scroll page to top, otherwise the blog entry will be opened in the middle.
       document.documentElement.scrollTop = 0;
       log.debug(`Blog tag ${tagUrl} is opened:`, entriesByTag);
     });
-    ev.preventDefault();
+    ev['preventDefault']();
   };
 
   // RENDER COMPONENT
@@ -44,7 +44,7 @@ export default function Tags({ tags }) {
     ...tags.map((tag) => {
       const tagLink = h(
         'a',
-        { href: `/blog/tag/${tag}`, onClick: openTag },
+        { href: `/blog/tag/${tag}`, 'onClick': openTag },
         tag,
       );
       return h('li', {
