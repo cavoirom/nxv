@@ -8,14 +8,13 @@ import BlogTag from '../blog-tag/blog-tag.js';
 import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { StoreContext } from '../../store/store.js';
-import dlv from '../../../deps/dlv.js';
 import { isBlogEntryUrl } from '../../shared/blog-entries.js';
 
 export default function Content() {
   // INPUT
   const [location, _setNavigation] = useLocation();
   const [state, dispatch] = useContext(StoreContext);
-  const blogEntry = dlv(state, 'blog.entry');
+  const blogEntry = state.blog?.entry;
 
   log.debug('Render Content:', location);
 
@@ -24,7 +23,7 @@ export default function Content() {
   // fetch the blog entry based on location. We need this handling for back/forward navigation.
   useEffect(() => {
     log.debug(`Content: location changed: ${location}`);
-    if (isBlogEntryUrl(location) && location !== dlv(blogEntry, 'url')) {
+    if (isBlogEntryUrl(location) && location !== blogEntry?.url) {
       log.debug('Auto fetch blog entry:', location);
       fetchPartialState(location).then((item) => {
         dispatch({

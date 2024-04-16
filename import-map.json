@@ -3,7 +3,6 @@
     "@testing-library/preact": "npm:@testing-library/preact@3.2.3",
     "@testing-library/user-event": "npm:@testing-library/user-event@14.5.2",
     "cheerio": "npm:cheerio@1.0.0-rc.12",
-    "dlv": "npm:dlv@1.1.3",
     "esbuild": "https://deno.land/x/esbuild@v0.20.2/mod.js",
     "esbuild_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts",
     "flags/": "https://deno.land/std@0.204.0/flags/",

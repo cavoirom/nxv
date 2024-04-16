@@ -5,7 +5,6 @@ import { useEffect } from '../../../deps/preact-hooks.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { log } from '../../shared/logger.js';
 import { SimpleBlogEntry } from '../../component/blog-entry/blog-entry.js';
-import dlv from '../../../deps/dlv.js';
 import { StoreContext } from '../../store/store.js';
 import { useOpenBlogEntry } from '../../shared/blog-entries.js';
 
@@ -14,7 +13,7 @@ const BLOG_TAG_URL_PATTERN = /\/blog\/tag\/([\w-/]+)/;
 export default function BlogTag() {
   // VARIABLES
   const [state, dispatch] = useContext(StoreContext);
-  const entriesByTag = dlv(state, 'blog.entriesByTag');
+  const entriesByTag = state.blog?.entriesByTag;
   const [location, _setLocation] = useLocation();
   const tag = getTagFromUrl(location);
   const title = `tag: ${tag} - to be continued`;

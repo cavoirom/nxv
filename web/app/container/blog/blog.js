@@ -3,14 +3,13 @@ import { useLocation } from '../../../deps/wouter-preact.js';
 import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import { log } from '../../shared/logger.js';
 import { SimpleBlogEntry } from '../../component/blog-entry/blog-entry.js';
-import dlv from '../../../deps/dlv.js';
 import { StoreContext } from '../../store/store.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
 import { useOpenBlogEntry } from '../../shared/blog-entries.js';
 
 export default function Blog() {
   const [state, dispatch] = useContext(StoreContext);
-  const entries = dlv(state, 'blog.entries');
+  const entries = state.blog?.entries;
   const [location, _setLocation] = useLocation();
 
   log.debug('Render Blog:', entries);

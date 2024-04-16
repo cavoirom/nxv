@@ -1,6 +1,5 @@
 import { Fragment, h } from '../../../deps/preact.js';
 import { useEffect } from '../../../deps/preact-hooks.js';
-import dlv from '../../../deps/dlv.js';
 import { log } from '../../shared/logger.js';
 import Tags from '../tags/tags.js';
 import { toPartialStateUrl } from '../../store/action.js';
@@ -13,7 +12,7 @@ export default function BlogEntry({ blogEntry }) {
 
   // EFFECTS
   useEffect(() => {
-    document.title = dlv(blogEntry, 'title');
+    document.title = blogEntry?.title;
   });
 
   // RENDER COMPONENT
