@@ -36,8 +36,6 @@ export default function Header() {
     return h(Fragment);
   }
 
-  const { title } = site;
-
   const homeItem = h(
     'li',
     { className: 'navigator__item' },
@@ -46,7 +44,7 @@ export default function Header() {
       className: `navigator__link ${
         homeRouteMatched && 'navigator__link--active'
       }`,
-    }, title),
+    }, state.home.title),
   );
   const blogItem = h(
     'li',

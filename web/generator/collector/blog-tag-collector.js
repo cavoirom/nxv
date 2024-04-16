@@ -18,11 +18,14 @@ export default class BlogTagCollector extends Collector {
       });
       const state = {
         ...defaultState,
+        site: {
+          title: `tag: ${tag} - to be continued`,
+          path: `/blog/tag/${tag}`,
+        },
         blog: {
           ...defaultState.blog,
           entriesByTag: blogEntriesByTag,
         },
-        pageTitle: `tag: ${tag} - to be continued`,
       };
       const page = CachedPage.newBlog(
         `/blog/tag/${tag}`,

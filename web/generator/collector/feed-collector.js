@@ -1,6 +1,6 @@
 import CachedPage from '../cache-store/cached-page.js';
 
-export default class BlogCollector {
+export default class FeedCollector {
   constructor(cacheStore, config) {
     this.cacheStore = cacheStore;
     this.config = config;
@@ -9,22 +9,18 @@ export default class BlogCollector {
   async collect() {
     const { defaultState } = this.config;
     const blogEntryPages = await this.cacheStore.findBlogEntryPages();
-    // Get blog entry without content.
-    const blogEntries = blogEntryPages.map((blogEntryPage) => {
-      const { blogEntry } = blogEntryPage;
-      return {
-        ...blogEntry,
-        content: undefined,
-      };
-    });
+    const blogEntries = blogEntryPages.map((blogEntryPage) =>
+      blogEntryPage.blogEntry
+    );
     const updated = blogEntries.map((item) => item.updated).sort((a, b) =>
       b.localeCompare(a)
     ).find((_item) => true);
     const state = {
       ...defaultState,
       site: {
+        ...defaultState.site,
         title: 'to be continued',
-        path: '/blog',
+        path: '/blog/atom.xml',
       },
       blog: {
         ...defaultState.blog,
@@ -32,8 +28,7 @@ export default class BlogCollector {
         entries: blogEntries,
       },
     };
-
-    const page = CachedPage.newBlog('/blog', 'BLOG', state, state.blog.entries);
+    const page = CachedPage.newBlog('/blog/atom.xml', 'FEED', state, undefined);
     return this.cacheStore.addPage(page);
   }
 }

@@ -28,7 +28,10 @@ export default class BlogEntryCollector {
       const { defaultState } = this.config;
       const state = {
         ...defaultState,
-        pageTitle: blogEntry.title,
+        site: {
+          title: blogEntry.title,
+          path: blogEntry.url,
+        },
         blog: {
           ...defaultState.blog,
           entry: blogEntry,
@@ -76,7 +79,7 @@ export default class BlogEntryCollector {
     const blogEntryMarkdown = await Deno.readTextFile(markdownFile);
     const env = { frontMatter: undefined };
 
-    const md = new Remarkable({ html: true });
+    const md = new Remarkable({ html: true, xhtmlOut: true });
     md.use(frontMatter);
     md.use(extLink, { host: this.config.host });
     md.use(customRemarkable, {

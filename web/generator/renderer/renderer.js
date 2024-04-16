@@ -19,9 +19,9 @@ export default class Renderer {
     this.$scripts = cheerio.html(this.$generatedIndex('body script'));
   }
 
-  _buildHeadHtml(pageTitle) {
+  _buildHeadHtml(siteTitle) {
     const $head = this.$generatedIndex('head');
-    $head.find('title').text(pageTitle);
+    $head.find('title').text(siteTitle);
     return cheerio.html($head);
   }
 
@@ -35,7 +35,7 @@ export default class Renderer {
       ),
     );
     // Build head with title and generated css.
-    const headHtml = this._buildHeadHtml(page.state.pageTitle);
+    const headHtml = this._buildHeadHtml(page.state.site.title);
     return `<!DOCTYPE html>
 <html lang="en">
 ${headHtml}

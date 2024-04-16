@@ -10,7 +10,7 @@ export default function Home() {
   // deno-lint-ignore no-unused-vars
   const [state, dispatch] = useContext(StoreContext);
   const home = state.home;
-  const title = state.site.title;
+  const title = state.home.title;
 
   // Set title
   useEffect(() => {

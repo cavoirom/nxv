@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ngxv.org/state.schema.json",
+  "title": "Internal Web Application State",
+  "description": "Internal state, used by our web app to render the page.",
+  "type": "object",
+  "properties": {
+    "blog": {
+      "description": "The content of \"to be continued\" blog.",
+      "type": "object",
+      "properties": {
+        "updated": {
+          "description": "Latest activity on the blog by the author.",
+          "type": "string"
+        },
+        "entries": {
+          "description": "All entries of the blog.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "entriesByTag": {
+          "description": "Filtered entries by tag.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {}
+          }
+        },
+        "entry": {
+          "description": "The selected entry, to be displayed on the blog entry page.",
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    "home": {
+      "description": "Home page content.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "me": {
+          "description": "Content of the about me section.",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "description": "The actual content, could be written in HTML.",
+              "type": "string"
+            }
+          }
+        },
+        "journey": {
+          "description": "Tell our journey in the IT field.",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "years": {
+              "description": "List of events in the journey, grouped by year.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "year": {
+                    "type": "number"
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "work": {
+          "description": "List of worked companies, grouped by year.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "year": {
+                "type": "number"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "site": {
+      "description": "General information of the whole web app.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "The title of current page.",
+          "type": "string"
+        },
+        "host": {
+          "description": "The domain name of the web app.",
+          "type": "string"
+        },
+        "path": {
+          "description": "The path of current page, without scheme, domain, port.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

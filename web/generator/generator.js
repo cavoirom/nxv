@@ -7,6 +7,8 @@ import BlogEntryCollector from './collector/blog-entry-collector.js';
 import BlogEntryRenderer from './renderer/blog-entry-renderer.js';
 import { ensureDir, expandGlob } from '../deps/fs.js';
 import BlogTagCollector from './collector/blog-tag-collector.js';
+import FeedRenderer from './renderer/feed-renderer.js';
+import FeedCollector from './collector/feed-collector.js';
 
 async function _generateDefaultState(config) {
   // Generate default state
@@ -78,6 +80,7 @@ async function generate(config) {
     new BlogEntryCollector(cacheStore, config),
     new BlogCollector(cacheStore, config),
     new BlogTagCollector(cacheStore, config),
+    new FeedCollector(cacheStore, config),
   ];
   // Collect the pages
   for (const collector of collectors) {
@@ -90,6 +93,7 @@ async function generate(config) {
     BLOG: new StaticPageRenderer(config),
     BLOG_ENTRY: new BlogEntryRenderer(config),
     BLOG_TAG: new StaticPageRenderer(config),
+    FEED: new FeedRenderer(config),
   };
 
   for (const page of pages) {
