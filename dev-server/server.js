@@ -7,7 +7,7 @@ async function serve(port = 8080, webRootPath = './web/dist') {
   const root = resolve(webRootPath);
   const handler = async (request) => {
     const url = new URL(request.url);
-    console.log(`Path: ${url.pathname}`);
+    console.log(`Requested path: ${url.pathname}`);
 
     const expectedPath = resolve(root, `.${url.pathname}`);
     console.log(`Expected path: ${expectedPath}`);
