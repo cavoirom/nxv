@@ -16,7 +16,7 @@ mkdir -p "${BACKUP}"
 git clone --depth 1 --branch gh-pages git@github.com:cavoirom/nxv.git "${TMP}"
 
 # Create gzip files
-find "${TMP}" \( -name '*.css' -o -name '*.html' -o -name '*.js' -o -name '*.json' \) -exec gzip -v -k -f '{}' \;
+find "${TMP}" \( -name '*.css' -o -name '*.html' -o -name '*.xml' -o -name '*.js' -o -name '*.json' \) -exec gzip -v -k -f '{}' \;
 
 # Backup existing files from $WEB_ROOT and store to $BACKUP as a tarball.
 tar cvzf "${BACKUP}/ngxv_$( date +%Y%m%d_%H%M%S ).tar.gz" -C "${WEB_ROOT}" .
