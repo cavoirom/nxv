@@ -20,7 +20,7 @@ contains my writings about the things I'm interesting and what I believe.
 - [x] Blog: the author's writings about the things he's interesting and what he
       believes. Reader could read the blog in chronological order or filter by
       tags.
-- [ ] RSS: user with RRS reader could subscribe easily.
+- [x] Atom feed: user with feed reader could subscribe easily.
 
 #### Non-Functional Requirements
 
