@@ -65,7 +65,7 @@ we will find a workaround.
   - `swap`: 2Gi.
   - `/home`: the rest.
   - Adjust those information according to your droplet size.
-- Hostname: <hostname>
+- Hostname: `<hostname>`
 - Network configuration:
   - Interface: `vio0`
   - Tag: `vio0:none`
