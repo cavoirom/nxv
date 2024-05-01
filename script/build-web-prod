@@ -83,20 +83,6 @@ DENO_DIR="${DENO_DIRECTORY}" deno run \
     --entrypoint "${WEB_DIRECTORY}/app/worker.js" \
     --out-file "${WEB_DIRECTORY}/build/dist/worker.js"
 
-# download purecss
-mkdir -p "${CACHE_DIRECTORY}/deps/purecss/2.1.0"
-download \
-    "8c01fbca2681ae46e5a6c626c236734cc7fea87785b611554fc818ece43c08ac" \
-    "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/base-min.css" \
-    "${CACHE_DIRECTORY}/deps/purecss/2.1.0/base-min.scss"
-download \
-    "dbb583ba6e838e6c22199e69bcae90af3ea735f959df70d97bc792bdeaf72285" \
-    "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-min.css" \
-    "${CACHE_DIRECTORY}/deps/purecss/2.1.0/grids-min.scss"
-download \
-    "2131b61e813b7ce13fe5ab44c2a1bd25ab937f6eb4b5343584e22c981d262227" \
-    "https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" \
-    "${CACHE_DIRECTORY}/deps/purecss/2.1.0/grids-responsive-min.scss"
 # bundle css to index.css.
 sass --style compressed "${WEB_DIRECTORY}/app/index.scss" "${WEB_DIRECTORY}/build/dist/index.css"
 
