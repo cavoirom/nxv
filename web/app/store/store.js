@@ -29,6 +29,14 @@ const reducer = (state, action) => {
           entriesByTag: action.payload.entriesByTag,
         },
       };
+    case ActionTypes.SET_SITE_TITLE:
+      return {
+        ...state,
+        site: {
+          ...state.site,
+          title: action.payload.title,
+        },
+      };
     default:
       return state;
   }

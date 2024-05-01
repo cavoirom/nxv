@@ -14,4 +14,5 @@ export const ActionTypes = {
   SET_BLOG_ENTRY: 0,
   SET_BLOG_ENTRIES: 1,
   SET_BLOG_ENTRIES_BY_TAG: 2,
+  SET_SITE_TITLE: 3,
 };

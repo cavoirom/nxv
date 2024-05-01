@@ -23,8 +23,8 @@ export default function BlogTag() {
   // EFFECTS
   // Set title
   useEffect(() => {
-    document.title = title;
-  });
+    dispatch({ type: ActionTypes.SET_SITE_TITLE, payload: { title } });
+  }, [location]);
 
   // Initialize entriesByTag if it's undefined
   // We could extract this one a custom hook.

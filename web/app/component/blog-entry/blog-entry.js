@@ -1,19 +1,24 @@
 import { Fragment, h } from '../../../deps/preact.js';
-import { useEffect } from '../../../deps/preact-hooks.js';
+import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import { log } from '../../shared/logger.js';
 import Tags from '../tags/tags.js';
-import { toPartialStateUrl } from '../../store/action.js';
+import { ActionTypes, toPartialStateUrl } from '../../store/action.js';
+import { StoreContext } from '../../store/store.js';
 
 export default function BlogEntry({ blogEntry }) {
   // INPUT
-  // empty
+  const [_state, dispatch] = useContext(StoreContext);
 
   log.debug('Render BlogEntry:', blogEntry);
 
   // EFFECTS
+  // Set title
   useEffect(() => {
-    document.title = blogEntry?.title;
-  });
+    dispatch({
+      type: ActionTypes.SET_SITE_TITLE,
+      payload: { title: blogEntry.title },
+    });
+  }, [location]);
 
   // RENDER COMPONENT
   if (!blogEntry) {

@@ -3,19 +3,20 @@ import { useContext, useEffect } from '../../../deps/preact-hooks.js';
 import EventSection from '../../component/event-section/event-section.js';
 import { log } from '../../shared/logger.js';
 import { StoreContext } from '../../store/store.js';
+import { ActionTypes } from '../../store/action.js';
 
 export default function Home() {
   log.debug('Render Home.');
 
-  // deno-lint-ignore no-unused-vars
   const [state, dispatch] = useContext(StoreContext);
   const home = state.home;
   const title = state.home.title;
 
+  // EFFECTS
   // Set title
   useEffect(() => {
-    document.title = title;
-  });
+    dispatch({ type: ActionTypes.SET_SITE_TITLE, payload: { title } });
+  }, [location]);
 
   if (!home) {
     return h(Fragment);

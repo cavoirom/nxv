@@ -14,10 +14,14 @@ export default function Blog() {
 
   log.debug('Render Blog:', entries);
 
+  // EFFECTS
   // Set title
   useEffect(() => {
-    document.title = 'to be continued';
-  });
+    dispatch({
+      type: ActionTypes.SET_SITE_TITLE,
+      payload: { title: 'to be continued' },
+    });
+  }, [location]);
 
   // Initialize blog if it's undefined
   useEffect(() => {
@@ -26,7 +30,7 @@ export default function Blog() {
         dispatch({ type: ActionTypes.SET_BLOG_ENTRIES, payload: { entries } });
       });
     }
-  });
+  }, [entries]);
 
   // Event handler when blog entry title is clicked.
   const openBlogEntry = useOpenBlogEntry();

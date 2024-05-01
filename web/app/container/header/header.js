@@ -4,6 +4,7 @@ import { log } from '../../shared/logger.js';
 import { StoreContext } from '../../store/store.js';
 import { useContext } from '../../../deps/preact-hooks.js';
 import { ActionTypes, fetchPartialState } from '../../store/action.js';
+import Helmet from '../helmet/helmet.js';
 
 export default function Header() {
   log.debug('Render Header.');
@@ -72,6 +73,7 @@ export default function Header() {
   return h(
     'header',
     null,
+    h(Helmet, { title: site?.title }, null),
     h(
       'div',
       { className: 'pure-g' },
