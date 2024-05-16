@@ -51,10 +51,11 @@ li {
 }
 
 code {
-  display: inline-block;
   background-color: $code-background-color;
-  padding: 0 0.3rem;
   border-radius: 0.1rem;
+  display: inline-block;
+  font-size: 0.95rem;
+  padding: 0 0.3rem;
 }
 
 h1,
