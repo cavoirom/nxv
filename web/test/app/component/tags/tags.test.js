@@ -68,7 +68,7 @@ Deno.test('[Tags] should call server to get state and then set correct url when 
   try {
     const tags = ['linux', 'windows'];
     render(h(Tags, { tags }));
-    const tagLink = document.querySelector(`[aria-label="tag ${tags[0]}"] a`);
+    const tagLink = document.querySelector(`[aria-label="tag ${tags[0]}"]`);
     await userEvent.click(tagLink);
 
     assertSpyCall(fetchPartialStateStub, 0, {

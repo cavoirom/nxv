@@ -44,12 +44,15 @@ export default function Tags({ tags }) {
     ...tags.map((tag) => {
       const tagLink = h(
         'a',
-        { href: `/blog/tag/${tag}`, onClick: openTag },
+        {
+          href: `/blog/tag/${tag}`,
+          onClick: openTag,
+          'aria-label': `tag ${tag}`,
+        },
         tag,
       );
       return h('li', {
         className: `blog-entry__tag ${toTagColorCssClass(tag)}`,
-        'aria-label': `tag ${tag}`,
       }, tagLink);
     }),
   );
