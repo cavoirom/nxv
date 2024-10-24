@@ -6,6 +6,7 @@ import { argsParse } from '../deps/flags.js';
 async function main(args) {
   const argsParseOptions = {
     string: ['importMap', 'entrypoint', 'outFile'],
+    boolean: ['minify'],
     alias: {
       importMap: 'import-map',
       outFile: 'out-file',
@@ -13,7 +14,7 @@ async function main(args) {
   };
 
   const parsedArgs = argsParse(args, argsParseOptions);
-  const { importMap, entrypoint, outFile } = parsedArgs;
+  const { importMap, entrypoint, outFile, minify } = parsedArgs;
 
   const result = await esbuild.build({
     plugins: [
@@ -27,6 +28,7 @@ async function main(args) {
     outfile: outFile,
     bundle: true,
     format: 'esm',
+    minify: minify,
   });
 
   console.log(result);
