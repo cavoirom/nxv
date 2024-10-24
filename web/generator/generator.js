@@ -32,8 +32,8 @@ async function _generateCacheRoutes(config) {
     'index.css.map',
     'index.html',
     'robots.txt',
-    'worker.min.js',
-    'worker.min.js.map',
+    'worker.js',
+    'worker.js.map',
   ];
   const additionalPaths = [];
 
