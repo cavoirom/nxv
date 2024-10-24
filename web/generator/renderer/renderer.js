@@ -1,5 +1,4 @@
 import render from '../../deps/preact-render-to-string.js';
-import cheerio from '../../deps/cheerio.js';
 import { StoreProvider } from '../../app/store/store.js';
 import { h } from '../../deps/preact.js';
 import { Router } from '../../deps/wouter-preact.js';
@@ -10,19 +9,10 @@ import { dirname } from '../../deps/path.js';
 export default class Renderer {
   constructor(config) {
     this.config = config;
-    // Load generated html as template to know generated js/css file name.
-    const generatedIndex = Deno.readTextFileSync(
+    // Load index template to fill the generated data.
+    this.indexTemplate = Deno.readTextFileSync(
       `${config.output}/index.html`,
     );
-    // The $ indicate it's cheerio object, just like jQuery object.
-    this.$generatedIndex = cheerio.load(generatedIndex);
-    this.$scripts = cheerio.html(this.$generatedIndex('body script'));
-  }
-
-  _buildHeadHtml(siteTitle) {
-    const $head = this.$generatedIndex('head');
-    $head.find('title').text(siteTitle);
-    return cheerio.html($head);
   }
 
   _buildPageHtml(page) {
@@ -34,20 +24,11 @@ export default class Renderer {
         h(Router, { ssrPath: page.url }, h(App, null, null)),
       ),
     );
-    // Build head with title and generated css.
-    const headHtml = this._buildHeadHtml(page.state.site.title);
-    return `<!DOCTYPE html>
-<html lang="en">
-${headHtml}
-<body>
-<div id="app">${appHtml}</div>
-<script>
-  window.__STATE__ = fetch('${page.url}/index.json').then(response => response.json());
-</script>
-${this.$scripts}
-</body>
-</html>
-`;
+    const index = this.indexTemplate
+        .replace(`<title>vinh</title>`, `<title>${page.state.site.title}</title>`)
+        .replace(`<div id="app"></div>`, `<div id=\"app\">${appHtml}</div>`)
+        .replace(`window.__STATE__ = undefined;`, `window.__STATE__ = fetch('${page.url}/index.json').then(response => response.json());`);
+    return index;
   }
 
   async _writePageHtml(page) {
