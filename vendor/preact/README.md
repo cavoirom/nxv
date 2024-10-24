@@ -28,5 +28,4 @@ cp -r <preact>/hooks/dist/hooks.module.js.map <nxv>/vendor/preact/hooks/index.js
 
 Modify the last line of `.js` file to point to correct `.js.map` file.
 
-Modify the `'preact'` import to the relative path of preact.
-
+Modify the `'preact'` JavaScript import to the relative path of preact.
