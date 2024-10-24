@@ -4,4 +4,4 @@ export {
   useEffect,
   useLayoutEffect,
   useReducer,
-} from 'preact/hooks';
+} from '../../vendor/preact/hooks/index.js';

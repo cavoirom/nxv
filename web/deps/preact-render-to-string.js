@@ -1,1 +1,1 @@
-export { default } from 'preact-render-to-string';
+export { default } from '../../vendor/preact-render-to-string/index.js';

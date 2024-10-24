@@ -1,1 +1,1 @@
-export { createContext, Fragment, h, hydrate, toChildArray } from 'preact';
+export { createContext, Fragment, h, hydrate, toChildArray } from '../../vendor/preact/index.js';

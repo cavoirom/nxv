@@ -1,17 +1,17 @@
-import { useState, useLayoutEffect, useEffect, useRef } from "preact/hooks";
+import { useState, useLayoutEffect, useEffect, useRef } from "../../preact/hooks/index.js";
 export {
   isValidElement,
   createContext,
   cloneElement,
   createElement,
   Fragment,
-} from "preact";
+} from "../../preact/index.js";
 export {
   useLayoutEffect as useIsomorphicLayoutEffect,
   useLayoutEffect as useInsertionEffect,
   useState,
   useContext,
-} from "preact/hooks";
+} from "../../preact/hooks/index.js";
 
 // Copied from:
 // https://github.com/facebook/react/blob/main/packages/shared/ExecutionEnvironment.js

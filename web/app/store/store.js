@@ -1,5 +1,4 @@
-import { h, toChildArray } from '../../deps/preact.js';
-import { createContext } from '../../deps/preact.js';
+import { h, toChildArray, createContext } from '../../deps/preact.js';
 import { useReducer } from '../../deps/preact-hooks.js';
 import { ActionTypes } from './action.js';
 
