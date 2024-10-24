@@ -34,11 +34,11 @@ WEB_DIRECTORY="${PROJECT_DIRECTORY}/web"
 CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
 DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
-# test the web: currently error because of JSDOM on esm.sh.
-# DENO_DIR="${DENO_DIRECTORY}" deno test \
-#     --config "$PROJECT_DIRECTORY/deno.jsonc" \
-#     --allow-env \
-#     "$WEB_DIRECTORY/test"
+# test the web.
+DENO_DIR="${DENO_DIRECTORY}" deno test \
+    --config "$PROJECT_DIRECTORY/deno.jsonc" \
+    --allow-env \
+    "$WEB_DIRECTORY/test"
 
 # clean build directory.
 rm -rf "${WEB_DIRECTORY}/build"
