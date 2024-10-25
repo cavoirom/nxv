@@ -1,10 +1,19 @@
 ---
-title: Setup Unix Shell on Windows
-author: vinh
-preview: I used Cygwin, zsh, oh-my-zsh to have better Shell in Windows.
-created: 2021-06-13T12:21:47.525+07:00
-updated: 2021-06-13T15:44:13.219+07:00
-tags: shell, unix, windows, cygwin, zsh, oh-my-zsh, development, java, nodejs
+title: "Setup Unix Shell on Windows"
+author: "vinh"
+preview: "I used Cygwin, zsh, oh-my-zsh to have better Shell in Windows."
+created: "2021-06-13T12:21:47.525+07:00"
+updated: "2021-06-13T15:44:13.219+07:00"
+tags:
+  - "shell"
+  - "unix"
+  - "windows"
+  - "cygwin"
+  - "zsh"
+  - "oh-my-zsh"
+  - "development"
+  - "java"
+  - "nodejs"
 ---
 
 ## The Command Line Environment

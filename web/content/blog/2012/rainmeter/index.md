@@ -1,10 +1,12 @@
 ---
-title: Rainmeter
-author: vinh
-preview: Rainmeter, công cụ tùy biến giao diện Windows linh hoạt nhất tui từng biết
-created: 2012-10-01T00:00:00.000+07:00
-updated: 2012-10-01T00:00:00.000+07:00
-tags: rainmeter, windows
+title: "Rainmeter"
+author: "vinh"
+preview: "Rainmeter, công cụ tùy biến giao diện Windows linh hoạt nhất tui từng biết"
+created: "2012-10-01T00:00:00.000+07:00"
+updated: "2012-10-01T00:00:00.000+07:00"
+tags:
+  - "rainmeter"
+  - "windows"
 ---
 
 [Rainmeter](http://rainmeter.net/), công cụ tùy biến giao diện Windows linh hoạt

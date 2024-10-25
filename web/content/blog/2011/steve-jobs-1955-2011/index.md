@@ -1,10 +1,11 @@
 ---
-title: Steve Jobs (1955 - 2011)
-author: vinh
-preview: Vĩnh biệt Steve Jobs, kẻ luôn làm cả thế giới kinh ngạc
-created: 2011-10-05T00:00:00.000+07:00
-updated: 2011-10-05T00:00:00.000+07:00
-tags: steve-jobs
+title: "Steve Jobs (1955 - 2011)"
+author: "vinh"
+preview: "Vĩnh biệt Steve Jobs, kẻ luôn làm cả thế giới kinh ngạc"
+created: "2011-10-05T00:00:00.000+07:00"
+updated: "2011-10-05T00:00:00.000+07:00"
+tags:
+  - "steve-jobs"
 ---
 
 Vĩnh biệt Steve Jobs, kẻ luôn làm cả thế giới kinh ngạc, con người tôi ngưỡng mộ

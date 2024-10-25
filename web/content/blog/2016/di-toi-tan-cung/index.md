@@ -1,10 +1,11 @@
 ---
-title: Đi tới tận cùng
-author: vinh
-preview: Để chứng minh một vấn đề đúng, bạn phải chứng minh nó đúng trong mọi trường hợp. Kẻ khác nói bạn sai, họ cần chỉ ra một trường hợp sai, đôi khi có-vẻ-sai, là đủ.
-created: 2016-11-22T00:00:00.000+07:00
-updated: 2016-11-22T00:00:00.000+07:00
-tags: jsf, life
+title: "Đi tới tận cùng"
+author: "vinh"
+created: "2016-11-22T00:00:00.000+07:00"
+updated: "2016-11-22T00:00:00.000+07:00"
+tags:
+  - "jsf"
+  - "life"
 ---
 
 Để chứng minh một vấn đề đúng, bạn phải chứng minh nó đúng trong mọi trường hợp.

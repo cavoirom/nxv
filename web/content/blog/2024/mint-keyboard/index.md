@@ -1,10 +1,11 @@
 ---
 title: "Mint: bàn phím cơ với chỉ 47 phím"
-author: vinh
-preview: Cách mình dùng bàn phím với layout ortholinear 40%.
-created: 2024-03-01T13:45:50.560+07:00
-updated: 2024-03-01T13:45:50.560+07:00
-tags: mechanical-keyboard
+author: "vinh"
+preview: "Cách mình dùng bàn phím với layout ortholinear 40%."
+created: "2024-03-01T13:45:50.560+07:00"
+updated: "2024-03-01T13:45:50.560+07:00"
+tags:
+  - "mechanical-keyboard"
 ---
 
 ![Mint Keyboard](image/mint_keyboard_demo.jpg)

@@ -1,10 +1,13 @@
 ---
-title: Sài Gòn giãn cách xã hội
-author: vinh
-preview: Lần đầu tiên Sài Gòn thật sự đối mặt với đại dịch COVID-19.
-created: 2021-07-09T13:24:33.174+07:00
-updated: 2021-07-09T13:24:33.174+07:00
-tags: life, saigon, covid-19
+title: "Sài Gòn giãn cách xã hội"
+author: "vinh"
+preview: "Lần đầu tiên Sài Gòn thật sự đối mặt với đại dịch COVID-19."
+created: "2021-07-09T13:24:33.174+07:00"
+updated: "2021-07-09T13:24:33.174+07:00"
+tags:
+  - "life"
+  - "saigon"
+  - "covid-19"
 ---
 
 Nay là ngày đầu Sài Gòn giãn cách xã hội, mình ghi lại tình trạng hiện tại để

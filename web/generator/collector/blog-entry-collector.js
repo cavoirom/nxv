@@ -88,10 +88,7 @@ export default class BlogEntryCollector {
     });
 
     const entryHtml = md.render(blogEntryMarkdown, env);
-    const tags = env.frontMatter.tags
-      .split(',')
-      .map((tag) => tag.trim())
-      .sort();
+    const tags = env.frontMatter.tags;
     const url = this._toBlogEntryUrl(slug, env.frontMatter.created);
 
     return {

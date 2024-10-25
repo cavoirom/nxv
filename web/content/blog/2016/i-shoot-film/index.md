@@ -1,10 +1,12 @@
 ---
-title: Vì sao mình chụp film?
-author: vinh
-preview: Là thích máy, thích ảnh nên chụp vậy thôi.
-created: 2016-09-07T22:37:00.000+07:00
-updated: 2016-09-07T22:37:00.000+07:00
-tags: film, photograph
+title: "Vì sao mình chụp film?"
+author: "vinh"
+preview: "Là thích máy, thích ảnh nên chụp vậy thôi."
+created: "2016-09-07T22:37:00.000+07:00"
+updated: "2016-09-07T22:37:00.000+07:00"
+tags:
+  - "film"
+  - "photograph"
 ---
 
 ![My first Ektar 100](image/first-ektar-100.jpg 'My first Ektar 100')

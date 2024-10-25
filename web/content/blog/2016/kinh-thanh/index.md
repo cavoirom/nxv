@@ -1,10 +1,14 @@
 ---
-title: Kinh Thánh
-author: vinh
-preview: Hồi trước, mình có coi một phim Mỹ rất hay mà mình thấy hợp với hoàn cảnh Việt Nam bây giờ. Phim Book of Eli.
-created: 2016-07-05T00:00:00.000+07:00
-updated: 2016-07-05T00:00:00.000+07:00
-tags: bible, book, feeling, vietnam
+title: "Kinh Thánh"
+author: "vinh"
+preview: "Hồi trước, mình có coi một phim Mỹ rất hay mà mình thấy hợp với hoàn cảnh Việt Nam bây giờ. Phim Book of Eli."
+created: "2016-07-05T00:00:00.000+07:00"
+updated: "2016-07-05T00:00:00.000+07:00"
+tags:
+  - "bible"
+  - "book"
+  - "feeling"
+  - "vietnam"
 ---
 
 ![The Holy Bible](image/holy-bible.jpg 'The Holy Bible')

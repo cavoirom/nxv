@@ -1,10 +1,15 @@
 ---
-title: Managing SSH keys with Sekey and Touch ID
-author: vinh
-preview: I have been using Sekey for more than 4 years
-created: 2022-09-02T21:22:27.599+07:00
-updated: 2022-09-02T21:22:27.599+07:00
-tags: macos, ssh, sekey, git, github
+title: "Managing SSH keys with Sekey and Touch ID"
+author: "vinh"
+preview: "I have been using Sekey for more than 4 years"
+created: "2022-09-02T21:22:27.599+07:00"
+updated: "2022-09-02T21:22:27.599+07:00"
+tags:
+  - "macos"
+  - "ssh"
+  - "sekey"
+  - "git"
+  - "github"
 ---
 
 I have been using _**Sekey**_ for more than 4 years, I could say the experience

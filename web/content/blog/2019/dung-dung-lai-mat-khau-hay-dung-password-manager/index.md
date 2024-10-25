@@ -1,10 +1,13 @@
 ---
-title: Đừng dùng lại mật khẩu, hãy dùng PASSWORD MANAGER!
-author: vinh
+title: "Đừng dùng lại mật khẩu, hãy dùng PASSWORD MANAGER!"
+author: "vinh"
 preview: "Ai trong chúng ta hẳn đã có không dưới 5 tài khoản Internet: Internet Banking, Facebook, Zalo, Viber, Gmail.. Và mật khẩu là thành phần quan trọng giúp bảo vệ các tài khoản này."
-created: 2019-05-26T00:00:00.000+07:00
-updated: 2019-05-26T00:00:00.000+07:00
-tags: password-manager, privacy, software
+created: "2019-05-26T00:00:00.000+07:00"
+updated: "2019-05-26T00:00:00.000+07:00"
+tags:
+  - "password-manager"
+  - "privacy"
+  - "software"
 ---
 
 Ai trong chúng ta hẳn đã có không dưới 5 tài khoản Internet: Internet Banking,

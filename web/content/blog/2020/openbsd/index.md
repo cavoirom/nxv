@@ -1,10 +1,17 @@
 ---
-title: OpenBSD on DigitalOcean
-author: vinh
-preview: I experiment with OpenBSD as my server OS
-created: 2020-12-21T07:52:11.829+07:00
-updated: 2021-07-18T12:16:55.246+07:00
-tags: self-hosted, openbsd, httpd, relayd, vim, doas, unix
+title: "OpenBSD on DigitalOcean"
+author: "vinh"
+preview: "I experiment with OpenBSD as my server OS"
+created: "2020-12-21T07:52:11.829+07:00"
+updated: "2021-07-18T12:16:55.246+07:00"
+tags:
+  - "self-hosted"
+  - "openbsd"
+  - "httpd"
+  - "relayd"
+  - "vim"
+  - "doas"
+  - "unix"
 ---
 
 _Note: you can apply this guideline for OpenBSD 6.9 and DigitalOcean, as of

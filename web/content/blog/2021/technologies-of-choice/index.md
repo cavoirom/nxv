@@ -1,10 +1,16 @@
 ---
-title: My technologies of choice
-author: vinh
-preview: I prioritize performance, efficiency and security when choosing hardware, software and service...
-created: 2021-06-22T21:06:48.431+07:00
-updated: 2021-07-10T15:32:24.913+07:00
-tags: software, hardware, platform, macbook, macos, openbsd
+title: "My technologies of choice"
+author: "vinh"
+preview: "I prioritize performance, efficiency and security when choosing hardware, software and service..."
+created: "2021-06-22T21:06:48.431+07:00"
+updated: "2021-07-10T15:32:24.913+07:00"
+tags:
+  - "software"
+  - "hardware"
+  - "platform"
+  - "macbook"
+  - "macos"
+  - "openbsd"
 ---
 
 This blog entry is expected to be very long. I tried to explain my opinion about

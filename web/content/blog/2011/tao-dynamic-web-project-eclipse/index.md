@@ -1,10 +1,11 @@
 ---
-title: Tạo Dynamic Web Project (Eclipse 3.5) từ source-code có sẵn.
-author: vinh
-preview: Vì vài lý do tui sao lưu source-code và xóa meta-data của Eclipse Project, hậu quả hôm nay import lại project phát hiện không thể convert từ Java Project sang Dynamic Web Project.
-created: 2011-10-08T00:00:00.000+07:00
-updated: 2011-10-08T00:00:00.000+07:00
-tags: eclipse
+title: "Tạo Dynamic Web Project (Eclipse 3.5) từ source-code có sẵn."
+author: "vinh"
+preview: "Vì vài lý do tui sao lưu source-code và xóa meta-data của Eclipse Project, hậu quả hôm nay import lại project phát hiện không thể convert từ Java Project sang Dynamic Web Project."
+created: "2011-10-08T00:00:00.000+07:00"
+updated: "2011-10-08T00:00:00.000+07:00"
+tags:
+  - "eclipse"
 ---
 
 Vì vài lý do tui sao lưu _source-code_ và xóa _meta-data_ của Eclipse Project,

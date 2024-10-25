@@ -1,10 +1,12 @@
 ---
-title: What I have learned when setting up this page
-author: vinh
-preview: Being the sole maintainer of the whole system is an interested journey.
-created: 2023-03-18T15:24:08.451+07:00
-updated: 2023-03-18T15:24:08.451+07:00
-tags: self-hosted, to-be-continued
+title: "What I have learned when setting up this page"
+author: "vinh"
+preview: "Being the sole maintainer of the whole system is an interested journey."
+created: "2023-03-18T15:24:08.451+07:00"
+updated: "2023-03-18T15:24:08.451+07:00"
+tags:
+  - "self-hosted"
+  - "to-be-continued"
 ---
 
 **Responsibility** · because I am the sole maintainer of this page, I need to

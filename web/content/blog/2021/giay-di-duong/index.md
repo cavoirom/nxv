@@ -1,10 +1,13 @@
 ---
-title: Giấy Đi Đường
-author: vinh
-preview: Thử ứng dụng Công nghệ Thông tin vào thời sự.
-created: 2021-08-25T22:12:43.633+07:00
-updated: 2021-08-25T22:12:43.633+07:00
-tags: life, saigon, covid-19
+title: "Giấy Đi Đường"
+author: "vinh"
+preview: "Thử ứng dụng Công nghệ Thông tin vào thời sự."
+created: "2021-08-25T22:12:43.633+07:00"
+updated: "2021-08-25T22:12:43.633+07:00"
+tags:
+  - "life"
+  - "saigon"
+  - "covid-19"
 ---
 
 _Nhân dịp đọc bài viết trên báo VNExpress:

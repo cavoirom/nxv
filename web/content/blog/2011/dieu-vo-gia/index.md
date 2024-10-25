@@ -1,10 +1,11 @@
 ---
-title: Điều vô giá
-author: vinh
+title: "Điều vô giá"
+author: "vinh"
 preview: "Kinh thánh có chép như vầy: \"Còn ta nói cho các ngươi: Hãy dùng của bất nghĩa mà kết bạn, để khi của ấy hết đi, họ tiếp các ngươi vào nhà đời đời.\""
-created: 2011-11-10T00:00:00.000+07:00
-updated: 2011-11-10T00:00:00.000+07:00
-tags: feeling
+created: "2011-11-10T00:00:00.000+07:00"
+updated: "2011-11-10T00:00:00.000+07:00"
+tags:
+  - "feeling"
 ---
 
 Kinh thánh có chép như vầy: "Còn ta nói cho các ngươi: Hãy dùng của bất nghĩa mà

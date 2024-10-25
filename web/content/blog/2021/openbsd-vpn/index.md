@@ -1,10 +1,14 @@
 ---
-title: OpenBSD's VPN
-author: vinh
-preview: Setting up my home VPN with OpenBSD
-created: 2021-01-14T07:48:59.379+07:00
-updated: 2021-09-01T14:19:22.178+07:00
-tags: self-hosted, openbsd, iked, vpn
+title: "OpenBSD's VPN"
+author: "vinh"
+preview: "Setting up my home VPN with OpenBSD"
+created: "2021-01-14T07:48:59.379+07:00"
+updated: "2021-09-01T14:19:22.178+07:00"
+tags:
+  - "self-hosted"
+  - "openbsd"
+  - "iked"
+  - "vpn"
 ---
 
 _Note: I wrote the guideline based on OpenBSD 6.9._

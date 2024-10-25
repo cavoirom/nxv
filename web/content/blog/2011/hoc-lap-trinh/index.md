@@ -1,10 +1,13 @@
 ---
-title: Học lập trình
-author: vinh
-preview: Suy nghĩ xem bạn muốn làm gì? Bạn phải luôn đặt câu hỏi cho mình học để làm gì?
-created: 2011-11-12T00:00:00.000+07:00
-updated: 2011-11-12T00:00:00.000+07:00
-tags: programming, python, java
+title: "Học lập trình"
+author: "vinh"
+preview: "Suy nghĩ xem bạn muốn làm gì? Bạn phải luôn đặt câu hỏi cho mình học để làm gì?"
+created: "2011-11-12T00:00:00.000+07:00"
+updated: "2011-11-12T00:00:00.000+07:00"
+tags:
+  - "programming"
+  - "python"
+  - "java"
 ---
 
 Bạn là người có đam mê Công nghệ Thông tin, bạn muốn tạo cho riêng mình một

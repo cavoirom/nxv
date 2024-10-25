@@ -1,10 +1,11 @@
 ---
-title: Presentation Patterns - A Recipe for Better Education Presentation
-author: vinh
-preview: Giving a presentation is a scary experience for most developers.
-created: 2013-07-13T00:00:00.000+07:00
-updated: 2013-07-13T00:00:00.000+07:00
-tags: book
+title: "Presentation Patterns - A Recipe for Better Education Presentation"
+author: "vinh"
+preview: "Giving a presentation is a scary experience for most developers."
+created: "2013-07-13T00:00:00.000+07:00"
+updated: "2013-07-13T00:00:00.000+07:00"
+tags:
+  - "book"
 ---
 
 Giving a presentation is a scary experience for most developers. Yet, worrisome

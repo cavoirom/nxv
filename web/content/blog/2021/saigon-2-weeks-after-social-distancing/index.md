@@ -1,10 +1,13 @@
 ---
-title: Sài Gòn hơn 2 tuần giãn cách xã hội
-author: vinh
-preview: Tình hình vẫn chưa khá hơn, số ca bệnh tăng cao từ hơn 1.2k (09/07) lên 5.9k (26/07) mỗi ngày, tổng số ca bệnh ở thành phố khoảng 67k, bệnh nhân nhẹ được phép theo dõi tại nhà. Vaccine vẫn đang được tiêm nhưng không có số liệu thống kê cụ thể.
-created: 2021-07-27T19:25:23.867+07:00
-updated: 2021-07-27T19:25:23.867+07:00
-tags: life, saigon, covid-19
+title: "Sài Gòn hơn 2 tuần giãn cách xã hội"
+author: "vinh"
+preview: "Tình hình vẫn chưa khá hơn, số ca bệnh tăng cao từ hơn 1.2k (09/07) lên 5.9k (26/07) mỗi ngày, tổng số ca bệnh ở thành phố khoảng 67k, bệnh nhân nhẹ được phép theo dõi tại nhà. Vaccine vẫn đang được tiêm nhưng không có số liệu thống kê cụ thể."
+created: "2021-07-27T19:25:23.867+07:00"
+updated: "2021-07-27T19:25:23.867+07:00"
+tags:
+  - "life"
+  - "saigon"
+  - "covid-19"
 ---
 
 Mình chỉ là người đứng ngoài quan sát Sài Gòn qua báo đài cùng bạn bè thân tín.

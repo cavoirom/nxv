@@ -1,10 +1,12 @@
 ---
-title: Better developer
-author: vinh
-preview: My steps for better developing myself
-created: 2017-01-14T00:00:00.000+07:00
-updated: 2017-01-14T00:00:00.000+07:00
-tags: design, programming
+title: "Better developer"
+author: "vinh"
+preview: "My steps for better developing myself"
+created: "2017-01-14T00:00:00.000+07:00"
+updated: "2017-01-14T00:00:00.000+07:00"
+tags:
+  - "design"
+  - "programming"
 ---
 
 - Don't re-invent the wheel

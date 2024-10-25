@@ -1,10 +1,11 @@
 ---
-title: To be continued
-author: vinh
-preview: I create a blog, again
-created: 2020-05-30T20:30:54.050+07:00
-updated: 2020-05-30T20:30:54.050+07:00
-tags: to-be-continued
+title: "To be continued"
+author: "vinh"
+preview: "I create a blog, again"
+created: "2020-05-30T20:30:54.050+07:00"
+updated: "2020-05-30T20:30:54.050+07:00"
+tags:
+  - "to-be-continued"
 ---
 
 It's been a long time since I first created a blog.

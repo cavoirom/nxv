@@ -2,9 +2,11 @@
 title: "Web Feed"
 author: "vinh"
 preview: "This blog has a web feed."
-created: 2024-04-18T22:38:23.282+07:00
-updated: 2024-04-18T22:38:23.282+07:00
-tags: "web-feed, to-be-continued"
+created: "2024-04-18T22:38:23.282+07:00"
+updated: "2024-04-18T22:38:23.282+07:00"
+tags:
+  - "web-feed"
+  - "to-be-continued"
 ---
 
 I added a web feed to this blog with Atom Syndication Format. It's surprisingly

@@ -1,10 +1,12 @@
 ---
-title: Grub bootloader nhận phân vùng NTFS
-author: vinh
+title: "Grub bootloader nhận phân vùng NTFS"
+author: "vinh"
 preview: "Lỗi: Filesystem Type Unknown, Partition Type 0x7"
-created: 2011-09-23T00:00:00.000+07:00
-updated: 2011-09-23T00:00:00.000+07:00
-tags: linux, grub
+created: "2011-09-23T00:00:00.000+07:00"
+updated: "2011-09-23T00:00:00.000+07:00"
+tags:
+  - "linux"
+  - "grub"
 ---
 
 Lỗi: Filesystem Type Unknown, Partition Type 0x7
