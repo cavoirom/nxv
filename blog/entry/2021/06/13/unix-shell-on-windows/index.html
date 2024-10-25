@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Setup Unix Shell on Windows</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">Setup Unix Shell on Windows</h1></header><div class="blog-entry__dates">Created 2021-06-13 · Updated 2021-06-13</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/cygwin" aria-label="tag cygwin">cygwin</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/development" aria-label="tag development">development</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/java" aria-label="tag java">java</a></li><li class="blog-entry__tag blog-entry__tag__color-3"><a href="/blog/tag/nodejs" aria-label="tag nodejs">nodejs</a></li><li class="blog-entry__tag blog-entry__tag__color-6"><a href="/blog/tag/oh-my-zsh" aria-label="tag oh-my-zsh">oh-my-zsh</a></li><li class="blog-entry__tag blog-entry__tag__color-6"><a href="/blog/tag/shell" aria-label="tag shell">shell</a></li><li class="blog-entry__tag blog-entry__tag__color-2"><a href="/blog/tag/unix" aria-label="tag unix">unix</a></li><li class="blog-entry__tag blog-entry__tag__color-9"><a href="/blog/tag/windows" aria-label="tag windows">windows</a></li><li class="blog-entry__tag blog-entry__tag__color-1"><a href="/blog/tag/zsh" aria-label="tag zsh">zsh</a></li></ul><div class="blog-entry__content"><h2>The Command Line Environment</h2>
+<p>I see new developers are usually struggling with command line just because they
+are using Windows, it makes them distance from the community who are using Linux
+and Unix-like systems, and end up with tutorials which is not working on Windows
+because it included Linux command or Bash script.</p>
+<p>For a Unix shell on Windows, we have plenty options: Git Bash, WSL, WSL2, MinGW.
+But I found them incomplete and un-natural to work with (sorry I don't want to
+go more detail about their issues, you could find them on the internet).</p>
+<p>In this <em>entry</em>, let's try a more classical way:
+<a href="https://cygwin.com/install.html" target="_blank" rel="nofollow noreferrer noopener">Cygwin</a>.</p>
+<p><strong>It's about the environment, not the tools ·</strong> Cygwin tries to provide the
+POSIX-compliant development and run-time environment
+<a href="https://en.wikipedia.org/wiki/POSIX#POSIX_for_Microsoft_Windows" target="_blank" rel="nofollow noreferrer noopener">[1]</a> while
+retains the speed of native Windows application. The POSIX-compliant is what
+make it feel the same with other Unix-like environment. It also comes with trade
+off: every program runs on Cygwin must be compiled for Cygwin. Thankfully, most
+of common command line tools supported Cygwin.</p>
+<p><strong>The Terminal ·</strong> When working with command line, Terminal is the entry point
+for everything. Most of Windows users don't have nice memories with Terminal
+just because of cmd.exe. Cygwin bundled with Mintty which is very good. Read
+more about how a slow Terminal could affect your working experience:
+<a href="https://danluu.com/term-latency/" target="_blank" rel="nofollow noreferrer noopener">https://danluu.com/term-latency/</a></p>
+<p><img src="./unix-shell-on-windows/image/mintty.png" alt="Mintty screenshot from official home page" title="Mintty screenshot from official home page" class="blog-entry__image" /></p>
+<p><strong>Shell ·</strong> If the Terminal provides the nice interface to interact with the
+system, the Shell provides API and tools to command the system. The natural
+choice is Bash, I recommend zsh because it's Bash-compliant with nicer features
+such as auto-completion, you also want to install oh-my-zsh to enhance your
+experience.</p>
+<p><strong>Package Manager ·</strong> The package manager in Cygwin is minimal and easy to use,
+its interface is not super nice but I found it's useful and straightforward.</p>
+<h2>Installation</h2>
+<p><strong>Step 1 ·</strong> Install Cygwin and essential packages:</p>
+<ul>
+<li>Download Cygwin 64-bit installer: <a href="https://cygwin.com/install.html" target="_blank" rel="nofollow noreferrer noopener">https://cygwin.com/install.html</a></li>
+<li>Run command to setup Cygwin without Administrator permission:
+<code>setup-x86_64.exe --no-admin</code></li>
+<li>Choose directory for Cygwin installation and packages.</li>
+<li>Choose a mirror to download packages. Linux users are familiar with mirrors
+for packages, technically, it's a file server hosting Cygwin packages
+voluntarily.</li>
+<li>Select essential packages:
+<ul>
+<li>zsh: a nice Shell replacement for Bash.</li>
+<li>git: who don't need git today?</li>
+</ul></li>
+<li>After finished the installation, don't delete the Cygwin installer, you will
+need it to install new package.</li>
+</ul>
+<p><strong>Step 2 ·</strong> Configure zsh and Mintty:</p>
+<ul>
+<li>Choose zsh as default Shell for Mintty.</li>
+<li>Install <a href="https://github.com/tonsky/FiraCode" target="_blank" rel="nofollow noreferrer noopener">Fira Code</a> font and use it as
+default in Mintty. This is a nice font for coding in general, it supported
+<a href="https://en.wikipedia.org/wiki/Ligature_(writing)" target="_blank" rel="nofollow noreferrer noopener">ligatures</a>.</li>
+</ul>
+<p><strong>Step 3 ·</strong> Configure oh-my-zsh, plugins and themes. The
+<a href="https://ohmyz.sh/#install" target="_blank" rel="nofollow noreferrer noopener">installation guideline</a> in oh-my-zsh home page is
+applicable for Cygwin. I only need to add plugins: git,
+<a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="nofollow noreferrer noopener">zsh-autosuggestions</a> and the
+theme <a href="https://github.com/yarisgutierrez/classyTouch_oh-my-zsh" target="_blank" rel="nofollow noreferrer noopener">classyTouch</a>.</p>
+<p><strong>Step 4 ·</strong> Git. The only important note is using Git from Cygwin package
+manager. Git will not work properly if you use the offical Git for Windows
+package because Git depends on Cygwin API to work with POSIX environment.</p>
+<h2>Java</h2>
+<p>The easiest way to manage many JDK version is using the zip package:</p>
+<ul>
+<li>Download JDK from: <a href="https://adoptopenjdk.net/releases.html" target="_blank" rel="nofollow noreferrer noopener">https://adoptopenjdk.net/releases.html</a></li>
+<li>Add <code>JAVA_HOME</code> environment variable to <code>~/.zshrc</code>:
+<code>export JAVA_HOME=/cygdrive/d/devtool/jdk-11</code></li>
+<li>Add JDK binaries to <code>PATH</code>: <code>export PATH=$PATH:$JAVA_HOME/bin</code></li>
+<li>Restart Mintty. Note that this configuration only affects to Cygwin
+environment.</li>
+</ul>
+<h2>Node.js</h2>
+<p>Node.js also provides zip package, the installation is similar to Java, and you
+can manage many versions without problem:</p>
+<ul>
+<li>Download 64-bit zip binary: <a href="https://nodejs.org/en/download/" target="_blank" rel="nofollow noreferrer noopener">https://nodejs.org/en/download/</a></li>
+<li>Add Node.js binaries (node, npm..) to <code>PATH</code> in <code>~/.zshrc</code>:
+<code>export PATH=$PATH:/cygdrive/d/devtool/node-v14</code></li>
+<li>Restart Mintty. Note that this configuration only affects to Cygwin
+environment.</li>
+</ul>
+<h2>Final Thought</h2>
+<p>The goal of this <em>entry</em> is setting a consistent environment between Windows,
+MacOS, Linux and other Unix-like systems. When you have the same POSIX-compliant
+environment and use the same tools, you will get better support from the
+community and your colleagues. You can write a Bash script on your Windows
+machine that could run successfully on Linux server, you can receive a script
+from 20 years Unix experience guy and run without error on your machine, that is
+a big win for both.</p>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2021/06/13/unix-shell-on-windows/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

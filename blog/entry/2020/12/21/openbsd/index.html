@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>OpenBSD on DigitalOcean</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">OpenBSD on DigitalOcean</h1></header><div class="blog-entry__dates">Created 2020-12-21 · Updated 2021-07-18</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-3"><a href="/blog/tag/doas" aria-label="tag doas">doas</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/httpd" aria-label="tag httpd">httpd</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/openbsd" aria-label="tag openbsd">openbsd</a></li><li class="blog-entry__tag blog-entry__tag__color-1"><a href="/blog/tag/relayd" aria-label="tag relayd">relayd</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/self-hosted" aria-label="tag self-hosted">self-hosted</a></li><li class="blog-entry__tag blog-entry__tag__color-2"><a href="/blog/tag/unix" aria-label="tag unix">unix</a></li><li class="blog-entry__tag blog-entry__tag__color-2"><a href="/blog/tag/vim" aria-label="tag vim">vim</a></li></ul><div class="blog-entry__content"><p><em>Note: you can apply this guideline for OpenBSD 6.9 and DigitalOcean, as of
+07.2021.</em></p>
+<p>I am moving my internet services from cloud to my controlled servers, to take
+back my data into my hands.</p>
+<p>My servers will run:</p>
+<ul>
+<li>Reverse proxy and HTTP server with Let's Encrypt: host static webside and
+Wordpress.</li>
+<li>VPN and Firewall: secure inbound &amp; outbound traffic.</li>
+</ul>
+<p>I recently interested in OpenBSD because of its security focus and strictly
+free. I had a long time using Linux at work and home, there was nothing to
+complain about Linux (especially Gentoo and Archlinux) except the UI is sometime
+not so nice compare to Windows. Then I got a Macbook and suddenly the UI issues
+were solved, now the only use case I could think about other OS is running a
+server, and OpenBSD seems fit my requirement: free, secure, stable and doesn't
+change so fast.</p>
+<h2>Installation</h2>
+<p>In my use case, I will install OpenBSD on DigitalOcean server. I use the
+smallest droplet with only $5/month and OpenBSD 6.9.</p>
+<p><strong>Step 1 ·</strong> Prepare the droplet. Because DigitalOcean does not support OpenBSD,
+we will find a workaround.</p>
+<ul>
+<li>Create a FreeBSD droplet, don't need to care about file system and version
+because we will replace them with OpenBSD.</li>
+<li>After created the droplet, power it off.</li>
+<li>Select the droplet &gt; Networking, and write down the Public Network:
+<ul>
+<li>Public IPv4 address.</li>
+<li>Public gateway.</li>
+<li>Subnet mask.</li>
+</ul></li>
+</ul>
+<p><strong>Step 2 ·</strong> Boot the droplet and start OpenBSD installation.</p>
+<ul>
+<li>Open DigitalOcean web console, select the droplet, then go to Recovery &gt; Boot
+from Recovery ISO.</li>
+<li>Boot the droplet, and select option 6 in the boot menu for a shell.</li>
+<li>Fetch the OpenBSD Installer:
+<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/miniroot69.img" target="_blank" rel="nofollow noreferrer noopener">https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/miniroot69.img</a></li>
+<li>Write the Installer to the first hard disk:
+<code>dd if=miniroot69.img of=/dev/vda bs=512k</code></li>
+<li>Power off the droplet.</li>
+<li>Go to Recovery &gt; Boot from Hard Drive. Now the Hard Drive already have OpenBSD
+Installer.</li>
+<li>Power on and the Installer will start.</li>
+</ul>
+<p><strong>Step 3 ·</strong> Take note at some configuration.</p>
+<ul>
+<li>Keyboard layout: default</li>
+<li>File system layout:
+<ul>
+<li><code>/</code> will have 15Gi.</li>
+<li><code>swap</code>: 2Gi.</li>
+<li><code>/home</code>: the rest.</li>
+<li>Adjust those information according to your droplet size.</li>
+</ul></li>
+<li>Hostname: <code>&lt;hostname&gt;</code></li>
+<li>Network configuration:
+<ul>
+<li>Interface: <code>vio0</code></li>
+<li>Tag: <code>vio0:none</code></li>
+<li>IPv4 address: <code>&lt;public-ip-address&gt;</code></li>
+<li>Netmask: <code>&lt;given-netmask&gt;</code></li>
+<li>IPv6 address: <code>none</code></li>
+<li>Default IPv4 route: <code>&lt;given-gateway&gt;</code></li>
+</ul></li>
+<li>File sets:
+<ul>
+<li>bsd</li>
+<li>bsd.rd</li>
+<li>base69.tgz</li>
+<li>man69.tgz</li>
+</ul></li>
+<li>Create a normal user when the intaller ask.</li>
+<li>Choose UTC timezone.</li>
+</ul>
+<p><strong>Step 4 ·</strong> After the installation finished, it's recommended to read
+<a href="https://man.openbsd.org/afterboot" target="_blank" rel="nofollow noreferrer noopener">afterboot</a> after the installation. It helped
+me configure the newly installed host.</p>
+<p>The above step is taken from this post
+<a href="https://www.going-flying.com/blog/openbsd-on-digitalocean.html" target="_blank" rel="nofollow noreferrer noopener">https://www.going-flying.com/blog/openbsd-on-digitalocean.html</a>.</p>
+<h2>Essential tools</h2>
+<h3><code>vim</code></h3>
+<p>Because this is a server, I will install <code>vim</code> with <em>no_x11</em> favor.</p>
+<pre><code>pkg_add vim-*-no_x11
+</code></pre>
+<h3><code>doas</code></h3>
+<p><code>doas</code> could be used as a replacement of <code>sudo</code> in Linux world. It's included in
+the base, I only need to configure it.</p>
+<p>Because I am the only one log into these servers, I will explicit allow my
+username has root privilege.</p>
+<pre><code>/etc/doas.conf
+                              
+...
+permit persist &lt;my-username&gt;
+...
+</code></pre>
+<h2>Webserver</h2>
+<p>Running a webserver is one of the main purpose of this server, I will setup a
+Webserver with TLS based on
+<a href="https://www.alexander-pluhar.de/openbsd-webserver.html" target="_blank" rel="nofollow noreferrer noopener">this guideline</a>, using
+built-in <code>relayd</code>, <code>httpd</code>, <code>acme</code> (for Let's Encrypt).</p>
+<p>Because the <code>httpd</code> is running behind <code>relayd</code>, I need to refine the
+configuration to keep actual source address instead the address of <code>relayd</code>,
+following <a href="https://www.bsdhowto.ch/forwarded.html" target="_blank" rel="nofollow noreferrer noopener">a post on bsdhowto.ch</a>.</p>
+<hr />
+<p><em>Entry History</em></p>
+<ul>
+<li>2020-12-21 · Created.</li>
+<li>2021-05-12 · Updated the Installation steps.</li>
+<li>2021-07-18 · Update OpenBSD 6.9.</li>
+</ul>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2020/12/21/openbsd/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

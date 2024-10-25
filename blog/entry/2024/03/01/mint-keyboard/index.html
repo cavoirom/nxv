@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Mint: bàn phím cơ với chỉ 47 phím</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">Mint: bàn phím cơ với chỉ 47 phím</h1></header><div class="blog-entry__dates">Created 2024-03-01 · Updated 2024-03-01</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-3"><a href="/blog/tag/mechanical-keyboard" aria-label="tag mechanical-keyboard">mechanical-keyboard</a></li></ul><div class="blog-entry__content"><p><img src="./mint-keyboard/image/mint_keyboard_demo.jpg" alt="Mint Keyboard" class="blog-entry__image" /></p>
+<h2>Layout Ortholinear 40% có khó dùng không?</h2>
+<p>Ai chơi bàn phím cơ cũng thường thắc mắc layout 40% thì gõ phím thế nào, nó có
+thực sự hữu dụng hay chỉ là layout cute để trưng keycap chụp ảnh là chính? Bản
+thân mình từng thắc mắc vụ này nên cũng build 1 em 40% để trải nghiệm. Trong bài
+này mình chỉ nói tới layout ortholinear 47 keys, sử dụng firmware QMK. Sở dĩ
+mình nhắc tới QMK là vì 47 phím không đủ để gõ tất cả ký tự như bàn phím thông
+thường, nên mình cần tính năng chia layer của QMK để có thể chuyển 47 phím vật
+lý gõ được nhiều ký tự khác nhau tuỳ vào layer đang được kích hoạt.</p>
+<p>Đôi điều về bàn phím mình build, mình dựa vào <em><strong>Planck Keyboard</strong></em>, mạch mình
+tự thiết kế để có thể dùng được với mạch <em><strong>Black Pill</strong></em> được bán sẵn, lý do
+mình chọn Black Pill là vì dễ kiếm, và mình thích lập trình trên nền ARM hơn,
+mình dự định viết firmware riêng cho bàn phím này. Về phần phím thì có 2 lựa
+chọn, hoặc là toàn 1u với 48 phím, hoặc là 47 phím với space 2u. Mình thích
+space 2u vì nó có điểm nhấn hơn và nhìn thân thuộc hơn. Vì sao lai chọn
+ortholinear? Vì nó cân đối cho cả 2 tay, mạch dễ thiết kế, nhìn thẩm mỹ hơn, dễ
+tìm keycap. Từ đây mình sẽ gọi bàn phím này là <em><strong>Mint</strong></em>.</p>
+<p><a href="mint-keyboard/image/mint_keyboard.jpg"><img src="./mint-keyboard/image/mint_keyboard_small.jpg" alt="Mint Keyboard" title="Mint Keyboard" class="blog-entry__image" /></a></p>
+<p>Về cách mình gõ phím, mình gõ không nhanh nhưng gõ đúng 10 ngón, nghĩa là mình
+luôn chia mỗi ngón tay quản lý 1 số phím nhất định. Ngón trỏ và ngón út sẽ quản
+lý 2 cột, các ngón còn lại 1 cột. 2 ngón cái chia nhau space và 1 số modifier
+lân cận. Lợi điểm của cách gõ này trên layout 40% là mình ko cần di chuyển tay
+quá nhiều, số lượng phím ít nên có thể nhớ vị trí phím.</p>
+<p>Giờ mình sẽ đi vào phần chính cách mình dùng <em><strong>Mint Keyboard</strong></em> (bàn phím 40%
+mình tự build) cho công viêc hàng ngày.</p>
+<h2>Chat, message</h2>
+<p>Mình là lập trình viên nên phần lớn thời gian là code và chat, đặc điển công
+viêc là vậy. Mình có đính kèm base layer mình đang dùng cho Mint, mình gõ Dvorak
+nhưng nếu là Qwerty cũng ko khác mấy. Gõ văn bản thì hiếm khi cần chuyển layer,
+vì trên base layer có đủ alpha với chấm, phẩy. Đủ dùng cho việc chat chit, đôi
+khi cần gõ số thì mới chuyển layer. Minh sẽ nói về layer số sau, nhưng nhìn
+chung nếu chỉ để chat thì Mint hoạt động tốt như các anh lớn.</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_base.png" alt="Base layer" class="blog-entry__image" /></p>
+<h2>Gõ số và các phép toán</h2>
+<p>Đây là lúc bạn thấy sự tự do và lợi thế của ortholinear và QMK. Bạn nhìn hình
+mình gán các phím số và phép toán cho layer <em><strong>lower</strong></em>, thật trùng hợp là mình
+có thể mix giữa cách xếp số theo row và cách xếp theo <em><strong>ten keys</strong></em> của Numpad.
+Lúc này chỉ cần tay trái giữ lower là tay phải có thể gõ số thuận tiện như gõ ở
+Numpad, bạn nào thích gõ hàng phím trên cùng cũng OK.</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_number.png" alt="Number layer" class="blog-entry__image" /></p>
+<h2>Các ký tự đặc biệt còn lại và coding</h2>
+<p>Mình gần như chỉ dùng ký tự đặc biệt khi code, việc đầu tiên mình làm là xác
+định tất cả ký tự đặc biệt sẽ nằm ở layer <em><strong>raise</strong></em>. Cụm ký tự đầu tiên mình
+quan tâm là nhóm đi chung với phím số, mình giữ cụm này đúng với vị trí số hàng
+trên cùng, vậy là khi lower mấy phím này sẽ từ 1-9-0, và khi raise sẽ là ký tự
+đặc biệt tương ứng. Cách này giúp mình dễ nhớ do ko có thay đổi gì với bàn phím
+thường. Những ký tự còn lại mình sẽ xếp vào row 2, ở đây mình có ưu tiên <code>{</code> và
+<code>[</code> vào 2 vị trí thuận tiện của ngón trỏ vì mình lập trình Java sử dụng 2 dấu
+này nhiều. Với mình đây là lợi thế rất lớn của Mint so với layout chuẩn, vì ở
+layout chuẩn mấy dấu này nằm ở ngón út, yếu hơn nên sẽ dễ mỏi.</p>
+<p>Vậy là với 3 layer, mình tự tin gõ thoải mái như ở layout nhiều phím hơn, thật
+lòng mà nói nhấn giữ phím lower, raise dễ chịu hơn là nhấc tay khỏi home row ở
+bàn phím lớn hơn. Nhưng mà khoan, vẫn còn thiếu gì đó?</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_symbol.png" alt="Symbol layer" class="blog-entry__image" /></p>
+<h2>Function ở nơi đâu?</h2>
+<p>Thời COVID thì sao tránh khỏi F0, F1. Tổ hợp phím cũng vậy, lâu lâu vẫn cần tới
+<code>F1</code>, <code>F12</code>. Lúc này mình sẽ cần thên 1 layer nữa cho phím <code>Fn</code>, layer này chịu
+trách nhiệm cho các phím <code>F1</code>-<code>F12</code>, mình gán nó vào 1 cụm ở tay trái vì ko dùng
+nhiều, ngoài function thì mình cũng gán 1 số phím chức năng hay dùng như mute
+mic, mute speaker, volume up, volume down...rất tiện.</p>
+<p>Như vậy là chỉ với 47 phím, mình hoàn toàn thoải mái gõ mọi thứ trong công việc,
+10 tiếng mỗi ngày. Nhưng không phải là không có đánh đổi, trước khi nói tới phần
+khó khăn, mình muốn nói tới 1 chức năng rất hay của QMK.</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_fn.png" alt="Function layer" class="blog-entry__image" /></p>
+<h2>Modifier - Tap</h2>
+<p>Như tên gọi, chức năng này cho phép bạn gán modifier và 1 keycode thông thường
+vào cùng 1 phím, khi mình nhấn giữ thì nó là modifier, khi tap thì nó là keycode
+thông thường. Mình tận dụng tính năng này cho 2 phím:</p>
+<ul>
+<li><strong>Right Shift - Enter</strong>: vì phím Enter nằm ngay vị trí Right Shift, nên ko có
+lý do gì phải từ bỏ thói quen nhấn Right Shift cả, nó còn giúp mình hạn chế
+nhấn nhầm Enter vì tưởng là phím Shift.</li>
+<li><strong>Right Command - Left Arrow</strong>: mình dùng MacOS nên thường dùng tổ hợp phím
+Command - Delete để xoá file, mình thường dùng Right Command cho tổ hợp phím
+này, rất hữu dụng.</li>
+</ul>
+<h2>Vậy thì đâu là khó khăn khi dùng layout 40%</h2>
+<p>Mình nghĩ trở ngại đầu tiên là bạn ko muốn dùng, một khi đã không muốn thì mọi
+khó khăn sẽ ko được giải quyết. Tinh thần chấp nhận và không so sánh là yếu tố
+đầu tiên quyết định bạn có đi tiếp hay không. Thứ hai là về kỹ thuật và độ lỳ,
+không phải ai cũng dành thời gian học cách compile QMK, config keymap, không
+phải ai cũng ngồi suy nghĩ đặt phím sao cho hợp lý, rồi ngồi chậm rãi gõ cho
+quen mặt phím. Cái cảm giác muốn gõ 1 phím mà ko biết nó nằm đâu, phải gõ ngón
+nào cũng mệt tim lắm, mình từng vừa gõ vừa nín thở mấy ngày đầu. Khó khăn cuối
+cùng có lẽ là sau khi cân đong đo đếm, công sức bỏ ra thấy không đáng với kết
+quả nhận được, cái này thì tuỳ mỗi người đánh giá.</p>
+<h2>Vì sao mình phải chịu khổ học layout 40% và ortholinear</h2>
+<p>Vì thiết kế bàn phím hiện tại đã lạc hậu, staggered keyboard ra đời để giải
+quyết khó khăn của máy đánh chữ, khi thiết kế cơ khí ràng buộc phải làm thế.
+Chúng ta làm quen với máy tính đa phần ko biết máy đánh chữ, nên ortholinear là
+layout tốt hơn nhiều, chúng ta là nạn nhân của quá khứ, nhưng ai cũng có thể bấm
+nút reset để học lại.</p>
+<p>Vì đơn giản, ortholinear 40% rất đẹp, gọn, cân đối, thích hợp mang theo bất kỳ
+đâu, nghĩa là ko cần lo làm quen với bàn phím mới, đi đâu cũng xài bàn phím của
+mình. Lý do cuối là tiết kiệm, mạch 40% nhỏ gọn, ít linh kiện hơn nên build cũng
+rẻ hơn nhiều so mới layout khác.</p>
+<p>Trên đây là đôi điều hy vọng chúng ta có cái nhìn khác về 1 layout nổi tiếng chỉ
+để trưng bày nhưng cũng thật sự hữu dụng.</p>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2024/03/01/mint-keyboard/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

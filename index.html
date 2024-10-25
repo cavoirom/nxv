@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>vinh</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = undefined;
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

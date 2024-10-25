@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>What I have learned when setting up this page</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">What I have learned when setting up this page</h1></header><div class="blog-entry__dates">Created 2023-03-18 · Updated 2023-03-18</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/self-hosted" aria-label="tag self-hosted">self-hosted</a></li><li class="blog-entry__tag blog-entry__tag__color-5"><a href="/blog/tag/to-be-continued" aria-label="tag to-be-continued">to-be-continued</a></li></ul><div class="blog-entry__content"><p><strong>Responsibility</strong> · because I am the sole maintainer of this page, I need to
+keep it running. That means having a plan for server upgrade, think twice before
+changing the configuration. But I usually made stupid mistakes, so it's fine to
+let the page goes down for a couple of hours.</p>
+<p><strong>Reliability</strong> · I select technologies not by their modern but focus on long
+term support, simple to maintain and security. It will help me sleep well and
+spend less time to maintain the system.</p>
+<p><strong>Dependency</strong> · I'm trying to keep the third party dependencies minimal in the
+code base, it helped me when I need to change the runtime platform of the page
+from Node.js to Deno.</p>
+<p><strong>Computer networking</strong> · I know how to use SSH,
+<a href="/blog/entry/2021/01/14/openbsd-vpn">IPsec</a>, routing... to set up the servers
+for this page. The page is not only about writing, it's about having full
+control of a computer system from the domain name to the software and hardware.
+I learned how to plan a network, choosing devices and made them connected.</p>
+<p><strong>Infrastructure</strong> · the setup requires me to work on a VPS, a Mikrotik router
+and a small computer.</p>
+<p><strong>OpenBSD</strong> · using OpenBSD as the platform and tried to use its built-in tools
+to set up the web server, the reverse proxy and the IPsec VPN. I could maintain
+a long term system with frequent upgrading and maintaining with fewer efforts.</p>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2023/03/18/what-i-have-learned-when-setting-up-this-page/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

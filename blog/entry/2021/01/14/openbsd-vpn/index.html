@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>OpenBSD's VPN</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">OpenBSD's VPN</h1></header><div class="blog-entry__dates">Created 2021-01-14 · Updated 2021-09-01</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-3"><a href="/blog/tag/iked" aria-label="tag iked">iked</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/openbsd" aria-label="tag openbsd">openbsd</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/self-hosted" aria-label="tag self-hosted">self-hosted</a></li><li class="blog-entry__tag blog-entry__tag__color-0"><a href="/blog/tag/vpn" aria-label="tag vpn">vpn</a></li></ul><div class="blog-entry__content"><p><em>Note: I wrote the guideline based on OpenBSD 6.9.</em></p>
+<p>I'm going to set up VPN with <a href="https://man.openbsd.org/iked.8" target="_blank" rel="nofollow noreferrer noopener">iked</a>, a built-in
+VPN software from OpenBSD. The main focus of this setup is routing all outbound
+traffic from clients to my <em><strong>Gateway</strong></em>. The Gateway is running OpenBSD, the
+clients are Android, iOS, MacOS.</p>
+<p>The <em><strong>iked</strong></em> supports IKEv2 which is suitable for iOS and macOS without
+additional client, Android could connect via <em><strong>strongSwan</strong></em>. iked supports
+authentication with <em>shared secret</em>, <em>keypair</em> and <em>certificate</em>. The <em>shared
+secret</em> is the simplest method but least secure because the whole network is at
+risk if the <em>shared secret</em> is compromised. <em>Keypair</em> is the next simpler
+method, but it requires adding the public key to iked every time we add new
+client. <em>Certificate</em> is the most complicated one, we need to set up a <em><strong>Public
+Key Infrastructure</strong></em> (PKI) for our system, later, we only need to issue a valid
+certificate for new client, no change to the iked. I will use PKI for my iked
+setup.</p>
+<h2>Overview</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li>an OpenBSD installation.</li>
+<li>iked is installed by default.</li>
+<li>a self-signed Root CA.</li>
+<li>a server certificate and keypair.</li>
+<li>a client certificate and keypair.</li>
+</ul>
+<h3>Planning the VPN</h3>
+<p><img src="./openbsd-vpn/image/orca_vpn.svg" alt="Orca VPN" title="Orca VPN" class="blog-entry__image" /></p>
+<p>The above diagram shows related components in my setup.</p>
+<p>The Gateway is running OpenBSD, I will need 2 services:</p>
+<ul>
+<li><em><strong>pf</strong></em>: filter and route traffic between network interfaces.
+<code>net.inet.ip.forwarding=1</code> should be set for pf routing.</li>
+<li><em><strong>iked</strong></em>: manage VPN connections.</li>
+</ul>
+<p>PKI plays important role to make sure the VPN connection is established and
+secured. Because I use <em><strong>self-signed Root CA</strong></em>, the <em><strong>Root CA</strong></em> should be
+installed on both iked and clients. Otherwise, the systems will not trust server
+and client certificates.</p>
+<h2>Step 1 · Generate CA, certificate and keypair in PEM format</h2>
+<p>I use self-signed CA to create all certificates:</p>
+<ul>
+<li>Root CA certificate and intermediate CA.</li>
+<li>Server certificate.</li>
+<li>Client certificate.</li>
+</ul>
+<p>I prepared these CAs and keypair in my Macbook because I don't want to leak my
+Root CA private key. I use JDK's <em><strong>keytool</strong></em> for generating CA and keypair.</p>
+<h3>Generate self-signed Root Certificate Authority.</h3>
+<p>I will create a PKCS12 keystore named <code>root_ca.pfx</code> to store the self-signed
+Root CA and its private key. The keystore should be secured at all cost to
+protect the system trusted in it.</p>
+<pre><code>keytool -keystore root_ca.pfx \
+    -storetype pkcs12 \
+    -alias example_root_ca \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA \
+    -validity 3654 \
+    -ext bc:c
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>-keystore root_ca.pfx</code>: use the keystore <code>root_ca.pfx</code>, create new keystore
+if it's not existed.</li>
+<li><code>-storetype pkcs12</code>: use PKCS12 format which is supported by many programs,
+especially Apple Configurator 2.</li>
+<li><code>-alias example_root_ca</code>: the keystore can store many alias, I will store the
+new Root CA to alias called <code>example_root_ca</code>.</li>
+<li><code>-genkeypair</code>: tell keytool to generate a keypair (public key and private
+key).</li>
+<li><code>-keyalg EC</code>, <code>keysize 256</code>: the algorithm used to create the keypair. EC mean
+ECDSA, a modern algorithm. It's more secure than RSA and the key size is
+shorter (256 compare to RSA's 2048).</li>
+<li><code>-sigalg SHA256withECDSA</code>: the method to self-sign the Root CA. It should
+match with <code>-keyalg</code>.</li>
+<li><code>-validity 3654</code>: the Root CA will valid for next 10 years.</li>
+<li><code>-ext bc:c</code>: indicate this is Root CA.</li>
+</ul>
+<p>When running the above command, keytool ask for information about the Root CA,
+enter what suitable for you.</p>
+<ul>
+<li>Keystore password: this password will protect all aliases in the keystore.</li>
+<li>First and last name (<em><strong>Common Name</strong></em> of the certificate)?</li>
+<li>Organizational unit?</li>
+<li>Organization?</li>
+<li>City?</li>
+<li>State?</li>
+<li>Country?</li>
+</ul>
+<h3>Generate and sign intermediate CA.</h3>
+<p>I can use the Root CA to sign server &amp; client certificate, but it will risk all
+systems if the Root CA is compromised. Because our systems will trust any
+certificates signed by this Root CA. The good practice is creating an
+intermediate certificate and using this certificate to sign server &amp; client
+certificates. If the intermediate certificate is compromised, I will add it to
+<em><strong>Certificate Revocation List</strong></em> (CRL) and our systems will not trust it
+anymore.</p>
+<p>I will create <code>intermediate_ca.pfx</code></p>
+<pre><code>keytool -keystore intermediate.pfx \
+    -storetype pkcs12 \
+    -alias intermediate_ca \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA
+</code></pre>
+<p>I will create a <em><strong>sign request</strong></em> for intermediate CA and use the Root CA to
+sign the intermediate CA. You can read more about how PKI work to know why we
+should do these steps.</p>
+<p>Create sign request.</p>
+<pre><code>keytool -keystore intermediate.pfx \
+    -alias intermediate_ca \
+    -certreq -file intermediate_ca.certreq
+</code></pre>
+<p>Use Root CA to sign the intermediate certificate.</p>
+<pre><code>keytool -keystore root_ca.pfx \
+    -alias root_ca
+    -gencert \
+    -rfc \
+    -ext BC=0 \
+    -validity 3650 \
+    -infile intermediate_ca.certreq \
+    -outfile intermediate_ca.crt
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>-alias root_ca</code>: we will use <code>root_ca</code> to sign the intermediate certificate.</li>
+<li><code>-gencert</code>: sign the certificate.</li>
+<li><code>-rfc</code>: use PEM format for the signed certificate.</li>
+<li><code>-ext BC=0</code>: indicate this is intermediate CA.</li>
+<li><code>-validity 3650</code>: the CA will be valid for next 10 years.</li>
+<li><code>-infile intermediate_ca.certreq</code>: the sign request of the intermediate
+certificate.</li>
+<li><code>-outfile intermediate_ca.crt</code>: the intermediate certificate signed by Root
+CA.</li>
+</ul>
+<p>Import the signed certificate to <code>intermediate_ca.pfx</code> for storage. We need to
+import the Root CA first, because the keytool only allow us importing the valid
+certificate. Without the Root CA in keystore, keytool will not trust our
+self-signed certificates.</p>
+<pre><code># Export Root CA from root_ca.pfx.
+keytool -keystore root_ca.pfx -alias root_ca -exportcert -rfc -file root_ca.crt
+# Import Root CA to intermediate_ca.pfx.
+keytool -keystore intermediate_ca.pfx -alias root_ca -importcert -trustcacerts -file root_ca.crt
+# Import signed certificate to intermediate_ca.pfx.
+keytool -keystore intermediate_ca.pfx -alias intermediate_ca -importcert -file intermediate_ca.crt
+</code></pre>
+<h3>Generate VPN server certificate.</h3>
+<p>I will create the VPN server certificate and store in <code>vpn_server.pfx</code>, this
+certificate will have important <code>-ext SAN=DNS:&lt;hostname&gt;</code> option.</p>
+<pre><code>keytool -keystore vpn_server.pfx \
+    -storetype pkcs12 \
+    -alias vpn_server \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA
+</code></pre>
+<p>I will repeat the steps that I've done for intermediate certificate:</p>
+<ul>
+<li>Sign VPN server with intermediate CA.
+<ul>
+<li>Remember to replace the <code>-ext BC=0</code> with <code>-ext SAN=DNS:vpn.example.com</code>
+because the certificate will be used for VPN server. It's important that the
+Common Name also use the same value with this option.</li>
+<li><code>-validity 366</code>: the server certificate will have shorter valid time, to
+make sure I remember how to manage them.</li>
+</ul></li>
+<li>Import Root CA to <code>vpn_server.pfx</code>.</li>
+<li>Import signed server certificate to <code>vpn_server.pfx</code>.</li>
+</ul>
+<h3>Generate client certificate.</h3>
+<p>Generating the client certificate will be similar to server certificate except
+the option <code>-ext SAN=DNS:vpn.example.com</code> is replaced by
+<code>-ext SAN=email:user@vpn.example.com</code>. The <code>user</code> is used to identify individual
+client. In the end, I will have a keystore <code>vpn_user.pfx</code>, I will use this
+keystore, together with <code>root_ca.crt</code> and <code>intermediate_ca.crt</code>, to configure
+the VPN client.</p>
+<p>I will generate a certificate for each client in my home (phones, Macbooks).</p>
+<h2>Step 2 · Set up PKI for iked</h2>
+<p>I will put all certificates and keypair in the previous steps to iked. It
+requires some preparation:</p>
+<ul>
+<li>Export Root CA to <code>root_ca.crt</code>.</li>
+<li>Export Intermediate CA to <code>intermediate_ca.crt</code>.</li>
+<li>Export VPN server certificate to <code>vpn_server.crt</code>.</li>
+<li>Export VPN server private key to <code>vpn_server.key</code>. Use this command:
+<code>openssl pkcs12 -in vpn_server.pfx -nocerts -out vpn_server.key -nodes</code></li>
+</ul>
+<p>Build the <code>ca.crt</code> by combining the <code>root_ca.crt</code> and <code>intermediate_ca.crt</code>, it
+will look like:</p>
+<pre><code>-----BEGIN CERTIFICATE-----
+&lt;intermediate-ca&gt;
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+&lt;root-ca&gt;
+-----END CERTIFICATE-----
+</code></pre>
+<p>Copy the certificates and private key to their places:</p>
+<ul>
+<li>Rename <code>/etc/iked/local.pub</code> to <code>/etc/iked/local.pub.original</code></li>
+<li>Rename <code>/etc/iked/private/local.key</code> to <code>/etc/iked/private/local.key.original</code></li>
+<li>Copy <code>ca.crt</code> to <code>/etc/iked/ca/ca.crt</code></li>
+<li>Copy <code>vpn_server.crt</code> to <code>/etc/iked/certs/vpn.example.com.crt</code></li>
+<li>Copy <code>vpn_server.key</code> to <code>/etc/iked/private/local.key</code></li>
+</ul>
+<p><strong>Important</strong>: all certificates should have <code>640</code> permission.</p>
+<h2>Step 3 · Configure iked</h2>
+<h3>Enable iked</h3>
+<p>iked is disabled by default, I will enable it.</p>
+<pre><code>rcctl enable iked
+</code></pre>
+<h3>iked configuration</h3>
+<p>Create a <code>/etc/iked.conf</code> with permission <code>640</code>, otherwise iked will complain
+about incorrect permission.</p>
+<pre><code>ikev2 &quot;Example VPN&quot; passive esp \
+  from dynamic to any \
+  from any to dynamic \
+  peer any \
+  ikesa enc aes-256 \
+    prf hmac-sha2-256 \
+    auth hmac-sha2-256 \
+    group modp2048 \
+  childsa enc aes-256 \
+    auth hmac-sha2-256 \
+    group modp2048 \
+  srcid vpn.example.com \
+  lifetime 180m bytes 16G \
+  config address 192.168.120.0/24 \
+  config name-server 8.8.8.8 \
+  config name-server 8.8.4.4 \
+  tag &quot;$name-$id&quot;
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>from dynamic to any</code>: traffic from VPN IP to any host will match with this
+configuration.</li>
+<li><code>from any to dynamic</code>: traffic from any host response to VPN IP will match
+with this configuration.</li>
+<li><code>peer any</code>: the peer (client) can connect to Gateway from any IP address.</li>
+<li><code>srcid vpn.example.com</code>: will tell iked to use the certificate / private key
+<code>vpn.example.com</code>.</li>
+<li><code>config address 192.168.120.0/24</code>: the network of VPN, required to use
+<code>dynamic</code> keyword.</li>
+</ul>
+<p>Check configuration.</p>
+<pre><code>iked -n
+</code></pre>
+<p>Start iked.</p>
+<pre><code>rcctl enable iked
+</code></pre>
+<h3>Assign static IP for enc0</h3>
+<p>When iked started, the VPN interface appeared as <code>enc0</code> but no IP is assigned,
+this setting will work fine unless I want to listen on that interface. In my
+case, I will assign <code>192.168.120.1</code> to <code>enc0</code>. In fact, this IP already assigned
+to the VPN server, but we need this explicit step to listen on that address. In
+my case, I will set up an Unbound DNS server only listen on the VPN interface.</p>
+<pre><code>/etc/hostname.enc0
+---
+inet 192.168.120.1 255.255.255.0
+</code></pre>
+<p>Apply the change.</p>
+<pre><code>sh /etc/netstart
+</code></pre>
+<h2>Step 4 · Configure pf</h2>
+<h3>Enable IP forwarding to let the kernel forward packages destined to other hosts.</h3>
+<pre><code>doas sysctl net.inet.ip.forwarding=1
+doas sh -c 'echo &quot;net.inet.ip.forwarding=1&quot; &gt;&gt; /etc/sysctl.conf'
+</code></pre>
+<h3>pf configuration</h3>
+<p>Allow port <code>500/udp</code> and <code>4500/udp</code>, NAT source address from VPN to public
+address.</p>
+<pre><code>/etc/pf.conf
+---
+wan = vio0
+vpn = enc0
+...
+match out on $wan inet nat-to ($wan:0)
+pass in quick on $wan inet proto udp from any to ($wan:0) port {500, 4500} keep state label ipsec
+pass in quick on $vpn inet keep state (if-bound)
+</code></pre>
+<p>Reload pf rules</p>
+<pre><code>pfctl -f /etc/pf.conf
+</code></pre>
+<h2>Step 5 · Client configuration</h2>
+<p>Use <em><strong>Apple Configurator 2</strong></em> to configure VPN profile for Apple devices.</p>
+<p>General</p>
+<ul>
+<li>Name: Example</li>
+<li>Identifier: example</li>
+<li>Organization: Example</li>
+</ul>
+<p><img src="./openbsd-vpn/image/configurator_general.png" alt="Apple Configurator 2 - General" title="Apple Configurator 2 - General" class="blog-entry__image" /></p>
+<p>Certificates</p>
+<ul>
+<li>Root CA (root_ca.crt).</li>
+<li>Intermediate CA (intermediate_ca.crt).</li>
+<li>Client certificate and private key (vpn_user.pfx).</li>
+</ul>
+<p><strong>Note</strong>: Apple Configurator 2 only allow PKCS1 and PKCS12 keystore.</p>
+<p><img src="./openbsd-vpn/image/configurator_certificates.png" alt="Apple Configurator 2 - Certificates" title="Apple Configurator 2 - Certificates" class="blog-entry__image" /></p>
+<p>VPN</p>
+<ul>
+<li>Connection Name: Example VPN</li>
+<li>Connection Type: IKEv2</li>
+<li>Server: vpn.example.com</li>
+<li>Remote Identifier: vpn.example.com</li>
+<li>Local Identifier: user@vpn.example.com</li>
+<li>Machine Authentication: Certificate</li>
+<li>Certificate Type: ECDSA</li>
+</ul>
+<p><img src="./openbsd-vpn/image/configurator_vpn_1.png" alt="Apple Configurator 2 - VPN 1" title="Apple Configurator 2 - VPN 1" class="blog-entry__image" /></p>
+<p><img src="./openbsd-vpn/image/configurator_vpn_2.png" alt="Apple Configurator 2 - VPN 2" title="Apple Configurator 2 - VPN 2" class="blog-entry__image" /></p>
+<h2>Reference:</h2>
+<ul>
+<li><a href="https://www.going-flying.com/blog/protecting-my-macos-and-ios-devices-with-an-openbsd-vpn.html" target="_blank" rel="nofollow noreferrer noopener">https://www.going-flying.com/blog/protecting-my-macos-and-ios-devices-with-an-openbsd-vpn.html</a></li>
+<li><a href="https://www.jasworks.org/openbsd-ikev2-home-vpn/" target="_blank" rel="nofollow noreferrer noopener">https://www.jasworks.org/openbsd-ikev2-home-vpn/</a></li>
+<li><a href="https://blog.lambda.cx/posts/openbsd-vpn-gateway/" target="_blank" rel="nofollow noreferrer noopener">https://blog.lambda.cx/posts/openbsd-vpn-gateway/</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html" target="_blank" rel="nofollow noreferrer noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html</a></li>
+</ul>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2021/01/14/openbsd-vpn/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

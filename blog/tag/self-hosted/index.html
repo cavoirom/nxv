@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>tag: self-hosted - to be continued</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link rel='alternate' type='application/atom+xml' title='Atom (full content)' href='/blog/atom.xml' />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="pure-g"><div class="pure-u-1"><h1 class="content__title">self-hosted</h1></div></div><div class="blog-entry pure-g"><div class="pure-u-1"><h3 class="blog-entry__title"><a href="/blog/entry/2023/03/18/what-i-have-learned-when-setting-up-this-page">What I have learned when setting up this page</a></h3><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/self-hosted" aria-label="tag self-hosted">self-hosted</a></li><li class="blog-entry__tag blog-entry__tag__color-5"><a href="/blog/tag/to-be-continued" aria-label="tag to-be-continued">to-be-continued</a></li></ul><div class="blog-entry__content"><p>Being the sole maintainer of the whole system is an interested journey.</p></div></div></div><div class="blog-entry pure-g"><div class="pure-u-1"><h3 class="blog-entry__title"><a href="/blog/entry/2021/01/14/openbsd-vpn">OpenBSD's VPN</a></h3><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-3"><a href="/blog/tag/iked" aria-label="tag iked">iked</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/openbsd" aria-label="tag openbsd">openbsd</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/self-hosted" aria-label="tag self-hosted">self-hosted</a></li><li class="blog-entry__tag blog-entry__tag__color-0"><a href="/blog/tag/vpn" aria-label="tag vpn">vpn</a></li></ul><div class="blog-entry__content"><p>Setting up my home VPN with OpenBSD</p></div></div></div><div class="blog-entry pure-g"><div class="pure-u-1"><h3 class="blog-entry__title"><a href="/blog/entry/2020/12/21/openbsd">OpenBSD on DigitalOcean</a></h3><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-3"><a href="/blog/tag/doas" aria-label="tag doas">doas</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/httpd" aria-label="tag httpd">httpd</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/openbsd" aria-label="tag openbsd">openbsd</a></li><li class="blog-entry__tag blog-entry__tag__color-1"><a href="/blog/tag/relayd" aria-label="tag relayd">relayd</a></li><li class="blog-entry__tag blog-entry__tag__color-8"><a href="/blog/tag/self-hosted" aria-label="tag self-hosted">self-hosted</a></li><li class="blog-entry__tag blog-entry__tag__color-2"><a href="/blog/tag/unix" aria-label="tag unix">unix</a></li><li class="blog-entry__tag blog-entry__tag__color-2"><a href="/blog/tag/vim" aria-label="tag vim">vim</a></li></ul><div class="blog-entry__content"><p>I experiment with OpenBSD as my server OS</p></div></div></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/tag/self-hosted/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

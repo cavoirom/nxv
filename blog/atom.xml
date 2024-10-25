@@ -1,0 +1,1308 @@
+<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"><id>https://ngxv.org/blog</id><title>to be continued</title><updated>2024-04-18T15:38:23.282Z</updated><link href="/blog"/><link rel="self" href="/blog/atom.xml"/><entry><id>https://ngxv.org/blog/entry/2024/04/18/web-feed</id><published>2024-04-18T15:38:23.282Z</published><updated>2024-04-18T15:38:23.282Z</updated><title>Web Feed</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">This blog has a web feed.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>I added a web feed to this blog with Atom Syndication Format. It's surprisingly
+easy to implement using <code>preact-render-to-string</code>. Try adding
+<code>https://ngxv.org/blog</code> to your feed reader to see the result.</p>
+<p>If you are curious about how I implemented it,
+<a href="https://github.com/cavoirom/nxv/commit/e1664824ca9adfba57f58616c32be7bc3872b2b0#diff-7394924fe7405cc84cd750f2c2f4b721ccd606242dacc0cd611232b6a1af24c7" target="_blank" rel="nofollow noreferrer noopener">here</a>
+is the hint.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2024/04/18/web-feed"/></entry><entry><id>https://ngxv.org/blog/entry/2024/03/01/mint-keyboard</id><published>2024-03-01T06:45:50.560Z</published><updated>2024-03-01T06:45:50.560Z</updated><title>Mint: bàn phím cơ với chỉ 47 phím</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Cách mình dùng bàn phím với layout ortholinear 40%.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><img src="./mint-keyboard/image/mint_keyboard_demo.jpg" alt="Mint Keyboard" class="blog-entry__image" /></p>
+<h2>Layout Ortholinear 40% có khó dùng không?</h2>
+<p>Ai chơi bàn phím cơ cũng thường thắc mắc layout 40% thì gõ phím thế nào, nó có
+thực sự hữu dụng hay chỉ là layout cute để trưng keycap chụp ảnh là chính? Bản
+thân mình từng thắc mắc vụ này nên cũng build 1 em 40% để trải nghiệm. Trong bài
+này mình chỉ nói tới layout ortholinear 47 keys, sử dụng firmware QMK. Sở dĩ
+mình nhắc tới QMK là vì 47 phím không đủ để gõ tất cả ký tự như bàn phím thông
+thường, nên mình cần tính năng chia layer của QMK để có thể chuyển 47 phím vật
+lý gõ được nhiều ký tự khác nhau tuỳ vào layer đang được kích hoạt.</p>
+<p>Đôi điều về bàn phím mình build, mình dựa vào <em><strong>Planck Keyboard</strong></em>, mạch mình
+tự thiết kế để có thể dùng được với mạch <em><strong>Black Pill</strong></em> được bán sẵn, lý do
+mình chọn Black Pill là vì dễ kiếm, và mình thích lập trình trên nền ARM hơn,
+mình dự định viết firmware riêng cho bàn phím này. Về phần phím thì có 2 lựa
+chọn, hoặc là toàn 1u với 48 phím, hoặc là 47 phím với space 2u. Mình thích
+space 2u vì nó có điểm nhấn hơn và nhìn thân thuộc hơn. Vì sao lai chọn
+ortholinear? Vì nó cân đối cho cả 2 tay, mạch dễ thiết kế, nhìn thẩm mỹ hơn, dễ
+tìm keycap. Từ đây mình sẽ gọi bàn phím này là <em><strong>Mint</strong></em>.</p>
+<p><a href="mint-keyboard/image/mint_keyboard.jpg"><img src="./mint-keyboard/image/mint_keyboard_small.jpg" alt="Mint Keyboard" title="Mint Keyboard" class="blog-entry__image" /></a></p>
+<p>Về cách mình gõ phím, mình gõ không nhanh nhưng gõ đúng 10 ngón, nghĩa là mình
+luôn chia mỗi ngón tay quản lý 1 số phím nhất định. Ngón trỏ và ngón út sẽ quản
+lý 2 cột, các ngón còn lại 1 cột. 2 ngón cái chia nhau space và 1 số modifier
+lân cận. Lợi điểm của cách gõ này trên layout 40% là mình ko cần di chuyển tay
+quá nhiều, số lượng phím ít nên có thể nhớ vị trí phím.</p>
+<p>Giờ mình sẽ đi vào phần chính cách mình dùng <em><strong>Mint Keyboard</strong></em> (bàn phím 40%
+mình tự build) cho công viêc hàng ngày.</p>
+<h2>Chat, message</h2>
+<p>Mình là lập trình viên nên phần lớn thời gian là code và chat, đặc điển công
+viêc là vậy. Mình có đính kèm base layer mình đang dùng cho Mint, mình gõ Dvorak
+nhưng nếu là Qwerty cũng ko khác mấy. Gõ văn bản thì hiếm khi cần chuyển layer,
+vì trên base layer có đủ alpha với chấm, phẩy. Đủ dùng cho việc chat chit, đôi
+khi cần gõ số thì mới chuyển layer. Minh sẽ nói về layer số sau, nhưng nhìn
+chung nếu chỉ để chat thì Mint hoạt động tốt như các anh lớn.</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_base.png" alt="Base layer" class="blog-entry__image" /></p>
+<h2>Gõ số và các phép toán</h2>
+<p>Đây là lúc bạn thấy sự tự do và lợi thế của ortholinear và QMK. Bạn nhìn hình
+mình gán các phím số và phép toán cho layer <em><strong>lower</strong></em>, thật trùng hợp là mình
+có thể mix giữa cách xếp số theo row và cách xếp theo <em><strong>ten keys</strong></em> của Numpad.
+Lúc này chỉ cần tay trái giữ lower là tay phải có thể gõ số thuận tiện như gõ ở
+Numpad, bạn nào thích gõ hàng phím trên cùng cũng OK.</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_number.png" alt="Number layer" class="blog-entry__image" /></p>
+<h2>Các ký tự đặc biệt còn lại và coding</h2>
+<p>Mình gần như chỉ dùng ký tự đặc biệt khi code, việc đầu tiên mình làm là xác
+định tất cả ký tự đặc biệt sẽ nằm ở layer <em><strong>raise</strong></em>. Cụm ký tự đầu tiên mình
+quan tâm là nhóm đi chung với phím số, mình giữ cụm này đúng với vị trí số hàng
+trên cùng, vậy là khi lower mấy phím này sẽ từ 1-9-0, và khi raise sẽ là ký tự
+đặc biệt tương ứng. Cách này giúp mình dễ nhớ do ko có thay đổi gì với bàn phím
+thường. Những ký tự còn lại mình sẽ xếp vào row 2, ở đây mình có ưu tiên <code>{</code> và
+<code>[</code> vào 2 vị trí thuận tiện của ngón trỏ vì mình lập trình Java sử dụng 2 dấu
+này nhiều. Với mình đây là lợi thế rất lớn của Mint so với layout chuẩn, vì ở
+layout chuẩn mấy dấu này nằm ở ngón út, yếu hơn nên sẽ dễ mỏi.</p>
+<p>Vậy là với 3 layer, mình tự tin gõ thoải mái như ở layout nhiều phím hơn, thật
+lòng mà nói nhấn giữ phím lower, raise dễ chịu hơn là nhấc tay khỏi home row ở
+bàn phím lớn hơn. Nhưng mà khoan, vẫn còn thiếu gì đó?</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_symbol.png" alt="Symbol layer" class="blog-entry__image" /></p>
+<h2>Function ở nơi đâu?</h2>
+<p>Thời COVID thì sao tránh khỏi F0, F1. Tổ hợp phím cũng vậy, lâu lâu vẫn cần tới
+<code>F1</code>, <code>F12</code>. Lúc này mình sẽ cần thên 1 layer nữa cho phím <code>Fn</code>, layer này chịu
+trách nhiệm cho các phím <code>F1</code>-<code>F12</code>, mình gán nó vào 1 cụm ở tay trái vì ko dùng
+nhiều, ngoài function thì mình cũng gán 1 số phím chức năng hay dùng như mute
+mic, mute speaker, volume up, volume down...rất tiện.</p>
+<p>Như vậy là chỉ với 47 phím, mình hoàn toàn thoải mái gõ mọi thứ trong công việc,
+10 tiếng mỗi ngày. Nhưng không phải là không có đánh đổi, trước khi nói tới phần
+khó khăn, mình muốn nói tới 1 chức năng rất hay của QMK.</p>
+<p><img src="./mint-keyboard/image/mint_keyboard_fn.png" alt="Function layer" class="blog-entry__image" /></p>
+<h2>Modifier - Tap</h2>
+<p>Như tên gọi, chức năng này cho phép bạn gán modifier và 1 keycode thông thường
+vào cùng 1 phím, khi mình nhấn giữ thì nó là modifier, khi tap thì nó là keycode
+thông thường. Mình tận dụng tính năng này cho 2 phím:</p>
+<ul>
+<li><strong>Right Shift - Enter</strong>: vì phím Enter nằm ngay vị trí Right Shift, nên ko có
+lý do gì phải từ bỏ thói quen nhấn Right Shift cả, nó còn giúp mình hạn chế
+nhấn nhầm Enter vì tưởng là phím Shift.</li>
+<li><strong>Right Command - Left Arrow</strong>: mình dùng MacOS nên thường dùng tổ hợp phím
+Command - Delete để xoá file, mình thường dùng Right Command cho tổ hợp phím
+này, rất hữu dụng.</li>
+</ul>
+<h2>Vậy thì đâu là khó khăn khi dùng layout 40%</h2>
+<p>Mình nghĩ trở ngại đầu tiên là bạn ko muốn dùng, một khi đã không muốn thì mọi
+khó khăn sẽ ko được giải quyết. Tinh thần chấp nhận và không so sánh là yếu tố
+đầu tiên quyết định bạn có đi tiếp hay không. Thứ hai là về kỹ thuật và độ lỳ,
+không phải ai cũng dành thời gian học cách compile QMK, config keymap, không
+phải ai cũng ngồi suy nghĩ đặt phím sao cho hợp lý, rồi ngồi chậm rãi gõ cho
+quen mặt phím. Cái cảm giác muốn gõ 1 phím mà ko biết nó nằm đâu, phải gõ ngón
+nào cũng mệt tim lắm, mình từng vừa gõ vừa nín thở mấy ngày đầu. Khó khăn cuối
+cùng có lẽ là sau khi cân đong đo đếm, công sức bỏ ra thấy không đáng với kết
+quả nhận được, cái này thì tuỳ mỗi người đánh giá.</p>
+<h2>Vì sao mình phải chịu khổ học layout 40% và ortholinear</h2>
+<p>Vì thiết kế bàn phím hiện tại đã lạc hậu, staggered keyboard ra đời để giải
+quyết khó khăn của máy đánh chữ, khi thiết kế cơ khí ràng buộc phải làm thế.
+Chúng ta làm quen với máy tính đa phần ko biết máy đánh chữ, nên ortholinear là
+layout tốt hơn nhiều, chúng ta là nạn nhân của quá khứ, nhưng ai cũng có thể bấm
+nút reset để học lại.</p>
+<p>Vì đơn giản, ortholinear 40% rất đẹp, gọn, cân đối, thích hợp mang theo bất kỳ
+đâu, nghĩa là ko cần lo làm quen với bàn phím mới, đi đâu cũng xài bàn phím của
+mình. Lý do cuối là tiết kiệm, mạch 40% nhỏ gọn, ít linh kiện hơn nên build cũng
+rẻ hơn nhiều so mới layout khác.</p>
+<p>Trên đây là đôi điều hy vọng chúng ta có cái nhìn khác về 1 layout nổi tiếng chỉ
+để trưng bày nhưng cũng thật sự hữu dụng.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2024/03/01/mint-keyboard"/></entry><entry><id>https://ngxv.org/blog/entry/2023/03/18/what-i-have-learned-when-setting-up-this-page</id><published>2023-03-18T08:24:08.451Z</published><updated>2023-03-18T08:24:08.451Z</updated><title>What I have learned when setting up this page</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Being the sole maintainer of the whole system is an interested journey.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><strong>Responsibility</strong> · because I am the sole maintainer of this page, I need to
+keep it running. That means having a plan for server upgrade, think twice before
+changing the configuration. But I usually made stupid mistakes, so it's fine to
+let the page goes down for a couple of hours.</p>
+<p><strong>Reliability</strong> · I select technologies not by their modern but focus on long
+term support, simple to maintain and security. It will help me sleep well and
+spend less time to maintain the system.</p>
+<p><strong>Dependency</strong> · I'm trying to keep the third party dependencies minimal in the
+code base, it helped me when I need to change the runtime platform of the page
+from Node.js to Deno.</p>
+<p><strong>Computer networking</strong> · I know how to use SSH,
+<a href="/blog/entry/2021/01/14/openbsd-vpn">IPsec</a>, routing... to set up the servers
+for this page. The page is not only about writing, it's about having full
+control of a computer system from the domain name to the software and hardware.
+I learned how to plan a network, choosing devices and made them connected.</p>
+<p><strong>Infrastructure</strong> · the setup requires me to work on a VPS, a Mikrotik router
+and a small computer.</p>
+<p><strong>OpenBSD</strong> · using OpenBSD as the platform and tried to use its built-in tools
+to set up the web server, the reverse proxy and the IPsec VPN. I could maintain
+a long term system with frequent upgrading and maintaining with fewer efforts.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2023/03/18/what-i-have-learned-when-setting-up-this-page"/></entry><entry><id>https://ngxv.org/blog/entry/2022/09/02/sekey</id><published>2022-09-02T14:22:27.599Z</published><updated>2022-09-02T14:22:27.599Z</updated><title>Managing SSH keys with Sekey and Touch ID</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">I have been using Sekey for more than 4 years</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>I have been using <em><strong>Sekey</strong></em> for more than 4 years, I could say the experience
+is better than using SSH private key with passphrase. Sekey will ask for Touch
+ID authentication every time I use the private key, it serves great as a second
+factor when I work with SSH and git. For example: Everytime I push a commit,
+Sekey will ask for permission. If I run a script that modify my git repository,
+the Touch ID popup will pop out, the script could not silently modify git
+repository without my notice.</p>
+<p>Sekey will generate and store SSH keys in Secure Enclave and will not expose
+private key. The public key could be export to transfer to remote host, the
+Touch ID will be used to authenticate SSH connection instead of private key and
+passphrase.</p>
+<p>When I first used Sekey, I was confused because Sekey didn't let me see my
+private keys, they were stored in Secure Enclave. But it is a feature, we will
+not worry of leaking these privated keys.</p>
+<h2>Installation</h2>
+<p><a href="https://github.com/sekey/sekey#install" target="_blank" rel="nofollow noreferrer noopener">https://github.com/sekey/sekey#install</a></p>
+<h2>Authenticating 2 Github accounts</h2>
+<p>The problem with 2 Github accounts is they are using the same username and
+hostname for SSH connection. We need a way to distinguish between accounts.</p>
+<p>We will use <em><strong>git</strong></em> config to make the hostname of those accounts look
+different. Then we will config <em><strong>SSH</strong></em> sending identity to remote host.</p>
+<h3>Export public keys for SSH config</h3>
+<pre><code class="language-bash">sekey --export-key &lt;key-id-1&gt; &gt; ~/.ssh/key_1.pub
+sekey --export-key &lt;key-id-2&gt; &gt; ~/.ssh/key_2.pub
+</code></pre>
+<h3><code>$HOME/.gitconfig</code></h3>
+<pre><code>[url &quot;git@github.com-account-1:account-1/&quot;]
+    insteadOf = git@github.com:account-1/
+
+[url &quot;git@github.com-account-2:account-2/&quot;]
+    insteadOf = git@github.com:account-2/
+</code></pre>
+<h3><code>$HOME/.ssh/config</code></h3>
+<pre><code>Host github.com-account-1
+    HostName github.com
+    IdentityFile ~/.ssh/key_1.pub
+    IdentitiesOnly yes
+
+Host github.com-account-2
+    HostName github.com
+    IdentityFile ~/.ssh/key_2.pub
+    IdentitiesOnly yes
+</code></pre>
+<h2>Too many failed attempts</h2>
+<p>When I was using Macbook Pro 2017, the Touch ID was not so accurate, I got many
+failed scans because my fingers was getting wet. In such case, the Touch ID may
+locked. I need to lock the computer and use password or Touch ID to unlock, the
+Touch ID will happily work again with Sekey.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2022/09/02/sekey"/></entry><entry><id>https://ngxv.org/blog/entry/2021/01/14/openbsd-vpn</id><published>2021-01-14T00:48:59.379Z</published><updated>2021-09-01T07:19:22.178Z</updated><title>OpenBSD's VPN</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Setting up my home VPN with OpenBSD</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><em>Note: I wrote the guideline based on OpenBSD 6.9.</em></p>
+<p>I'm going to set up VPN with <a href="https://man.openbsd.org/iked.8" target="_blank" rel="nofollow noreferrer noopener">iked</a>, a built-in
+VPN software from OpenBSD. The main focus of this setup is routing all outbound
+traffic from clients to my <em><strong>Gateway</strong></em>. The Gateway is running OpenBSD, the
+clients are Android, iOS, MacOS.</p>
+<p>The <em><strong>iked</strong></em> supports IKEv2 which is suitable for iOS and macOS without
+additional client, Android could connect via <em><strong>strongSwan</strong></em>. iked supports
+authentication with <em>shared secret</em>, <em>keypair</em> and <em>certificate</em>. The <em>shared
+secret</em> is the simplest method but least secure because the whole network is at
+risk if the <em>shared secret</em> is compromised. <em>Keypair</em> is the next simpler
+method, but it requires adding the public key to iked every time we add new
+client. <em>Certificate</em> is the most complicated one, we need to set up a <em><strong>Public
+Key Infrastructure</strong></em> (PKI) for our system, later, we only need to issue a valid
+certificate for new client, no change to the iked. I will use PKI for my iked
+setup.</p>
+<h2>Overview</h2>
+<h3>Prerequisites</h3>
+<ul>
+<li>an OpenBSD installation.</li>
+<li>iked is installed by default.</li>
+<li>a self-signed Root CA.</li>
+<li>a server certificate and keypair.</li>
+<li>a client certificate and keypair.</li>
+</ul>
+<h3>Planning the VPN</h3>
+<p><img src="./openbsd-vpn/image/orca_vpn.svg" alt="Orca VPN" title="Orca VPN" class="blog-entry__image" /></p>
+<p>The above diagram shows related components in my setup.</p>
+<p>The Gateway is running OpenBSD, I will need 2 services:</p>
+<ul>
+<li><em><strong>pf</strong></em>: filter and route traffic between network interfaces.
+<code>net.inet.ip.forwarding=1</code> should be set for pf routing.</li>
+<li><em><strong>iked</strong></em>: manage VPN connections.</li>
+</ul>
+<p>PKI plays important role to make sure the VPN connection is established and
+secured. Because I use <em><strong>self-signed Root CA</strong></em>, the <em><strong>Root CA</strong></em> should be
+installed on both iked and clients. Otherwise, the systems will not trust server
+and client certificates.</p>
+<h2>Step 1 · Generate CA, certificate and keypair in PEM format</h2>
+<p>I use self-signed CA to create all certificates:</p>
+<ul>
+<li>Root CA certificate and intermediate CA.</li>
+<li>Server certificate.</li>
+<li>Client certificate.</li>
+</ul>
+<p>I prepared these CAs and keypair in my Macbook because I don't want to leak my
+Root CA private key. I use JDK's <em><strong>keytool</strong></em> for generating CA and keypair.</p>
+<h3>Generate self-signed Root Certificate Authority.</h3>
+<p>I will create a PKCS12 keystore named <code>root_ca.pfx</code> to store the self-signed
+Root CA and its private key. The keystore should be secured at all cost to
+protect the system trusted in it.</p>
+<pre><code>keytool -keystore root_ca.pfx \
+    -storetype pkcs12 \
+    -alias example_root_ca \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA \
+    -validity 3654 \
+    -ext bc:c
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>-keystore root_ca.pfx</code>: use the keystore <code>root_ca.pfx</code>, create new keystore
+if it's not existed.</li>
+<li><code>-storetype pkcs12</code>: use PKCS12 format which is supported by many programs,
+especially Apple Configurator 2.</li>
+<li><code>-alias example_root_ca</code>: the keystore can store many alias, I will store the
+new Root CA to alias called <code>example_root_ca</code>.</li>
+<li><code>-genkeypair</code>: tell keytool to generate a keypair (public key and private
+key).</li>
+<li><code>-keyalg EC</code>, <code>keysize 256</code>: the algorithm used to create the keypair. EC mean
+ECDSA, a modern algorithm. It's more secure than RSA and the key size is
+shorter (256 compare to RSA's 2048).</li>
+<li><code>-sigalg SHA256withECDSA</code>: the method to self-sign the Root CA. It should
+match with <code>-keyalg</code>.</li>
+<li><code>-validity 3654</code>: the Root CA will valid for next 10 years.</li>
+<li><code>-ext bc:c</code>: indicate this is Root CA.</li>
+</ul>
+<p>When running the above command, keytool ask for information about the Root CA,
+enter what suitable for you.</p>
+<ul>
+<li>Keystore password: this password will protect all aliases in the keystore.</li>
+<li>First and last name (<em><strong>Common Name</strong></em> of the certificate)?</li>
+<li>Organizational unit?</li>
+<li>Organization?</li>
+<li>City?</li>
+<li>State?</li>
+<li>Country?</li>
+</ul>
+<h3>Generate and sign intermediate CA.</h3>
+<p>I can use the Root CA to sign server &amp; client certificate, but it will risk all
+systems if the Root CA is compromised. Because our systems will trust any
+certificates signed by this Root CA. The good practice is creating an
+intermediate certificate and using this certificate to sign server &amp; client
+certificates. If the intermediate certificate is compromised, I will add it to
+<em><strong>Certificate Revocation List</strong></em> (CRL) and our systems will not trust it
+anymore.</p>
+<p>I will create <code>intermediate_ca.pfx</code></p>
+<pre><code>keytool -keystore intermediate.pfx \
+    -storetype pkcs12 \
+    -alias intermediate_ca \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA
+</code></pre>
+<p>I will create a <em><strong>sign request</strong></em> for intermediate CA and use the Root CA to
+sign the intermediate CA. You can read more about how PKI work to know why we
+should do these steps.</p>
+<p>Create sign request.</p>
+<pre><code>keytool -keystore intermediate.pfx \
+    -alias intermediate_ca \
+    -certreq -file intermediate_ca.certreq
+</code></pre>
+<p>Use Root CA to sign the intermediate certificate.</p>
+<pre><code>keytool -keystore root_ca.pfx \
+    -alias root_ca
+    -gencert \
+    -rfc \
+    -ext BC=0 \
+    -validity 3650 \
+    -infile intermediate_ca.certreq \
+    -outfile intermediate_ca.crt
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>-alias root_ca</code>: we will use <code>root_ca</code> to sign the intermediate certificate.</li>
+<li><code>-gencert</code>: sign the certificate.</li>
+<li><code>-rfc</code>: use PEM format for the signed certificate.</li>
+<li><code>-ext BC=0</code>: indicate this is intermediate CA.</li>
+<li><code>-validity 3650</code>: the CA will be valid for next 10 years.</li>
+<li><code>-infile intermediate_ca.certreq</code>: the sign request of the intermediate
+certificate.</li>
+<li><code>-outfile intermediate_ca.crt</code>: the intermediate certificate signed by Root
+CA.</li>
+</ul>
+<p>Import the signed certificate to <code>intermediate_ca.pfx</code> for storage. We need to
+import the Root CA first, because the keytool only allow us importing the valid
+certificate. Without the Root CA in keystore, keytool will not trust our
+self-signed certificates.</p>
+<pre><code># Export Root CA from root_ca.pfx.
+keytool -keystore root_ca.pfx -alias root_ca -exportcert -rfc -file root_ca.crt
+# Import Root CA to intermediate_ca.pfx.
+keytool -keystore intermediate_ca.pfx -alias root_ca -importcert -trustcacerts -file root_ca.crt
+# Import signed certificate to intermediate_ca.pfx.
+keytool -keystore intermediate_ca.pfx -alias intermediate_ca -importcert -file intermediate_ca.crt
+</code></pre>
+<h3>Generate VPN server certificate.</h3>
+<p>I will create the VPN server certificate and store in <code>vpn_server.pfx</code>, this
+certificate will have important <code>-ext SAN=DNS:&lt;hostname&gt;</code> option.</p>
+<pre><code>keytool -keystore vpn_server.pfx \
+    -storetype pkcs12 \
+    -alias vpn_server \
+    -genkeypair \
+    -keyalg EC \
+    -keysize 256 \
+    -sigalg SHA256withECDSA
+</code></pre>
+<p>I will repeat the steps that I've done for intermediate certificate:</p>
+<ul>
+<li>Sign VPN server with intermediate CA.
+<ul>
+<li>Remember to replace the <code>-ext BC=0</code> with <code>-ext SAN=DNS:vpn.example.com</code>
+because the certificate will be used for VPN server. It's important that the
+Common Name also use the same value with this option.</li>
+<li><code>-validity 366</code>: the server certificate will have shorter valid time, to
+make sure I remember how to manage them.</li>
+</ul></li>
+<li>Import Root CA to <code>vpn_server.pfx</code>.</li>
+<li>Import signed server certificate to <code>vpn_server.pfx</code>.</li>
+</ul>
+<h3>Generate client certificate.</h3>
+<p>Generating the client certificate will be similar to server certificate except
+the option <code>-ext SAN=DNS:vpn.example.com</code> is replaced by
+<code>-ext SAN=email:user@vpn.example.com</code>. The <code>user</code> is used to identify individual
+client. In the end, I will have a keystore <code>vpn_user.pfx</code>, I will use this
+keystore, together with <code>root_ca.crt</code> and <code>intermediate_ca.crt</code>, to configure
+the VPN client.</p>
+<p>I will generate a certificate for each client in my home (phones, Macbooks).</p>
+<h2>Step 2 · Set up PKI for iked</h2>
+<p>I will put all certificates and keypair in the previous steps to iked. It
+requires some preparation:</p>
+<ul>
+<li>Export Root CA to <code>root_ca.crt</code>.</li>
+<li>Export Intermediate CA to <code>intermediate_ca.crt</code>.</li>
+<li>Export VPN server certificate to <code>vpn_server.crt</code>.</li>
+<li>Export VPN server private key to <code>vpn_server.key</code>. Use this command:
+<code>openssl pkcs12 -in vpn_server.pfx -nocerts -out vpn_server.key -nodes</code></li>
+</ul>
+<p>Build the <code>ca.crt</code> by combining the <code>root_ca.crt</code> and <code>intermediate_ca.crt</code>, it
+will look like:</p>
+<pre><code>-----BEGIN CERTIFICATE-----
+&lt;intermediate-ca&gt;
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+&lt;root-ca&gt;
+-----END CERTIFICATE-----
+</code></pre>
+<p>Copy the certificates and private key to their places:</p>
+<ul>
+<li>Rename <code>/etc/iked/local.pub</code> to <code>/etc/iked/local.pub.original</code></li>
+<li>Rename <code>/etc/iked/private/local.key</code> to <code>/etc/iked/private/local.key.original</code></li>
+<li>Copy <code>ca.crt</code> to <code>/etc/iked/ca/ca.crt</code></li>
+<li>Copy <code>vpn_server.crt</code> to <code>/etc/iked/certs/vpn.example.com.crt</code></li>
+<li>Copy <code>vpn_server.key</code> to <code>/etc/iked/private/local.key</code></li>
+</ul>
+<p><strong>Important</strong>: all certificates should have <code>640</code> permission.</p>
+<h2>Step 3 · Configure iked</h2>
+<h3>Enable iked</h3>
+<p>iked is disabled by default, I will enable it.</p>
+<pre><code>rcctl enable iked
+</code></pre>
+<h3>iked configuration</h3>
+<p>Create a <code>/etc/iked.conf</code> with permission <code>640</code>, otherwise iked will complain
+about incorrect permission.</p>
+<pre><code>ikev2 &quot;Example VPN&quot; passive esp \
+  from dynamic to any \
+  from any to dynamic \
+  peer any \
+  ikesa enc aes-256 \
+    prf hmac-sha2-256 \
+    auth hmac-sha2-256 \
+    group modp2048 \
+  childsa enc aes-256 \
+    auth hmac-sha2-256 \
+    group modp2048 \
+  srcid vpn.example.com \
+  lifetime 180m bytes 16G \
+  config address 192.168.120.0/24 \
+  config name-server 8.8.8.8 \
+  config name-server 8.8.4.4 \
+  tag &quot;$name-$id&quot;
+</code></pre>
+<p>Explanation:</p>
+<ul>
+<li><code>from dynamic to any</code>: traffic from VPN IP to any host will match with this
+configuration.</li>
+<li><code>from any to dynamic</code>: traffic from any host response to VPN IP will match
+with this configuration.</li>
+<li><code>peer any</code>: the peer (client) can connect to Gateway from any IP address.</li>
+<li><code>srcid vpn.example.com</code>: will tell iked to use the certificate / private key
+<code>vpn.example.com</code>.</li>
+<li><code>config address 192.168.120.0/24</code>: the network of VPN, required to use
+<code>dynamic</code> keyword.</li>
+</ul>
+<p>Check configuration.</p>
+<pre><code>iked -n
+</code></pre>
+<p>Start iked.</p>
+<pre><code>rcctl enable iked
+</code></pre>
+<h3>Assign static IP for enc0</h3>
+<p>When iked started, the VPN interface appeared as <code>enc0</code> but no IP is assigned,
+this setting will work fine unless I want to listen on that interface. In my
+case, I will assign <code>192.168.120.1</code> to <code>enc0</code>. In fact, this IP already assigned
+to the VPN server, but we need this explicit step to listen on that address. In
+my case, I will set up an Unbound DNS server only listen on the VPN interface.</p>
+<pre><code>/etc/hostname.enc0
+---
+inet 192.168.120.1 255.255.255.0
+</code></pre>
+<p>Apply the change.</p>
+<pre><code>sh /etc/netstart
+</code></pre>
+<h2>Step 4 · Configure pf</h2>
+<h3>Enable IP forwarding to let the kernel forward packages destined to other hosts.</h3>
+<pre><code>doas sysctl net.inet.ip.forwarding=1
+doas sh -c 'echo &quot;net.inet.ip.forwarding=1&quot; &gt;&gt; /etc/sysctl.conf'
+</code></pre>
+<h3>pf configuration</h3>
+<p>Allow port <code>500/udp</code> and <code>4500/udp</code>, NAT source address from VPN to public
+address.</p>
+<pre><code>/etc/pf.conf
+---
+wan = vio0
+vpn = enc0
+...
+match out on $wan inet nat-to ($wan:0)
+pass in quick on $wan inet proto udp from any to ($wan:0) port {500, 4500} keep state label ipsec
+pass in quick on $vpn inet keep state (if-bound)
+</code></pre>
+<p>Reload pf rules</p>
+<pre><code>pfctl -f /etc/pf.conf
+</code></pre>
+<h2>Step 5 · Client configuration</h2>
+<p>Use <em><strong>Apple Configurator 2</strong></em> to configure VPN profile for Apple devices.</p>
+<p>General</p>
+<ul>
+<li>Name: Example</li>
+<li>Identifier: example</li>
+<li>Organization: Example</li>
+</ul>
+<p><img src="./openbsd-vpn/image/configurator_general.png" alt="Apple Configurator 2 - General" title="Apple Configurator 2 - General" class="blog-entry__image" /></p>
+<p>Certificates</p>
+<ul>
+<li>Root CA (root_ca.crt).</li>
+<li>Intermediate CA (intermediate_ca.crt).</li>
+<li>Client certificate and private key (vpn_user.pfx).</li>
+</ul>
+<p><strong>Note</strong>: Apple Configurator 2 only allow PKCS1 and PKCS12 keystore.</p>
+<p><img src="./openbsd-vpn/image/configurator_certificates.png" alt="Apple Configurator 2 - Certificates" title="Apple Configurator 2 - Certificates" class="blog-entry__image" /></p>
+<p>VPN</p>
+<ul>
+<li>Connection Name: Example VPN</li>
+<li>Connection Type: IKEv2</li>
+<li>Server: vpn.example.com</li>
+<li>Remote Identifier: vpn.example.com</li>
+<li>Local Identifier: user@vpn.example.com</li>
+<li>Machine Authentication: Certificate</li>
+<li>Certificate Type: ECDSA</li>
+</ul>
+<p><img src="./openbsd-vpn/image/configurator_vpn_1.png" alt="Apple Configurator 2 - VPN 1" title="Apple Configurator 2 - VPN 1" class="blog-entry__image" /></p>
+<p><img src="./openbsd-vpn/image/configurator_vpn_2.png" alt="Apple Configurator 2 - VPN 2" title="Apple Configurator 2 - VPN 2" class="blog-entry__image" /></p>
+<h2>Reference:</h2>
+<ul>
+<li><a href="https://www.going-flying.com/blog/protecting-my-macos-and-ios-devices-with-an-openbsd-vpn.html" target="_blank" rel="nofollow noreferrer noopener">https://www.going-flying.com/blog/protecting-my-macos-and-ios-devices-with-an-openbsd-vpn.html</a></li>
+<li><a href="https://www.jasworks.org/openbsd-ikev2-home-vpn/" target="_blank" rel="nofollow noreferrer noopener">https://www.jasworks.org/openbsd-ikev2-home-vpn/</a></li>
+<li><a href="https://blog.lambda.cx/posts/openbsd-vpn-gateway/" target="_blank" rel="nofollow noreferrer noopener">https://blog.lambda.cx/posts/openbsd-vpn-gateway/</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html" target="_blank" rel="nofollow noreferrer noopener">https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html</a></li>
+</ul>
+</div></content><link href="https://ngxv.org/blog/entry/2021/01/14/openbsd-vpn"/></entry><entry><id>https://ngxv.org/blog/entry/2021/08/25/giay-di-duong</id><published>2021-08-25T15:12:43.633Z</published><updated>2021-08-25T15:12:43.633Z</updated><title>Giấy Đi Đường</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Thử ứng dụng Công nghệ Thông tin vào thời sự.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><em>Nhân dịp đọc bài viết trên báo VNExpress:
+<a href="https://web.archive.org/web/20210824111614/https://vnexpress.net/doanh-nghiep-gap-kho-voi-giay-di-duong-moi-4345490.html" target="_blank" rel="nofollow noreferrer noopener">https://vnexpress.net/doanh-nghiep-gap-kho-voi-giay-di-duong-moi-4345490.html (archived)</a></em></p>
+<p>Mình làm Kỹ sư Phần mềm được hơn 7 năm. Vấn đề giấy đi đường giống với vấn đề
+cấp quyền (authorization) cho người dùng truy cập vào phần mềm mà ai làm công
+nghệ phần mềm điều biết.</p>
+<p><strong>Yêu cầu của hệ thống Giấy đi đường theo mình hiểu sẽ như vầy:</strong></p>
+<ul>
+<li>Chỉ được cấp bởi cơ quan có thẩm quyền.</li>
+<li>Mỗi giấy cấp cho 1 người duy nhất với họ tên, thời gian hiệu lực, phạm vi di
+chuyển, mục đích...</li>
+<li>Giấy phải dễ dàng xác minh là thật hay giả, dễ dàng kiểm tra đúng người, đúng
+địa điểm, đúng mục đích...</li>
+<li>Mỗi lần kiểm tra phải nhanh chóng, tránh ùn tắc.</li>
+</ul>
+<p><strong>Vấn đề cần giải quyết:</strong></p>
+<ul>
+<li>Giấy giả.</li>
+<li>Cho mượn giấy.</li>
+<li>Dùng sai phạm vi di chuyển (giấy cấp cho đi ở Quận 1 nhưng đi Bình Chánh).</li>
+<li>Dùng giấy hết hạn.</li>
+<li>Nếu dùng nhân lực để kiểm tra thì sau vài trăm lượt kiểm, ngưi kiểm soát sẽ
+không đủ tỉnh táo để kiếm tra kỹ tất cả tiêu chí kể trên.</li>
+</ul>
+<p>Nếu dùng Công nghệ Thông tin để giải quyết thì đây là bài toán cấp quyền mà ai
+cũng quen và biết làm.</p>
+<p><strong>Hệ thống cấp giấy đi đường:</strong></p>
+<ul>
+<li>Hệ thống này tương đương với Identity Server (Máy chủ chứa thông tin chứng
+thực người dùng).</li>
+<li>Ví dụ cụ thể là Keycloak, phần mềm này dễ dàng cài đặt và có thể mở rộng để
+chịu tải nhiều ngàn lượt truy cập cùng lúc.</li>
+<li>Máy chủ sẽ được quản lý bởi cơ quan có thẩm quyền.</li>
+<li>Các doanh nghiệp cần giấy đi đường sẽ gởi danh sách người cần, cơ quan chức
+năng sẽ tạo tài khoản cho từng người rồi gởi thông tin đăng nhập theo E-mail
+hoặc niêm phong như cách làm của ngân hàng khi gởi mã bảo mật qua bưu điện.</li>
+<li>Phát triển nhanh 1 Mobile App / Web App để người dùng đăng nhập vô Keycloak
+lấy về QR Code. QR Code thực chất là 1 JWT (Keycloak hỗ trợ sẵn, ko cần làm gì
+thêm), được chứng thực điện tử nên nội dung không thể chỉnh sửa (theo cơ chế
+Public Key), nếu sửa rất dễ phát hiện. Nội dung QR Code sẽ là:
+<ul>
+<li>Họ tên người đi đường.</li>
+<li>Phạm vi di chuyển.</li>
+<li>Mục đích...</li>
+<li>Thời gian hiệu lực, cái này quan trọng, tránh trường hợp tài khoản người này
+bị thu hồi mà QR Code vẫn còn hiệu lực. Thời gian hiệu lực của QR Code nên
+là 2-3 ngày tới 1 tuần.</li>
+</ul></li>
+</ul>
+<p><strong>Hệ thống kiểm tra:</strong></p>
+<ul>
+<li>Phát triển Mobile App để đọc QR Code và xác thực thôn tin trên QR Code. App
+này nếu làm bằng Flutter thì chỉ mất ít hơn 1 tuần cho cả 2 nền tảng Android /
+iOS.</li>
+<li>Do &quot;Giấy đi đường&quot; có dùng chữ ký điện tử theo cơ chế Public Key, App chỉ cần
+tải Public Key (khóa công khai) từ máy chủ của cơ quan chức năng 1 lần trong
+ngày (máy chủ có cơ chế thay đổi Public Key mỗi ngày để tăng tính bảo mật) là
+có thể kiểm tra giấy đi đường mà không cần kết nối Internet.</li>
+<li>App sẽ đọc QR Code rồi hiển thị thông tin lên điện thoại của người kiểm soát,
+người đi đường phải xuất trình giấy tờ khớp với họ tên trên giấy đi đường.</li>
+<li>Hạn sử dụng App có thể kiểm tra tự động.</li>
+<li>Phạm vi di chuyển có thể kiểm tra tự động. Ví dụ trong giấy ghi phạm vi là
+Quận 1, trong khi chốt kiểm tra đang ở Quận Thủ Đức thì App dễ dàng phát hiện
+(có thể cài đặt địa điểm của chốt trên App của người kiểm soát).</li>
+</ul>
+<p><strong>Ưu điểm:</strong></p>
+<ul>
+<li>Không thể làm giả giấy đi đường do tài khoản được cơ quan chức năng kiểm soát
+và tập trung 1 chỗ.</li>
+<li>Việc cấp tải khoản diễn ra 1 lần, dễ dàng xác thực, dễ dàng thu hồi, dễ dàng
+truy vết sai phạm.</li>
+<li>Giấy đi đường được cấp tự động thông qua hệ thống.</li>
+<li>Việc kiểm tra giấy đi đường không cần kết nối Internet. Rất tiện cho mọi khu
+vực, App kiểm tra giấy đi đường không cần quyền gì đặc biệt từ hệ thống, tăng
+tính bảo mật.</li>
+<li>Hạn chế tiếp xúc, người kiểm soát và người đi đường không cần tiếp xúc vẫn
+kiểm tra đc. Nếu dùng &quot;giấy thật&quot; thì rất có thể phải cầm lên coi mới biết
+giấy thật hay giả.</li>
+<li>Có thể mở rộng dễ dàng mà không tốn nhiều chi phí. Hệ thống chỉ cần máy chủ
+trung tâm được bảo trì tốt, còn lại coi như không tốn gì khác.</li>
+</ul>
+<p>Mấy giải pháp này không mới, hy vọng nhà nước tận dụng để tăng hiệu quả công
+việc.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2021/08/25/giay-di-duong"/></entry><entry><id>https://ngxv.org/blog/entry/2021/07/27/saigon-2-weeks-after-social-distancing</id><published>2021-07-27T12:25:23.867Z</published><updated>2021-07-27T12:25:23.867Z</updated><title>Sài Gòn hơn 2 tuần giãn cách xã hội</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Tình hình vẫn chưa khá hơn, số ca bệnh tăng cao từ hơn 1.2k (09/07) lên 5.9k (26/07) mỗi ngày, tổng số ca bệnh ở thành phố khoảng 67k, bệnh nhân nhẹ được phép theo dõi tại nhà. Vaccine vẫn đang được tiêm nhưng không có số liệu thống kê cụ thể.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Mình chỉ là người đứng ngoài quan sát Sài Gòn qua báo đài cùng bạn bè thân tín.
+Chuyện ăn uống có khá hơn trong vòng bạn bè mình vì ai cũng kịp trữ lương thực,
+nhưng không biết người nghèo thì thế nào. Thành phố tăng cường hạn chế đi lại
+sau 18h, biện pháp này sẽ có hiệu quả hạn chế nguồn lây, nhưng khó khăn ở chỗ
+làm sao có đủ đồ ăn thức uống cầm cự trong thời gian dài, làm sao tái sản xuất.
+Những người nghèo chịu ảnh hưởng nặng nhất, ai còn việc làm sẽ vẫn ổn thôi miễn
+sao còn mua được đồ ăn, còn chưa nhiễm COVID.</p>
+<p>Cách đây hơn 2 tuần, báo VnExpress đưa tin
+<a href="https://web.archive.org/web/20210710160945/https://vnexpress.net/tp-hcm-chuan-bi-50-000-giuong-dieu-tri-covid-19-4307530.html" target="_blank" rel="nofollow noreferrer noopener">thành phố chuẩn bị 50k giường bệnh (archived)</a>,
+bây giờ thành phố có khoảng 67k, mọi người đang trong khoảng lặng trước bão.</p>
+<p>Tiêm vaccine là cách duy nhất hạn chế số người nhiễm bệnh cũng như có thêm người
+tham gia vào cách hoạt động cứu trợ, sản xuất, vận chuyển. Sài Gòn đã chích
+vaccine đợt 4 khoảng 1 triệu người, đợt 5 dự kiến hơn 900k người trong vòng 2
+tuần. Nhưng chạy đua với COVID cũng như chạy đua với lửa, thời gian càng kéo dài
+càng khổ.</p>
+<p>Mình đoán khoảng tháng 9, 10 thì tình hình Sài Gòn tạm ổn, nếu không vì tiêm đủ
+vaccine thì cũng vì ai có thể lây cũng đã lây hết rồi. Những ngày sắp tới chỉ
+mong số liệu vaccine khả quan hơn.</p>
+<p>Ở chỗ mình mọi người vẫn chưa hiểu chuyện gì đang xảy ra.</p>
+<p>Trời vẫn đẹp.</p>
+<p><a href="saigon-2-weeks-after-social-distancing/image/field_out_of_sg.jpg"><img src="./saigon-2-weeks-after-social-distancing/image/field_out_of_sg_small.jpg" alt="A small field near Saigon" title="A small field near Saigon" class="blog-entry__image" /></a></p>
+</div></content><link href="https://ngxv.org/blog/entry/2021/07/27/saigon-2-weeks-after-social-distancing"/></entry><entry><id>https://ngxv.org/blog/entry/2020/12/21/openbsd</id><published>2020-12-21T00:52:11.829Z</published><updated>2021-07-18T05:16:55.246Z</updated><title>OpenBSD on DigitalOcean</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">I experiment with OpenBSD as my server OS</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><em>Note: you can apply this guideline for OpenBSD 6.9 and DigitalOcean, as of
+07.2021.</em></p>
+<p>I am moving my internet services from cloud to my controlled servers, to take
+back my data into my hands.</p>
+<p>My servers will run:</p>
+<ul>
+<li>Reverse proxy and HTTP server with Let's Encrypt: host static webside and
+Wordpress.</li>
+<li>VPN and Firewall: secure inbound &amp; outbound traffic.</li>
+</ul>
+<p>I recently interested in OpenBSD because of its security focus and strictly
+free. I had a long time using Linux at work and home, there was nothing to
+complain about Linux (especially Gentoo and Archlinux) except the UI is sometime
+not so nice compare to Windows. Then I got a Macbook and suddenly the UI issues
+were solved, now the only use case I could think about other OS is running a
+server, and OpenBSD seems fit my requirement: free, secure, stable and doesn't
+change so fast.</p>
+<h2>Installation</h2>
+<p>In my use case, I will install OpenBSD on DigitalOcean server. I use the
+smallest droplet with only $5/month and OpenBSD 6.9.</p>
+<p><strong>Step 1 ·</strong> Prepare the droplet. Because DigitalOcean does not support OpenBSD,
+we will find a workaround.</p>
+<ul>
+<li>Create a FreeBSD droplet, don't need to care about file system and version
+because we will replace them with OpenBSD.</li>
+<li>After created the droplet, power it off.</li>
+<li>Select the droplet &gt; Networking, and write down the Public Network:
+<ul>
+<li>Public IPv4 address.</li>
+<li>Public gateway.</li>
+<li>Subnet mask.</li>
+</ul></li>
+</ul>
+<p><strong>Step 2 ·</strong> Boot the droplet and start OpenBSD installation.</p>
+<ul>
+<li>Open DigitalOcean web console, select the droplet, then go to Recovery &gt; Boot
+from Recovery ISO.</li>
+<li>Boot the droplet, and select option 6 in the boot menu for a shell.</li>
+<li>Fetch the OpenBSD Installer:
+<a href="https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/miniroot69.img" target="_blank" rel="nofollow noreferrer noopener">https://cdn.openbsd.org/pub/OpenBSD/6.9/amd64/miniroot69.img</a></li>
+<li>Write the Installer to the first hard disk:
+<code>dd if=miniroot69.img of=/dev/vda bs=512k</code></li>
+<li>Power off the droplet.</li>
+<li>Go to Recovery &gt; Boot from Hard Drive. Now the Hard Drive already have OpenBSD
+Installer.</li>
+<li>Power on and the Installer will start.</li>
+</ul>
+<p><strong>Step 3 ·</strong> Take note at some configuration.</p>
+<ul>
+<li>Keyboard layout: default</li>
+<li>File system layout:
+<ul>
+<li><code>/</code> will have 15Gi.</li>
+<li><code>swap</code>: 2Gi.</li>
+<li><code>/home</code>: the rest.</li>
+<li>Adjust those information according to your droplet size.</li>
+</ul></li>
+<li>Hostname: <code>&lt;hostname&gt;</code></li>
+<li>Network configuration:
+<ul>
+<li>Interface: <code>vio0</code></li>
+<li>Tag: <code>vio0:none</code></li>
+<li>IPv4 address: <code>&lt;public-ip-address&gt;</code></li>
+<li>Netmask: <code>&lt;given-netmask&gt;</code></li>
+<li>IPv6 address: <code>none</code></li>
+<li>Default IPv4 route: <code>&lt;given-gateway&gt;</code></li>
+</ul></li>
+<li>File sets:
+<ul>
+<li>bsd</li>
+<li>bsd.rd</li>
+<li>base69.tgz</li>
+<li>man69.tgz</li>
+</ul></li>
+<li>Create a normal user when the intaller ask.</li>
+<li>Choose UTC timezone.</li>
+</ul>
+<p><strong>Step 4 ·</strong> After the installation finished, it's recommended to read
+<a href="https://man.openbsd.org/afterboot" target="_blank" rel="nofollow noreferrer noopener">afterboot</a> after the installation. It helped
+me configure the newly installed host.</p>
+<p>The above step is taken from this post
+<a href="https://www.going-flying.com/blog/openbsd-on-digitalocean.html" target="_blank" rel="nofollow noreferrer noopener">https://www.going-flying.com/blog/openbsd-on-digitalocean.html</a>.</p>
+<h2>Essential tools</h2>
+<h3><code>vim</code></h3>
+<p>Because this is a server, I will install <code>vim</code> with <em>no_x11</em> favor.</p>
+<pre><code>pkg_add vim-*-no_x11
+</code></pre>
+<h3><code>doas</code></h3>
+<p><code>doas</code> could be used as a replacement of <code>sudo</code> in Linux world. It's included in
+the base, I only need to configure it.</p>
+<p>Because I am the only one log into these servers, I will explicit allow my
+username has root privilege.</p>
+<pre><code>/etc/doas.conf
+                              
+...
+permit persist &lt;my-username&gt;
+...
+</code></pre>
+<h2>Webserver</h2>
+<p>Running a webserver is one of the main purpose of this server, I will setup a
+Webserver with TLS based on
+<a href="https://www.alexander-pluhar.de/openbsd-webserver.html" target="_blank" rel="nofollow noreferrer noopener">this guideline</a>, using
+built-in <code>relayd</code>, <code>httpd</code>, <code>acme</code> (for Let's Encrypt).</p>
+<p>Because the <code>httpd</code> is running behind <code>relayd</code>, I need to refine the
+configuration to keep actual source address instead the address of <code>relayd</code>,
+following <a href="https://www.bsdhowto.ch/forwarded.html" target="_blank" rel="nofollow noreferrer noopener">a post on bsdhowto.ch</a>.</p>
+<hr />
+<p><em>Entry History</em></p>
+<ul>
+<li>2020-12-21 · Created.</li>
+<li>2021-05-12 · Updated the Installation steps.</li>
+<li>2021-07-18 · Update OpenBSD 6.9.</li>
+</ul>
+</div></content><link href="https://ngxv.org/blog/entry/2020/12/21/openbsd"/></entry><entry><id>https://ngxv.org/blog/entry/2021/06/22/technologies-of-choice</id><published>2021-06-22T14:06:48.431Z</published><updated>2021-07-10T08:32:24.913Z</updated><title>My technologies of choice</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">I prioritize performance, efficiency and security when choosing hardware, software and service...</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>This blog entry is expected to be very long. I tried to explain my opinion about
+every piece of technology. Those are what I'm using every day.</p>
+<p>In any technology, <strong>performance</strong>, <strong>efficiency</strong> and <strong>security</strong> are three
+top focus points I would like to consider. I'm willing to give up convenience,
+beautiful, feature rich to achieve some of those goals.</p>
+<h2>Platform</h2>
+<p>When I talk about a platform, I mean hardware and operating system in
+combination to provide a base working environment.</p>
+<h3>Macbook M1 &amp; MacOS</h3>
+<ul>
+<li>Daily working environment.</li>
+<li>Good development environment and tools, consistent with other Unix-like
+system.</li>
+<li>Good GUI.</li>
+<li>Good built-in applications.</li>
+<li>Security done right.</li>
+<li>Good cloud integration.</li>
+<li>The best hardware and software integration.</li>
+<li>Very good performance.</li>
+<li>The best trackpad.</li>
+<li>Screen, keyboard, overall design are very good.</li>
+<li>Long batter duration.</li>
+</ul>
+<h3>VPS &amp; OpenBSD</h3>
+<ul>
+<li>Server environment.</li>
+<li>No GUI, just text base interface.</li>
+<li>Security focused.</li>
+<li>Good old Unix tools.</li>
+<li>Good built-in applications: relayd, httpd, acme-client...</li>
+<li>Simple to manage and upgrade.</li>
+</ul>
+<h2>Daily usage</h2>
+<h3>Window Tiling · Amethyst / Yabai</h3>
+<ul>
+<li>I needs these applications only for maximize the windows automatically, to
+focus on single task at a time.</li>
+<li>Amethyst: easy to use.</li>
+<li>Yabai: flexible, more control.</li>
+</ul>
+<h3>Browser · Safari / Firefox / Chrome</h3>
+<ul>
+<li>Safari: private use.</li>
+<li>Firefox / Chrome: development.</li>
+</ul>
+<h3>Apple Notes</h3>
+<ul>
+<li>Personal task management.</li>
+<li>Note taking.</li>
+</ul>
+<h3>Apple Calendar</h3>
+<ul>
+<li>Work meeting and schedule.</li>
+<li>Person schedule and sharing with family.</li>
+</ul>
+<h3>Apple Dictionary</h3>
+<ul>
+<li>Quick lookup when writing.</li>
+</ul>
+<h3>Password Manager · MacPass / Enpass</h3>
+<ul>
+<li>Enpass: only for my wife because it's easy to use and sync with iCloud.</li>
+<li>Macpass
+<ul>
+<li>KeePass format compatible.</li>
+<li>Native implementation for MacOS.</li>
+</ul></li>
+</ul>
+<h2>Development</h2>
+<p>I'm a Web Developer, I mostly work with Java back-end and Angular/React
+front-end, I care about the Terminal and the performance of every tool that I
+use. That's why you will see I tried to eliminate unnecessary complexity.</p>
+<h3>Monospace Font · Fira Code</h3>
+<ul>
+<li>Monospace Font is very important because I'm looking at those character more
+than 8 hours/day, on terminal, text editor, IDE...</li>
+<li>Very nice looking font.</li>
+<li>Support ligature.</li>
+</ul>
+<h3>Apple Terminal</h3>
+<ul>
+<li>Best built-in terminal.</li>
+<li>Don't trust me? Read <a href="https://danluu.com/term-latency/" target="_blank" rel="nofollow noreferrer noopener">https://danluu.com/term-latency/</a></li>
+<li>Low latency.</li>
+<li>Very good GUI.</li>
+<li>Just work.</li>
+</ul>
+<h3>Shell · zsh</h3>
+<ul>
+<li>Bash compatible. Use zsh, you don't need to learn Bash at work again.</li>
+<li>Work very well with: key-bindings.zsh (taken from oh-my-zsh project),
+zsh-autosuggestions, fzf.</li>
+<li>Say no to plugin frameworks, they will let you down.</li>
+<li>The final setup give me a fast shell, auto suggestions based on history,
+history fuzzy search.</li>
+</ul>
+<h3>SSH Agent · Sekey</h3>
+<ul>
+<li>Use built-in secure enclave to generate private/public key.</li>
+<li>The private key will never expose to any party.</li>
+<li>Use Touch ID for authentication.</li>
+</ul>
+<h3>Source code version control system · git</h3>
+<ul>
+<li>VCS is not something I could choose, because it's based on the project I'm
+working on. But I choose git whenever it's possible.</li>
+<li>Best of its kind.</li>
+<li>Best when using in shell.</li>
+</ul>
+<h3>Package Manager · MacPorts</h3>
+<ul>
+<li>Why <em>MacPorts</em>? Why not <em>Homebrew</em>? Because I'm old. I had worked with
+<em>Portage</em> on Gentoo, pacman on Archlinux. I found I'm home when I'm using
+<em>MacPorts</em>.</li>
+<li>Most of command line tools are available.</li>
+<li>Can build application from source code.</li>
+</ul>
+<h3>Simple Text Editor · vim / Sublime Text</h3>
+<h4>vim</h4>
+<ul>
+<li>When working on shell.</li>
+<li>Very good key bindings and features.</li>
+<li>Keyboard focused.</li>
+<li>Power user focused.</li>
+<li>Built-in on most Unix-like system.</li>
+</ul>
+<h4>Sublime Text</h4>
+<ul>
+<li>Nice trial software.</li>
+<li>Native implementation for MacOS.</li>
+<li>Good GUI.</li>
+<li>Good plugins.</li>
+</ul>
+<h3>IDE · IntelliJ and brothers</h3>
+<ul>
+<li>Best Java IDE.</li>
+<li>Premium user experience.</li>
+<li>Good plugins.</li>
+<li>Good performance despite being built on Java Platform.</li>
+<li>Why not Visual Studio Code? No thanks, the developers behind Visual Studio
+Code had done a great work, but I don't prefer WebApp when it's an application
+which I use everyday, every millisecond matter.</li>
+</ul>
+</div></content><link href="https://ngxv.org/blog/entry/2021/06/22/technologies-of-choice"/></entry><entry><id>https://ngxv.org/blog/entry/2021/07/09/2nd-social-distancing-in-saigon</id><published>2021-07-09T06:24:33.174Z</published><updated>2021-07-09T06:24:33.174Z</updated><title>Sài Gòn giãn cách xã hội</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Lần đầu tiên Sài Gòn thật sự đối mặt với đại dịch COVID-19.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Nay là ngày đầu Sài Gòn giãn cách xã hội, mình ghi lại tình trạng hiện tại để
+sau này nhìn lại.</p>
+<ul>
+<li>Mọi người mua đồ dự trữ nhiều hơn vài lần so với Tết.</li>
+<li>Cửa hàng tiện lợi, siêu thị thường xuyên hết hàng.</li>
+<li>Ngoài siêu thị, tiệm tạp hóa, những cửa hàng khác dừng hoạt động, kể cả
+Grabbike, cửa hàng take away.</li>
+<li>Đi lại phải có lý do chính đáng, nếu không có thể bị phạt, vẫn chưa hiểu cơ
+chế kiểm soát thế nào.</li>
+<li>Thành phố nhận thêm 700k liều vaccine.</li>
+<li>Người từ bên ngoài vẫn vào được thành phố nếu có xét nghiệm âm tính.</li>
+</ul>
+<p>Dự đoán của mình.</p>
+<ul>
+<li>Thành phố sẽ cố gắng có thêm nhiều vaccine.</li>
+<li>Tình trạng giãn cách có thể kéo dài nếu vaccine không được tiêm trên diện
+rộng.</li>
+<li>Mua hàng ở siêu thị có nguy cơ lây nhiễm cao do tập trung đông trong không
+gian kín.</li>
+</ul>
+<p>Mình đang ở ngoài Sài Gòn, mà giờ muốn vô cũng không được.</p>
+<p><a href="2nd-social-distancing-in-saigon/image/out_of_sg.jpg"><img src="./2nd-social-distancing-in-saigon/image/out_of_sg_small.jpg" alt="A small town near Saigon" title="A small town near Saigon" class="blog-entry__image" /></a></p>
+</div></content><link href="https://ngxv.org/blog/entry/2021/07/09/2nd-social-distancing-in-saigon"/></entry><entry><id>https://ngxv.org/blog/entry/2021/06/13/unix-shell-on-windows</id><published>2021-06-13T05:21:47.525Z</published><updated>2021-06-13T08:44:13.219Z</updated><title>Setup Unix Shell on Windows</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">I used Cygwin, zsh, oh-my-zsh to have better Shell in Windows.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><h2>The Command Line Environment</h2>
+<p>I see new developers are usually struggling with command line just because they
+are using Windows, it makes them distance from the community who are using Linux
+and Unix-like systems, and end up with tutorials which is not working on Windows
+because it included Linux command or Bash script.</p>
+<p>For a Unix shell on Windows, we have plenty options: Git Bash, WSL, WSL2, MinGW.
+But I found them incomplete and un-natural to work with (sorry I don't want to
+go more detail about their issues, you could find them on the internet).</p>
+<p>In this <em>entry</em>, let's try a more classical way:
+<a href="https://cygwin.com/install.html" target="_blank" rel="nofollow noreferrer noopener">Cygwin</a>.</p>
+<p><strong>It's about the environment, not the tools ·</strong> Cygwin tries to provide the
+POSIX-compliant development and run-time environment
+<a href="https://en.wikipedia.org/wiki/POSIX#POSIX_for_Microsoft_Windows" target="_blank" rel="nofollow noreferrer noopener">[1]</a> while
+retains the speed of native Windows application. The POSIX-compliant is what
+make it feel the same with other Unix-like environment. It also comes with trade
+off: every program runs on Cygwin must be compiled for Cygwin. Thankfully, most
+of common command line tools supported Cygwin.</p>
+<p><strong>The Terminal ·</strong> When working with command line, Terminal is the entry point
+for everything. Most of Windows users don't have nice memories with Terminal
+just because of cmd.exe. Cygwin bundled with Mintty which is very good. Read
+more about how a slow Terminal could affect your working experience:
+<a href="https://danluu.com/term-latency/" target="_blank" rel="nofollow noreferrer noopener">https://danluu.com/term-latency/</a></p>
+<p><img src="./unix-shell-on-windows/image/mintty.png" alt="Mintty screenshot from official home page" title="Mintty screenshot from official home page" class="blog-entry__image" /></p>
+<p><strong>Shell ·</strong> If the Terminal provides the nice interface to interact with the
+system, the Shell provides API and tools to command the system. The natural
+choice is Bash, I recommend zsh because it's Bash-compliant with nicer features
+such as auto-completion, you also want to install oh-my-zsh to enhance your
+experience.</p>
+<p><strong>Package Manager ·</strong> The package manager in Cygwin is minimal and easy to use,
+its interface is not super nice but I found it's useful and straightforward.</p>
+<h2>Installation</h2>
+<p><strong>Step 1 ·</strong> Install Cygwin and essential packages:</p>
+<ul>
+<li>Download Cygwin 64-bit installer: <a href="https://cygwin.com/install.html" target="_blank" rel="nofollow noreferrer noopener">https://cygwin.com/install.html</a></li>
+<li>Run command to setup Cygwin without Administrator permission:
+<code>setup-x86_64.exe --no-admin</code></li>
+<li>Choose directory for Cygwin installation and packages.</li>
+<li>Choose a mirror to download packages. Linux users are familiar with mirrors
+for packages, technically, it's a file server hosting Cygwin packages
+voluntarily.</li>
+<li>Select essential packages:
+<ul>
+<li>zsh: a nice Shell replacement for Bash.</li>
+<li>git: who don't need git today?</li>
+</ul></li>
+<li>After finished the installation, don't delete the Cygwin installer, you will
+need it to install new package.</li>
+</ul>
+<p><strong>Step 2 ·</strong> Configure zsh and Mintty:</p>
+<ul>
+<li>Choose zsh as default Shell for Mintty.</li>
+<li>Install <a href="https://github.com/tonsky/FiraCode" target="_blank" rel="nofollow noreferrer noopener">Fira Code</a> font and use it as
+default in Mintty. This is a nice font for coding in general, it supported
+<a href="https://en.wikipedia.org/wiki/Ligature_(writing)" target="_blank" rel="nofollow noreferrer noopener">ligatures</a>.</li>
+</ul>
+<p><strong>Step 3 ·</strong> Configure oh-my-zsh, plugins and themes. The
+<a href="https://ohmyz.sh/#install" target="_blank" rel="nofollow noreferrer noopener">installation guideline</a> in oh-my-zsh home page is
+applicable for Cygwin. I only need to add plugins: git,
+<a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="nofollow noreferrer noopener">zsh-autosuggestions</a> and the
+theme <a href="https://github.com/yarisgutierrez/classyTouch_oh-my-zsh" target="_blank" rel="nofollow noreferrer noopener">classyTouch</a>.</p>
+<p><strong>Step 4 ·</strong> Git. The only important note is using Git from Cygwin package
+manager. Git will not work properly if you use the offical Git for Windows
+package because Git depends on Cygwin API to work with POSIX environment.</p>
+<h2>Java</h2>
+<p>The easiest way to manage many JDK version is using the zip package:</p>
+<ul>
+<li>Download JDK from: <a href="https://adoptopenjdk.net/releases.html" target="_blank" rel="nofollow noreferrer noopener">https://adoptopenjdk.net/releases.html</a></li>
+<li>Add <code>JAVA_HOME</code> environment variable to <code>~/.zshrc</code>:
+<code>export JAVA_HOME=/cygdrive/d/devtool/jdk-11</code></li>
+<li>Add JDK binaries to <code>PATH</code>: <code>export PATH=$PATH:$JAVA_HOME/bin</code></li>
+<li>Restart Mintty. Note that this configuration only affects to Cygwin
+environment.</li>
+</ul>
+<h2>Node.js</h2>
+<p>Node.js also provides zip package, the installation is similar to Java, and you
+can manage many versions without problem:</p>
+<ul>
+<li>Download 64-bit zip binary: <a href="https://nodejs.org/en/download/" target="_blank" rel="nofollow noreferrer noopener">https://nodejs.org/en/download/</a></li>
+<li>Add Node.js binaries (node, npm..) to <code>PATH</code> in <code>~/.zshrc</code>:
+<code>export PATH=$PATH:/cygdrive/d/devtool/node-v14</code></li>
+<li>Restart Mintty. Note that this configuration only affects to Cygwin
+environment.</li>
+</ul>
+<h2>Final Thought</h2>
+<p>The goal of this <em>entry</em> is setting a consistent environment between Windows,
+MacOS, Linux and other Unix-like systems. When you have the same POSIX-compliant
+environment and use the same tools, you will get better support from the
+community and your colleagues. You can write a Bash script on your Windows
+machine that could run successfully on Linux server, you can receive a script
+from 20 years Unix experience guy and run without error on your machine, that is
+a big win for both.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2021/06/13/unix-shell-on-windows"/></entry><entry><id>https://ngxv.org/blog/entry/2020/12/09/project-sakura</id><published>2020-12-09T07:54:51.279Z</published><updated>2021-05-26T03:28:29.261Z</updated><title>Project Sakura</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Our family started a long term project few days ago.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Our family is working on a long term project that I expect much hope and joy. We
+currently could not tell much about the future, may God bless us.</p>
+<p>Update 2021-05-24: The project was stopped. Wish we have strength to overcome
+this hard time.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2020/12/09/project-sakura"/></entry><entry><id>https://ngxv.org/blog/entry/2020/11/26/image</id><published>2020-11-26T15:16:31.517Z</published><updated>2020-11-26T15:16:31.517Z</updated><title>Image</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">My page supports images</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>I now could add images to my blog entry, a long waiting feature to me.</p>
+<p><img src="./image/image/frozen_flame.jpeg" alt="my avatar" title="my avatar" class="blog-entry__image" /></p>
+</div></content><link href="https://ngxv.org/blog/entry/2020/11/26/image"/></entry><entry><id>https://ngxv.org/blog/entry/2020/11/03/world-election-day</id><published>2020-11-03T15:20:04.923Z</published><updated>2020-11-03T15:20:04.923Z</updated><title>World Election Day</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">A note for next 4 years</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>In next few days, the USA will finalize their leader, one 74 and the other 77.
+Let's see if Trump could make-America-great-again or Biden could make COVID
+disappear.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2020/11/03/world-election-day"/></entry><entry><id>https://ngxv.org/blog/entry/2020/05/30/to-be-continued</id><published>2020-05-30T13:30:54.050Z</published><updated>2020-05-30T13:30:54.050Z</updated><title>To be continued</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">I create a blog, again</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>It's been a long time since I first created a blog.</p>
+<p>There was 2005 and Yahoo was a thing, the blog was on Yahoo! 360, a platform
+attracted young people share their though on many topics, mostly personal
+teenager opinion. I'm one of them. Then came Facebook, people were crazy about
+how connected they are on a social network, Facebook solved issues from the
+previous platforms such as image hosting, messaging, commenting, notification
+and friend list. The &quot;real&quot; social in my country improved a lot with the coming
+of Facebook, people's opinion raised and listened, there was some freedom of
+speech for a country needed it. I personally felt missing Yahoo! 360 age, where
+we could share more personal things and wrote our though deeply.</p>
+<p>Since then, I created a blog on Blogger, but I never felt comfortable on that
+platform, it could be my fault.</p>
+<p>I recently found these guys (<a href="https://www.tbray.org" target="_blank" rel="nofollow noreferrer noopener">Tim Bray</a>,
+<a href="https://overreacted.io" target="_blank" rel="nofollow noreferrer noopener">Dan Abramov</a>, <a href="https://www.jwz.org" target="_blank" rel="nofollow noreferrer noopener">Jamie Zawinski</a>)
+and together with my long following author
+<a href="https://vnhacker.blogspot.com" target="_blank" rel="nofollow noreferrer noopener">Duong Ngoc Thai</a> triggered the writing spirit in
+me, again. I named this &quot;to be continued&quot;, surely inspired from the &quot;on going&quot;
+of Tim Bray, to remind me that I can continue on it anytime.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2020/05/30/to-be-continued"/></entry><entry><id>https://ngxv.org/blog/entry/2019/05/25/dung-dung-lai-mat-khau-hay-dung-password-manager</id><published>2019-05-25T17:00:00.000Z</published><updated>2019-05-25T17:00:00.000Z</updated><title>Đừng dùng lại mật khẩu, hãy dùng PASSWORD MANAGER!</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Ai trong chúng ta hẳn đã có không dưới 5 tài khoản Internet: Internet Banking, Facebook, Zalo, Viber, Gmail.. Và mật khẩu là thành phần quan trọng giúp bảo vệ các tài khoản này.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Ai trong chúng ta hẳn đã có không dưới 5 tài khoản Internet: Internet Banking,
+Facebook, Zalo, Viber, Gmail.. Và mật khẩu là thành phần quan trọng giúp bảo vệ
+các tài khoản này.</p>
+<p>Theo nghiên cứu, đa phần người dùng Internet thường dùng 1-2 mật khẩu cho tất cả
+tài khoản Internet của mình, điều này rất nguy hiểm vì nếu mật khẩu bị lộ nghĩa
+là kẻ xấu có thể truy cập tất cả tài khoản Internet của bạn. Đổi lại, nếu dùng
+nhiều mật khẩu, khả năng cao bạn sẽ không nhớ được, mình đã từng gặp tình trạng
+đổi mật khẩu cho tài khoản rồi không thể đăng nhập sau đó một ngày vì..quên mất
+mật khẩu mới.</p>
+<p>Một nguy cơ nữa cho các mật khẩu có-thể-nhớ-được là chúng thường phải đơn giản,
+ngắn. Dẫn tới tình trạng chúng có thể bị crack nếu kẻ tấn công thật sự kiên nhẫn
+(bằng cách đoán mật khẩu). Ví dụ, nếu mật khẩu của bạn là 123456 thì gần như
+chắc chắn bạn sẽ mất tài khoản nếu bị tấn công.</p>
+<p>Tóm lại, nếu bạn dang dùng chung mật khẩu, hoặc dùng mật khẩu quá ngắn (dưới 8
+ký tự) thì tài khoản của bạn đang gặp nguy hiểm. Còn nếu dùng nhiều mật khẩu dài
+sẽ rất hại cho trí nhớ của bạn.</p>
+<p>Mình đã tìm hiểu vấn đề này vài năm gần đây, phương pháp đơn giản và tối ưu nhất
+cho việc quản lý mật khẩu là Password Manager.</p>
+<p>Password Manager được sinh ra để giải quyết bài toán quản lý mật khẩu cho nhiều
+tài khoản Internet, mình sẽ liệt kê một số tính năng cơ bản:</p>
+<ul>
+<li>Tạo mật khẩu có độ phức tạp cao, tránh bị crack.</li>
+<li>Quản lý nhiều tài khoản trong cùng 1 chương trình.</li>
+<li>Chỉ cần dùng 1 master password để bảo vệ tất cả tài khoản.</li>
+<li>Tất cả dữ liệu được mã hóa đúng chuẩn.</li>
+<li>Dữ liệu được lưu trên máy của bạn, không ai có thể truy cập được.</li>
+</ul>
+<p>Có rất nhiều Password Manager để bạn lựa chọn, trong bài viết này mình giới
+thiệu KeePass, là một sản phẩm Open Source, có mặt trên hầu hết nền tảng:
+Android, iOS, Windows, MacOS.</p>
+<ul>
+<li>Website: <a href="https://keepass.info/download.html" target="_blank" rel="nofollow noreferrer noopener">https://keepass.info/download.html</a></li>
+<li>Windows: KeePass2</li>
+<li>MacOS: MacPass</li>
+<li>iOS: MiniKeePass</li>
+<li>Android: KeePassDroid</li>
+</ul>
+<p>Kinh nghiệm trong hơn 2 năm sử dụng của mình là chỉ cần nhớ mật khẩu chính
+(master password) dùng để truy cập thông tin đã lưu trong KeePass, tất cả mật
+khẩu còn lại mình để KeePass tự tạo cho mình, thường là những ký tự ngẩu nhiên,
+dài, không dễ bị crack. Về phần sử dụng, để đăng nhập 1 tài khoản nào đó, thay
+vì tự tay nhập mật khẩu, mình sẽ mở KeePass (bằng mật khẩu chính) rồi copy mật
+khẩu của tài khoản đó rồi paste vào, đơn giản đỡ nhức đầu.</p>
+<p>Hãy comment bên dưới nếu có thắc mắc, sắp tới mình sẽ viết nhiều về đề tài bảo
+mật thông tin cá nhân để giúp mọi người hiểu hơn thông tin của bạn giá trị thế
+nào và Internet thật sự nguy hiểm.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2019/05/25/dung-dung-lai-mat-khau-hay-dung-password-manager"/></entry><entry><id>https://ngxv.org/blog/entry/2017/05/28/archlinux-neu-mot-ngay-khong-co-windows</id><published>2017-05-28T17:00:00.000Z</published><updated>2017-05-28T17:00:00.000Z</updated><title>Arch Linux - Nếu một ngày không có Windows</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Cái giả thuyết Windows ngày nào đó sẽ biến mất thật xa vời, nhưng ít ra, tôi đã không dùng nó từ 2 năm nay, công việc cũng như cá nhân.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Cái giả thuyết Windows ngày nào đó sẽ biến mất thật xa vời, nhưng ít ra, tôi đã
+không dùng nó từ 2 năm nay, công việc cũng như cá nhân. Dù sao tôi vẫn mong mọi
+người cứ xài Windows bởi một lý do ích kỷ: thị trường Windows còn lớn thì hacker
+sẽ tập trung vào nó mà chừa Linux ra, cứ mong vậy đi, như dân làng Vũ Đại tin
+anh Chí có chửi chắc vẫn chừa mình ra. Nhưng đó ko hẳn là lý do tôi gắn bó với
+hệ điều hành Chim cụt cánh..à Cánh Cụt này. Mọi thứ bắt đầu từ ngày đẹp trời
+nọ..</p>
+<p>Ngày ấy vào khoản năm 2005, lần đầu tôi nghe những tên tuổi sau này đã là huyền
+thoại chưa bao giờ được kể: VietKey Linux, Hacao Linux..số phận trớ trêu sao tôi
+chẳng thử em nào trong số đó, chắc do tâm lính sính ngoại bẩm sinh. Và tôi biết
+tới Gentoo, như lời quảng cáo của đàn anh trong GameVN là bản Linux chạy nhanh
+nhất, khó cài nhất, và sẽ rất oai nếu mày cài được, mày sẽ vỗ ngực tự đắc &quot;tao
+đây đã cài Gentoo từ stage1&quot; (bọn bạn tôi chưa bao giờ biết Gentoo là gì, đến
+tận giờ vẫn ko biết).</p>
+<p>Cài Gentoo là trải nghiệm tuyệt vời (hay tồi tệ nhất) của việc cài 1 hệ điều
+hành..Nếu ko có cái handbook của nó thì đố mà xong được, Gentoo có cái hay (cũng
+là cái dở) là phải compile mọi thứ, nên tất nhiên cài xong sẽ hiểu rõ hệ thống
+của mình, hiểu từng configuration của từng phần mềm, nói chung để học thì hay,
+để dùng hàng ngày rất hại não vì mỗi lần update là mỗi lần compile vài chục
+tiếng, máy nóng như chảo chiên trứng..có lẽ vì thế con Laptop đầu tiên của tôi
+ra đi khi mang trên mình Gentoo Linux. Đó là lúc tôi nghĩ đến bài toán cân bằng
+giữa tính linh hoạt và sự phức tạp của hệ thống, tôi tìm ra Arch Linux.</p>
+<p>Với một hệ điều hành sử dụng hàng ngày cần</p>
+<ul>
+<li>Miễn nhiễm với virus</li>
+<li>Duyệt Web</li>
+<li>Giao diện đơn giản, nhẹ</li>
+<li>Phần mềm Office</li>
+<li>Gõ tiếng Việt</li>
+<li>Dễ nâng cấp, sao lưu</li>
+<li>Ổn định</li>
+</ul>
+<p>Trong danh sách đó, chuyện ko nhiễm Virus là không thể, dù sao Arch Linux không
+phải hệ điều hành phổ biến nên chuyện lây nhiễm có hạn chế đôi phần, cần nói
+thêm dù có cài Anti-Virus cũng không làm máy an toàn hơn là bao nên tôi ko bao
+giờ cài Anti-Virus trên máy mình, rất tốn tài nguyên. Trở lại lý luận ban đầu,
+Virus sẽ không nhắm vào môi trường ít người sử dụng vì tốc độ lây lan thấp.</p>
+<p>Phần web browser, tôi có nhiều lựa chọn: Chromium, Opera, Firefox..tất cả đều
+ngon.</p>
+<p>Giao diện là điều tôi thích nhất ở Arch Linux, không như đa số Distro cho người
+dùng cuối cài sẵn giao diện Gnome hoặc KDE, Arch Linux dành phần giao diện cho
+người dùng &quot;lắp ráp&quot; theo ý mình, đây là phần hấp dẫn nhất mỗi khi nhắc tới một
+hệ điều hành. Tôi luôn hướng tới một giao diện đơn giản, nhiều phím tắt, nhẹ, ổn
+định và cũng không kém phần đẹp mắt. Dưới đây là những gì tôi đã cài cho phần
+giao diện, cho bạn nào thích vọc:</p>
+<ul>
+<li>Display Server: X.org</li>
+<li>No graphical login</li>
+<li>Window Manager: Openbox</li>
+<li>Wallpaper: Nitrogen</li>
+<li>Taskbar: Tint2 with customize configuration</li>
+<li>Lock Screen: i3lock</li>
+<li>Launcher: Albert</li>
+<li>Terminal: rxvt-unicode</li>
+</ul>
+<p><img src="./archlinux-neu-mot-ngay-khong-co-windows/image/my-archlinux.png" alt="Arch Linux với OpenBox và một số công cụ khác" title="Arch Linux với OpenBox và một số công cụ khác" class="blog-entry__image" /></p>
+<p>Điểm khó khăn nhất với tôi khi dùng Linux là bộ Office, Microsoft làm Office quá
+tốt, cũng đúng thôi, họ làm nó còn trước cả Windows mà. Tôi vẫn không vừa ý sản
+phẩm Office Open Source nào, nên dùng tạm Google Docs vậy.</p>
+<p>Gõ tiếng Việt không quá khó cũng không hoàn hảo, hãy thử fcitx thay vì ibus, bạn
+sẽ thấy cuộc sống dễ dàng hơn.
+<a href="http://www.nerdyweekly.com/posts/ibus-is-dead-to-me-use-fcitx-instead-vi/" target="_blank" rel="nofollow noreferrer noopener">Có một bài viết hướng dẫn tại đây</a>.</p>
+<p>Về khoản nâng cấp Arch Linux rất dễ, chỉ một dòng lệnh là đủ. Sao lưu cả hệ điều
+hành và khôi phục chỉ đơn giản là copy/paste. Sẽ ko cần Ghost hay &quot;Phantom&quot; gì
+đó như Windows đã từng.</p>
+<p>Ổn định thì ko phải nói nhiều nhỉ, bạn đang chạy hệ điều hành thiết kế cho
+server rồi.</p>
+<p>Ở bài này tôi muốn giới thiệu làm cách nào thay thế Windows bằng Linux trong
+cuộc sống hàng ngày, bạn sẽ không thể làm được nếu chưa có kiến thức về Linux,
+nhưng hy vọng tôi đã cung cấp đủ keyword để bạn bắt đầu cài hệ điều hành cho
+riêng mình, tôi sẽ viết về từng chủ đề trong những bài tới. Try for your
+privacy.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2017/05/28/archlinux-neu-mot-ngay-khong-co-windows"/></entry><entry><id>https://ngxv.org/blog/entry/2017/01/13/better-developer</id><published>2017-01-13T17:00:00.000Z</published><updated>2017-01-13T17:00:00.000Z</updated><title>Better developer</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">My steps for better developing myself</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><ul>
+<li>Don't re-invent the wheel</li>
+<li>Keep on not re-inventing the wheel</li>
+<li>Try to understand the wheel</li>
+<li>Understand the wheel</li>
+<li>Try to improve the wheel</li>
+<li>Keep improving the wheel</li>
+<li>Invent the jet</li>
+</ul>
+</div></content><link href="https://ngxv.org/blog/entry/2017/01/13/better-developer"/></entry><entry><id>https://ngxv.org/blog/entry/2016/11/21/di-toi-tan-cung</id><published>2016-11-21T17:00:00.000Z</published><updated>2016-11-21T17:00:00.000Z</updated><title>Đi tới tận cùng</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Để chứng minh một vấn đề đúng, bạn phải chứng minh nó đúng trong mọi trường hợp. Kẻ khác nói bạn sai, họ cần chỉ ra một trường hợp sai, đôi khi có-vẻ-sai, là đủ.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Để chứng minh một vấn đề đúng, bạn phải chứng minh nó đúng trong mọi trường hợp.
+Kẻ khác nói bạn sai, họ cần chỉ ra một trường hợp sai, đôi khi có-vẻ-sai, là đủ.
+Quả là cuộc chiến không cân sức. Thật dễ để hủy hoại một tâm hồn non nớt ham học
+hỏi bằng việc bác bỏ vô tội vạ ý kiến nó đưa ra bằng những luận điểm mơ hồ mà
+với trình độ non nớt nó chưa thể phản bác được.</p>
+<p>Tôi viết ra đây kinh nghiệm mình học được từ những việc nhỏ hàng ngày tưởng
+chừng rành rành ra đấy, tưởng như ai cũng biết. Từ việc i++ và ++i khác nhau thế
+nào đến việc một lỗ hổng bảo mật &quot;ghê gớm&quot; có thật sự ảnh hưởng đến phần mềm tôi
+đang phát triển hay không? Ừ thì ai cũng biết, Java Core học qua hết rồi làm
+quái gì ko biết hai thằng &quot;i&quot; đó khác, mà khác thế nào thì...để chạy thử rồi
+biết! Ừ thì lỗi bảo mật đó nghiêm trọng lắm, config như thế là có nguy cơ đấy.
+Mà có chắc nó xảy ra ko? Ko chắc! Mà thôi, tốt nhất tránh nó ra cho an toàn!
+Kiểu tư duy lối mòn, lười biếng đó là thứ bạn phải đấu tranh đến cùng, tôi không
+khuyến khích bạn cãi bằng mồm, tôi cũng không khuyến khích hạ bệ ngươi khác bằng
+chút kiến thức lớn bằng..con ếch. Cái mà tôi, cũng như bạn phải đấu tranh là nỗi
+sợ của chính mình. Nỗi sợ bách nhục xuyên trym..à..xuyên tâm mỗi khi ai đó chỉ
+ra thế yếu của mình, đó là nỗi sơ ngu dốt. Ko, dốt ko có tội, nhưng cãi càn là
+có tội, bạn không thể chứng minh điều bạn nói là đúng thì ko dốt là gì? Hãy tìm
+hiểu đến tận cùng. Nỗi sợ tiếp đến là thời gian, bạn sợ mất thời gian nghiên
+cứu, bạn có thể bỏ 2h đôi co chứ ko chịu bỏ 30 phút google, câu trả lời luôn có
+sẵn đâu đó. Còn không, chính bạn phải viết câu trả lời ấy, chính bạn hãy nói cho
+thế giới biết vấn đề của mình, và tiếp đến là giải pháp. Còn tôi, tôi phải đi
+ngủ. Khuya lắc rồi. Nhớ nhé, cho cả thế giới biết..giờ này tôi ngủ rồi. bye.</p>
+<p>P/s: BREACH Attack có thể hoá giải bằng length hiding trên enginx và bản thân
+ViewState của JSF đã mã hoá để tránh user modification. Có cướp được cũng ko
+dùng đc.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2016/11/21/di-toi-tan-cung"/></entry><entry><id>https://ngxv.org/blog/entry/2016/09/07/i-shoot-film</id><published>2016-09-07T15:37:00.000Z</published><updated>2016-09-07T15:37:00.000Z</updated><title>Vì sao mình chụp film?</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Là thích máy, thích ảnh nên chụp vậy thôi.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><img src="./i-shoot-film/image/first-ektar-100.jpg" alt="My first Ektar 100" title="My first Ektar 100" class="blog-entry__image" /></p>
+<p>Vì sao mình chụp film? Là thích máy, thích ảnh nên chụp vậy thôi.</p>
+<p>Ngày trước mình ko mê ảnh, ko mê máy, mọi thứ ngấm dần khi mình mê thiết kế nhỏ
+gọn của máy Nex, với mình mọi thứ phải nhỏ gọn và sắc sảo, đó là lý do mình sắm
+máy Nex, nó nhỏ nhưng rất tốt, như ông bà ta có câu 'nhỏ mà có võ'.</p>
+<p>Dòng máy ko gương lật của Sony chính là đỉnh điểm của trào lưu chơi ống kính MF
+hiện đại, nhờ live view, lại tương thích tất cả ống kính MF hiện có, máy Nex
+cũng như dòng máy ko gương lật nói chung đem lại sự sống mới cho hệ thống lens
+MF một thời huy hoàng nay chỉ là vật sưu tầm, thật khó tưởng tượng trước kia
+người ta bán lens MF vài trăm ngàn 1 ống, giá bây giờ luôn trên dưới 2tr cho 1
+lens tốt. Lúc mua máy Nex, mình đã nghĩ ngay sẽ sở hữu 1 lens MF khẩu lớn, mình
+thích cái mờ ảo đằng sau những đường nét, rất mơ hồ.</p>
+<p><a href="https://www.pentaxforums.com/lensreviews/SMC-S-M-C-Super-Takumar-50mm-F1.4.html" target="_blank" rel="nofollow noreferrer noopener">SMC Takumar 50 1.4</a>
+là lens đầu tiên mình có, cũng là lens vừa ý mình nhất đến lúc này, độ nét tốt,
+bokeh mềm dịu mắt, ngoại hình rất nhỏ gọn, sau này mình chia tay em nó để tìm
+hiểu những lens khác nhưng nếu có cơ hội, chắc chắn mình sẽ chọn Tak 50 1.4 một
+lần nữa. So với ống kính thì máy film là chuyện ngoài sức mình tưởng tượng. Mình
+chưa bao giờ nghĩ sẽ chụp film, chưa bao giờ có một chút ấn tượng gì về máy film
+(dù cuộn film đầu tiên mình là hơn 10 năm trước), bạn
+<a href="https://www.facebook.com/nnhoaithuong" target="_blank" rel="nofollow noreferrer noopener">Nguyễn Ngọc Hoài Thương</a> là người gợi ý
+mình vào con đường nghiện ngập này, cùng với một vài người chụp ảnh mình thích.</p>
+<p>Với máy film, phải nói đó là những cỗ máy quá tốt, sau ngần ấy năm, chúng vẫn
+chạy tốt, sau ngần ấy năm, mục đích sử dụng vẫn ko hề thay đổi, có chăng, số
+lưng của chúng sẽ ít dần theo năm tháng..Máy của mình, giống nhiều bạn trẻ chụp
+máy film thời nay, là máy Pentax, thật trùng hợp vì Takumar và Pentax đều do
+Ashahi sản xuất, vẫn chất lượng tuyệt vời ấy.</p>
+<p>Chụp máy film, điều quan trọng nhất vẫn là...phải có một cuộn film. Khác với ảnh
+số khi mọi thông số bạn chỉnh được ngay trên máy, ảnh về hậu kỳ được. Với máy
+film mọi thứ đơn giản hơn nhiều, chọn máy tốt, ống kính tốt và một cuộn film yêu
+thích là đủ (tất nhiên phải tráng scan ở lab uy tín nhé). Mỗi loại film cho ra
+một kiểu ảnh đặc trưng, người ta chọn film để chụp tùy vào sở thích, tùy vào tâm
+trạng và điều muốn nói qua những bức ảnh. Mình chưa chụp đủ nhiều để đánh giá
+từng loại, nhưng bản chất thích màu đậm khiến mình có cảm tình với Ektar, hy
+vọng, cuộn Ektar đu tiên sẽ đáng nhớ..</p>
+</div></content><link href="https://ngxv.org/blog/entry/2016/09/07/i-shoot-film"/></entry><entry><id>https://ngxv.org/blog/entry/2016/07/04/kinh-thanh</id><published>2016-07-04T17:00:00.000Z</published><updated>2016-07-04T17:00:00.000Z</updated><title>Kinh Thánh</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Hồi trước, mình có coi một phim Mỹ rất hay mà mình thấy hợp với hoàn cảnh Việt Nam bây giờ. Phim Book of Eli.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><img src="./kinh-thanh/image/holy-bible.jpg" alt="The Holy Bible" title="The Holy Bible" class="blog-entry__image" /></p>
+<p>Hồi trước, mình có coi một phim Mỹ rất hay mà mình thấy hợp với hoàn cảnh Việt
+Nam bây giờ. Phim Book of Eli.</p>
+<p>Câu truyện về thế giới hậu thế chiến 3, một cuộc chiến hủy diện hoàn toàn, để
+lại trên hành tinh một thiểu số nghèo nàn, dốt nát, điên loạn..cả trong giới
+lãnh đạo lẫn thường dân.</p>
+<p>Trong cảnh đen tối đó, niềm hy vọng lớn nhất của họ nằm trong một quyển sách. Kẻ
+cầm quyền tìm kiếm nơi nó sự thông thái để cai trị, thường dân tìm nơi nó niềm
+an ủi và cứu rỗi, người ta đồn rằng nó chứa đựng tất cả thông thái và chân lý để
+lập lại trật tự thế giới, và một người đàn ông da đen đơn độc đang bảo vệ nó.</p>
+<p>Đó là phim, về cuốn sách của Eli, một cách nói ẩn dụ về cuốn The Bible, về Kinh
+Thánh (trong phim là bản New King James được viết bằng chữ nổi).</p>
+<p>Vấn đề của người Việt Nam bây giờ là ko có một chuẩn mực đạo đức vững chắc để
+noi theo, họ mù mờ, họ nghi ngờ, và họ sợ mọi thứ: sợ chính quyền, sợ thực phẩm
+bẩn, sợ nước ko sạch, sợ cướp bóc..họ sợ cả hành động của chính họ vì ko biết
+làm gì đúng làm gì sai.</p>
+<p>Mình gợi ý các bạn nên đọc Kinh Thánh, bỏ qua vấn đề tôn giáo thì Kinh Thánh là
+quyển sách giá trị nhất về sự khôn ngoan, về nghệ thuật lãnh đạo, đối nhân xử
+thế và về Tình Yêu Thương. Hãy thử đọc nó bằng một cái nhìn khác, bạn sẽ thấy nó
+là cuốn sách cần thiết nhất cho người Việt hiện nay.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2016/07/04/kinh-thanh"/></entry><entry><id>https://ngxv.org/blog/entry/2013/07/12/presentation-patterns</id><published>2013-07-12T17:00:00.000Z</published><updated>2013-07-12T17:00:00.000Z</updated><title>Presentation Patterns - A Recipe for Better Education Presentation</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Giving a presentation is a scary experience for most developers.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Giving a presentation is a scary experience for most developers. Yet, worrisome
+as they are, they are a great way to influence technical decisions. They aid
+informed choices through the distribution of pertinent knowledge. Our highly
+actionable &quot;Gang of Four&quot; style patterns illustrate tried-and-true ways to build
+technical presentations that inform, convince and inspire.</p>
+<p><code>Presentation Patterns - A Recipe for Better Education Presentation.pdf</code></p>
+</div></content><link href="https://ngxv.org/blog/entry/2013/07/12/presentation-patterns"/></entry><entry><id>https://ngxv.org/blog/entry/2012/09/30/rainmeter</id><published>2012-09-30T17:00:00.000Z</published><updated>2012-09-30T17:00:00.000Z</updated><title>Rainmeter</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Rainmeter, công cụ tùy biến giao diện Windows linh hoạt nhất tui từng biết</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p><a href="http://rainmeter.net/" target="_blank" rel="nofollow noreferrer noopener">Rainmeter</a>, công cụ tùy biến giao diện Windows linh hoạt
+nhất tui từng biết, một trong số ít phần mềm nguồn mở về giao diện và rất là
+tuyệt!</p>
+<p><img src="./rainmeter/image/windows7-with-rainmeter.png" alt="Windows 7 with Rainmeter" title="Windows 7 with Rainmeter" class="blog-entry__image" /></p>
+</div></content><link href="https://ngxv.org/blog/entry/2012/09/30/rainmeter"/></entry><entry><id>https://ngxv.org/blog/entry/2011/11/11/hoc-lap-trinh</id><published>2011-11-11T17:00:00.000Z</published><updated>2011-11-11T17:00:00.000Z</updated><title>Học lập trình</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Suy nghĩ xem bạn muốn làm gì? Bạn phải luôn đặt câu hỏi cho mình học để làm gì?</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Bạn là người có đam mê Công nghệ Thông tin, bạn muốn tạo cho riêng mình một
+chương trình cho mục đích của riêng bạn, và bạn quyết định học lập trình. Khi
+đọc bài viết bạn thấy quá chừng ngôn ngữ lập trình, lúc thì PHP, ASP, rồi Java,
+Python, C#,
+C++...<a href="http://en.wikipedia.org/wiki/List_of_programming_languages_by_category" target="_blank" rel="nofollow noreferrer noopener">rất nhiều và rất nhiều</a>,
+ah phải kể luôn Assembly cho đủ bộ. Bạn sẽ hỏi vậy nên học ngôn ngữ nào? Câu trả
+lời là...tất cả! -- <em>đừng hoảng :)</em></p>
+<p>Suy nghĩ xem bạn muốn làm gì? Bạn phải luôn đặt câu hỏi cho mình học để làm gì?</p>
+<p>Thật ra ngôn ngữ lập trình có vài nguyên tắc chung, điều này có nghĩa khi bạn
+thuần thục một ngôn ngữ, bạn sẽ học những cái còn lại nhanh hơn. Nhưng ngôn ngữ
+đầu tiên bạn học là quan trọng nhất!</p>
+<p>Bạn nên hiểu ngôn ngữ lập trình chỉ là phương tiện thực thi ý tưởng của bạn, như
+một bài toán nhiều lời giải, chương trình có thể được viết bằng bất cứ ngôn ngữ
+lập trình nào.</p>
+<p>Và một điều nữa là phương pháp lập trình. Giống như viết văn có song hành, diễn
+dịch, quy nạp, viết chương trình có nhiều cách viết, hay thấy nhất là &quot;hướng thủ
+tục&quot; và &quot;hướng đối tượng&quot;. Mấy cái khác tui không rõ nên không bàn tới.</p>
+<p>Chắc bạn tự hỏi mấy thứ này liên quan thế nào tới chuyện học lập trình?</p>
+<p>Khi tui học đại học, thật may mắn trường tôi gần như duy nhất trong nước dạy lập
+trình kiểu Hướng đối tượng, không bàn chuyện hay dở thế nào nhưng điều đó cho
+phép tôi so sánh với cách viết chương trình &quot;hoang dã&quot; tui tự mày mò, tui kết
+luận lập trình theo đúng phương pháp khó hơn nhưng đáng để học. Vì bạn có thể
+viết được những chương trình lớn, có thể mở rộng nó dễ dàng, ít phải chỉnh sửa
+mã nguồn đã hoàn thành...</p>
+<p>Vậy người mới cần học gì? Theo tui, học những gì gần với điều bạn đã biết nhất!</p>
+<p>Về ngôn ngữ lập trình, hãy học <a href="http://python.org/" target="_blank" rel="nofollow noreferrer noopener">Python</a> hoặc Java, hoặc C++,
+cá nhân tui chọn Python vì tính tự do của nó, ngoài ra bạn không cần phải kiểm
+soát sâu vào hệ thống. Bạn có thể lập trình cả ứng dụng Desktop và Web bằng
+Python.</p>
+<p>Về phương pháp lập trình, hãy lập trình theo kiểu &quot;hướng thủ tục&quot; trước, tức là
+viết chương trình thực hiện lệnh theo thứ tự từ trên xuống (giống khi bạn viết
+lời giải cho bài toán).Sau khi nắm vững các lệnh nên học &quot;hướng đối tượng&quot;
+(Python hỗ trợ hướng đối tượng).</p>
+<p>Hy vọng những điều này giúp ích cho bước khởi đầu của bạn. Hãy chọn cho mình
+điểm bắt đầu và &quot;google it&quot;.</p>
+<p>Nếu bạn chọn Python, tui có
+<a href="http://www.swaroopch.com/notes/Python" target="_blank" rel="nofollow noreferrer noopener">quà cho bạn</a>, ngại đọc tiếng Anh thì chờ
+bài sau của tui.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2011/11/11/hoc-lap-trinh"/></entry><entry><id>https://ngxv.org/blog/entry/2011/11/11/tor-an-danh-khi-online</id><published>2011-11-11T17:00:00.000Z</published><updated>2011-11-11T17:00:00.000Z</updated><title>TOR: Ẩn danh khi online</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Duyệt web ẩn danh, vượt tưởng lửa, ngăn chặn theo dõi dấu vết, miễn phí và mã nguồn mở, đó là những gì Tor mang lại cho bạn.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Duyệt web ẩn danh, vượt tưởng lửa, ngăn chặn theo dõi dấu vết, miễn phí và mã
+nguồn mở, đó là những gì Tor mang lại cho bạn.</p>
+<p><a href="http://www.torproject.org" target="_blank" rel="nofollow noreferrer noopener">http://www.torproject.org</a></p>
+<p>Mirror: <a href="http://www.mediafire.com/?d7ln8vcv26lui4t" target="_blank" rel="nofollow noreferrer noopener">http://www.mediafire.com/?d7ln8vcv26lui4t</a></p>
+</div></content><link href="https://ngxv.org/blog/entry/2011/11/11/tor-an-danh-khi-online"/></entry><entry><id>https://ngxv.org/blog/entry/2011/11/09/dieu-vo-gia</id><published>2011-11-09T17:00:00.000Z</published><updated>2011-11-09T17:00:00.000Z</updated><title>Điều vô giá</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Kinh thánh có chép như vầy: "Còn ta nói cho các ngươi: Hãy dùng của bất nghĩa mà kết bạn, để khi của ấy hết đi, họ tiếp các ngươi vào nhà đời đời."</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Kinh thánh có chép như vầy: &quot;Còn ta nói cho các ngươi: Hãy dùng của bất nghĩa mà
+kết bạn, để khi của ấy hết đi, họ tiếp các ngươi vào nhà đời đời.&quot;</p>
+<p>Tôi đang sống, đang cố gắng, đang hy sinh, đang khao khát..Đó là lẽ tất nhiên,
+nhưng mục tiêu của tôi thật sự đáng giá, tôi sẽ hạnh phúc khi đạt được nó? Điều
+tôi làm thật sự có ý nghĩa? Tôi có làm những người tôi yêu thương được hạnh
+phúc?</p>
+<p>Thật sự có nhiều ảo tưởng cần xóa bỏ!</p>
+</div></content><link href="https://ngxv.org/blog/entry/2011/11/09/dieu-vo-gia"/></entry><entry><id>https://ngxv.org/blog/entry/2011/10/07/tao-dynamic-web-project-eclipse</id><published>2011-10-07T17:00:00.000Z</published><updated>2011-10-07T17:00:00.000Z</updated><title>Tạo Dynamic Web Project (Eclipse 3.5) từ source-code có sẵn.</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Vì vài lý do tui sao lưu source-code và xóa meta-data của Eclipse Project, hậu quả hôm nay import lại project phát hiện không thể convert từ Java Project sang Dynamic Web Project.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Vì vài lý do tui sao lưu <em>source-code</em> và xóa <em>meta-data</em> của Eclipse Project,
+hậu quả hôm nay <em>import</em> lại <em>project</em> phát hiện không thể <em>convert</em> từ Java
+Project sang Dynamic Web Project.</p>
+<p>Chuyện cũng không lớn lắm</p>
+<ul>
+<li>Trước hết bạn tạo <em>project</em> mới trùng với tên <em>project</em> muốn <em>import</em> (ví dụ:
+Example).</li>
+<li>Mở trình quản lý tập tin bạn thường dùng, chuyển tới thư mục chứa <em>project</em>
+mới tạo. <em>Copy</em> thư mục .settings, tập tin .classpath và .project vào thư mục
+chứa project của bạn.</li>
+<li>Xóa project bạn vừa tạo.</li>
+<li>Vào Eclipse chọn File &gt; Import.. &gt; Existing Projects into Workspace, chọn
+Next.</li>
+<li>Tại mục Select root directory, chọn thư mục chứa project của bạn.</li>
+<li><em>Project</em> của bạn sẽ hiện ra tại mục Projects, <em>check</em> vào nó và chọn Finish.</li>
+</ul>
+</div></content><link href="https://ngxv.org/blog/entry/2011/10/07/tao-dynamic-web-project-eclipse"/></entry><entry><id>https://ngxv.org/blog/entry/2011/10/04/speeding-up-firefox</id><published>2011-10-04T17:00:00.000Z</published><updated>2011-10-04T17:00:00.000Z</updated><title>Speeding up Firefox</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Dành cho các bạn đang xài linux, có chút bất tiện nếu sử dùng chức năng save tab.</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Dành cho các bạn đang xài linux, có chút bất tiện nếu sử dùng chức năng save
+tab.</p>
+<p><a href="http://www.linuxized.com/2009/05/speeding-up-firefox-with-tmpfs-and-automatic-rsync" target="_blank" rel="nofollow noreferrer noopener">http://www.linuxized.com/2009/05/speeding-up-firefox-with-tmpfs-and-automatic-rsync</a></p>
+</div></content><link href="https://ngxv.org/blog/entry/2011/10/04/speeding-up-firefox"/></entry><entry><id>https://ngxv.org/blog/entry/2011/10/04/steve-jobs-1955-2011</id><published>2011-10-04T17:00:00.000Z</published><updated>2011-10-04T17:00:00.000Z</updated><title>Steve Jobs (1955 - 2011)</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Vĩnh biệt Steve Jobs, kẻ luôn làm cả thế giới kinh ngạc</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Vĩnh biệt Steve Jobs, kẻ luôn làm cả thế giới kinh ngạc, con người tôi ngưỡng mộ
+và kính phục. Tuy không cùng niềm tin và tui không biết ông phải trả lời như thế
+nào trước mặt Đức Chúa Trời của nhân loại.</p>
+<p>Tôi thật sự kính phục ông, ông có cuộc sống hết mình chưa chắc Cơ Đốc Nhân nào
+sống được. Cách đây mấy tháng nghe tin ông rời Apple hẳn bất cứ ai cũng hiểu sức
+mạnh tinh thần đã không thể chống lai sự chống phá của thân thể. Sáng nay thật
+sự bất ngờ khi nghe tin ông mất, những ngỡ ông sẽ được nghỉ ngơi lúc cuối đời,
+nhưng sao nhanh quá.</p>
+<p>Vĩnh biệt con người miệt mài với công việc mang lại cho nhân loại những sản phẩm
+công nghệ tinh tế nhất, con người có cái nhìn kiên nghị dám chiến đấu với tử
+thần đến phút cuối cùng. Vinh biệt ông, Steve Jobs!</p>
+<p><img src="./steve-jobs-1955-2011/image/steve-jobs.png" alt="Steve Jobs" title="Steve Jobs" class="blog-entry__image" /></p>
+</div></content><link href="https://ngxv.org/blog/entry/2011/10/04/steve-jobs-1955-2011"/></entry><entry><id>https://ngxv.org/blog/entry/2011/09/22/grub-bootloader-nhan-phan-vung-ntfs</id><published>2011-09-22T17:00:00.000Z</published><updated>2011-09-22T17:00:00.000Z</updated><title>Grub bootloader nhận phân vùng NTFS</title><author><name>vinh</name></author><summary type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">Lỗi: Filesystem Type Unknown, Partition Type 0x7</div></summary><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>Lỗi: Filesystem Type Unknown, Partition Type 0x7</p>
+<p>Lỗi này thường xảy ra trên hệ thống dual boot Linux/Windows, cụ thể trường hợp
+tui gặp là Windows XP. Bình thường chạy tốt, bỗng 1 ngày đẹp trời không vào
+được. Tui cài Windows XP trên phân vùng Extended.</p>
+<p>Phân vùng</p>
+<pre><code>sda1: boot
+sda2: swap
+sda3: gentoo
+sda4: Extended
+sda5: windows
+...
+</code></pre>
+<p>Boot Entry</p>
+<pre><code>title Windows XP Professional
+root (hd0,4)
+chainloader +1
+</code></pre>
+<p>Tui hong hiểu và cũng hong biết sửa thế nào! Nên đành cài Windows XP trên phân
+vùng primary. Chậc.</p>
+</div></content><link href="https://ngxv.org/blog/entry/2011/09/22/grub-bootloader-nhan-phan-vung-ntfs"/></entry></feed>
