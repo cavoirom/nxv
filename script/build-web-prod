@@ -35,9 +35,11 @@ CACHE_DIRECTORY="${PROJECT_DIRECTORY}/.cache"
 DENO_DIRECTORY="${CACHE_DIRECTORY}/deno"
 
 # test the web.
+# We could not do type check because of `vendor/preact/hooks/internal.d.ts`.
 DENO_DIR="${DENO_DIRECTORY}" deno test \
     --config "$PROJECT_DIRECTORY/deno.jsonc" \
     --allow-env \
+    --no-check \
     "$WEB_DIRECTORY/test"
 
 # clean build directory.

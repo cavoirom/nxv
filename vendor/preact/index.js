@@ -111,7 +111,7 @@ var vnodeId = 0;
  * @param {VNode["type"]} type The node name or Component constructor for this
  * virtual node
  * @param {object | null | undefined} [props] The properties of the virtual node
- * @param {Array<import('.').ComponentChildren>} [children] The children of the
+ * @param {Array<import('./index.d.ts').ComponentChildren>} [children] The children of the
  * virtual node
  * @returns {VNode}
  */

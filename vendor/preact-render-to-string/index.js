@@ -439,7 +439,7 @@ function renderToString(vnode, context, _rendererState) {
 
 function renderClassComponent(vnode, context) {
   var type =
-  /** @type {import("preact").ComponentClass<typeof vnode.props>} */
+  /** @type {import("../preact/index.d.ts").ComponentClass<typeof vnode.props>} */
   vnode.type;
   var isMounting = true;
   var c;

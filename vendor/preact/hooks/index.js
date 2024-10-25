@@ -3,16 +3,16 @@ import { options as options$1 } from '../index.js';
 /** @type {number} */
 
 var currentIndex;
-/** @type {import('./internal').Component} */
+/** @type {import('./internal.d.ts').Component} */
 
 var currentComponent;
-/** @type {import('./internal').Component} */
+/** @type {import('./internal.d.ts').Component} */
 
 var previousComponent;
 /** @type {number} */
 
 var currentHook = 0;
-/** @type {Array<import('./internal').Component>} */
+/** @type {Array<import('./internal.d.ts').Component>} */
 
 var afterPaintEffects = [];
 var EMPTY = []; // Cast to use internal Options type
@@ -26,7 +26,7 @@ var oldBeforeUnmount = options.unmount;
 var oldRoot = options.__;
 var RAF_TIMEOUT = 100;
 var prevRaf;
-/** @type {(vnode: import('./internal').VNode) => void} */
+/** @type {(vnode: import('./internal.d.ts').VNode) => void} */
 
 options.__b = function (vnode) {
   currentComponent = null;
@@ -40,7 +40,7 @@ options.__ = function (vnode, parentDom) {
 
   if (oldRoot) oldRoot(vnode, parentDom);
 };
-/** @type {(vnode: import('./internal').VNode) => void} */
+/** @type {(vnode: import('./internal.d.ts').VNode) => void} */
 
 
 options.__r = function (vnode) {
@@ -74,7 +74,7 @@ options.__r = function (vnode) {
 
   previousComponent = currentComponent;
 };
-/** @type {(vnode: import('./internal').VNode) => void} */
+/** @type {(vnode: import('./internal.d.ts').VNode) => void} */
 
 
 options.diffed = function (vnode) {
@@ -101,7 +101,7 @@ options.diffed = function (vnode) {
   previousComponent = currentComponent = null;
 }; // TODO: Improve typing of commitQueue parameter
 
-/** @type {(vnode: import('./internal').VNode, commitQueue: any) => void} */
+/** @type {(vnode: import('./internal.d.ts').VNode, commitQueue: any) => void} */
 
 
 options.__c = function (vnode, commitQueue) {
@@ -123,7 +123,7 @@ options.__c = function (vnode, commitQueue) {
   });
   if (oldCommit) oldCommit(vnode, commitQueue);
 };
-/** @type {(vnode: import('./internal').VNode) => void} */
+/** @type {(vnode: import('./internal.d.ts').VNode) => void} */
 
 
 options.unmount = function (vnode) {
@@ -179,7 +179,7 @@ function getHookState(index, type) {
 }
 /**
  * @template {unknown} S
- * @param {import('./index').Dispatch<import('./index').StateUpdater<S>>} [initialState]
+ * @param {import('./index.d.ts').Dispatch<import('./index.d.ts').StateUpdater<S>>} [initialState]
  * @returns {[S, (state: S) => void]}
  */
 
@@ -191,14 +191,14 @@ function useState(initialState) {
 /**
  * @template {unknown} S
  * @template {unknown} A
- * @param {import('./index').Reducer<S, A>} reducer
- * @param {import('./index').Dispatch<import('./index').StateUpdater<S>>} initialState
+ * @param {import('./index.d.ts').Reducer<S, A>} reducer
+ * @param {import('./index.d.ts').Dispatch<import('./index.d.ts').StateUpdater<S>>} initialState
  * @param {(initialState: any) => void} [init]
  * @returns {[ S, (state: S) => void ]}
  */
 
 function useReducer(reducer, initialState, init) {
-  /** @type {import('./internal').ReducerHookState} */
+  /** @type {import('./internal.d.ts').ReducerHookState} */
   var hookState = getHookState(currentIndex++, 2);
   hookState._reducer = reducer;
 
@@ -226,13 +226,13 @@ function useReducer(reducer, initialState, init) {
 
       /**
        *
-       * @type {import('./internal').Component["shouldComponentUpdate"]}
+       * @type {import('./internal.d.ts').Component["shouldComponentUpdate"]}
        */
       // @ts-ignore - We don't use TS to downtranspile
       // eslint-disable-next-line no-inner-declarations
       var updateHookState = function updateHookState(p, s, c) {
         if (!hookState.__c.__H) return true;
-        /** @type {(x: import('./internal').HookState) => x is import('./internal').ReducerHookState} */
+        /** @type {(x: import('./internal.d.ts').HookState) => x is import('./internal.d.ts').ReducerHookState} */
 
         var isStateHook = function isStateHook(x) {
           return !!x.__c;
@@ -289,13 +289,13 @@ function useReducer(reducer, initialState, init) {
   return hookState.__N || hookState.__;
 }
 /**
- * @param {import('./internal').Effect} callback
+ * @param {import('./internal.d.ts').Effect} callback
  * @param {unknown[]} args
  * @returns {void}
  */
 
 function useEffect(callback, args) {
-  /** @type {import('./internal').EffectHookState} */
+  /** @type {import('./internal.d.ts').EffectHookState} */
   var state = getHookState(currentIndex++, 3);
 
   if (!options.__s && argsChanged(state.__H, args)) {
@@ -306,13 +306,13 @@ function useEffect(callback, args) {
   }
 }
 /**
- * @param {import('./internal').Effect} callback
+ * @param {import('./internal.d.ts').Effect} callback
  * @param {unknown[]} args
  * @returns {void}
  */
 
 function useLayoutEffect(callback, args) {
-  /** @type {import('./internal').EffectHookState} */
+  /** @type {import('./internal.d.ts').EffectHookState} */
   var state = getHookState(currentIndex++, 4);
 
   if (!options.__s && argsChanged(state.__H, args)) {
@@ -363,7 +363,7 @@ function useImperativeHandle(ref, createHandle, args) {
  */
 
 function useMemo(factory, args) {
-  /** @type {import('./internal').MemoHookState<T>} */
+  /** @type {import('./internal.d.ts').MemoHookState<T>} */
   var state = getHookState(currentIndex++, 7);
 
   if (argsChanged(state.__H, args)) {
@@ -388,7 +388,7 @@ function useCallback(callback, args) {
   }, args);
 }
 /**
- * @param {import('./internal').PreactContext} context
+ * @param {import('./internal.d.ts').PreactContext} context
  */
 
 function useContext(context) {
@@ -396,7 +396,7 @@ function useContext(context) {
   // `options._hook`. We need to do that in order to make
   // the devtools aware of this hook.
 
-  /** @type {import('./internal').ContextHookState} */
+  /** @type {import('./internal.d.ts').ContextHookState} */
 
   var state = getHookState(currentIndex++, 9); // The devtools needs access to the context object to
   // be able to pull of the default value when no provider
@@ -423,12 +423,12 @@ function useDebugValue(value, formatter) {
   }
 }
 /**
- * @param {(error: unknown, errorInfo: import('preact').ErrorInfo) => void} cb
+ * @param {(error: unknown, errorInfo: import('../index.d.ts').ErrorInfo) => void} cb
  * @returns {[unknown, () => void]}
  */
 
 function useErrorBoundary(cb) {
-  /** @type {import('./internal').ErrorBoundaryHookState} */
+  /** @type {import('./internal.d.ts').ErrorBoundaryHookState} */
   var state = getHookState(currentIndex++, 10);
   var errState = useState();
   state.__ = cb;
@@ -447,13 +447,13 @@ function useErrorBoundary(cb) {
 /** @type {() => string} */
 
 function useId() {
-  /** @type {import('./internal').IdHookState} */
+  /** @type {import('./internal.d.ts').IdHookState} */
   var state = getHookState(currentIndex++, 11);
 
   if (!state.__) {
     // Grab either the root node or the nearest async boundary node.
 
-    /** @type {import('./internal.d').VNode} */
+    /** @type {import('./internal.d.ts').VNode} */
     var root = currentComponent.__v;
 
     while (root !== null && !root.__m && root.__ !== null) {
@@ -533,7 +533,7 @@ function afterPaint(newQueueLength) {
   }
 }
 /**
- * @param {import('./internal').HookState} hook
+ * @param {import('./internal.d.ts').HookState} hook
  * @returns {void}
  */
 
@@ -553,7 +553,7 @@ function invokeCleanup(hook) {
 }
 /**
  * Invoke a Hook's effect
- * @param {import('./internal').EffectHookState} hook
+ * @param {import('./internal.d.ts').EffectHookState} hook
  * @returns {void}
  */
 
