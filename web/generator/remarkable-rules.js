@@ -1,6 +1,25 @@
 import { utils } from '../deps/remarkable.js';
+import { imageDimensionsFromData } from '../deps/image-dimensions.js';
 
 const { escapeHtml, unescapeMd, replaceEntities } = utils;
+
+function _isURL(imagePath) {
+  try {
+    new URL(imagePath);
+    return true;
+  } catch (_error) {
+    return false;
+  }
+}
+
+function _getImageDimensions(imagePath) {
+  try {
+    const imageContent = Deno.readFileSync(imagePath);
+    return imageDimensionsFromData(imageContent);
+  } catch (_error) {
+    return;
+  }
+}
 
 export default function customRemarkable(md, pluginOptions) {
   /**
@@ -8,6 +27,7 @@ export default function customRemarkable(md, pluginOptions) {
    */
   // deno-lint-ignore no-unused-vars
   md.renderer.rules.image = ((pluginOptions) => (tokens, idx, options, env) => {
+    // TODO: the implementation will fail when `src` is a URL.
     const src = ` src="${
       pluginOptions.pathname ? `${escapeHtml(pluginOptions.pathname)}/` : ''
     }${
@@ -15,6 +35,11 @@ export default function customRemarkable(md, pluginOptions) {
         tokens[idx].src,
       )
     }"`;
+    const dimensions = _isURL(tokens[idx].src)
+      ? undefined
+      : _getImageDimensions(`${env.markdownDirectory}/${tokens[idx].src}`);
+    const width = dimensions ? ` width="${dimensions.width}"` : '';
+    const height = dimensions ? ` height="${dimensions.height}"` : '';
     const title = tokens[idx].title
       ? ` title="${escapeHtml(replaceEntities(tokens[idx].title))}"`
       : '';
@@ -29,6 +54,6 @@ export default function customRemarkable(md, pluginOptions) {
         : ''
     }"`;
     const suffix = options.xhtmlOut ? ' /' : '';
-    return `<img${src}${alt}${title}${classes}${suffix}>`;
+    return `<img${src}${width}${height}${alt}${title}${classes}${suffix}>`;
   })(pluginOptions);
 }

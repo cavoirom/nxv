@@ -25,9 +25,12 @@ export default class Renderer {
       ),
     );
     const index = this.indexTemplate
-        .replace(`<title>vinh</title>`, `<title>${page.state.site.title}</title>`)
-        .replace(`<div id="app"></div>`, `<div id="app">${appHtml}</div>`)
-        .replace(`window.__STATE__ = undefined;`, `window.__STATE__ = fetch('${page.url}/index.json').then(response => response.json());`);
+      .replace(`<title>vinh</title>`, `<title>${page.state.site.title}</title>`)
+      .replace(`<div id="app"></div>`, `<div id="app">${appHtml}</div>`)
+      .replace(
+        `window.__STATE__ = undefined;`,
+        `window.__STATE__ = fetch('${page.url}/index.json').then(response => response.json());`,
+      );
     return index;
   }
 

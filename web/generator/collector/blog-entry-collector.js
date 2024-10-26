@@ -77,7 +77,12 @@ export default class BlogEntryCollector {
     const found = markdownFile.match(SLUG_PATTERN);
     const slug = found[2];
     const blogEntryMarkdown = await Deno.readTextFile(markdownFile);
-    const env = { frontMatter: undefined };
+
+    const markdownDirectory = dirname(markdownFile);
+    const env = {
+      frontMatter: undefined,
+      markdownDirectory: markdownDirectory,
+    };
 
     const md = new Remarkable({ html: true, xhtmlOut: true });
     md.use(frontMatter);
