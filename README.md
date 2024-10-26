@@ -3,7 +3,7 @@
 ## Introduction
 
 This repository contains the source code of [ngxv.org](https://ngxv.org). The
-development is started with _**node.js/npm**_ but was migrated to _**deno**_
+development started with _**node.js/npm**_ but was migrated to _**deno**_
 because I see _**deno**_ environment is better in terms of consistency,
 dependency management.
 
@@ -37,7 +37,7 @@ contains my writings about the things I'm interesting and what I believe.
 
 - Programming language: JavaScript, HTML, SCSS, Bash script.
 - Platform: deno 1.35 or later.
-- Framework: preact 10.13.2.
+- Framework: preact 10.20.1.
 - IDE: IntelliJ IDEA 2023 or later.
 - Source version control: git, GitHub.
 - Development tools.
@@ -45,7 +45,6 @@ contains my writings about the things I'm interesting and what I believe.
   - _**git**_: source version control and release.
   - _**deno**_ 1.35 or later: code format, bundle, run generator...
   - _**dart-sass**_ 1.57 or later: build SCSS.
-  - _**JDK**_ 8 or later: run Google Closure Compiler.
 - Development environment: macOS.
 - Production environment: OpenBSD, httpd.
 
@@ -62,7 +61,7 @@ contains my writings about the things I'm interesting and what I believe.
 
 #### Technical Context
 
-_(to be updated: drow a diagram to visualize the deployment)_
+_(to be updated: draw a diagram to visualize the deployment)_
 
 ### Solution Strategy
 
@@ -168,7 +167,7 @@ Reference:
 
 ### Quality Requirements
 
-- [ ] Have at least 1 test case for each component.
+- [ ] Have at least one test case for each component.
 
 ### Risks and Technical Debts
 
