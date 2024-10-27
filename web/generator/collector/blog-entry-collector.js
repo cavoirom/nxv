@@ -93,7 +93,7 @@ export default class BlogEntryCollector {
     });
 
     const entryHtml = md.render(blogEntryMarkdown, env);
-    const tags = env.frontMatter.tags;
+    const tags = env.frontMatter.tags.map((tag) => tag.trim()).sort();
     const url = this._toBlogEntryUrl(slug, env.frontMatter.created);
 
     return {
