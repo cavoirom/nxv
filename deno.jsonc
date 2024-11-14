@@ -16,7 +16,9 @@
     "exclude": [
       ".cache",
       ".git",
+      ".github",
       ".idea",
+      ".travis.yml",
       "vendor",
       "web/build",
       "web/dist"
