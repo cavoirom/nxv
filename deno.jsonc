@@ -35,5 +35,5 @@
     ]
   },
   "importMap": "./import-map.json",
-  "nodeModulesDir": false
+  "nodeModulesDir": "none"
 }
