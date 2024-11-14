@@ -11,7 +11,7 @@ import { setupDom, tearDownDom } from '../../../dom.js';
 import Tags, { _externals } from '../../../../app/component/tags/tags.js';
 import userEvent from '../../../../deps/testing-library-user-event.js';
 
-Deno.test('[Tags] should have correct roles and accessible name', () => {
+Deno.test('[Tags] should have correct roles and accessible name', async () => {
   setupDom();
   const useContextStub = stub(
     _externals,
@@ -25,12 +25,12 @@ Deno.test('[Tags] should have correct roles and accessible name', () => {
   );
   try {
     const tags = ['linux', 'windows'];
-    render(h(Tags, { tags }));
+    const { findByRole, findAllByRole } = render(h(Tags, { tags }));
 
-    const tagsElement = document.querySelector(`[aria-label="tags"]`);
+    const tagsElement = await findByRole('list', { name: `tags` })
     assertExists(tagsElement);
 
-    const tagElements = document.querySelectorAll('[aria-label="tags"] li');
+    const tagElements = await findAllByRole('listitem');
     tags.forEach((tag, index) => {
       assertEquals(tagElements[index].textContent, tag);
     });
@@ -42,10 +42,6 @@ Deno.test('[Tags] should have correct roles and accessible name', () => {
   tearDownDom();
 });
 
-// TODO The current combination of Deno testing, deno_dom, @testing-library are
-// not working well. We need a test framework that support ESModule and could
-// run on browser.
-//
 Deno.test('[Tags] should call server to get state and then set correct url when tag is clicked', async () => {
   setupDom();
 
@@ -67,8 +63,8 @@ Deno.test('[Tags] should call server to get state and then set correct url when 
 
   try {
     const tags = ['linux', 'windows'];
-    render(h(Tags, { tags }));
-    const tagLink = document.querySelector(`[aria-label="tag ${tags[0]}"]`);
+    const { findByRole } = render(h(Tags, { tags }));
+    const tagLink = await findByRole('link', { name: `tag ${tags[0]}` });
     await userEvent.click(tagLink);
 
     assertSpyCall(fetchPartialStateStub, 0, {

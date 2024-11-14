@@ -4,27 +4,23 @@ import EventSection from '../../../../app/component/event-section/event-section.
 import { assertEquals } from '../../../../deps/testing.js';
 import { setupDom, tearDownDom } from '../../../dom.js';
 
-Deno.test('event-section should have correct roles and accessible name', () => {
+Deno.test('event-section should have correct roles and accessible name', async () => {
   setupDom();
 
   const year = {
     year: 2020,
     events: ['started this site.'],
   };
-  render(h(EventSection, { year }));
+
+  const { findByRole } = render(h(EventSection, { year }));
 
   // Assert events
-  // TODO I would like to use screen.findByRole to actually test by accessibility role, but test-library is not support deno for now (2022-07-30).
-  const yearTitle = document.querySelector(`[aria-label="year ${year.year}"]`);
-  // const yearTitle = screen.findByRole('heading', { name: `year ${year.year}` });
+  const yearTitle = await findByRole('heading', { name: `year ${year.year}` });
+  console.log(yearTitle);
   assertEquals(yearTitle.textContent, year.year.toString());
 
   // Assert events
-  // TODO I would like to use screen.findByRole to actually test by accessibility role, but test-library is not support deno for now (2022-07-30).
-  const firstEvent = document.querySelector(
-    `[aria-label="event ${year.events[0]}"]`,
-  );
-  // const firstEvent = screen.findByRole('heading', { name: `event ${year.events[0]}` });
+  const firstEvent = await findByRole('listitem', { name: `event ${year.events[0]}` });
   assertEquals(firstEvent.textContent, year.events[0]);
 
   tearDownDom();

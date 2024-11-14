@@ -43,7 +43,7 @@ contains my writings about the things I'm interesting and what I believe.
 - Development tools.
   - _**bash/zsh**_: run various scripts during development.
   - _**git**_: source version control and release.
-  - _**deno**_ 1.35 or later: code format, bundle, run generator...
+  - _**deno**_ 2.0.4 or later: code format, bundle, run generator...
   - _**dart-sass**_ 1.57 or later: build SCSS.
 - Development environment: macOS.
 - Production environment: OpenBSD, httpd.
@@ -87,10 +87,6 @@ _(to be defined)_
 
 - List of dependencies that are not support ES module.
   - remarkable-front-matter 1.0.0.
-- Could not run tests because `jsdom` is facing error:
-  `Error: Not implemented: isContext`. Reference:
-  <https://github.com/denoland/deno/issues/18315>. We should give deno some
-  time.
 
 #### Git workflow
 
