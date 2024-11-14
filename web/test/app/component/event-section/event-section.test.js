@@ -20,7 +20,9 @@ Deno.test('event-section should have correct roles and accessible name', async (
   assertEquals(yearTitle.textContent, year.year.toString());
 
   // Assert events
-  const firstEvent = await findByRole('listitem', { name: `event ${year.events[0]}` });
+  const firstEvent = await findByRole('listitem', {
+    name: `event ${year.events[0]}`,
+  });
   assertEquals(firstEvent.textContent, year.events[0]);
 
   tearDownDom();

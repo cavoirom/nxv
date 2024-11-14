@@ -27,7 +27,7 @@ Deno.test('[Tags] should have correct roles and accessible name', async () => {
     const tags = ['linux', 'windows'];
     const { findByRole, findAllByRole } = render(h(Tags, { tags }));
 
-    const tagsElement = await findByRole('list', { name: `tags` })
+    const tagsElement = await findByRole('list', { name: `tags` });
     assertExists(tagsElement);
 
     const tagElements = await findAllByRole('listitem');
