@@ -2,17 +2,17 @@
   "imports": {
     "@testing-library/preact": "npm:@testing-library/preact@3.2.3",
     "@testing-library/user-event": "npm:@testing-library/user-event@14.5.2",
+    "assert": "jsr:@std/assert@1.0.5",
+    "cli": "jsr:@std/cli@1.0.5",
     "esbuild": "https://deno.land/x/esbuild@v0.20.2/mod.js",
     "esbuild_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts",
-    "flags/": "https://deno.land/std@0.204.0/flags/",
-    "fs/": "https://deno.land/std@0.204.0/fs/",
+    "fs": "jsr:@std/fs@1.0.5",
     "http/": "https://deno.land/std@0.204.0/http/",
     "jsdom": "npm:jsdom@24.0.0",
-    "path/": "https://deno.land/std@0.204.0/path/",
+    "path": "jsr:@std/path@1.0.5",
     "remarkable": "npm:remarkable@2.0.1",
-    "remarkable-front-matter": "https://esm.sh/remarkable-front-matter@1.0.0?dev&pin=v130",
     "sqlite": "https://deno.land/x/sqlite@v3.8/mod.ts",
-    "testing/": "https://deno.land/std@0.204.0/testing/",
-    "yaml/": "https://deno.land/std@0.204.0/yaml/"
+    "testing/mock": "jsr:@std/testing@1.0.5/mock",
+    "yaml": "jsr:@std/yaml@1.0.5"
   }
 }

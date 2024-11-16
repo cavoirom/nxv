@@ -1,1 +1,1 @@
-export { extname, resolve } from 'path/mod.ts';
+export { extname, resolve } from 'path';

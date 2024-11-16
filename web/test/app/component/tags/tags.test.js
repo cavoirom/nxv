@@ -1,12 +1,7 @@
 import { h } from '../../../../deps/preact.js';
 import { render } from '../../../../deps/testing-library-preact.js';
-import {
-  assertEquals,
-  assertExists,
-  assertSpyCall,
-  returnsNext,
-  stub,
-} from '../../../../deps/testing.js';
+import { assertEquals, assertExists } from '../../../../deps/assert.js';
+import { assertSpyCall, returnsNext, stub } from '../../../../deps/testing.js';
 import { setupDom, tearDownDom } from '../../../dom.js';
 import Tags, { _externals } from '../../../../app/component/tags/tags.js';
 import userEvent from '../../../../deps/testing-library-user-event.js';

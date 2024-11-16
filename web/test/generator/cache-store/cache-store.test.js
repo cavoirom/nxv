@@ -1,4 +1,4 @@
-import { assertEquals } from '../../../deps/testing.js';
+import { assertEquals } from '../../../deps/assert.js';
 import CacheStore from '../../../generator/cache-store/cache-store.js';
 import CachedPage from '../../../generator/cache-store/cached-page.js';
 

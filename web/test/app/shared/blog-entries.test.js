@@ -1,4 +1,4 @@
-import { assertEquals } from '../../../deps/testing.js';
+import { assertEquals } from '../../../deps/assert.js';
 import { toTagColorCssClass } from '../../../app/shared/blog-entries.js';
 
 Deno.test('should convert tag to tag color css class based on tag content', () => {

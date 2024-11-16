@@ -1,7 +1,7 @@
 import esbuild from '../deps/esbuild.js';
 import { denoPlugins } from '../deps/esbuild-deno-loader.js';
 import { toFileUrl } from '../deps/path.js';
-import { argsParse } from '../deps/flags.js';
+import { argsParse } from '../deps/cli.js';
 
 async function main(args) {
   const argsParseOptions = {

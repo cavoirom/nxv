@@ -1,4 +1,4 @@
-import { parse as yamlParse } from 'yaml/mod.ts';
+import { parse as yamlParse } from 'yaml';
 
 export default function FrontMatterPlugin(md) {
   md.block.ruler.before('code', 'front-matter',

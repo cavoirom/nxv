@@ -1,7 +1,7 @@
 import { serve as httpServe } from './deps/http.js';
 import { extname, resolve } from './deps/path.js';
 import { mimeTypes } from './mime-types.js';
-import { argsParse } from './deps/flags.js';
+import { argsParse } from './deps/cli.js';
 
 async function serve(port = 8080, webRootPath = './web/dist') {
   const root = resolve(webRootPath);
