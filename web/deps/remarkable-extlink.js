@@ -1,1 +1,1 @@
-export { default } from 'remarkable-extlink';
+export { default } from '../../vendor/remarkable-extlink/index.js';
