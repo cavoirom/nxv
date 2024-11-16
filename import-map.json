@@ -10,7 +10,6 @@
     "http/": "https://deno.land/std@0.204.0/http/",
     "jsdom": "npm:jsdom@24.0.0",
     "path": "jsr:@std/path@1.0.5",
-    "remarkable": "npm:remarkable@2.0.1",
     "sqlite": "https://deno.land/x/sqlite@v3.8/mod.ts",
     "testing/mock": "jsr:@std/testing@1.0.5/mock",
     "yaml": "jsr:@std/yaml@1.0.5"
