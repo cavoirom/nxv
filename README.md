@@ -36,7 +36,7 @@ contains my writings about the things I'm interesting and what I believe.
 #### Technical Constraints
 
 - Programming language: JavaScript, HTML, SCSS, Bash script.
-- Platform: deno 1.35 or later.
+- Platform: deno 2.0.4 or later.
 - Framework: preact 10.20.1.
 - IDE: IntelliJ IDEA 2023 or later.
 - Source version control: git, GitHub.
@@ -46,7 +46,7 @@ contains my writings about the things I'm interesting and what I believe.
   - _**deno**_ 2.0.4 or later: code format, bundle, run generator...
   - _**dart-sass**_ 1.57 or later: build SCSS.
 - Development environment: macOS.
-- Production environment: OpenBSD, httpd.
+- Production environment: OpenBSD, httpd, relayd.
 
 #### Conventions
 
@@ -85,8 +85,7 @@ _(to be defined)_
 
 #### Todo
 
-- List of dependencies that are not support ES module.
-  - remarkable-front-matter 1.0.0.
+- Migrate `dev-server` to `@std/http@v1.0.x` and Deno 2.0.
 
 #### Git workflow
 
