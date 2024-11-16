@@ -1,1 +1,1 @@
-export { default } from 'remarkable-front-matter';
+export { default } from '../../vendor/remarkable-front-matter/index.js';

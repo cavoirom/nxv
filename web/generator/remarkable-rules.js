@@ -25,7 +25,6 @@ export default function customRemarkable(md, pluginOptions) {
   /**
    * images
    */
-  // deno-lint-ignore no-unused-vars
   md.renderer.rules.image = ((pluginOptions) => (tokens, idx, options, env) => {
     // TODO: the implementation will fail when `src` is a URL.
     const src = ` src="${
