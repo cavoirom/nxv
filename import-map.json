@@ -7,7 +7,7 @@
     "esbuild": "https://deno.land/x/esbuild@v0.20.2/mod.js",
     "esbuild_deno_loader": "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts",
     "fs": "jsr:@std/fs@1.0.5",
-    "http/": "https://deno.land/std@0.204.0/http/",
+    "http/file-server": "jsr:@std/http@1.0.10/file-server",
     "jsdom": "npm:jsdom@24.0.0",
     "path": "jsr:@std/path@1.0.8",
     "sqlite": "https://deno.land/x/sqlite@v3.8/mod.ts",

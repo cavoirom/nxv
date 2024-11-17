@@ -1,1 +1,1 @@
-export { serve } from 'http/server.ts';
+export { serveFile } from 'http/file-server';

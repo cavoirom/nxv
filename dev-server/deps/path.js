@@ -1,1 +1,1 @@
-export { extname, resolve } from 'path';
+export { resolve } from 'path';

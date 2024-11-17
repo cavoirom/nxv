@@ -85,7 +85,6 @@ _(to be defined)_
 
 #### Todo
 
-- Migrate `dev-server` to `@std/http@v1.0.x` and Deno 2.0.
 - Use CSS variables for style so that we can adapt the style sometime.
 
 #### Git workflow
