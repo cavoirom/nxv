@@ -37,5 +37,9 @@
     ]
   },
   "importMap": "./import-map.json",
-  "nodeModulesDir": "none"
+  "nodeModulesDir": "none",
+  "lock": {
+    "path": "./deno.lock",
+    "frozen": true
+  }
 }
