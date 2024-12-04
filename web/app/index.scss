@@ -45,15 +45,14 @@ a {
   &:hover {
     text-decoration: underline;
   }
-
 }
 
 // external link indicator.
-a[target="_blank"] {
+a[target='_blank'] {
   margin-right: 0.3rem;
 
   &::after {
-    content: "┓";
+    content: '┓';
     font-size: 0.5rem;
     position: absolute;
     text-decoration: none;
