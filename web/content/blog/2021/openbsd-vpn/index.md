@@ -3,7 +3,7 @@ title: "OpenBSD's VPN"
 author: "vinh"
 preview: "Setting up my home VPN with OpenBSD"
 created: "2021-01-14T07:48:59.379+07:00"
-updated: "2021-09-01T14:19:22.178+07:00"
+updated: "2024-12-15T20:10:53.361+07:00"
 tags:
   - "self-hosted"
   - "openbsd"
@@ -11,7 +11,8 @@ tags:
   - "vpn"
 ---
 
-_Note: I wrote the guideline based on OpenBSD 6.9._
+_Note: I wrote the guideline based on OpenBSD 6.9. The setup is still working on
+OpenBSD 7.6._
 
 I'm going to set up VPN with [iked](https://man.openbsd.org/iked.8), a built-in
 VPN software from OpenBSD. The main focus of this setup is routing all outbound
@@ -65,7 +66,7 @@ I use self-signed CA to create all certificates:
 - Client certificate.
 
 I prepared these CAs and keypair in my Macbook because I don't want to leak my
-Root CA private key. I use JDK's _**keytool**_ for generating CA and keypair.
+Root CA private key. I use JDK 17's _**keytool**_ for generating CA and keypair.
 
 ### Generate self-signed Root Certificate Authority.
 
@@ -79,7 +80,7 @@ keytool -keystore root_ca.pfx \
     -alias example_root_ca \
     -genkeypair \
     -keyalg EC \
-    -keysize 256 \
+    -groupname secp256r1 \
     -sigalg SHA256withECDSA \
     -validity 3654 \
     -ext bc:c
@@ -95,9 +96,9 @@ Explanation:
   new Root CA to alias called `example_root_ca`.
 - `-genkeypair`: tell keytool to generate a keypair (public key and private
   key).
-- `-keyalg EC`, `keysize 256`: the algorithm used to create the keypair. EC mean
-  ECDSA, a modern algorithm. It's more secure than RSA and the key size is
-  shorter (256 compare to RSA's 2048).
+- `-keyalg EC`, `-groupname secp256r1`: the algorithm used to create the
+  keypair. EC mean ECDSA, a modern algorithm. It's more secure than RSA and the
+  key size is shorter (256 compare to RSA's 2048).
 - `-sigalg SHA256withECDSA`: the method to self-sign the Root CA. It should
   match with `-keyalg`.
 - `-validity 3654`: the Root CA will valid for next 10 years.
@@ -132,7 +133,7 @@ keytool -keystore intermediate.pfx \
     -alias intermediate_ca \
     -genkeypair \
     -keyalg EC \
-    -keysize 256 \
+    -groupname secp256r1 \
     -sigalg SHA256withECDSA
 ```
 
@@ -198,7 +199,7 @@ keytool -keystore vpn_server.pfx \
     -alias vpn_server \
     -genkeypair \
     -keyalg EC \
-    -keysize 256 \
+    -groupname secp256r1 \
     -sigalg SHA256withECDSA
 ```
 
@@ -223,6 +224,25 @@ keystore, together with `root_ca.crt` and `intermediate_ca.crt`, to configure
 the VPN client.
 
 I will generate a certificate for each client in my home (phones, Macbooks).
+
+_Note: legacy iOS, e.g. iOS 15 require older crypto algorithm to work with, we
+need `-J-Dkeystore.pkcs12.legacy=true` option to generate valid PKCS #12
+keystore_
+
+```
+keytool -keystore vpn_user.pfx \
+    -storetype pkcs12 \
+    -alias vpn_client \
+    -genkeypair \
+    -keyalg EC \
+    -groupname secp256r1 \
+    -sigalg SHA256withECDSA \
+    -J-Dkeystore.pkcs12.legacy=true
+```
+
+- Sign VPN client with intermediate CA.
+- Import Root CA to `vpn_server.pfx`.
+- Import signed server certificate to `vpn_user.pfx`.
 
 ## Step 2 · Set up PKI for iked
 
@@ -409,3 +429,11 @@ VPN
 - <https://www.jasworks.org/openbsd-ikev2-home-vpn/>
 - <https://blog.lambda.cx/posts/openbsd-vpn-gateway/>
 - <https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html>
+
+---
+
+_Entry History_
+
+- 2021-01-14 · Created.
+- 2024-12-15 · Tested on OpenBSD 7.6. Refine _keytool_ command to create
+  keystore for iOS 15.
