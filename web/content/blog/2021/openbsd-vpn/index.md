@@ -232,7 +232,7 @@ keystore_
 ```
 keytool -keystore vpn_user.pfx \
     -storetype pkcs12 \
-    -alias vpn_client \
+    -alias vpn_user \
     -genkeypair \
     -keyalg EC \
     -groupname secp256r1 \
