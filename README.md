@@ -125,6 +125,14 @@ On the development machine, run the following command to build the website:
 <repo-root>/script/build-web-prod
 ```
 
+Run the DEV server to verify the website:
+
+```
+<repo-root>/script/serve-prod
+```
+
+Open the website at <https://localhost:8080>
+
 #### Publishing the website
 
 ```
