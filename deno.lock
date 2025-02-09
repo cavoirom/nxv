@@ -943,5 +943,19 @@
     "https://deno.land/x/sqlite@v3.9.1/src/wasm.ts": "e79d0baa6e42423257fb3c7cc98091c54399254867e0f34a09b5bdef37bd9487",
     "https://deno.land/x/wasmbuild@0.14.1/cache.ts": "89eea5f3ce6035a1164b3e655c95f21300498920575ade23161421f5b01967f4",
     "https://deno.land/x/wasmbuild@0.14.1/loader.ts": "d98d195a715f823151cbc8baa3f32127337628379a02d9eb2a3c5902dbccfc02"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1.0.8",
+      "jsr:@std/cli@1.0.6",
+      "jsr:@std/fs@1.0.5",
+      "jsr:@std/http@1.0.10",
+      "jsr:@std/path@1.0.8",
+      "jsr:@std/testing@1.0.5",
+      "jsr:@std/yaml@1.0.5",
+      "npm:@testing-library/preact@3.2.4",
+      "npm:@testing-library/user-event@14.5.2",
+      "npm:jsdom@25.0.1"
+    ]
   }
 }
