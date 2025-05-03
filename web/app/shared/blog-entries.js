@@ -10,11 +10,11 @@ export function useOpenBlogEntry() {
   const [_location, setLocation] = useLocation();
   return useCallback((entry) => {
     fetchPartialState(entry.url).then((item) => {
+      setLocation(item.url);
       // Only need to scroll to top when user intentionally navigates to a blog.
       // Will keep the scroll position when user navigate back/forward.
       document.documentElement.scrollTop = 0;
       dispatch({ type: ActionTypes.SET_BLOG_ENTRY, payload: { entry: item } });
-      setLocation(item.url);
     });
   }, [dispatch, setLocation]);
 }
