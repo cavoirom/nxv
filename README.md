@@ -36,15 +36,15 @@ contains my writings about the things I'm interesting and what I believe.
 #### Technical Constraints
 
 - Programming language: JavaScript, HTML, SCSS, Bash script.
-- Platform: deno 2.0.4 or later.
+- Platform: deno 2.4.4 or later.
 - Framework: preact 10.20.1.
 - IDE: IntelliJ IDEA 2023 or later.
 - Source version control: git, GitHub.
 - Development tools.
   - _**bash/zsh**_: run various scripts during development.
   - _**git**_: source version control and release.
-  - _**deno**_ 2.0.4 or later: code format, bundle, run generator...
-  - _**dart-sass**_ 1.57 or later: build SCSS.
+  - _**deno**_ 2.4.4 or later: code format, bundle, run generator...
+  - _**dart-sass**_ 1.86.3 or later: build SCSS.
 - Development environment: macOS.
 - Production environment: OpenBSD, httpd, relayd.
 

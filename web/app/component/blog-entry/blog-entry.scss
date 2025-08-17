@@ -1,4 +1,4 @@
-@import '../../shared/variables.scss';
+@use '../../shared/variables.scss';
 
 .blog-entry {
   &__content > p:first-child {
@@ -23,10 +23,10 @@
 
     a {
       display: inline-block;
-      border: 1px solid $border-color-light;
+      border: 1px solid variables.$border-color-light;
       border-radius: 0.2rem;
       padding: 0 0.3rem;
-      color: $color-normal;
+      color: variables.$color-normal;
     }
 
     &__color-0 a {

@@ -3,20 +3,20 @@
  * The tool is not support bundle css imports and remote imports.
  * We workaround this issue by downloading purecss and refer to it locally.
  */
-@import '../deps/purecss.scss';
+@use '../deps/purecss.scss';
 
-@import './shared/variables.scss';
-@import './container/header/header.scss';
-@import './container/content/content.scss';
-@import './container/footer/footer.scss';
-@import './component/blog-entry/blog-entry.scss';
+@use './shared/variables.scss';
+@use './container/header/header.scss';
+@use './container/content/content.scss';
+@use './container/footer/footer.scss';
+@use './component/blog-entry/blog-entry.scss';
 
 html {
-  font-size: $font-size-mobile;
+  font-size: variables.$font-size-mobile;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: $color-normal;
-  background-color: $background-color;
+  color: variables.$color-normal;
+  background-color: variables.$background-color;
 }
 
 html,
@@ -39,7 +39,7 @@ textarea,
 }
 
 a {
-  color: $color-link;
+  color: variables.$color-link;
   text-decoration: none;
 
   &:hover {
@@ -62,7 +62,7 @@ a[target='_blank'] {
 }
 
 p {
-  line-height: $line-height-normal;
+  line-height: variables.$line-height-normal;
 }
 
 hr {
@@ -70,11 +70,11 @@ hr {
 }
 
 li {
-  line-height: $line-height-normal;
+  line-height: variables.$line-height-normal;
 }
 
 code {
-  background-color: $code-background-color;
+  background-color: variables.$code-background-color;
   border-radius: 0.1rem;
   display: inline-block;
   font-size: 0.95rem;
@@ -102,12 +102,12 @@ h6 {
   margin-left: auto;
 }
 
-@media (min-width: $screen-width-medium + 1) {
+@media (min-width: variables.$screen-width-medium + 1) {
   html {
-    font-size: $font-size-normal;
+    font-size: variables.$font-size-normal;
   }
 
   .pure-g {
-    width: $screen-width-medium;
+    width: variables.$screen-width-medium;
   }
 }
