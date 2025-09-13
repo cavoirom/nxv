@@ -4,15 +4,14 @@ import extLink from '../../deps/remarkable-extlink.js';
 import customRemarkable from '../remarkable-rules.js';
 import CachedPage from '../cache-store/cached-page.js';
 import { expandGlob } from '../../deps/fs.js';
-import { dirname, resolve } from '../../deps/path.js';
+import { dirname } from '../../deps/path.js';
+import Collector from './collector.js';
 
 const SLUG_PATTERN = /(\d{4})\/([\w-]+)\/index\.md$/;
 
-export default class BlogEntryCollector {
+export default class BlogEntryCollector extends Collector {
   constructor(cacheStore, config) {
-    this.cacheStore = cacheStore;
-    this.config = config;
-    this.content = resolve(`${config.workingDirectory}/${config.content}`);
+    super(cacheStore, config);
     this.blogDirectory = `${this.content}/blog`;
   }
 

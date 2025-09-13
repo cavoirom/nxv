@@ -1,11 +1,7 @@
 import CachedPage from '../cache-store/cached-page.js';
+import Collector from './collector.js';
 
-export default class FeedCollector {
-  constructor(cacheStore, config) {
-    this.cacheStore = cacheStore;
-    this.config = config;
-  }
-
+export default class FeedCollector extends Collector {
   async collect() {
     const { defaultState } = this.config;
     const blogEntryPages = await this.cacheStore.findBlogEntryPages();
