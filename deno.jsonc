@@ -19,6 +19,7 @@
       ".github",
       ".idea",
       ".travis.yml",
+      "**/*.svg",
       "vendor",
       "web/build",
       "web/dist"
