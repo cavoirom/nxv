@@ -1,7 +1,6 @@
 import CacheStore from './cache-store/cache-store.js';
 import HomeCollector from './collector/home-collector.js';
 import BlogCollector from './collector/blog-collector.js';
-import config from './config.js';
 import StaticPageRenderer from './renderer/static-page-renderer.js';
 import BlogEntryCollector from './collector/blog-entry-collector.js';
 import BlogEntryRenderer from './renderer/blog-entry-renderer.js';
@@ -9,12 +8,15 @@ import { ensureDir, expandGlob } from '../deps/fs.js';
 import BlogTagCollector from './collector/blog-tag-collector.js';
 import FeedRenderer from './renderer/feed-renderer.js';
 import FeedCollector from './collector/feed-collector.js';
+import { argsParse } from '../deps/cli.js';
+import { dirname, resolve } from '../deps/path.js';
 
 async function _generateDefaultState(config) {
   // Generate default state
-  await ensureDir(`${config.output}/api`);
+  const output = resolve(`${config.workingDirectory}/${config.output}`);
+  await ensureDir(`${output}/api`);
   await Deno.writeTextFile(
-    `${config.output}/api/default.json`,
+    `${output}/api/default.json`,
     JSON.stringify(config.defaultState),
   );
 }
@@ -39,9 +41,10 @@ async function _generateCacheRoutes(config) {
 
   // List all files in /build/dist folder
   const fileNames = [];
-  for await (const item of expandGlob(`${config.output}/*`)) {
+  const output = resolve(`${config.workingDirectory}/${config.output}`);
+  for await (const item of expandGlob(`${output}/*`)) {
     const path = item.path;
-    fileNames.push(path.substring(config.output.length + 1));
+    fileNames.push(path.substring(output.length + 1));
   }
 
   // Create routes to be caches in local
@@ -58,8 +61,8 @@ async function _generateCacheRoutes(config) {
   // Replace the placeholder routes array with real information
   // The double quotes or single quotes is depending on
   // google-closure-compiler.
-  const workerPath = `${config.output}/worker.js`;
-  const workerText = Deno.readTextFileSync(workerPath)
+  const workerPath = `${output}/worker.js`;
+  const workerText = (await Deno.readTextFile(workerPath))
     .replace('<cache-identifier>', cacheIdentifier)
     .replace(`"<precached-resources>"`, precachedResources)
     .replace(`"<excluded-resources>"`, excludedResources);
@@ -113,4 +116,25 @@ async function generate(config) {
   cacheStore.close();
 }
 
-await generate(config);
+async function main(args) {
+  const parsedArgs = argsParse(args, {
+    alias: { c: 'config' },
+  });
+
+  const configPath = parsedArgs.config;
+  if (!configPath) {
+    console.error(
+      'No configuration file provided. Please use --config to provide the path to configuration file.',
+    );
+    return 1;
+  }
+  const config = JSON.parse(await Deno.readTextFile(configPath));
+  // The `workingDirectory` will be used to resolve relative path inside the configuration.
+  config.workingDirectory = resolve(dirname(configPath));
+
+  await generate(config);
+}
+
+if (import.meta.main) {
+  Deno.exit(await main(Deno.args));
+}

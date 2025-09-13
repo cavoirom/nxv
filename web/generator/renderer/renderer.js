@@ -4,14 +4,16 @@ import { h } from '../../deps/preact.js';
 import { Router } from '../../deps/wouter-preact.js';
 import App from '../../app/container/app/app.js';
 import { ensureDir } from '../../deps/fs.js';
-import { dirname } from '../../deps/path.js';
+import { dirname, resolve } from '../../deps/path.js';
 
 export default class Renderer {
   constructor(config) {
     this.config = config;
+    this.output = resolve(`${config.workingDirectory}/${config.output}`);
+    this.content = resolve(`${config.workingDirectory}/${config.content}`);
     // Load index template to fill the generated data.
     this.indexTemplate = Deno.readTextFileSync(
-      `${config.output}/index.html`,
+      `${this.output}/index.html`,
     );
   }
 
@@ -38,7 +40,7 @@ export default class Renderer {
     // Build Page's HTML
     const pageHtml = this._buildPageHtml(page);
     // Create directory corresponding to url
-    const pageDirectory = `${this.config.output}${page.url}`;
+    const pageDirectory = `${this.output}${page.url}`;
     await ensureDir(pageDirectory);
     // Write html to url/index.html file
     await Deno.writeTextFile(`${pageDirectory}/index.html`, pageHtml);
@@ -50,7 +52,7 @@ export default class Renderer {
   }
 
   async _writePartialState(page) {
-    const outputJson = `${this.config.output}/api${page.url}.json`;
+    const outputJson = `${this.output}/api${page.url}.json`;
     const outputDirectory = dirname(outputJson);
     await ensureDir(outputDirectory);
     await Deno.writeTextFile(

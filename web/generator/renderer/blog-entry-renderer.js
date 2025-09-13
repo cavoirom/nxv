@@ -10,9 +10,8 @@ export default class BlogEntryRenderer extends Renderer {
 
   async _copyImages(page) {
     // copy image to output directory
-    const sourceDirectory =
-      `${this.config.content}/${page.blogEntryDirectory}/image`;
-    const destinationDirectory = `${this.config.output + page.url}/image`;
+    const sourceDirectory = `${this.content}/${page.blogEntryDirectory}/image`;
+    const destinationDirectory = `${this.output + page.url}/image`;
 
     let sourceDirectoryExists = false;
     try {

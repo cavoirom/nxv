@@ -50,4 +50,5 @@ DENO_DIR="${DENO_DIRECTORY}" deno run \
     --allow-read \
     --allow-write \
     --allow-env \
-    "$WEB_DIRECTORY/generator/generator.js"
+    "$WEB_DIRECTORY/generator/generator.js" \
+    --config "$WEB_DIRECTORY/generator-config.json"

@@ -4,7 +4,7 @@ import extLink from '../../deps/remarkable-extlink.js';
 import customRemarkable from '../remarkable-rules.js';
 import CachedPage from '../cache-store/cached-page.js';
 import { expandGlob } from '../../deps/fs.js';
-import { dirname } from '../../deps/path.js';
+import { dirname, resolve } from '../../deps/path.js';
 
 const SLUG_PATTERN = /(\d{4})\/([\w-]+)\/index\.md$/;
 
@@ -12,7 +12,8 @@ export default class BlogEntryCollector {
   constructor(cacheStore, config) {
     this.cacheStore = cacheStore;
     this.config = config;
-    this.blogDirectory = `${config.content}/blog`;
+    this.content = resolve(`${config.workingDirectory}/${config.content}`);
+    this.blogDirectory = `${this.content}/blog`;
   }
 
   async collect() {
@@ -45,7 +46,7 @@ export default class BlogEntryCollector {
       const url = `/blog/entry/${year}/${month}/${day}/${blogEntry.slug}`;
       // Blog Entry Page
       const blogEntryDirectoryRelativePath = blogEntryDirectory.substring(
-        this.config.content.length + 1,
+        this.content.length + 1,
       );
       const page = CachedPage.newBlogEntry(
         url,

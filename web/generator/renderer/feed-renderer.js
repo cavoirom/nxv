@@ -9,8 +9,8 @@ export default class FeedRenderer extends Renderer {
   async render(page) {
     const feedXml = '<?xml version="1.0" encoding="UTF-8"?>' +
       render(h(Feed, { state: page.state }, null));
-    const pageDirectory = dirname(this.config.output + page.url);
+    const pageDirectory = dirname(this.output + page.url);
     await ensureDir(pageDirectory);
-    await Deno.writeTextFile(this.config.output + page.url, feedXml);
+    await Deno.writeTextFile(this.output + page.url, feedXml);
   }
 }
