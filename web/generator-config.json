@@ -24,6 +24,12 @@
         "title": "companies",
         "years": [
           {
+            "year": 2026,
+            "events": [
+              "free"
+            ]
+          },
+          {
             "year": 2022,
             "events": [
               "mesoneer"
