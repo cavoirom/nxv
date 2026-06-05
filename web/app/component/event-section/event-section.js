@@ -1,7 +1,7 @@
 import { h } from '../../../deps/preact.js';
 
 function renderEvent(event, index) {
-  return h('li', { key: index, 'aria-label': `event ${event}` }, event);
+  return h('li', { key: index, 'aria-label': `event ${event}`, dangerouslySetInnerHTML: { __html: event } });
 }
 
 export default function EventSection({ year }) {

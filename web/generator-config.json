@@ -13,6 +13,12 @@
         "title": "journey",
         "years": [
           {
+            "year": 2026,
+            "events": [
+              "created <a href=\"https://github.com/cavoirom/lex\" target=\"_blank\" rel=\"nofollow noreferrer noopener\">Lex</a>, an opinionated Vietnamese input method."
+            ]
+          },
+          {
             "year": 2020,
             "events": [
               "started this site."
