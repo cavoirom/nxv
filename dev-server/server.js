@@ -64,7 +64,7 @@ function main(args) {
     alias: {
       webRoot: 'web-root',
     },
-    default: { hostname: '127.0.0.1', port: 8080, webRoot: './web/dist' },
+    default: { hostname: '0.0.0.0', port: 8080, webRoot: './web/dist' },
   };
 
   const parsedArgs = argsParse(args, argsParseOptions);
