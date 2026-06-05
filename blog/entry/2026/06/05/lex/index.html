@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Lex</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Atom (full content)"
+      href="/blog/atom.xml"
+    />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">Lex</h1></header><div class="blog-entry__dates">Created 2026-06-05 · Updated 2026-06-05</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-0"><a href="/blog/tag/coding-agent" aria-label="tag coding-agent">coding-agent</a></li><li class="blog-entry__tag blog-entry__tag__color-1"><a href="/blog/tag/macos" aria-label="tag macos">macos</a></li><li class="blog-entry__tag blog-entry__tag__color-6"><a href="/blog/tag/open-source" aria-label="tag open-source">open-source</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/programming" aria-label="tag programming">programming</a></li><li class="blog-entry__tag blog-entry__tag__color-5"><a href="/blog/tag/software" aria-label="tag software">software</a></li></ul><div class="blog-entry__content"><p>I build <a href="https://github.com/cavoirom/lex" target="_blank" rel="nofollow noreferrer noopener">Lex</a> as an excuse to learn Zig and the
+cross-platform software development. It also fixes some inconvenience while
+typing Vietnamese such as:</p>
+<ul>
+<li>Type <em>w</em> will produce <em>ư</em>.</li>
+<li>The typing rules are so relaxed that they are not predictable. So I build Lex
+with strict rules. User only can put diacritic right after the vowels. Tone
+can be put at the end of the word. When user hit space, the word is committed,
+they could not backspace and change tone. Word start with non-Vietnamese
+consonents such as <em>f</em>, <em>j</em>, <em>w</em>, <em>z</em> won't get processed.</li>
+<li>I always need to configure tone placement to <em>òa</em> instead of the default <em>oà</em>.</li>
+<li>I alawys need to configure the keyboard shortcut.</li>
+</ul>
+<p>Lex is built to only benefit me and my convenience, I don't recommend everyone
+to use it unless you align with the above preferences. Anyway, I'm happy with
+the first custom software that I build and use daily.</p>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2026/06/05/lex/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log(
+                'ServiceWorker registration successful with scope: ',
+                registration.scope,
+              );
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            },
+          );
+        });
+      }
+    </script>
+  </body>
+</html>

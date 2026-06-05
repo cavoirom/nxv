@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Dùng bot để code bộ gõ Tiếng Việt</title>
+    <meta name="description" content="vinh's personal profile" />
+    <meta name="author" content="nguyenxuanvinh" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fdf6e3" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/index.css" />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Atom (full content)"
+      href="/blog/atom.xml"
+    />
+  </head>
+
+  <body>
+    <div id="app"><header><div class="pure-g"><div class="pure-u-1"><ul class="navigator"><li class="navigator__item"><a href="/home" class="navigator__link false">vinh</a></li><li class="navigator__item"><a href="/blog" class="navigator__link navigator__link--active">to be continued</a></li><li class="navigator__item"><a href="https://github.com/cavoirom" class="navigator__link">github</a></li></ul></div></div></header><main id="content" class="content"><div class="blog-entry pure-g"><article class="pure-u-1"><header><h1 class="blog-entry__title">Dùng bot để code bộ gõ Tiếng Việt</h1></header><div class="blog-entry__dates">Created 2026-04-19 · Updated 2026-04-20</div><ul class="blog-entry__tags" aria-label="tags"><li class="blog-entry__tag blog-entry__tag__color-0"><a href="/blog/tag/coding-agent" aria-label="tag coding-agent">coding-agent</a></li><li class="blog-entry__tag blog-entry__tag__color-1"><a href="/blog/tag/macos" aria-label="tag macos">macos</a></li><li class="blog-entry__tag blog-entry__tag__color-6"><a href="/blog/tag/open-source" aria-label="tag open-source">open-source</a></li><li class="blog-entry__tag blog-entry__tag__color-7"><a href="/blog/tag/programming" aria-label="tag programming">programming</a></li><li class="blog-entry__tag blog-entry__tag__color-5"><a href="/blog/tag/software" aria-label="tag software">software</a></li></ul><div class="blog-entry__content"><p><img src="./lex-prototype/./image/lex-prototype.avif" width="530" height="324" alt="Lex prototype" class="blog-entry__image" /></p>
+<p>Mình bắt đầu biết gõ Tiếng Việt từ thời Windows 3.1 với bộ gõ VietKey, hồi đó
+không biết ngu ngu sao đó lại chọn kiểu gõ Telex để học, và Telex trở thành hành
+trang quan trọng để mình theo đuổi nghề múa phím. Thời Windows 3.1 thì để gõ
+được Tiếng Việt mọi người phải dùng font VNI và ký tự có dấu thực chất là 2 ký
+tự kết hợp lại, nhưng đây là điểm mạnh, font VNI hiển thị Tiếng Việt đúng gần
+như mọi nơi nó được dùng. Sau đó Windows XP ra đời, Unicode bắt đầu phổ biến, và
+mình cũng tập tành Yahoo! Chat. Một trong những cái hay đem ra khè bọn nhóc cùng
+lứa là tao viết được Tiếng Việt...có dấu, thay vi` phai? vie^'t nhu* the^'
+nay` :)) Lúc này Unikey là vũ khí bí mật và dần trở thành <em>the winner take all</em>
+trong thế giới bộ gõ trên Windows.</p>
+<p>Tầm 2009 mình chuyển dần qua Linux thì khoảng gõ Tiếng Việt không còn là
+<em>problem solved</em> như trước, nó không nằm ở bộ gõ, nó nằm ở <em>input protocol</em> của
+X11 không đủ tốt để xử lý gõ Tiếng Việt, cho tới giờ (2026) vẫn thế, không biết
+sau này Wayland có khá hơn không? Ở Linux thì chắc
+<a href="https://hi.imnhan.com/fcitx/" target="_blank" rel="nofollow noreferrer noopener">fcitx là framework ổn nhất để gõ Tiếng Việt</a>. Sau
+mình chuyển qua dùng macOS thì nhận ra tình cảnh cũng không khá hơn là mấy, bằng
+chứng là có rất nhiều bộ gõ cho macOS (<a href="https://evkeyvn.com/" target="_blank" rel="nofollow noreferrer noopener">EVKey</a>,
+<a href="https://open-key.org/" target="_blank" rel="nofollow noreferrer noopener">OpenKey</a>,
+<a href="https://www.trankynam.com/gotv/" target="_blank" rel="nofollow noreferrer noopener">GoTiengViet</a>, và gần đây mình biết thêm
+<a href="https://github.com/huytd/goxkey" target="_blank" rel="nofollow noreferrer noopener">Gõkey</a> :D) cá nhân mình thích GoTiengViet do
+cách xử lý dấu của nó vừa ý mình nhất, và mình thích phong cách của tác giả này.
+Cũng trong thời gian này mình có tìm hiểu đôi chút về kỹ thuật lập trình bộ gõ
+Tiếng Việt, đặc biệt là 2 bài viết
+<a href="https://viethung.space/blog/Van-de-ve-IME-tren-Linux/" target="_blank" rel="nofollow noreferrer noopener">Vấn đề về IME trên Linux</a>
+và
+<a href="https://notes.huy.rocks/posts/go-tieng-viet-linux.html" target="_blank" rel="nofollow noreferrer noopener">Chuyện gõ tiếng Việt trên Linux</a>
+nói về khó khăn và những giải pháp (chưa hoàn chỉnh) để có thể gõ đc Tiếng Việt
+trên hệ điều hành này (thật trùng hợp cả 2 người đều liên quan tới Gõkey). Đó
+cũng là lúc mình có ý định phát triển một bộ gõ cho riêng mình.</p>
+<p>Nhưng phải tới gần đây mình mới có thời gian hiện thực hóa mong muốn bấy lâu, vì
+hiện tại mình có thời gian, phần vì mấy con bot mới ra làm cho việc thực hiện ý
+tưởng nhanh hơn mình tự mò rồi code nhiều. Kế hoạch là dùng bot để làm ra bản
+mẫu có thể dùng được rồi dành thời gian hiểu rõ những chủ đề liên quan rồi tự
+viết lại bản chính thức. Trong bài viết này mình muốn ghi chú lại cách mình dùng
+bot để tìm hiểu, lên ý tưởng, thiết kế và rồi hướng dẫn nó code ra bản mẫu mà
+mình dùng để viết bài này. Thông tin liên quan tới việc phát triển bản mẫu mình
+có lưu lại ở <a href="https://github.com/cavoirom/lex" target="_blank" rel="nofollow noreferrer noopener">Lex</a> repository.</p>
+<h2>Thử nghiệm</h2>
+<p>Bot (gọi sang là coding agent) có điểm mạnh là rất giỏi ở ngôn ngữ lập trình,
+dùng thư viện và hiểu biết về cách lập trình tương đối tốt. Nên nếu mình có ý
+tưởng nhưng không biết phải hiện thực thế nào thì dùng bot để kiểm chứng ý tưởng
+rất nhanh. Do mình chưa từng viết hay đọc code của bộ gõ nào, việc đầu tiên là
+hiểu cách một bộ gõ trên macOS hoạt động thế nào từ khâu tương tác với hệ điều
+hành tới khâu xử lý quy luật bỏ dấu, cũng cần nói thêm mình muốn phần xử lý bỏ
+dấu độc lập với phần tương tác hệ thống, gần giống với cách Gõkey sử dụng
+<a href="https://github.com/ZeroX-DG/vi-rs" target="_blank" rel="nofollow noreferrer noopener">vi-rs</a>.</p>
+<p><a href="https://github.com/cavoirom/lex/blob/master/agent-threads/2026-04-08-163707__T-019d6df4-60ec-7798-a30c-d786eeb6cbe2__Vietnamese-IME-macOS-integration-points.json#L97" target="_blank" rel="nofollow noreferrer noopener">Prompt</a>:</p>
+<blockquote>
+<p>I'm going to create a minimal Vietnamese Input for macOS. I won't use the
+native framework from Apple, but will use the common technique used in
+existing Vietnamese Input.</p>
+<ul>
+<li>I'm going to create the engine that decoupled from macOS.</li>
+<li>I want to know what is the integration point? What kind of trigger and input
+from macOS that the engine needs to handle, so that I can design the
+relevant API for the engine.</li>
+</ul>
+<p>Consult the Oracle, but prevent the Oracle from providing any example code.
+You should not write any code.</p>
+</blockquote>
+<p>Tất cả thảo luận với bot mình có lưu lại trên
+<a href="https://github.com/cavoirom/lex/tree/master/agent-threads" target="_blank" rel="nofollow noreferrer noopener">Lex</a> repository như
+là nhật ký phát triển chương trình cũng như là nguồn tham khảo để sau này bot có
+thể khai thác.</p>
+<p>Sau vài cuộc &quot;trò chuyện&quot; với bot trong ngày 08/04 thì mình dần có ý tưởng:</p>
+<ul>
+<li>Chỉ hỗ trợ kiểu gõ Telex và bảng mã Unicode.</li>
+<li>Nhận input event thông qua <em>CGEventTap</em>.</li>
+<li>Dùng backspace giả thay vì pre-edit buffer để bỏ dấu, điểm này mình cũng đã
+tham khảo từ trước khi đọc bài viết của vài tác giả khác.</li>
+<li>Phần tương tác với hệ điều hành sẽ viết bằng Swift để được sự hỗ trợ tốt nhất.</li>
+<li>Phần quy luật bỏ dấu sẽ viết bằng Zig và đóng gói ở dạng 1 thư viện C, Swift
+code sẽ gọi thư viện này thông qua C ABI. Cách này cho phép tái sử dụng thư
+viện cho nhiều nền tảng khác nhau, tương tự vi-rs nhưng viết bằng Zig thay vì
+Rust.</li>
+</ul>
+<p>Sau khi có ý tưởng về các thành phần sẽ tương tác với nhau thế nào, mình muốn
+kiểm chứng cách làm này, yêu cầu bot viết mình chương trình cơ bản theo cấu trúc
+trên, chỉ tập trung vào tích hợp từ đầu tới cuối chứ không quan tâm tiểu tiết,
+quy luật bỏ dấu ban đầu, chỉ là có thể thay 1 ký tự đc nhập bằng một ký tự khác.</p>
+<p><a href="https://github.com/cavoirom/lex/blob/master/agent-threads/2026-04-09-114359__T-019d720e-612a-7598-8650-96da70de43ef__Minimal-macOS-app-with-Zig-keyboard-interception.json#L264" target="_blank" rel="nofollow noreferrer noopener">Bắt đầu thảo luận với bot</a>,
+lúc này vẫn muôn thử là chỉ cần dùng Zig thôi có đc không:</p>
+<blockquote>
+<p>Discuss with me to come up with a plan to write a minimal macOS application
+with pure Zig programming.</p>
+<ul>
+<li>The application is written in 1 zig file:
+@lex/playground/minimal-app/minimal.zig</li>
+<li>Create a shell app in @lex/playground/minimal-app/macos/Minimal.app so that
+we can copy binary to this app to form a complete application and can do the
+signing.</li>
+<li>Interoperate with macOS native framework via C API.</li>
+<li>Zig will be the entrypoint of the application and call macOS native
+framework.</li>
+<li>We will need Accessibility entitlement to work on our functionality.</li>
+<li>The application won't have any UI, except an icon on menubar. When clicking
+on the icon, a menu will be displayed with only &quot;Exit&quot; option to quit the
+application.</li>
+<li>Consult official documentation: Zig langugage, macOS frameworks...</li>
+</ul>
+<p>What the application will do:</p>
+<ul>
+<li>The application will use <code>CGEventTap</code> to intercept keyboard event.</li>
+<li>When the application see the character <code>a</code> in the event, replace it with
+<code>Ä</code>. Passthrough other characters.</li>
+</ul>
+<p>Come up with the approach, then consult the Oracle for another perspective,
+but prevent the Oracle from producing any example code. You should not write
+any code.</p>
+</blockquote>
+<p>Sau một hồi trao đổi thì thấy để Zig gọi qua Objctive-C framework của macOS quá
+phức tạp, nên về với ý tưởng ban đầu dùng Swift:</p>
+<blockquote>
+<p>Compare this approach with the approach:</p>
+<ul>
+<li>Instead of pure Zig. We only keep the core handling of replacing <code>a</code> with
+<code>Ä</code> in Zig as a small C-library.</li>
+<li>Everything else from application entrypoint to tap the event and call Zig
+library will use Swift.</li>
+<li>Could we remove the entitlement completely.</li>
+</ul>
+</blockquote>
+<p>Và đây là (một phần) trả lời từ con bot:</p>
+<blockquote>
+<p>My Recommendation</p>
+<p><strong>Approach B (Swift + Zig lib) is clearly better</strong> for this project. The
+pure-Zig approach fights macOS at every turn — 90% of the code would be ObjC
+runtime plumbing, not actual functionality. Swift gives you native AppKit,
+CGEventTap, and run loop support for free. The Zig part stays focused on the
+one thing that justifies using Zig: the character transformation logic.</p>
+<p>Mitchell Hashimoto (Ghostty) uses exactly this pattern — 93% Zig business
+logic, 4% Swift GUI — and explicitly advises against the pure ObjC-runtime
+approach.</p>
+<p>Want to proceed with Approach B?</p>
+</blockquote>
+<p>Sau vài &quot;cuộc trò chuyện&quot; nữa thì bot nó viết ra
+<a href="https://github.com/cavoirom/lex/tree/master/playground/minimal-app" target="_blank" rel="nofollow noreferrer noopener">Minimal.app</a>
+chạy được và hiện thực được yêu cầu đơn giản phía trên. Tới lúc này mình xác
+nhận một số điểm:</p>
+<ul>
+<li>Viết 1 macOS app nhỏ chỉ hiển thị trên thanh Menu.</li>
+<li>Yêu cầu quyền Accessibility để truy cập CGEventTap.</li>
+<li>Thông qua CGEventTap để tương tác và chỉnh sửa CGEvents.</li>
+<li>Viết thư viện bằng Zig và gọi thư viện này trên Swift.</li>
+<li>Tự động hóa quá trình build bằng Zig.</li>
+</ul>
+<p>Code con bot viết chắc chắn tệ, nhưng đó sẽ là nguồn tham khảo cần thiết để mình
+định huóng quá trình tìm hiểu. Xong phần thử nghiệm mình sẽ đi vô một số chi
+tiết chính, việc tiếp theo là xác định cấu trúc thư mục để viết cái app này thế
+nào.</p>
+<h2>Cấu trúc thư mục</h2>
+<p>Do mình đã định hướng trước sẽ lấy ý tưởng từ
+<a href="https://github.com/ghostty-org/ghostty" target="_blank" rel="nofollow noreferrer noopener">Ghostty</a>, vì mình chọn dùng Zig làm thư
+viện dùng chung và ở từng nền tảng sẽ viết code tích hợp riêng, mình chuẩn bị
+trước một số thư mục và file rồi hỏi con bot:</p>
+<blockquote>
+<p>Explore the directory structure in @playground/structure-app</p>
+<p>This structure is intended to do 2 thing:</p>
+<ul>
+<li>Store a shared library for our input method engine:
+@playground/structure-app/src</li>
+<li>Store resource for integration and bundle the app in multiple platform,
+currently only support macos: @playground/structure-app/macos</li>
+</ul>
+<p>Discuss with me the appropriate name for:</p>
+<ul>
+<li>the name of the shared library, our application name is <code>lex</code>, we develop
+the library in Zig and expose its API to the integration layer via C ABI.</li>
+<li>the filename of the shared library.</li>
+<li>the filename of the macos application.</li>
+<li>I intended to have 1 file for app (Swift) and 1 file for shared library
+(Zig).</li>
+</ul>
+</blockquote>
+<p>Kết quả ra được cấu trúc thư mục thế này, rất trực quan:</p>
+<pre><code>structure-app/
+├── src/
+│   ├── liblex.zig          ← Zig library (was lib/minimal.zig)
+│   └── liblex.h            ← C bridging header (was include/bridging-header.h)
+├── macos/
+│   ├── Lex.app/
+│   │   └── Contents/
+│   │       └── Info.plist   ← app bundle metadata
+│   ├── Lex.swift            ← Swift app (was app/main.swift)
+│   └── entitlements.plist   ← macOS entitlements
+├── build.zig
+└── build.zig.zon
+</code></pre>
+<p>Mình tiếp tục yêu cầu bot lấy code từ Minimal.app qua Structure.app để xem app
+mới có build và chạy đc ko:</p>
+<blockquote>
+<p>take the source from @playground/minimal-app to new structure
+@playground/structure-app</p>
+<p>our goal is to build and run the app successfully in new structure</p>
+</blockquote>
+<p>Kết quả mình có
+<a href="https://github.com/cavoirom/lex/tree/master/playground/structure-app" target="_blank" rel="nofollow noreferrer noopener">Structure.app</a>
+hoạt động tương tự Minimal.app.</p>
+<h2>Cấu trúc dữ liệu và quy luật bỏ dấu</h2>
+<p>Phần cấu trúc chương trình cũng như cách tương tác giữa các thành phần đã rõ,
+mình tập trung vào phần thư viện, mình cần quyết định thư viện nên hoạt động thế
+nào, cấu trúc dữ liệu là gì và những quy luật bỏ dấu do mình đặt ra (do mình
+muốn kiểu gõ Telex chỉ hoạt động theo một số cách nhất định theo ý mình). Đây là
+một số yêu cầu chính:</p>
+<ul>
+<li>Thư viện Zig sẽ không allocate memory, phía gọi thư viện sẽ phải allocate
+memory, thư viện chỉ hoạt động trên vùng nhớ đc cung cấp trước. Điều này giúp
+đơn giản hóa việc quản lý bộ nhớ ở Zig code.</li>
+<li>Thư viện chỉ quan tâm việc bỏ dấu, những phần liên quan tới xử lý event sẽ
+thuộc về app.</li>
+<li>Bỏ dấu kiểu cũ ở vần <code>òa</code>, <code>úy</code>, ví dụ: <code>hòa</code>, <code>thúy</code>. Cách bỏ dấu này tạo ra
+chữ nhìn hài hòa hơn.</li>
+<li>Gõ <code>w</code> sẽ là <code>w</code>, không phải <code>ư</code>.</li>
+<li>Nếu từ bắt đầu bằng phụ âm không có trong Tiếng Việt (ví dụ: <code>w</code>, <code>f</code>, <code>z</code>)
+thì sẽ không bỏ dấu cho từ đó.</li>
+</ul>
+<p>Phần này mình thảo luận với bot nhiều, có thể tham khảo thêm ở thư mục
+<a href="https://github.com/cavoirom/lex/tree/master/agent-threads" target="_blank" rel="nofollow noreferrer noopener">agent-threads</a>. Kết
+qua là cấu trúc dữ liệu thế này:</p>
+<ul>
+<li>Span: mỗi Span đại diện cho 1 ký tự Tiếng Việt, với đầy đủ dấu.
+<ul>
+<li>base: chứa ký tự alphabet được nhập từ bàn phím.</li>
+<li>modifier: chứa dấu của ký tự, ví dụ <code>w</code> đại diện cho dấu <code>ă</code>...</li>
+<li>tone: chứa dấu thanh <code>s</code> (sắc), <code>f</code> (huyền), <code>r</code> (hỏi),</li>
+<li>is_literal: true / false. Quy định ký tự này có đc phép bỏ dấu hay không.
+Khi <code>is_literal = true</code> thì những Span sau đó cũng như thế, việc bỏ dấu sẽ
+bị tắt.</li>
+</ul></li>
+<li>State
+<ul>
+<li>spans: một chuỗi Span đại diện cho 1 từ đang gõ. Thư viện sẽ chỉnh sử chuỗi
+này để bỏ dấu cho nguyên âm, và dấu thanh.</li>
+</ul></li>
+</ul>
+<h2>Chương trình mẫu</h2>
+<p>Về phần app mình cũng yêu cầu một số chức năng:</p>
+<ul>
+<li>Chỉ có biểu tượng trên thanh Menu.</li>
+<li>Có thể bật tắt bằng phím tắt <code>Ctrl + Opt + Space</code>.</li>
+<li>Khi bật tắt có âm thanh báo hiệu.</li>
+</ul>
+<p>Cùng với cấu trúc dữ liệu và quy luật bỏ dấu đã được thảo luận, mình yêu cầu bot
+viết chương trình mẫu:</p>
+<blockquote>
+<p>Discuss with me to create the prototype app of Vietnamese Telex Input Engine
+at @playground/prototype-app</p>
+<ul>
+<li>The directory and application structure inspired by
+@playground/structure-app</li>
+<li>The Zig enigne defined by @T-019d847f-368d-7711-9e88-6fa0135798a3
+@T-019d7ae3-ca0e-758b-a9c9-55c4872e9c57
+@T-019d777e-677c-726a-af7a-64166a8b55c7</li>
+<li>Swift will allocate memory for the state, and input to Zig functions.</li>
+<li>Swift should store the current state and next state, so that it could count
+how many backspace is needed.</li>
+<li>Swift should know which character it should replace after backspaces, based
+on the different between current state and next state.</li>
+</ul>
+<p>Am I missing something?</p>
+<p>Come up with the approach, then consult the Oracle for another perspective,
+but prevent the Oracle from producing any example code. You should not write
+any code.</p>
+</blockquote>
+<p>Sau một số buổi thảo luận, hướng dẫn thì bot nó code đc
+<a href="https://github.com/cavoirom/lex/tree/master/playground/prototype-app" target="_blank" rel="nofollow noreferrer noopener">Lex.app prototype</a>
+đủ để mình có thể viết được bài này. Kể ra chi tiết thì dài, bạn có thể dùng bot
+để nó đọc thư mục
+<a href="https://github.com/cavoirom/lex/tree/master/agent-threads" target="_blank" rel="nofollow noreferrer noopener">agent-threads</a> rồi
+tóm tắt lại cách mình đã làm.</p>
+<p>Có một kinh nghiệm thú vị là mình đọc nhật ký phát triển Gõkey thì thấy có 1
+<a href="https://notes.huy.rocks/posts/devlog-gokey-week-02.html" target="_blank" rel="nofollow noreferrer noopener">bug</a> mà mình đoán là
+bộ gõ của mình cũng bị, nên mình kêu bot kiểm tra:</p>
+<blockquote>
+<p>In this article: https://notes.huy.rocks/posts/devlog-gokey-week-02.html (in
+Vietnamese), the author describe a bug that cause the synthetic events arrive
+out of order. Then the made the fix in Rust (use the Librarian to explore it):
+https://github.com/huytd/goxkey/commit/3022e3086401423eb48ce3e461af71e543defb8b</p>
+<p>Analyze our Swift code @macos/Lex.swift to see if it suffers the same issue or
+not?</p>
+<p>Come up with the approach, then consult the Oracle for another perspective,
+but prevent the Oracle from producing any example code. You should not write
+any code.</p>
+</blockquote>
+<p>Và con bot fix trong một nốt nhạc. Chi tiết có thể thấy ở
+<a href="https://github.com/cavoirom/lex/commit/9039ced8dc2f1326d9c44128495c184f2d1fb4b5" target="_blank" rel="nofollow noreferrer noopener">commit này</a>.</p>
+<p>Một số thông tin thú vị về Prototype.app:</p>
+<ul>
+<li>Swift: 275 loc.</li>
+<li>Zig: 510 loc.</li>
+<li>Bundle size: 119 KiB.</li>
+</ul>
+<p>Tới đây mình đã có một bộ gõ bot trồng, việc tiếp theo là hiểu rõ từng chi tiết
+kỹ thuật để tự viết bộ gõ nhà trồng :D.</p>
+<p>P/S: lúc viết bài này mình có thử tìm lại thông tin của VietKey thì thấy
+<code>vietkey.com.vn</code> cho tải VietKey, còn <code>vietkey.vn</code> thì cho tải...Unikey :)) nhìn
+rất là...shady.</p>
+<p>P/SS: đừng ai hỏi mình chi phí dùng bot, vì mình dùng free plan của
+<a href="https://ampcode.com/" target="_blank" rel="nofollow noreferrer noopener">AmpCode</a>. Bài viết này KHÔNG đc AmpCode tài trợ, nhưng mà
+mình dùng free plan của AmpCode XD.</p>
+</div></article></div></main><footer id="footer"><div class="pure-g"><div class="pure-u-1"><hr/><span class="footer__content">Since 2020</span></div></div></footer></div>
+    <!-- KEEP SCRIPT AT BOTTOM -->
+    <script>
+      window.__STATE__ = fetch('/blog/entry/2026/04/19/lex-prototype/index.json').then(response => response.json());
+    </script>
+    <script src="/index.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/worker.js').then(
+            function (registration) {
+              // Registration was successful
+              console.log(
+                'ServiceWorker registration successful with scope: ',
+                registration.scope,
+              );
+            },
+            function (err) {
+              // registration failed :(
+              console.error('ServiceWorker registration failed: ', err);
+            },
+          );
+        });
+      }
+    </script>
+  </body>
+</html>
